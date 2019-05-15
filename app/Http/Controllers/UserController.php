@@ -78,10 +78,13 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         // Make sure they don't try to edit the user id and change someone elses organization
-        if(Auth::id() != $user->id){
-            die('hurr');
-            return back();
-        }
+        // if(Auth::id() != $user->id){
+        //     abort();
+        // }
+
+        //Does the above smoother
+        //May want to use a gate insead
+        abort_unless(Auth::id() == $user->id,403);
 
         $org = $request->organization;
 
