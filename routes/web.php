@@ -21,3 +21,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('organization', 'OrganizationController');
 Route::resource('user', 'UserController');
 Route::get('/role/create', 'RoleController@create');
+Route::get('/dash', 'DashController@index');
+Route::get('/orgpending', 'OrgVerificationController@index');

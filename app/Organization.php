@@ -14,7 +14,7 @@ class Organization extends Model
         return $this->belongsTo(User::class);
     }
     public function roles(){
-        $roles = DB::table('roles')->get();
-        
+        $roles = DB::table('roles')->where('organization_id',$this->id);
+
     }
 }

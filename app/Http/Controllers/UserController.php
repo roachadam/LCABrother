@@ -87,13 +87,12 @@ class UserController extends Controller
         abort_unless(Auth::id() == $user->id,403);
 
         $org = $request->organization;
-
-        $user->setOrganization(Organization::find($org));
+        $user->organization()->associate($org)->save();
+        //$user->setOrganization(Organization::find($org));
 
 
         // redirect to home page or some page that says you have joined X, please wait for an administrator to verify your membership
-        die($org);
-
+        return redirect('/dash');
     }
 
     /**
