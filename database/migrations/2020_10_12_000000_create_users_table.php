@@ -15,10 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-
-            $table->unsignedInteger('organization_id')->nullable();
-            $table->foreign('organization_id')->references('id')->on('organizations');
-
+            $table->unsignedBigInteger('organization_id')->nullable();
             $table->tinyInteger('organization_verified')->nullable();
             $table->unsignedInteger('role_id')->nullable();
             $table->string('name');
@@ -28,6 +25,10 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('organization_id')->references('id')->on('organizations');
         });
     }
 

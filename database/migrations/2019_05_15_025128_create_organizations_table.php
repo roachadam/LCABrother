@@ -17,9 +17,13 @@ class CreateOrganizationsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->unsignedInteger('owner_id')->index()->nullable();
-            $table->foreign('owner_id')->references('id')->on('users');
             $table->timestamps();
         });
+
+        // Schema::table('organizations', function($table) {
+        //     $table->foreign('owner_id')->references('id')->on('users');
+        // });
+
     }
 
     /**
