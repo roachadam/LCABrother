@@ -53,8 +53,8 @@ class OrganizationController extends Controller
         //Dawson Edit - cant test at work
         //We wernt using the elquent relationships the way we should have been, if you check the migrations
         //I made the relationship more verbose to laravel,so we should be able to do the below
-        $user->memberOf->associate($org)->save(); //https://gist.github.com/avataru/35c77721ec37b70df1d345b19ba0e2a6
-        $org->owner->save($user);
+        $user->organization()->associate($org)->save(); //https://gist.github.com/avataru/35c77721ec37b70df1d345b19ba0e2a6
+        $org->owner()->save($user);
 
         return redirect('/home');
     }
