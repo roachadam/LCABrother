@@ -9,14 +9,8 @@ class Organization extends Model
     protected $fillable = [
         'name', 'owner_id'
     ];
-    
+
     public function owner(){
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
-
-    public function members(){
-        return $this->hasMany((User::class));
-    }
-
-
 }

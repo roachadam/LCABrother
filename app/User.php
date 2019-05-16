@@ -41,8 +41,4 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Organization::Class);
     }
-    public function setOrganization(Organization $org){
-        $this->organization_id = $org->id;
-        $this->save();
-    }
 }
