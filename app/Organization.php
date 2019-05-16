@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 class Organization extends Model
 {
     protected $fillable = [
@@ -12,5 +12,9 @@ class Organization extends Model
 
     public function owner(){
         return $this->belongsTo(User::class);
+    }
+    public function roles(){
+        $roles = DB::table('roles')->get();
+        
     }
 }

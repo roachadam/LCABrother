@@ -1,28 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth;
-use App\Organization;
-use App\User;
+
+use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class OrganizationController extends Controller
+class RoleController extends Controller
 {
-
-    public function __construct(){
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-
     public function index()
     {
-        $orgs =  Organization::all();
-        return view('organizations.index', compact('orgs'));
+        //
     }
 
     /**
@@ -32,8 +25,8 @@ class OrganizationController extends Controller
      */
     public function create()
     {
-
-        return view('organizations.create');
+        $org = Auth::user()->organization;
+        return view('roles.create', compact('org'));
     }
 
     /**
@@ -44,25 +37,16 @@ class OrganizationController extends Controller
      */
     public function store(Request $request)
     {
-        $attributes = request()->validate([
-            'name' => ['required','min: 3', 'max:255'],
-        ]);
-        $user = Auth::user();
-        $org = Organization::create($attributes);
-
-        $org->owner()->associate($user)->save();
-        $user->organization()->associate($org)->save();
-
-        return redirect('/role/create');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Organization  $organization
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show(Organization $organization)
+    public function show(Role $role)
     {
         //
     }
@@ -70,10 +54,10 @@ class OrganizationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Organization  $organization
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(Organization $organization)
+    public function edit(Role $role)
     {
         //
     }
@@ -82,10 +66,10 @@ class OrganizationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Organization  $organization
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Organization $organization)
+    public function update(Request $request, Role $role)
     {
         //
     }
@@ -93,10 +77,10 @@ class OrganizationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Organization  $organization
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Organization $organization)
+    public function destroy(Role $role)
     {
         //
     }

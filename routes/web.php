@@ -20,4 +20,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Route::get('organization/create', 'OrganizationController@create');
 Route::resource('organization', 'OrganizationController');
 Route::resource('user', 'UserController');
-// Route::patch('user/{org}', 'UserOrganization@update');
+Route::get('/role/create', 'RoleController@create');
