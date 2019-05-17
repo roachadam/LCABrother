@@ -37,7 +37,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function setBasicUser(){
+        $role = $this->organization->roles[1];
 
+        $this->role()->associate($role)->save();
+    }
     public function setAdmin()
     {
         $role = $this->organization->roles[0];

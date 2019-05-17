@@ -25,6 +25,14 @@ class Organization extends Model
         $role->setAdminPermissions();
     }
 
+    public function createBasicUser(){
+        $attributes = [
+            'name'  =>'basic'
+        ];
+        $role = $this->addRole($attributes);
+        $role->setBasicPermissions();
+    }
+
     public function users(){
         return $this->hasMany(User::class);
     }

@@ -92,6 +92,7 @@ class UserController extends Controller
 
         $org = $request->organization;
         $user->organization()->associate($org)->save();
+        $user->setBasicUser();
         //$user->setOrganization(Organization::find($org));
 
 
