@@ -16,9 +16,9 @@ class OrgVerificationController extends Controller
     // hits from rout /orgpending
     public function index(){
 
-        if(Auth::user()->organization_verified == 1)
+        if(Auth::user()->organization_verified == 1){
             return redirect('/dash');
-
+        }
         return view('main.orgpending');
     }
 }

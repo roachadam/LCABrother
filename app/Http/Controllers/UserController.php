@@ -25,7 +25,7 @@ class UserController extends Controller
         //$organization = auth()->user()->organization()->get();
         //$users = $organization->users();
         $org = Auth::user()->organization;
-        $members = $org->users()->get();
+        $members = $org->users()->where('organization_verified',1)->get();
         return view('highzeta.members', compact('members'));
     }
 

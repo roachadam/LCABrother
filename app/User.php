@@ -57,4 +57,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Organization::Class);
     }
+
+    public function canManageMembers(){
+        $Can = $this->role->permission->manage_member_details;
+        return $Can;
+
+    }
 }

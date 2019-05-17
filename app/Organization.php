@@ -4,6 +4,7 @@ namespace App;
 
 use App\Role;
 use App\User;
+use App\ServiceEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -43,5 +44,8 @@ class Organization extends Model
 
     public function roles(){
         return $this->hasMany(Role::class);
+    }
+    public function serviceEvents(){
+        return $this->hasMany(ServiceEvent::Class);
     }
 }
