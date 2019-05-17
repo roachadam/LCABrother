@@ -12,4 +12,8 @@ class ServiceEvent extends Model
     public function ServiceLogs(){
         return $this->hasMany(Servicelog::class);
     }
+    public function getAttendance(){
+        $attendance = $this->ServiceLogs->count();
+        return $attendance;
+    }
 }

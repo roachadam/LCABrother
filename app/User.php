@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','phone'
+        'name', 'email', 'password','phone','organization_verified'
     ];
 
     /**
@@ -61,6 +61,29 @@ class User extends Authenticatable
     public function canManageMembers(){
         $Can = $this->role->permission->manage_member_details;
         return $Can;
-
+    }
+    public function canManageInvolvment(){
+        $Can = $this->role->permission->manage_all_involvement;
+        return $Can;
+    }
+    public function canManageService(){
+        $Can = $this->role->permission->manage_all_service;
+        return $Can;
+    }
+    public function canViewMemberDetails(){
+        $Can = $this->role->permission->view_member_details;
+        return $Can;
+    }
+    public function canViewAllService(){
+        $Can = $this->role->permission->view_all_service;
+        return $Can;
+    }
+    public function canViewAllInvolvement(){
+        $Can = $this->role->permission->view_all_involvement;
+        return $Can;
+    }
+    public function canLogServiceEvent(){
+        $Can = $this->role->permission->log_service_event;
+        return $Can;
     }
 }

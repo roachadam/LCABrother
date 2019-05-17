@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use App\User;
 
 class OrgVerificationController extends Controller
 {
@@ -19,6 +20,19 @@ class OrgVerificationController extends Controller
         if(Auth::user()->organization_verified == 1){
             return redirect('/dash');
         }
-        return view('main.orgpending');
+        return view('orgpending.orgpending');
+    }
+
+    public function show(User $user){
+        return view('orgPending.show', compact('user'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $approved = request()->has('organization_verified');
+        $attributes = ['organization_verified' => $approved];
+        $user->update($attributes);
+        dd($user);
+        return redirect('/dash');
     }
 }

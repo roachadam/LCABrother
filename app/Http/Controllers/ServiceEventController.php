@@ -14,7 +14,8 @@ class ServiceEventController extends Controller
      */
     public function index()
     {
-        //
+        $serviceEvents = auth()->user()->organization->serviceEvents;
+        return view('service.index', compact('serviceEvents'));
     }
 
     /**
@@ -24,7 +25,8 @@ class ServiceEventController extends Controller
      */
     public function create()
     {
-        //
+        $serviceEvents = auth()->user()->organization->serviceEvents;
+        return view('service.create', compact('serviceEvents'));
     }
 
     /**

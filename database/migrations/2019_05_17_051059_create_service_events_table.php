@@ -17,6 +17,7 @@ class CreateServiceEventsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->string('name');
+            $table->dateTime('date_of_event');
             $table->timestamps();
         });
 

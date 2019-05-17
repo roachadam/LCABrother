@@ -46,8 +46,8 @@
 	<header class="site-header">
 	    <div class="container-fluid">
 	        <a href="#" class="site-logo">
-	            <img class="hidden-md-down" src="img/logo-2.png" alt="">
-	            <img class="hidden-lg-down" src="img/logo-2-mob.png" alt="">
+                <img class="hidden-md-down" src="img/logo-2.png" alt="">
+                <img class="hidden-md-down" src="img/logo-2-mob.png" alt="">
 	        </a>
 
 	        <button id="show-hide-sidebar-toggle" class="show-hide-sidebar">
@@ -76,7 +76,15 @@
 	                                <span class="label label-pill label-danger">4</span>
                                 </div>
 	                            <div class="dropdown-menu-notif-list">
-                                        @yield('notifications')
+                                    @if (Auth::user()->canManageMembers())
+                                        @foreach (Auth::user()->organization->users()->where('organization_verified',null)->get() as $member)
+                                            <div class="dropdown-menu-notif-item">
+                                                <div class="dot"></div>
+                                                <a href="/orgpending/{{$member->id}}">{{$member->name}}</a> is waiting for verification
+                                                <div class="color-blue-grey-lighter">7 hours ago</div>
+                                            </div>
+                                        @endforeach
+                                    @endif
 	                            </div>
 	                        </div>
 	                    </div>
@@ -126,11 +134,23 @@
 	            </ul>
 	        </li>
 	        <li class="red">
-	            <a href="mail.html">
+	            <a href="/serviceEvent/create">
 	                <i class="font-icon glyphicon glyphicon-send"></i>
-	                <span class="lbl">Mail</span>
+	                <span class="lbl">Submit Service Hours</span>
 	            </a>
-	        </li>
+            </li>
+            <li class="green">
+                    <a href="/serviceEvent">
+                        <i class="font-icon glyphicon glyphicon-leaf"></i>
+                        <span class="lbl">View Service Events</span>
+                    </a>
+            </li>
+            <li class="blue">
+                    <a href="/serviceEvent">
+                        <i class="glyphicon glyphicon-equalizer"></i>
+                        <span class="lbl">View Involvment Scores</span>
+                    </a>
+            </li>
 	    </ul>
 
         {{-- TODO: Inline has permission check? --}}
