@@ -18,7 +18,6 @@ class CreatePermissionsTable extends Migration
             $table->unsignedTinyInteger('view_member_details');
             $table->unsignedTinyInteger('manage_member_details');
             $table->unsignedTinyInteger('log_service_event');
-            $table->unsignedTinyInteger('log_involvement');
             $table->unsignedTinyInteger('view_all_service');
             $table->unsignedTinyInteger('view_all_involvement');
             $table->unsignedTinyInteger('manage_all_service');

@@ -24,10 +24,13 @@
 	<script type="text/javascript" src="{{ asset('js/lib/match-height/jquery.matchHeight.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('https://www.gstatic.com/charts/loader.js') }}"></script>
 
+
     <!-- Fonts -->
 
     <!-- Styles -->
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/lib/datatables-net/datatables.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/separate/vendor/datatables-net.min.css') }}" rel="stylesheet">
 
     {{-- Move these to appropriate page blades --}}
     <link href="{{ asset('css/lib/lobipanel/lobipanel.min.css') }}" rel="stylesheet">
@@ -65,7 +68,8 @@
 	                           aria-haspopup="true"
 	                           aria-expanded="false">
 	                            <i class="font-icon-alarm"></i>
-	                        </a>
+                            </a>
+                            {{-- Notifications --}}
 	                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-notif" aria-labelledby="dd-notification">
 	                            <div class="dropdown-menu-notif-header">
 	                                Notifications
@@ -109,7 +113,7 @@
 	                            </div>
 	                        </div>
 	                    </div>
-
+                        {{-- Account --}}
 	                    <div class="dropdown user-menu">
 	                        <button class="dropdown-toggle" id="dd-user-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	                            <img src="img/avatar-2-64.png" alt="">
@@ -162,39 +166,26 @@
 	        </li>
 	    </ul>
 
+        {{-- TODO: Inline has permission check? --}}
 	    <section>
-	        <header class="side-menu-title">Tags</header>
+	        <header class="side-menu-title">High Zeta</header>
 	        <ul class="side-menu-list">
-	            <li>
-	                <a href="#">
-	                    <i class="tag-color green"></i>
-	                    <span class="lbl">Website</span>
-	                </a>
-	            </li>
-	            <li>
-	                <a href="#">
-	                    <i class="tag-color grey-blue"></i>
-	                    <span class="lbl">Bugs/Errors</span>
-	                </a>
-	            </li>
-	            <li>
-	                <a href="#">
-	                    <i class="tag-color red"></i>
-	                    <span class="lbl">General Problem</span>
-	                </a>
-	            </li>
-	            <li>
-	                <a href="#">
-	                    <i class="tag-color pink"></i>
-	                    <span class="lbl">Questions</span>
-	                </a>
-	            </li>
-	            <li>
-	                <a href="#">
-	                    <i class="tag-color orange"></i>
-	                    <span class="lbl">Ideas</span>
-	                </a>
-	            </li>
+                <li class="blue">
+                    <a href="/user">
+                    <span>
+                        <i class="font-icon font-icon-users"></i>
+                        <span class="lbl">Members</span>
+                    </span>
+                    </a>
+                </li>
+                <li class="blue">
+                    <a href="/role">
+                    <span>
+                        <i class="font-icon font-icon-users"></i>
+                        <span class="lbl">Roles</span>
+                    </span>
+                    </a>
+                </li>
 	        </ul>
 	    </section>
 	</nav><!--.side-menu-->
@@ -202,14 +193,14 @@
 	<div class="page-content">
 	    <div class="container-fluid">
 
-            <main class="py-4">
                 @yield('content')
-            </main>
 
 	    </div><!--.container-fluid-->
 	</div><!--.page-content-->
 
 
     </div>
+
+    @yield('js')
 </body>
 </html>

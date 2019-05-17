@@ -24,4 +24,5 @@ Route::resource('role','RoleController');
 Route::get('/dash', 'DashController@index');
 Route::get('/orgpending', 'OrgVerificationController@index');
 Route::post('/organizations/{organization}/roles','OrganizationRolesController@store');
+Route::post('/organizations/{organization}/roles/update','OrganizationRolesController@update');
 

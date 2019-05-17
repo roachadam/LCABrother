@@ -22,7 +22,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        //$organization = auth()->user()->organization()->get();
+        //$users = $organization->users();
+        $org = Auth::user()->organization;
+        $members = $org->users()->get();
+        return view('highzeta.members', compact('members'));
     }
 
     /**
