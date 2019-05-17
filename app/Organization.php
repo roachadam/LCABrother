@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 class Organization extends Model
@@ -10,11 +11,15 @@ class Organization extends Model
         'name', 'owner_id'
     ];
 
+    public function addRole($attributes){
+        return $this->roles()->create($attributes);
+    }
+
     public function owner(){
         return $this->belongsTo(User::class);
     }
+    
     public function roles(){
-        $roles = DB::table('roles')->where('organization_id',$this->id);
-
+        return $this->hasMany(Role::class);
     }
 }

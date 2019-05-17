@@ -20,6 +20,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Route::get('organization/create', 'OrganizationController@create');
 Route::resource('organization', 'OrganizationController');
 Route::resource('user', 'UserController');
-Route::get('/role/create', 'RoleController@create');
+Route::resource('role','RoleController');
 Route::get('/dash', 'DashController@index');
 Route::get('/orgpending', 'OrgVerificationController@index');
+Route::post('/organizations/{organization}/roles','OrganizationRolesController@store');
+

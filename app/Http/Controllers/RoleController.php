@@ -37,7 +37,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -48,7 +48,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        //
+
     }
 
     /**
@@ -59,7 +59,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        //
+        return view('roles.show', compact('role'));
     }
 
     /**
@@ -71,7 +71,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        //
+
     }
 
     /**
