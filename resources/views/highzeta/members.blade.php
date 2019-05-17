@@ -32,7 +32,7 @@
                     @foreach ($members as $member)
                     <tr>
                         <th>{{ $member->name }}</th>
-                        <th>{{ $member->role_id  }}</th>
+                        <th>{{ $member->role->name  }}</th>
                         <th> later </th>
                         <th> later </th>
                         <th> manage </th>

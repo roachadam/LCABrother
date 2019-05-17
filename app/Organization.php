@@ -17,6 +17,14 @@ class Organization extends Model
         return $this->roles()->create($attributes);
     }
 
+    public function createAdmin(){
+        $attributes = [
+            'name'  =>'admin'
+        ];
+        $role = $this->addRole($attributes);
+        $role->setAdminPermissions();
+    }
+
     public function users(){
         return $this->hasMany(User::class);
     }

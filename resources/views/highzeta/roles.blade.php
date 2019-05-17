@@ -137,7 +137,7 @@
                     <div class="col-md-12">
                         <fieldset class="form-group">
                             <label class="form-label semibold" for="name">Role Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ }}" placeholder="President" required>
+                        <input type="text" class="form-control" id="name" name="name" value="TODO" placeholder="President" required>
                         </fieldset>
 
                         <label class="form-label semibold" for="exampleInput">Permissions</label>

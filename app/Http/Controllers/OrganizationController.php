@@ -53,7 +53,9 @@ class OrganizationController extends Controller
         $org->owner()->associate($user)->save();
         $user->organization()->associate($org)->save();
 
-        return redirect('/role/create');
+        $org->createAdmin();
+        $user->setAdmin();
+        return redirect('/role');
     }
 
     /**

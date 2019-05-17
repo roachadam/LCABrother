@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Role;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -37,6 +38,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function setAdmin()
+    {
+        $role = $this->organization->roles[0];
+
+        $this->role()->associate($role)->save();
+    }
+
+    public function role(){
+        return $this->belongsTo(Role::Class);
+    }
 
     public function organization()
     {

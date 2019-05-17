@@ -10,10 +10,32 @@ class Role extends Model
 {
     protected $guarded =[];
 
-    public function Permission(){
-        $this->hasOne(Permission::class);
+    public function permission(){
+        return $this->belongsTo(Permission::class);
     }
     public function organization(){
-        $this->belongsTo(Organization::class);
+        return $this->belongsTo(Organization::class);
     }
+    public function user(){
+        return $this->hasOne(User::class);
+    }
+    public function setAdminPermissions()
+    {
+        $attributes = [
+            'view_member_details' => true,
+            'manage_member_details'=> true,
+            'log_service_event'=> true,
+            'view_all_service'=> true,
+            'view_all_involvement'=> true,
+            'manage_all_service'=> true,
+            'manage_all_involvement'=> true,
+        ];
+
+        $permission = Permission::create($attributes);
+
+        $this->permission()->associate($permission)->save();
+
+        //return $this->permission()->create($attributes);
+    }
+
 }
