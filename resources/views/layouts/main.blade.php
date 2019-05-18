@@ -151,6 +151,13 @@
                         <span class="lbl">View Involvment Scores</span>
                     </a>
             </li>
+            <li class="yellow">
+                <a href="/users/contact">
+                    <i class="glyphicon glyphicon-earphone"></i>
+                    <span class="lbl">View Contact Info</span>
+                </a>
+            </li>
+
 	    </ul>
 
         {{-- TODO: Inline has permission check? --}}

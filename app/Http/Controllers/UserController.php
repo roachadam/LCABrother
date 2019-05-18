@@ -110,4 +110,11 @@ class UserController extends Controller
     {
         //
     }
+
+    public function contact(){
+        $org = auth()->user()->organization;
+        $members = $org->users;
+        return view('highzeta.contact', compact('members'));
+    }
+
 }

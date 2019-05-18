@@ -44,8 +44,7 @@ class User extends Authenticatable
 
         $this->role()->associate($role)->save();
     }
-    public function setAdmin()
-    {
+    public function setAdmin(){
         $role = $this->organization->roles[0];
 
         $this->role()->associate($role)->save();

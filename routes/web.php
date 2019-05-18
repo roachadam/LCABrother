@@ -20,6 +20,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Route::get('organization/create', 'OrganizationController@create');
 Route::resource('organization', 'OrganizationController');
 Route::resource('user', 'UserController');
+Route::get('/users/contact', 'UserController@contact');
 Route::resource('role','RoleController');
 Route::resource('serviceEvent', 'ServiceEventController');
 Route::resource('involvement', 'InvolvementController');
