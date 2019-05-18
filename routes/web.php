@@ -23,6 +23,8 @@ Route::resource('user', 'UserController');
 Route::resource('role','RoleController');
 Route::resource('serviceEvent', 'ServiceEventController');
 Route::resource('involvement', 'InvolvementController');
+Route::Resource('involvementLog', 'InvolvementLogController');
+
 Route::get('/dash', 'DashController@index');
 
 Route::get('/orgpending', 'OrgVerificationController@index');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\InvolvementLog;
 use Illuminate\Http\Request;
+use DB;
+
 
 class InvolvementLogController extends Controller
 {
@@ -14,7 +16,16 @@ class InvolvementLogController extends Controller
      */
     public function index()
     {
-        //
+        //Need to really think about a way to sum each of the same brothers stuff without just a
+        //big nested loop
+        $org = auth()->user()->organization;
+        $involvement = $org->involvement;
+        $logs = DB::table('users')
+                    ->join('involvement_logs', 'users.id','=','involvement_logs.user_id')
+                    ->join('involvements', 'involvements.id', '=', 'involvement_logs.involvement_id')
+                    ->select('users.id', 'users.name', 'involvements.name as event_name', 'involvement_logs.points')
+                    ->get();
+        return view('involvementLogs.index', compact('logs'));
     }
 
     /**

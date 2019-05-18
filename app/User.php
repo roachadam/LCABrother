@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Role;
+use App\ServiceLog;
+use App\InvolvementLog;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -56,6 +58,30 @@ class User extends Authenticatable
     public function organization()
     {
         return $this->belongsTo(Organization::Class);
+    }
+    public function getServiceHours(){
+        $serviceHours = $this->serviceHours;
+        $hours =0;
+        foreach($serviceHours as $hour){
+            $hours+= $hour->hours_served;
+        }
+
+        return $hours;
+    }
+    public function serviceHours(){
+        return $this->hasMany(ServiceLog::Class);
+    }
+
+    public function getInvolvementPoints(){
+        $InvolvementLogs = $this->InvolvementLogs;
+        $points =0;
+        foreach($InvolvementLogs as $log){
+            $points+= $log->points;
+        }
+        return $points;
+    }
+    public function InvolvementLogs(){
+        return $this->hasMany(InvolvementLog::Class);
     }
 
     public function canManageMembers(){

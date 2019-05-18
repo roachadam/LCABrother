@@ -20,7 +20,7 @@ class OrgVerificationController extends Controller
         if(Auth::user()->organization_verified == 1){
             return redirect('/dash');
         }
-        return view('orgpending.orgpending');
+        return view('orgpending.waitingScreen');
     }
 
     public function show(User $user){
@@ -32,7 +32,6 @@ class OrgVerificationController extends Controller
         $approved = request()->has('organization_verified');
         $attributes = ['organization_verified' => $approved];
         $user->update($attributes);
-        dd($user);
         return redirect('/dash');
     }
 }

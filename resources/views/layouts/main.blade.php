@@ -15,8 +15,8 @@
 
 	<script src="{{ asset('js/lib/jquery/jquery-3.2.1.min.js') }}"></script>
 	<script src="{{ asset('js/lib/popper/popper.min.js') }}"></script>
-	<script src="{{ asset('js/lib/tether/tether.min.js') }}"></script>
-	<script src="{{ asset('js/lib/bootstrap/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/lib/bootstrap/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/lib/tether/tether.min.js') }}"></script>
 	<script src="{{ asset('js/plugins.js') }}"></script>
 
 	<script type="text/javascript" src="{{ asset('js/lib/jqueryui/jquery-ui.min.js') }}"></script>
@@ -62,7 +62,7 @@
 	                <div class="site-header-shown">
 	                    <div class="dropdown dropdown-notification notif">
 	                        <a href="#"
-	                           class="header-alarm dropdown-toggle active"
+	                           class="header{{ Auth::user()->organization->users()->where('organization_verified',null)->get()->count() > 0 ? '-alarm' : '' }} dropdown-toggle active"
 	                           id="dd-notification"
 	                           data-toggle="dropdown"
 	                           aria-haspopup="true"
@@ -73,15 +73,15 @@
 	                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-notif" aria-labelledby="dd-notification">
 	                            <div class="dropdown-menu-notif-header">
 	                                Notifications
-	                                <span class="label label-pill label-danger">4</span>
+	                                <span class="label label-pill label-danger">{{Auth::user()->organization->users()->where('organization_verified',null)->get()->count()}}</span>
                                 </div>
 	                            <div class="dropdown-menu-notif-list">
                                     @if (Auth::user()->canManageMembers())
                                         @foreach (Auth::user()->organization->users()->where('organization_verified',null)->get() as $member)
                                             <div class="dropdown-menu-notif-item">
                                                 <div class="dot"></div>
-                                                <a href="/orgpending/{{$member->id}}">{{$member->name}}</a> is waiting for verification
-                                                <div class="color-blue-grey-lighter">7 hours ago</div>
+                                                <a href="/orgpending/{{$member->id}}"> {{ $member->name }} </a> is waiting for verification
+                                                <div class="color-blue-grey-lighter"> {{ $member->created_at }}</div>
                                             </div>
                                         @endforeach
                                     @endif
@@ -146,7 +146,7 @@
                     </a>
             </li>
             <li class="blue">
-                    <a href="/involvement">
+                    <a href="/involvementLog">
                         <i class="glyphicon glyphicon-equalizer"></i>
                         <span class="lbl">View Involvment Scores</span>
                     </a>
@@ -157,22 +157,36 @@
 	    <section>
 	        <header class="side-menu-title">High Zeta</header>
 	        <ul class="side-menu-list">
-                <li class="blue">
-                    <a href="/user">
-                    <span>
-                        <i class="font-icon font-icon-users"></i>
-                        <span class="lbl">Members</span>
-                    </span>
-                    </a>
-                </li>
-                <li class="blue">
-                    <a href="/role">
-                    <span>
-                        <i class="font-icon font-icon-users"></i>
-                        <span class="lbl">Roles</span>
-                    </span>
-                    </a>
-                </li>
+                @if (auth()->user()->canManageMembers())
+                    <li class="blue">
+                        <a href="/user">
+                        <span>
+                            <i class="font-icon font-icon-users"></i>
+                            <span class="lbl">Members</span>
+                        </span>
+                        </a>
+                    </li>
+                @endif
+                @if (auth()->user()->canManageInvolvment())
+                    <li class="blue">
+                        <a href="/user">
+                        <span>
+                            <i class="font-icon font-icon-users"></i>
+                            <span class="lbl">Submit Involvement Data</span>
+                        </span>
+                        </a>
+                    </li>
+                @endif
+                @if (auth()->user()->canManageMembers())
+                    <li class="blue">
+                        <a href="/role">
+                        <span>
+                            <i class="font-icon font-icon-users"></i>
+                            <span class="lbl">Roles</span>
+                        </span>
+                        </a>
+                    </li>
+                @endif
 	        </ul>
 	    </section>
 	</nav><!--.side-menu-->

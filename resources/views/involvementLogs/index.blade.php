@@ -7,7 +7,7 @@
             <div class="tbl">
                 <div class="tbl-row">
                     <div class="tbl-cell">
-                        <h2>Members</h2>
+                        <h2>Involvement Logs</h2>
                         {{-- <div class="subtitle">Welcome to Ultimate Dashboard</div> --}}
                     </div>
                 </div>
@@ -19,25 +19,24 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Role</th>
-                    <th>Service Hours</th>
+                    <th>Event Name</th>
                     <th>Points</th>
                     <th>Manage</th>
+
                 </tr>
                 </thead>
                 <tbody>
 
-                    @if ($members->count())
+                    @if ($logs->count())
 
-                    @foreach ($members as $member)
-                    <tr>
-                        <td>{{ $member->name }}</td>
-                        <td>{{ $member->role->name  }}</td>
-                        <td> {{ $member->getserviceHours() }} </td>
-                        <td> {{ $member->getInvolvementPoints() }} </td>
-                        <td><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editServiceEvent">Manage</button></td>
-                    </tr>
-                    @endforeach
+                        @foreach ($logs as $log)
+                            <tr>
+                                <td>{{ $log->name }}</td>
+                                <td>{{ $log->event_name  }}</td>
+                                <td> {{ $log->points }} </td>
+                                <td><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editServiceEvent">Manage</button></td>
+                            </tr>
+                        @endforeach
 
                     @endif
 

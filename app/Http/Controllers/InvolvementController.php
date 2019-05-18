@@ -15,14 +15,6 @@ class InvolvementController extends Controller
      */
     public function index()
     {
-        $org = auth()->user()->organization;
-        $members = $org->users;
-
-        $results = DB::table('users')
-                    ->crossJoin('involvements')->get();
-        dd($results);
-
-        return view('involvement.index', compact('$members'));
     }
 
     /**
