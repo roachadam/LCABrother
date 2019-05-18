@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Organization;
 use App\Task;
+
 class OrganizationRolesController extends Controller
 {
-    public function store(Organization $organization)
+    public function store(Request $request, Organization $organization)
     {
-        $attributes = request()->validate([
-            'name'=> ['required']
-            ]);
 
-        $organization->addrole($attributes);
+        $attributes = request()->validate([
+            'name'=> ['required'],
+        ]);
+
+        $role = $organization->addrole($attributes);
+
+        //Not getting toggle data from the add role modal
+        dd($request);
+        $role->addPermissions($request);
 
         return back();
     }

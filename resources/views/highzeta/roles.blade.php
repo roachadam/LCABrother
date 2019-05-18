@@ -23,15 +23,13 @@
             <tbody>
 
                 @if ($roles->count())
-
-                @foreach ($roles as $role)
-                <tr>
-                    <th>{{ $role->name }}</th>
-                    <th><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editRole">Edit</button></th>
-                    <input type="hidden" id="roleId" name="roleId" value="{{$role->id}}">
-                </tr>
-                @endforeach
-
+                    @foreach ($roles as $role)
+                        <tr>
+                            <th>{{ $role->name }}</th>
+                            <th><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editRole">Edit</button></th>
+                            <input type="hidden" id="roleId" name="roleId" value="{{$role->id}}">
+                        </tr>
+                    @endforeach
                 @endif
 
             </tbody>
@@ -58,9 +56,7 @@
                 </div>
                 <form method="POST" action="/organizations/{{ $org->id }}/roles" class="box" >
                     <div class="modal-body">
-
                         @csrf
-
                         <div class="col-md-12">
                             <fieldset class="form-group">
                                 <label class="form-label semibold" for="name">Role Name</label>
@@ -68,43 +64,50 @@
                             </fieldset>
 
                             <label class="form-label semibold" for="exampleInput">Permissions</label>
+                            
+                            <fieldset>
+                                {{-- edit member details --}}
+                                <div class="checkbox-toggle form-group">
+                                    <input name="manage_member_details" type="checkbox" id="manage_member_details">
+                                    <label for="manage_member">Manage Member Details</label>
+                                </div>
 
-                            {{-- edit member details --}}
-                            <div class="checkbox-toggle">
-                                <input type="checkbox" id="manage_member_details">
-                                <label for="manage_member_details">Manage Member Details</label>
-                            </div>
-                            {{-- view all member service hour logs and edit/remove them --}}
-                            <div class="checkbox-toggle">
-                                <input type="checkbox" id="manage_all_service">
-                                <label for="manage_all_service">Manage Service Event Logs</label>
-                            </div>
-                            {{-- view all member involvement(points) logs and edit/remove them,AND log them --}}
-                            <div class="checkbox-toggle">
-                                <input type="checkbox" id="manage_all_involvement">
-                                <label for="manage_all_involvement">Manage Involvement</label>
-                            </div>
-                            {{-- view everyones service hours --}}
-                            <div class="checkbox-toggle">
-                                <input type="checkbox" id="view_all_service">
-                                <label for="view_all_service">View Member's Service Hours</label>
-                            </div>
-                            {{-- view everyones involvement(points) --}}
-                            <div class="checkbox-toggle">
-                                <input type="checkbox" id="view_all_involvement">
-                                <label for="view_all_involvement">View Member's Involvement</label>
-                            </div>
+                                {{-- view all member service hour logs and edit/remove them --}}
+                                <div class="checkbox-toggle form-group">
+                                    <input type="checkbox" name="manage_all_service" id="manage_all_service">
+                                    <label for="manage_all_">Manage Service Event Logs</label>
+                                </div>
 
-                            {{-- // view all members --}}
-                            <div class="checkbox-toggle">
-                                <input type="checkbox" id="view_member_details">
-                                <label for="view_member_details">View Members</label>
-                            </div>
-                            {{-- // log service hours --}}
-                            <div class="checkbox-toggle">
-                                <input type="checkbox" id="log_service_event">
-                                <label for="log_service_event">Log Service Hours</label>
-                            </div>
+                                {{-- view all member involvement(points) logs and edit/remove them,AND log them --}}
+                                <div class="checkbox-toggle form-group">
+                                    <input type="checkbox" id="manage_all_involvement" name="manage_all_involvement">
+                                    <label for="manage_involvement">Manage Involvement</label>
+                                </div>
+
+                                {{-- view everyones service hours --}}
+                                <div class="checkbox-toggle form-group">
+                                    <input type="checkbox" id="view_all_service" name="view_all_service">
+                                    <label for="view_service">View Member's Service Hours</label>
+                                </div>
+
+                                {{-- view everyones involvement(points) --}}
+                                <div class="checkbox-toggle form-group">
+                                    <input type="checkbox" id="view_all_involvement" name="view_all_involvement">
+                                    <label for="view_involvement">View Member's Involvement</label>
+                                </div>
+
+                                {{-- // view all members --}}
+                                <div class="checkbox-toggle form-group">
+                                    <input type="checkbox" id="view_member_details" name="view_member_details">
+                                    <label for="view_details">View Members</label>
+                                </div>
+
+                                {{-- // log service hours --}}
+                                <div class="checkbox-toggle form-group">
+                                    <input type="checkbox" id="log_service_event" name="log_service_event">
+                                    <label for="log_event">Log Service Hours</label>
+                                </div>
+                            </fieldset>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -200,9 +203,6 @@
             });
     </script>
 
-    <script>
-
-    </script>
     @endsection
 
 @endsection

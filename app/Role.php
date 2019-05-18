@@ -19,6 +19,13 @@ class Role extends Model
     public function user(){
         return $this->hasOne(User::class);
     }
+    public function setPermissions($attributes)
+    {
+        $permission = Permission::create($attributes);
+
+        $this->permission()->associate($permission)->save();
+    }
+
     public function setAdminPermissions()
     {
         $attributes = [

@@ -146,7 +146,7 @@
                     </a>
             </li>
             <li class="blue">
-                    <a href="/serviceEvent">
+                    <a href="/involvement">
                         <i class="glyphicon glyphicon-equalizer"></i>
                         <span class="lbl">View Involvment Scores</span>
                     </a>
