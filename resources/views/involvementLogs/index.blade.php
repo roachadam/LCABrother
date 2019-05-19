@@ -19,9 +19,12 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Event Name</th>
+                    {{-- <th>Event Name</th> --}}
                     <th>Points</th>
-                    <th>Manage</th>
+                    @if (auth()->user()->canManageInvolvment())
+                    <th>View BreakDown</th>
+                    @endif
+
 
                 </tr>
                 </thead>
@@ -32,9 +35,11 @@
                         @foreach ($logs as $log)
                             <tr>
                                 <td>{{ $log->name }}</td>
-                                <td>{{ $log->event_name  }}</td>
+                                {{-- <td>{{ $log->event_name  }}</td> --}}
                                 <td> {{ $log->points }} </td>
-                                <td><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editServiceEvent">Manage</button></td>
+                                @if (auth()->user()->canManageInvolvment())
+                                    <td><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editServiceEvent">View</button></td>
+                                @endif
                             </tr>
                         @endforeach
 

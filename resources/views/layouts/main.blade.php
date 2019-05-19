@@ -46,8 +46,8 @@
 	<header class="site-header">
 	    <div class="container-fluid">
 	        <a href="#" class="site-logo">
-                <img class="hidden-md-down" src="img/logo-2.png" alt="">
-                <img class="hidden-md-down" src="img/logo-2-mob.png" alt="">
+                <img class="hidden-md-down" src="/img/logo-2.png" alt="">
+                <img class="hidden-md-down" src="/img/logo-2-mob.png" alt="">
 	        </a>
 
 	        <button id="show-hide-sidebar-toggle" class="show-hide-sidebar">
@@ -91,7 +91,7 @@
                         {{-- Account --}}
 	                    <div class="dropdown user-menu">
 	                        <button class="dropdown-toggle" id="dd-user-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                            <img src="img/avatar-2-64.png" alt="">
+	                            <img src="/img/avatar-2-64.png" alt="">
 	                        </button>
 	                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
 	                            <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-user"></span>Profile</a>

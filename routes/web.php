@@ -28,7 +28,9 @@ Route::Resource('involvementLog', 'InvolvementLogController');
 
 Route::get('/dash', 'DashController@index');
 
-Route::get('/orgpending', 'OrgVerificationController@index');
+Route::get('/orgpending/waiting', 'OrgVerificationController@waiting');
+Route::get('/orgpending/rejected', 'OrgVerificationController@rejected');
+
 Route::get('/orgpending/{user}', 'OrgVerificationController@show');
 Route::post('/orgpending/{user}/update', 'OrgVerificationController@update');
 

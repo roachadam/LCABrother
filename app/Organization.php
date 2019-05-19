@@ -35,6 +35,10 @@ class Organization extends Model
         $role = $this->addRole($attributes);
         $role->setBasicPermissions();
     }
+    public function getVerifiedMembers(){
+        $members = $this->users()->where('organization_verified',1)->get();
+        return $members;
+    }
 
     public function users()
     {

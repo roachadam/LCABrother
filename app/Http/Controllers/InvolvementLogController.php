@@ -23,7 +23,8 @@ class InvolvementLogController extends Controller
         $logs = DB::table('users')
                     ->join('involvement_logs', 'users.id','=','involvement_logs.user_id')
                     ->join('involvements', 'involvements.id', '=', 'involvement_logs.involvement_id')
-                    ->select('users.id', 'users.name', 'involvements.name as event_name', 'involvement_logs.points')
+                    ->select(DB::raw('users.id , users.name , involvements.name as event_name , SUM(involvement_logs.points) as points'))
+                    ->groupBy('users.id', 'users.name', 'event_name')
                     ->get();
         return view('involvementLogs.index', compact('logs'));
     }

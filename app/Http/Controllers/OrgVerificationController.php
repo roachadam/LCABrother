@@ -17,9 +17,9 @@ class OrgVerificationController extends Controller
     // hits from rout /orgpending
     public function index(){
 
-        if(Auth::user()->organization_verified == 1){
-            return redirect('/dash');
-        }
+        // if(Auth::user()->organization_verified == 1){
+        //     return redirect('/dash');
+        // }
         return view('orgpending.waitingScreen');
     }
 
@@ -30,8 +30,25 @@ class OrgVerificationController extends Controller
     public function update(Request $request, User $user)
     {
         $approved = request()->has('organization_verified');
-        $attributes = ['organization_verified' => $approved];
+        if($approved)
+        {
+            $attributes = ['organization_verified' => $approved];
+        }
+        else
+        {
+
+            $attributes = [
+            'organization_verified' => $approved,
+            'organization_id' => null
+            ];
+        }
         $user->update($attributes);
         return redirect('/dash');
+    }
+    public function rejected(){
+        return view('orgPending.rejected');
+    }
+    public function waiting(){
+        return view('orgPending.waiting');
     }
 }
