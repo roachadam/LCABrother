@@ -18,6 +18,7 @@
             <tr>
                 <th>Name</th>
                 <th>Manage</th>
+                <th>View Members In Role </th>
             </tr>
             </thead>
             <tbody>
@@ -25,8 +26,9 @@
                 @if ($roles->count())
                     @foreach ($roles as $role)
                         <tr>
-                            <th>{{ $role->name }}</th>
-                            <th><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editRole">Edit</button></th>
+                            <td>{{ $role->name }}</td>
+                            <td><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editRole">Edit</button></td>
+                            <td><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editRole">View</button></td>
                             <input type="hidden" id="roleId" name="roleId" value="{{$role->id}}">
                         </tr>
                     @endforeach
@@ -64,7 +66,7 @@
                             </fieldset>
 
                             <label class="form-label semibold" for="exampleInput">Permissions</label>
-                            
+
                             <fieldset>
                                 {{-- edit member details --}}
                                 <div class="checkbox-toggle form-group">

@@ -12,7 +12,9 @@
 
 </div><!--.row-->
 
-
+<div class="box-typical-body card-default">
+    <p>Help</p>
+</div>
 
 
 @endsection
