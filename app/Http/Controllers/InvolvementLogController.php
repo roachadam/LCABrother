@@ -9,11 +9,12 @@ use DB;
 
 class InvolvementLogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('ManageInvolvement');
+    }
+
     public function index()
     {
         //Need to really think about a way to sum each of the same brothers stuff without just a

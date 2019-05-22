@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use CheckHasRole;
 use App\User;
 use App\Organization;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ class UserController extends Controller
 
     public function __construct(){
         $this->middleware('auth');
+        $this->middleware('MemberView');
     }
 
 

@@ -23,6 +23,7 @@ Route::resource('user', 'UserController');
 Route::get('/users/contact', 'UserController@contact');
 Route::resource('role','RoleController');
 Route::resource('serviceEvent', 'ServiceEventController');
+
 Route::resource('involvement', 'InvolvementController');
 Route::Resource('involvementLog', 'InvolvementLogController');
 

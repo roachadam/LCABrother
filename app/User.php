@@ -42,16 +42,23 @@ class User extends Authenticatable
     public function setBasicUser(){
         $role = $this->organization->roles[1];
 
-        $this->role()->associate($role)->save();
+        $this->setRole($role);
     }
     public function setAdmin(){
         $role = $this->organization->roles[0];
+        $this->setRole($role);
+    }
 
+    public function setRole($role){
         $this->role()->associate($role)->save();
     }
 
     public function role(){
         return $this->belongsTo(Role::Class);
+    }
+
+    public function join($org){
+        $this->organization()->associate($org)->save();
     }
 
     public function organization()
@@ -83,6 +90,7 @@ class User extends Authenticatable
         return $this->hasMany(InvolvementLog::Class);
     }
 
+    //Permissions getters
     public function canManageMembers(){
         $Can = $this->role->permission->manage_member_details;
         return $Can;
