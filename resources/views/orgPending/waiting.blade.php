@@ -9,7 +9,7 @@
 
 
                 <div class="card-body">
-                    <h2>You organization '{{ Auth::user()->organization->name }}' needs to verify your membership before proceeding.</h2>
+                    <h2>Your organization '{{ Auth::user()->organization->name }}' needs to verify your membership before proceeding.</h2>
 
                 </div>
             </div>
