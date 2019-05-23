@@ -29,6 +29,7 @@ class RegistrationTest extends TestCase
         ]);
         $response->assertStatus(302);
         $this->assertAuthenticated();
+        $response->assertRedirect('/organization');
     }
 
     public function testDoesNotRegisterAnInvalidUser()

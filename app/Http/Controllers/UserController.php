@@ -88,6 +88,8 @@ class UserController extends Controller
         //     abort();
         // }
 
+        dd($request);
+
         //Does the above smoother
         //May want to use a gate insead
         abort_unless(Auth::id() == $user->id,403);
