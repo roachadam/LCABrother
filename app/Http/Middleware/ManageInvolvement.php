@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\User;
 use Closure;
 
 class ManageInvolvement
@@ -15,7 +16,7 @@ class ManageInvolvement
      */
     public function handle($request, Closure $next)
     {
-        if($request->user() && ! $request->user()->canManageInvolvement()){
+        if($request->user() && ! $request->user()->canManageInvolvment()){
             return redirect()->action('DashController@index');
         }
         return $next($request);

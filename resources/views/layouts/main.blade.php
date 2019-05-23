@@ -24,7 +24,8 @@
 	<script type="text/javascript" src="{{ asset('js/lib/match-height/jquery.matchHeight.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('https://www.gstatic.com/charts/loader.js') }}"></script>
 
-
+    <script type="text/javascript" src="{{ asset('js/lib/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('js/lib/daterangepicker/daterangepicker.js') }}"></script>
     <!-- Fonts -->
 
     <!-- Styles -->
@@ -33,13 +34,15 @@
     <link rel="stylesheet" href="{{ asset('css/separate/vendor/datatables-net.min.css') }}" rel="stylesheet">
 
     {{-- Move these to appropriate page blades --}}
+    <link rel="stylesheet" href="{{ asset('css/separate/vendor/bootstrap-daterangepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/lib/lobipanel/lobipanel.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/separate/vendor/lobipanel.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/lib/jqueryui/jquery-ui.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/separate/pages/widgets.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/lib/font-awesome/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/lib/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/lib/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/separate/vendor/flatpickr.min.css') }}" rel="stylesheet">
 </head>
 <body class="with-side-menu control-panel control-panel-compact">
 
@@ -47,7 +50,7 @@
 	    <div class="container-fluid">
 	        <a href="#" class="site-logo">
                 <img class="hidden-md-down" src="/img/logo-2.png" alt="">
-                <img class="hidden-md-down" src="/img/logo-2-mob.png" alt="">
+
 	        </a>
 
 	        <button id="show-hide-sidebar-toggle" class="show-hide-sidebar">
@@ -205,9 +208,6 @@
 
 	    </div><!--.container-fluid-->
 	</div><!--.page-content-->
-
-
-    </div>
 
     @yield('js')
 </body>
