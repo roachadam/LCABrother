@@ -10,9 +10,8 @@
 
                 {{-- todo: middleware for organization being set --}}
                 <div class="card-body">
-                    <form method="POST" action="/user/{{ Auth::user()->id}}">
+                    <form method="POST" action="/user/{{ Auth::user()->id}}/join">
                         @csrf
-                        @method('patch')
 
 
                         <div class="form-group row">

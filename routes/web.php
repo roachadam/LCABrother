@@ -19,8 +19,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 //Route::get('organization/create', 'OrganizationController@create');
 Route::resource('organization', 'OrganizationController');
+
 Route::resource('user', 'UserController');
 Route::get('/users/contact', 'UserController@contact');
+Route::post('/user/{user}/join', 'UserController@joinOrg');
 Route::resource('role','RoleController');
 Route::resource('serviceEvent', 'ServiceEventController');
 

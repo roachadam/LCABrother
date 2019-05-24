@@ -6,6 +6,8 @@ use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Organization;
+use DB;
 
 class OrganizationTest extends TestCase
 {
@@ -52,11 +54,47 @@ class OrganizationTest extends TestCase
             'password' => 'secret123',
             'password_confirmation' => 'secret123'
         ]);
+        $dbUser =  DB::table('users')->where('email', $user->email)->first();
 
         $response->assertRedirect('/organization');
-        $response = $this->post('/user/'+ $user->id,[
-            
+        $response = $this->get('/organization/create');
+
+        $org = factory(Organization::class)->make();
+
+        $response = $this->post('/organization/',[
+            'name' => $org->name
         ]);
-        $response->assertStatus(200);
+        $this->assertDatabaseHas('organizations',[
+            'name' => $org->name,
+        ]);
+        $response->assertRedirect('/role');
+
+    }
+    public function test_join_Organization()
+    {
+        $this->withoutExceptionHandling();
+        $user = factory(User::class)->make();
+        $org = factory(Organization::class)->create();
+
+        $response = $this->post('/register', [
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'password' => 'secret123',
+            'password_confirmation' => 'secret123'
+        ]);
+        $dbUser =  DB::table('users')->where('email', $user->email)->first();
+
+        $response->assertRedirect('/organization');
+
+        $response = $this->post('/user/'.$dbUser->id.'/join',[
+            'organization' => $org->id,
+        ]);
+
+        $this->assertDatabaseHas('users',[
+            'email' => $user->email,
+            'organization_id' => $org->id,
+        ]);
+        $response->assertRedirect('/dash');
     }
 }

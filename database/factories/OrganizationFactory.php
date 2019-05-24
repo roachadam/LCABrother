@@ -10,3 +10,7 @@ $factory->define(Organization::class, function (Faker $faker) {
         'name'=> $faker->company //'Bogan-Treutel' closer to an organization name
     ];
 });
+$factory->afterCreating(Organization::class, function ($Organization, $faker) {
+    $Organization->createAdmin();
+    $Organization->createBasicUser();
+});
