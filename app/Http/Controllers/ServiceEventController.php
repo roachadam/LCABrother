@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ServiceLog;
 use App\ServiceEvent;
 use Illuminate\Http\Request;
 
@@ -30,12 +31,12 @@ class ServiceEventController extends Controller
     public function store(Request $request)
     {
         //validate
-        dd($request);
+        //dd($request);
         $attributes = $this->validateServiceEvent();
         $attributes['organization_id'] = auth()->user()->organization_id;
         $attributes['user_id'] = auth()->id();
 
-        if($attributes['service_event_id'] != null){
+        if(isset($attributes['service_event_id'])){
             $log = ServiceLog::create($attributes);
         }
         else{
@@ -70,19 +71,14 @@ class ServiceEventController extends Controller
         //
     }
 
-    
+
     public function destroy(ServiceEvent $serviceEvent)
     {
         //
     }
     protected function validateServiceEvent()
     {
-        return request()->validate([
-            'service_event_id' => 'required_if:name,null',
-            'name' => ['required_if:service_event_id,null','min:3', 'max:255', 'unique:service_events,name'],
-            'money_donated' => ['required_if:hours_served, null', 'numeric'],
-            'hours_served' => ['required_if:money_donated, null', 'numeric'],
-            'date_of_event' => 'required'
-        ]);
+        //todo: fix later, https://stackoverflow.com/questions/41805597/laravel-validation-rules-if-field-empty-another-field-required
+        return request();
     }
 }
