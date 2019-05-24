@@ -18,8 +18,9 @@ class OrganizationRolesController extends Controller
         $role = $organization->addrole($attributes);
 
         //Not getting toggle data from the add role modal
-        dd($request);
-        $role->addPermissions($request);
+        //dd($request);
+        unset($attributes['name']);
+        $role->setPermissions($attributes);
 
         return back();
     }
