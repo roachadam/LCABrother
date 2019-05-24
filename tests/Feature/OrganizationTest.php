@@ -70,6 +70,7 @@ class OrganizationTest extends TestCase
         $response->assertRedirect('/role');
 
     }
+    
     public function test_join_Organization()
     {
         $this->withoutExceptionHandling();

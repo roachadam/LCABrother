@@ -30,19 +30,8 @@ class OrgVerificationController extends Controller
     public function update(Request $request, User $user)
     {
         $approved = request()->has('organization_verified');
-        if($approved)
-        {
-            $attributes = ['organization_verified' => $approved];
-        }
-        else
-        {
-
-            $attributes = [
-            'organization_verified' => $approved,
-            'organization_id' => null
-            ];
-        }
-        $user->update($attributes);
+        $user->setVerification($approved);
+        
         return redirect('/dash');
     }
     public function rejected(){

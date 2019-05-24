@@ -61,6 +61,23 @@ class User extends Authenticatable
         $this->organization()->associate($org)->save();
     }
 
+    public function setVerification($verified){
+
+        if($verified)
+        {
+            $attributes = ['organization_verified' => $verified];
+        }
+        else
+        {
+
+            $attributes = [
+            'organization_verified' => $verified,
+            'organization_id' => null
+            ];
+        }
+        $this->update($attributes);
+    }
+
     public function organization()
     {
         return $this->belongsTo(Organization::Class);

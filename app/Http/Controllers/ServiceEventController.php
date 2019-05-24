@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\ServiceLog;
 use App\ServiceEvent;
 use Illuminate\Http\Request;
@@ -30,26 +31,33 @@ class ServiceEventController extends Controller
 
     public function store(Request $request)
     {
-        //validate
-        //dd($request);
-        $attributes = $this->validateServiceEvent();
+        $attributes = $request->all();
         $attributes['organization_id'] = auth()->user()->organization_id;
         $attributes['user_id'] = auth()->id();
 
+        $logAttributes = [
+            "money_donated" => $attributes['money_donated'],
+            "hours_served" => $attributes['money_donated'],
+            "organization_id" => auth()->user()->organization_id,
+            "user_id" => auth()->id(),
+        ];
+        $eventAtrributes = [
+            'organization_id'=> auth()->user()->organization_id,
+            'name' => $attributes['name'],
+            'date_of_event' => $attributes['date_of_event']
+        ];
+
+        //persist
         if(isset($attributes['service_event_id'])){
-            $log = ServiceLog::create($attributes);
+            $event = ServiceEvent::find($attributes['service_event_id']);
+            $event->setLog($logAttributes);
         }
         else{
-            $eventAtrributes = [
-                'organization_id'=> auth()->user()->organization_id,
-                'name' => $attributes['name'],
-                'date_of_event' => $attributes['date_of_event']
-            ];
             $event = ServiceEvent::Create($eventAtrributes);
-            unset($attributes['name']);
-            unset($attributes['date_of_event']);
-            $event->ServiceLogs()->create($attributes);
+            $event->setLog($logAttributes);
         }
+
+        //redirect
         return redirect('/dash');
     }
 
@@ -79,6 +87,12 @@ class ServiceEventController extends Controller
     protected function validateServiceEvent()
     {
         //todo: fix later, https://stackoverflow.com/questions/41805597/laravel-validation-rules-if-field-empty-another-field-required
-        return request();
+        return request()->validate([
+            'service_event_id' => 'numeric',
+            'name' => ['min:3', 'max:255', 'unique:service_events,name'],
+            'money_donated' => ['numeric'],
+            'hours_served' => ['numeric'],
+            'date_of_event',
+        ]);
     }
 }
