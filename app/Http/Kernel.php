@@ -41,6 +41,35 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
         ],
+        'ManageMembers' =>
+        [
+            \App\Http\Middleware\ManageMembers::class,
+        ],
+        'InvolvementView' =>
+        [
+            \App\Http\Middleware\InvolvementView::class,
+        ],
+        'ManageInvolvement' =>
+        [
+            \App\Http\Middleware\ManageInvolvement::class,
+        ],
+        'ManageService' =>
+        [
+            \App\Http\Middleware\ManageService::class,
+        ],
+        'MemberView' =>
+        [
+            \App\Http\Middleware\MemberView::class,
+        ],
+        'ServiceLogger' =>
+        [
+            \App\Http\Middleware\ServiceLogger::class,
+        ],
+        'ServiceView' =>
+        [
+            \App\Http\Middleware\ServiceView::class,
+        ],
+
     ];
 
     /**
@@ -67,7 +96,6 @@ class Kernel extends HttpKernel
         'MemberView' => \App\Http\Middleware\MemberView::class,
         'ServiceLogger' => \App\Http\Middleware\ServiceLogger::class,
         'ServiceView' => \App\Http\Middleware\ServiceView::class,
-        'CheckHasRole' => \App\Http\Middleware\CHeckHasRole::class,
         'orgverified' => \App\Http\Middleware\CheckOrgVerified::class,
     ];
 

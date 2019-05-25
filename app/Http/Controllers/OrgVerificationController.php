@@ -12,6 +12,7 @@ class OrgVerificationController extends Controller
 
     public function __construct(){
         $this->middleware('auth');
+        $this->middleware('ManageMembers');
     }
 
     // hits from rout /orgpending
@@ -31,7 +32,7 @@ class OrgVerificationController extends Controller
     {
         $approved = request()->has('organization_verified');
         $user->setVerification($approved);
-        
+
         return redirect('/dash');
     }
     public function rejected(){

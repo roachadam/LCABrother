@@ -7,6 +7,11 @@ use Faker\Generator as Faker;
 
 $factory->define(ServiceEvent::class, function (Faker $faker) {
     return [
-        //
+        'name' => $faker->name,
+        'date_of_event' => $faker->dateTime(),
+        'organization_id' => function()
+        {
+            return factory(App\Organization::class)->create()->id;
+        },
     ];
 });
