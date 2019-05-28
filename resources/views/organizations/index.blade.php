@@ -10,9 +10,8 @@
 
                 {{-- todo: middleware for organization being set --}}
                 <div class="card-body">
-                    <form method="POST" action="/user/{{ Auth::user()->id}}">
+                    <form method="POST" action="/user/{{ Auth::user()->id}}/join">
                         @csrf
-                        @method('patch')
 
 
                         <div class="form-group row">
@@ -38,10 +37,9 @@
 
 
                     <form method="GET" action="/organization/create">
-
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary" name="RegisterNewOrg">
                                         {{ __('Register New Organization') }}
                                     </button>
                                 </div>

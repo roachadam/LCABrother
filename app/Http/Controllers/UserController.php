@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use CheckHasRole;
 use App\User;
 use App\Organization;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ class UserController extends Controller
 
     public function __construct(){
         $this->middleware('auth');
+        $this->middleware('MemberView', ['only' => ['index', 'contact']]);
     }
 
 
@@ -22,7 +24,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        //$organization = auth()->user()->organization()->get();
+        //$users = $organization->users();
+        $org = Auth::user()->organization;
+        $members = $org->users()->where('organization_verified',1)->get();
+        return view('highzeta.members', compact('members'));
     }
 
     /**
@@ -68,42 +74,38 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, User $user)
     {
         // Make sure they don't try to edit the user id and change someone elses organization
         // if(Auth::id() != $user->id){
         //     abort();
         // }
-
-        //Does the above smoother
-        //May want to use a gate insead
-        abort_unless(Auth::id() == $user->id,403);
-
-        $org = $request->organization;
-
-        $user->setOrganization(Organization::find($org));
-
-
-        // redirect to home page or some page that says you have joined X, please wait for an administrator to verify your membership
-        die($org);
-
+        abort(403);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(User $user)
     {
         //
     }
+
+    public function contact(){
+        $org = auth()->user()->organization;
+        $members = $org->getVerifiedMembers();
+        return view('highzeta.contact', compact('members'));
+    }
+
+    public function joinOrg(Request $request, User $user){
+
+        abort_unless(Auth::id() == $user->id,403);
+
+        $org = $request->organization;
+        $user->join($org);
+
+        $user->setBasicUser();
+
+        return redirect('/dash');
+    }
+
 }

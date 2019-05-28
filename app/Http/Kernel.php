@@ -41,6 +41,35 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
         ],
+        'ManageMembers' =>
+        [
+            \App\Http\Middleware\ManageMembers::class,
+        ],
+        'InvolvementView' =>
+        [
+            \App\Http\Middleware\InvolvementView::class,
+        ],
+        'ManageInvolvement' =>
+        [
+            \App\Http\Middleware\ManageInvolvement::class,
+        ],
+        'ManageService' =>
+        [
+            \App\Http\Middleware\ManageService::class,
+        ],
+        'MemberView' =>
+        [
+            \App\Http\Middleware\MemberView::class,
+        ],
+        'ServiceLogger' =>
+        [
+            \App\Http\Middleware\ServiceLogger::class,
+        ],
+        'ServiceView' =>
+        [
+            \App\Http\Middleware\ServiceView::class,
+        ],
+
     ];
 
     /**
@@ -60,6 +89,14 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'ManageMembers' => \App\Http\Middleware\ManageMembers::class,
+        'InvolvementView' => \App\Http\Middleware\InvolvementView::class,
+        'ManageInvolvement' => \App\Http\Middleware\ManageInvolvement::class,
+        'ManageService' => \App\Http\Middleware\ManageService::class,
+        'MemberView' => \App\Http\Middleware\MemberView::class,
+        'ServiceLogger' => \App\Http\Middleware\ServiceLogger::class,
+        'ServiceView' => \App\Http\Middleware\ServiceView::class,
+        'orgverified' => \App\Http\Middleware\CheckOrgVerified::class,
     ];
 
     /**
@@ -76,5 +113,6 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
+        \App\Http\Middleware\CheckHasRole::class,
     ];
 }
