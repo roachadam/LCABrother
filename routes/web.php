@@ -22,8 +22,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('organization', 'OrganizationController');
 
 Route::resource('user', 'UserController');
+Route::get('/users/profile', 'UserController@profile');
+Route::get('/users/edit', 'UserController@edit');
 Route::post('/user/{user}/join', 'UserController@joinOrg');
-
+Route::post('/users/update', 'UserController@update');
 Route::resource('role','RoleController');
 Route::resource('serviceEvent', 'ServiceEventController');
 

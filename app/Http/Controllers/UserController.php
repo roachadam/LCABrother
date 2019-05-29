@@ -71,17 +71,30 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $user = auth()->user();
+        return view('user.edit', compact('user'));
     }
 
 
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
         // Make sure they don't try to edit the user id and change someone elses organization
         // if(Auth::id() != $user->id){
         //     abort();
         // }
-        abort(403);
+        //dump($request);
+        //abort(403);
+        $attributes = request()->validate([
+            'name' => ['string', 'max:255'],
+            'email' => ['string', 'email', 'max:255',],
+            'password' => ['string', 'min:8', 'confirmed'],
+            'phone' => ['phone'],
+        ]);
+        $user = auth()->user();
+
+        $user->update($attributes);
+
+        return redirect('/users/profile');
     }
 
 
@@ -106,6 +119,11 @@ class UserController extends Controller
         $user->setBasicUser();
 
         return redirect('/dash');
+    }
+
+    public function profile(){
+        $user = auth()->user();
+        return view('user.profile', compact('user'));
     }
 
 }
