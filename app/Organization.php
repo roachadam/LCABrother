@@ -4,6 +4,7 @@ namespace App;
 
 use App\Role;
 use App\User;
+use App\Goals;
 use App\ServiceEvent;
 use App\Involvement;
 use Illuminate\Database\Eloquent\Model;
@@ -53,6 +54,15 @@ class Organization extends Model
     public function roles()
     {
         return $this->hasMany(Role::class);
+    }
+
+    public function setGoals($attributes){
+        $goals = Goals::create($attributes);
+        $this->goals()->save($goals);
+    }
+
+    public function goals(){
+        return $this->hasOne(Goals::class);
     }
     public function serviceEvents()
     {

@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Role;
 use App\User;
+use DB;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use App\Organization;
 
@@ -212,5 +213,18 @@ abstract class TestCase extends BaseTestCase
         }
         $this->actingAs($basic);
         return $basic;
+    }
+    protected function registerNewUser(){
+        $user = factory(User::class)->make();
+        $response = $this->post('/register', [
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'password' => 'secret123',
+            'password_confirmation' => 'secret123'
+        ]);
+        $User =  DB::table('users')->where('email', $user->email)->first();
+        $this->actingAs($User);
+        return $User;
     }
 }

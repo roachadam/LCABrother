@@ -42,7 +42,11 @@ Route::post('/organizations/{organization}/roles','OrganizationRolesController@s
 Route::post('/organizations/{organization}/roles/update','OrganizationRolesController@update');
 Route::get('/users/contact', 'UserController@contact');
 
-
+Route::get('/goals', 'GoalsController@index');
+Route::get('/goals/create' , 'GoalsController@create');
+Route::post('/goals/store', 'GoalsController@store');
+Route::post('/goals/{goals}/update', 'GoalsController@update');
+Route::get('/goals/edit', 'GoalsController@edit');
 // Route::group(['middleware' => ['ManageMembers']], function () {
 
 // });
