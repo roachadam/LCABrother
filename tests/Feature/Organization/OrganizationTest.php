@@ -67,10 +67,10 @@ class OrganizationTest extends TestCase
         $this->assertDatabaseHas('organizations',[
             'name' => $org->name,
         ]);
-        $response->assertRedirect('/role');
+        $response->assertRedirect('/goals/create');
 
     }
-    
+
     public function test_join_Organization()
     {
         $this->withoutExceptionHandling();

@@ -40,7 +40,7 @@ class OrganizationController extends Controller
         $org->createBasicUser();
         $user->setAdmin();
         $user->setVerification(true);
-        return redirect('/role');
+        return redirect('/goals/create');
     }
 
     public function show(Organization $organization)

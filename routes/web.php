@@ -42,7 +42,8 @@ Route::post('/organizations/{organization}/roles','OrganizationRolesController@s
 Route::post('/organizations/{organization}/roles/update','OrganizationRolesController@update');
 Route::get('/users/contact', 'UserController@contact');
 
-
+Route::get('/goals/create' , 'GoalsController@create');
+Route::post('/goals/store', 'GoalsController@store');
 // Route::group(['middleware' => ['ManageMembers']], function () {
 
 // });
