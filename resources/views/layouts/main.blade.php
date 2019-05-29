@@ -197,6 +197,16 @@
                         </a>
                     </li>
                 @endif
+                @if (auth()->user()->canManageInvolvment())
+                    <li class="blue">
+                        <a href="/goals">
+                        <span>
+                            <i class="font-icon font-icon-users"></i>
+                            <span class="lbl">Organization Goals</span>
+                        </span>
+                        </a>
+                    </li>
+                @endif
 	        </ul>
 	    </section>
 	</nav><!--.side-menu-->

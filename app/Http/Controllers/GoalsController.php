@@ -13,6 +13,11 @@ class GoalsController extends Controller
         $this->middleware('ManageInvolvement');
     }
 
+    public function index(){
+        $goals = auth()->user()->organization->goals;
+        return view('goals.index', compact('goals'));
+    }
+
     public function create(){
         return view('goals.create');
     }
@@ -21,10 +26,10 @@ class GoalsController extends Controller
     {
         //validate
         $attributes = request()->validate([
-             'points_goal' => 'required',
-             'service_hours_goal' => 'required',
-             'service_money_goal' => 'required',
-             'study_goal' => 'required',
+             'points_goal' => ['required', 'numeric', 'min:0', 'max:10000'],
+             'service_hours_goal' => ['required', 'numeric', 'min:0', 'max:999'],
+             'service_money_goal' => ['required', 'numeric', 'min:0', 'max:999'],
+             'study_goal' => ['required', 'numeric', 'min:0', 'max:999'],
          ]);
 
         //persist
@@ -34,5 +39,22 @@ class GoalsController extends Controller
         //redirect
         return redirect('/role');
 
+    }
+    public function edit(){
+        $goals = auth()->user()->organization->goals;
+        return view('goals.edit', compact('goals'));
+    }
+    public function update(Goals $goals)
+    {
+        $attributes = request()->validate([
+            'points_goal' => ['required', 'numeric', 'min:0', 'max:10000'],
+            'service_hours_goal' => ['required', 'numeric', 'min:0', 'max:999'],
+            'service_money_goal' => ['required', 'numeric', 'min:0', 'max:999'],
+            'study_goal' => ['required', 'numeric', 'min:0', 'max:999'],
+        ]);
+
+        $goals->update($attributes);
+
+        return redirect('/goals/');
     }
 }
