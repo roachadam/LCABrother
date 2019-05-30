@@ -18,14 +18,13 @@ class OrganizationRolesController extends Controller
     public function store(Request $request, Organization $organization)
     {
 
+        //dd($request->all());
         $attributes = request()->validate([
             'name'=> ['required'],
         ]);
 
         $role = $organization->addrole($attributes);
 
-        //Not getting toggle data from the add role modal
-        //dd($request);
         unset($attributes['name']);
         $role->setPermissions($attributes);
 
