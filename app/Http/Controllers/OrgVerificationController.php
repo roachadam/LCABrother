@@ -5,14 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Mail;
+use App\Mail\OrgVerified;
 use App\User;
+use App\Mail\OrgDenied;
 
 class OrgVerificationController extends Controller
 {
 
     public function __construct(){
         $this->middleware('auth');
-        $this->middleware('ManageMembers');
+        $this->middleware('orgverified', ['only' =>'show']);
+        //$this->middleware('ManageMembers', ['only' =>'show']);
+
     }
 
     // hits from rout /orgpending
@@ -31,6 +36,16 @@ class OrgVerificationController extends Controller
     public function update(Request $request, User $user)
     {
         $approved = request()->has('organization_verified');
+        if($approved){
+            Mail::to($user->email)->send(
+                new OrgVerified($user)
+            );
+        }
+        else{
+            Mail::to($user->email)->send(
+                new OrgDenied($user)
+            );
+        }
         $user->setVerification($approved);
 
         return redirect('/dash');

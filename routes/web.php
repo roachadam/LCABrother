@@ -49,6 +49,16 @@ Route::get('/goals/create' , 'GoalsController@create');
 Route::post('/goals/store', 'GoalsController@store');
 Route::post('/goals/{goals}/update', 'GoalsController@update');
 Route::get('/goals/edit', 'GoalsController@edit');
+
+
+Route::get('/massInvite', 'MassInvite@index');
+Route::post('/massInvite/send','MassInvite@inviteAll');
+Route::get('/organizations/{organization}/join', 'InvitedRegisterController@showRegistrationForm');
+Route::post('/organization/{organization}/register', 'InvitedRegisterController@register');
+
+
+
+
 // Route::group(['middleware' => ['ManageMembers']], function () {
 
 // });

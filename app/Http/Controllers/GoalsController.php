@@ -37,7 +37,7 @@ class GoalsController extends Controller
         $org->setGoals($attributes);
 
         //redirect
-        return redirect('/role');
+        return redirect('/massInvite/');
 
     }
     public function edit(){

@@ -7,6 +7,9 @@ use CheckHasRole;
 use App\User;
 use App\Organization;
 use Illuminate\Http\Request;
+use App\Mail\MemberJoined;
+use Mail;
+use DB;
 
 class UserController extends Controller
 {
@@ -113,10 +116,15 @@ class UserController extends Controller
 
         abort_unless(Auth::id() == $user->id,403);
 
-        $org = $request->organization;
-        $user->join($org);
+        $orgID = $request->organization;
+        $user->join($orgID);
 
         $user->setBasicUser();
+        $org =  Organization::find($orgID);
+
+        Mail::to($org->owner->email)->send(
+            new MemberJoined($user, $org)
+        );
 
         return redirect('/dash');
     }
