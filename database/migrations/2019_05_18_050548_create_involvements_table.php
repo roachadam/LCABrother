@@ -17,6 +17,7 @@ class CreateInvolvementsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->string('name');
+            $table->Integer('points')->nullable();
             $table->timestamps();
         });
         Schema::table('involvements', function($table) {

@@ -16,6 +16,8 @@ class InvolvementController extends Controller
 
     public function index()
     {
+        $involvements = auth()->user()->organization->involvement;
+        return view('involvement.index', compact('involvements'));
     }
 
     /**
@@ -25,7 +27,7 @@ class InvolvementController extends Controller
      */
     public function create()
     {
-        //
+        return view('involvement.create');
     }
 
     /**
@@ -36,7 +38,18 @@ class InvolvementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         //validate
+         $attributes = request()->validate([
+            'name' => 'required',
+            'points' => ['required', 'numeric', 'min:0', 'max:999'],
+        ]);
+
+       //persist
+       $org = auth()->user()->organization;
+       $org->addInvolvementEvent($attributes);
+
+       //redirect
+       return redirect('/involvement');
     }
 
     /**
@@ -58,7 +71,7 @@ class InvolvementController extends Controller
      */
     public function edit(Involvement $involvement)
     {
-        //
+        return view('involvement.edit', compact('involvement'));
     }
 
     /**

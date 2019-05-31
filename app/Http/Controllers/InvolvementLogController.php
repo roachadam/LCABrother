@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\InvolvementLog;
 use Illuminate\Http\Request;
 use DB;
-
+use App\Involvement;
+use App\User;
 
 class InvolvementLogController extends Controller
 {
@@ -19,15 +20,10 @@ class InvolvementLogController extends Controller
     {
         //Need to really think about a way to sum each of the same brothers stuff without just a
         //big nested loop
-        $org = auth()->user()->organization;
-        $involvement = $org->involvement;
-        $logs = DB::table('users')
-                    ->join('involvement_logs', 'users.id','=','involvement_logs.user_id')
-                    ->join('involvements', 'involvements.id', '=', 'involvement_logs.involvement_id')
-                    ->select(DB::raw('users.id , users.name , involvements.name as event_name , SUM(involvement_logs.points) as points'))
-                    ->groupBy('users.id', 'users.name', 'event_name')
-                    ->get();
-        return view('involvementLogs.index', compact('logs'));
+        //Need to left join and sum or something, not returning the brothers with 0 points
+        $users = auth()->user()->organization->users;
+
+        return view('involvementLogs.index', compact('users'));
     }
 
     /**
@@ -37,7 +33,7 @@ class InvolvementLogController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -48,7 +44,22 @@ class InvolvementLogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+        $attributes = request()->validate([
+            'involvement_id' => 'required',
+            'usersInvolved' => ['required' , 'array'],
+            'date_of_event' => 'required'
+        ]);
+        $involvement = Involvement::find($attributes['involvement_id']);
+        //$date = '2019-05-31 14:05:39';
+
+        foreach($attributes['usersInvolved'] as $user_id){
+            $user = User::find($user_id);
+            $user->addInvolvementLog($involvement, $attributes['date_of_event']);
+        }
+
+        return back();
+
     }
 
     /**

@@ -178,26 +178,26 @@
                     </li>
                 @endif
                 @if (auth()->user()->canManageInvolvment())
-                    <li class="blue">
-                        <a href="/user">
+                    <li class="red">
+                        <a href="/involvement">
                         <span>
-                            <i class="font-icon font-icon-users"></i>
+                            <i class="glyphicon glyphicon-signal"></i>
                             <span class="lbl">Submit Involvement Data</span>
                         </span>
                         </a>
                     </li>
                 @endif
                 @if (auth()->user()->canManageMembers())
-                    <li class="blue">
+                    <li class="pink">
                         <a href="/role">
                         <span>
-                            <i class="font-icon font-icon-users"></i>
+                            <i class="glyphicon glyphicon-th-list"></i>
                             <span class="lbl">Roles</span>
                         </span>
                         </a>
                     </li>
                 @endif
-                @if (auth()->user()->canManageInvolvment())
+                @if (auth()->user()->canManageMembers())
                     <li class="blue">
                         <a href="/goals">
                         <span>

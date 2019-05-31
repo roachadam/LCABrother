@@ -19,7 +19,6 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    {{-- <th>Event Name</th> --}}
                     <th>Points</th>
                     @if (auth()->user()->canManageInvolvment())
                     <th>View BreakDown</th>
@@ -30,20 +29,16 @@
                 </thead>
                 <tbody>
 
-                    @if ($logs->count())
-
-                        @foreach ($logs as $log)
+                        @foreach ($users as $user)
                             <tr>
-                                <td>{{ $log->name }}</td>
+                                <td>{{ $user->name }}</td>
                                 {{-- <td>{{ $log->event_name  }}</td> --}}
-                                <td> {{ $log->points }} </td>
+                                <td> {{ $user->getInvolvementPoints() }} </td>
                                 @if (auth()->user()->canManageInvolvment())
                                     <td><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editServiceEvent">View</button></td>
                                 @endif
                             </tr>
                         @endforeach
-
-                    @endif
 
                 </tbody>
             </table>
