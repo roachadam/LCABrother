@@ -106,7 +106,7 @@ class User extends Authenticatable
         $InvolvementLogs = $this->InvolvementLogs;
         $points =0;
         foreach($InvolvementLogs as $log){
-            $points+= $log->points;
+            $points+= $log->involvement->points;
         }
         return $points;
     }
