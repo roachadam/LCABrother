@@ -48,13 +48,14 @@ class InvolvementLogController extends Controller
         $attributes = request()->validate([
             'involvement_id' => 'required',
             'usersInvolved' => ['required' , 'array'],
+            'date_of_event' => 'required'
         ]);
         $involvement = Involvement::find($attributes['involvement_id']);
-        $date = '2019-05-31 14:05:39';
+        //$date = '2019-05-31 14:05:39';
 
         foreach($attributes['usersInvolved'] as $user_id){
             $user = User::find($user_id);
-            $user->addInvolvementLog($involvement, $date);
+            $user->addInvolvementLog($involvement, $attributes['date_of_event']);
         }
 
         return back();
