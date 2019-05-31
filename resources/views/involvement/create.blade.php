@@ -9,8 +9,9 @@
 
 
     <div class="col-md-10">
+        @include('partials.errors')
+
         <div class="card">
-            @include('partials.errors')
             <div class="card-header">{{ __('Create New Involvement') }}</div>
             <div class="card-body">
                 <form method="POST" action="/involvement">
