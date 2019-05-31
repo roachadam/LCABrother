@@ -107,6 +107,11 @@ class User extends Authenticatable
         return $this->hasMany(InvolvementLog::Class);
     }
 
+    public function handleInvite(Organization $organization){
+        $this->join($organization);
+        $this->setVerification(true);
+        $this->setBasicUser();
+    }
     //Permissions getters
     public function canManageMembers(){
         $Can = $this->role->permission->manage_member_details;

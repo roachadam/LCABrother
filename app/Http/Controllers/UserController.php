@@ -125,6 +125,7 @@ class UserController extends Controller
         Mail::to($org->owner->email)->send(
             new MemberJoined($user, $org)
         );
+
         return redirect('/dash');
     }
 
