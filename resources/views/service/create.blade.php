@@ -5,6 +5,7 @@
 
 <form method="POST" action="/serviceEvent">
     @csrf
+    @include('partials.errors')
     <div class="form-group card">
 
         <label for="name" class="col-form-label offset-md-1 text-left">{{ __('Name of Event') }}</label>
@@ -27,7 +28,7 @@
 
                 <label for="name" class="offcol-form-label offset-md-2 text-left">{{ __('New Event Name') }}</label>
                 <div class="col-md-6">
-                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}"  autofocus>
+                        <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}"  autofocus>
                 </div>
             </div>
 
@@ -47,14 +48,14 @@
             <div class="form-group row">
                     <label for="money_donated" class="col-form-label offset-md-1 text-left">{{ __('Money Donated') }}</label>
                     <div class="col-md-6">
-                            <input id="money_donated" type="number" class="form-control @error('money_donated') is-invalid @enderror"  name="money_donated" value="{{ old('money_donated') }}"  autofocus>
+                            <input id="money_donated" type="number" class="form-control"  name="money_donated" value="{{ old('money_donated') }}"  autofocus>
                     </div>
             </div>
 
             <div class="form-group row">
                     <label for="hours_served" class="col-form-label offset-md-1 text-left">{{ __('Hours Served') }}</label>
                     <div class="col-md-6">
-                            <input id="hours_served" type="number" class="form-control @error('hours_served') is-invalid @enderror" name="hours_served" value="{{ old('hours_served') }}"  autofocus>
+                            <input id="hours_served" type="number" class="form-control" name="hours_served" value="{{ old('hours_served') }}"  autofocus>
                     </div>
             </div>
 

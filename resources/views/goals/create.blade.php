@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+    @include('partials.errors')
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -17,13 +18,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Service Hours Goal') }}</label>
 
                             <div class="col-md-4">
-                                <input id="service_hours_goal" type="text" class="form-control @error('service_hours_goal') is-invalid @enderror" name="service_hours_goal" value="{{ old('service_hours_goal') }}" required autocomplete="service_hours_goal" autofocus>
-
-                                @error('service_hours_goal')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="service_hours_goal" type="text" class="form-control " name="service_hours_goal" value="{{ old('service_hours_goal') }}" required autocomplete="service_hours_goal" autofocus>
                             </div>
 
                         </div>
@@ -32,13 +27,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Money Donated Goal') }}</label>
 
                             <div class="col-md-4">
-                                <input id="service_money_goal" type="text" class="form-control @error('service_money_goal') is-invalid @enderror" name="service_money_goal" value="{{ old('service_money_goal') }}" required autocomplete="service_money_goal" autofocus>
-
-                                @error('service_money_goal')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="service_money_goal" type="text" class="form-control" name="service_money_goal" value="{{ old('service_money_goal') }}" required autocomplete="service_money_goal" autofocus>
                             </div>
                         </div>
 
@@ -46,13 +35,7 @@
                             <label for="study_goal" class="col-md-4 col-form-label text-md-right">{{ __('Study Hours Goal') }}</label>
 
                             <div class="col-md-4">
-                                <input id="study_goal" type="text" class="form-control @error('study_goal') is-invalid @enderror" name="study_goal" value="{{ old('study_goal') }}" required autocomplete="study_goal" autofocus>
-
-                                @error('study_goal')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="study_goal" type="text" class="form-control " name="study_goal" value="{{ old('study_goal') }}" required autocomplete="study_goal" autofocus>
                             </div>
                         </div>
 
@@ -60,13 +43,7 @@
                             <label for="points_goal" class="col-md-4 col-form-label text-md-right">{{ __('Involvement Points Goal') }}</label>
 
                             <div class="col-md-4">
-                                <input id="points_goal" type="text" class="form-control @error('points_goal') is-invalid @enderror" name="points_goal" value="{{ old('points_goal') }}" required autocomplete="points_goal" autofocus>
-
-                                @error('points_goal')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="points_goal" type="text" class="form-control " name="points_goal" value="{{ old('points_goal') }}" required autocomplete="points_goal" autofocus>
                             </div>
                         </div>
 
