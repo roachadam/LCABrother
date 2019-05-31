@@ -68,6 +68,9 @@ class Organization extends Model
     {
         return $this->hasMany(ServiceEvent::Class);
     }
+    public function addInvolvementEvent($attributes){
+        return $this->involvement()->create($attributes);
+    }
     public function involvement()
     {
         return $this->hasMany(Involvement::Class);

@@ -18,7 +18,7 @@ class CreateInvolvementLogsTable extends Migration
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->unsignedBigInteger('involvement_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->Integer('points')->nullable();
+            $table->dateTime('date_of_event')->nullable();
             $table->timestamps();
         });
 

@@ -37,14 +37,14 @@
         </div>
 
         <div class="col-md-5">
-                <div class="card">
-                    <div class="card-header">{{ __('Your Involvement Info') }}</div>
+            <div class="card">
+                <div class="card-header">{{ __('Your Involvement Info') }}</div>
 
-                    <div class="card-body">
-                        <p>Points Logged: {{ $user->getInvolvementPoints() }} </p>
-                    </div>
+                <div class="card-body">
+                    <p>Points Logged: {{ $user->getInvolvementPoints() }} </p>
                 </div>
             </div>
+        </div>
     </div>
 </div>
 

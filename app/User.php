@@ -94,6 +94,13 @@ class User extends Authenticatable
     public function serviceHours(){
         return $this->hasMany(ServiceLog::Class);
     }
+    public function addInvolvementLog(Involvement $involvement, $date){
+        return $this->InvolvementLogs()->create([
+            'organization_id' => auth()->user()->organization->id,
+            'involvement_id' => $involvement->id,
+            'date_of_event' => $date,
+        ]);
+    }
 
     public function getInvolvementPoints(){
         $InvolvementLogs = $this->InvolvementLogs;
