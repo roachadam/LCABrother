@@ -197,7 +197,7 @@
                         </a>
                     </li>
                 @endif
-                @if (auth()->user() == auth()->user()->organization->owner)
+                @if (auth()->user()->canManageMembers())
                     <li class="blue">
                         <a href="/goals">
                         <span>
