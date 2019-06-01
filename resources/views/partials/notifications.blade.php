@@ -1,15 +1,7 @@
 
-<script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
-<link rel="stylesheet" href="http://demo.itsolutionstuff.com/plugin/bootstrap-3.min.css">
-<script type="text/javascript" src="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.js") }}"></script>
-<link rel="stylesheet" type="text/css" href="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/css/bootstrap-notify.css") }}">
-
 <div class='notifications top-right'></div>
 
-
 <script>
-
-
   @if(Session::has('success'))
 
      $('.top-right').notify({
