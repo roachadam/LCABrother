@@ -10,6 +10,16 @@ class Role extends Model
 {
     protected $guarded =[];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($Role)
+        {
+            session()->put('success', 'Added role!');
+            return back();
+        });
+    }
     public function permission(){
         return $this->belongsTo(Permission::class);
     }

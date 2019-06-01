@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="{{ asset('css/separate/vendor/flatpickr.min.css') }}" rel="stylesheet">
 </head>
 <body class="with-side-menu control-panel control-panel-compact">
-
+    @include('partials.notifications')
 	<header class="site-header">
 	    <div class="container-fluid">
 	        <a href="#" class="site-logo">

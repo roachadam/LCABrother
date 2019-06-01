@@ -23,5 +23,8 @@ class OrgDenied extends Mailable
      *
      * @return $this
      */
-     
+    public function build()
+    {
+        return $this->markdown('emails.Organization-Declined');
+    }
 }

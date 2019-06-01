@@ -9,6 +9,9 @@ use Mail;
 use App\Mail\OrgVerified;
 use App\User;
 use App\Mail\OrgDenied;
+use App\Notifications\AdminVerifiedUser;
+use App\Events\UserValidated;
+use App\Events\MemberDeclined;
 
 class OrgVerificationController extends Controller
 {
@@ -37,11 +40,14 @@ class OrgVerificationController extends Controller
     {
         $approved = request()->has('organization_verified');
         if($approved){
+            event(new UserValidated($user));
+
             Mail::to($user->email)->send(
                 new OrgVerified($user)
             );
         }
         else{
+            event(new MemberDeclined($user));
             Mail::to($user->email)->send(
                 new OrgDenied($user)
             );
