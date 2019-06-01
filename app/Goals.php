@@ -17,6 +17,11 @@ class Goals extends Model
             session()->put('success', 'Set organization goals.');
             return back();
         });
+        static::updated(function ($Goals)
+        {
+            session()->put('success', 'Updated organization goals.');
+            return back();
+        });
     }
     public function organization()
     {

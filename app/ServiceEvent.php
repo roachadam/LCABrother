@@ -18,6 +18,12 @@ class ServiceEvent extends Model
             session()->put('success', 'Logged Service Event!');
             return back();
         });
+
+        static::updated(function ($ServiceEvent)
+        {
+            session()->put('success', 'Updated service event details!');
+            return back();
+        });
     }
 
     public function setLog($attributes){

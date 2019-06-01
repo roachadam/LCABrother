@@ -39,6 +39,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($User)
+        {
+            session()->put('success', 'Updated your details!');
+            return back();
+        });
+    }
+
     public function setBasicUser(){
         $role = $this->organization->roles[1];
 

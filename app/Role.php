@@ -19,6 +19,11 @@ class Role extends Model
             session()->put('success', 'Added role!');
             return back();
         });
+        static::updated(function ($Role)
+        {
+            session()->put('success', 'Updated role.');
+            return back();
+        });
     }
     public function permission(){
         return $this->belongsTo(Permission::class);
