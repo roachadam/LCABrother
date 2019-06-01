@@ -9,6 +9,23 @@ class ServiceEvent extends Model
 {
     protected $guarded = [];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($ServiceEvent)
+        {
+            session()->put('success', 'Logged Service Event!');
+            return back();
+        });
+
+        static::updated(function ($ServiceEvent)
+        {
+            session()->put('success', 'Updated service event details!');
+            return back();
+        });
+    }
+
     public function setLog($attributes){
         return $this->ServiceLogs()->create($attributes);
     }
