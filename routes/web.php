@@ -26,9 +26,10 @@ Route::get('/users/profile', 'UserController@profile');
 Route::get('/users/edit', 'UserController@edit');
 Route::post('/user/{user}/join', 'UserController@joinOrg');
 Route::post('/users/update', 'UserController@update');
+
 Route::resource('role','RoleController');
 Route::resource('serviceEvent', 'ServiceEventController');
-
+Route::resource('event', 'EventController');
 Route::resource('involvement', 'InvolvementController');
 Route::resource('involvementLog', 'InvolvementLogController');
 
