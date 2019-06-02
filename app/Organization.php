@@ -7,6 +7,7 @@ use App\User;
 use App\Goals;
 use App\ServiceEvent;
 use App\Involvement;
+use App\Event;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -74,5 +75,13 @@ class Organization extends Model
     public function involvement()
     {
         return $this->hasMany(Involvement::Class);
+    }
+
+    public function addEvent($attributes){
+        return $this->event()->create($attributes);
+    }
+    public function event()
+    {
+        return $this->hasMany(Event::Class);
     }
 }
