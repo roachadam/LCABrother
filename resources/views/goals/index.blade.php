@@ -21,9 +21,10 @@
         <div class="row">
             <a href="/goals/edit" class="btn btn-inline col-md-2 offset-4 ">Edit</a>
         </div>
+        <div class="row">
+        <a href="/goals/{{$goals->id}}/notify" class="btn btn-inline col-md-2 offset-4 ">Send Notifications</a>
+        </div>
     </div>
-
-
 </div>
 
 
