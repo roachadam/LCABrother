@@ -61,25 +61,7 @@ Route::get('/event/{event}/invites', 'InviteController@index');
 Route::get('/event/{event}/invite', 'InviteController@create');
 Route::post('/event/{event}/invite', 'InviteController@store');
 Route::delete('/invite/{invite}', 'InviteController@destroy');
-// Route::group(['middleware' => ['ManageMembers']], function () {
 
-// });
-
-// Route::group(['middleware' => ['InvolvementView']], function () {
-//     //
-// });
-// Route::group(['middleware' => ['ManageInvolvement']], function () {
-//     //
-// });
-// Route::group(['middleware' => ['ManageService']], function () {
-//     //
-// });
-// Route::group(['middleware' => ['MemberView']], function () {
-//     Route::get('/users/contact', 'UserController@contact');
-// });
-// Route::group(['middleware' => ['ServiceLogger']], function () {
-//     //
-// });
-// Route::group(['middleware' => ['ServiceView']], function () {
-//     //
-// });
+Route::get('/goals/{goals}/notify', 'NotifyController@index');
+Route::post('/goals/{goals}/notify/send', 'NotifyController@send');
+Route::post('/goals/{goals}/notify/sendAll', 'NotifyController@sendAll');

@@ -97,16 +97,24 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Organization::Class);
     }
-    public function getServiceHours(){
-        $serviceHours = $this->serviceHours;
-        $hours =0;
-        foreach($serviceHours as $hour){
-            $hours+= $hour->hours_served;
+    public function getMoneyDonated(){
+        $logs = $this->serviceLogs;
+        $cash =0;
+        foreach($logs as $log){
+            $cash+= $log->money_donated;
         }
 
+        return $cash;
+    }
+    public function getServiceHours(){
+        $logs = $this->serviceLogs;
+        $hours =0;
+        foreach($logs as $log){
+            $hours+= $log->hours_served;
+        }
         return $hours;
     }
-    public function serviceHours(){
+    public function serviceLogs(){
         return $this->hasMany(ServiceLog::Class);
     }
     public function addInvolvementLog(Involvement $involvement, $date){

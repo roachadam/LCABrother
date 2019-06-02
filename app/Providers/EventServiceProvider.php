@@ -12,6 +12,8 @@ use App\Events\MemberDeclined;
 use App\Listeners\MemberWasDeclined;
 use App\Listeners\DuplicatedGuestWasInvited;
 use App\Events\DuplicateGuestInvited;
+use App\Events\GoalsNotifSent;
+use App\Listeners\GoalsEmailWasSent;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -33,6 +35,9 @@ class EventServiceProvider extends ServiceProvider
         DuplicateGuestInvited::class => [
             DuplicatedGuestWasInvited::class
         ],
+        GoalsNotifSent::class => [
+            GoalsEmailWasSent::class
+        ]
     ];
 
     /**
