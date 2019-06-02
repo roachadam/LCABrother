@@ -5,6 +5,9 @@ namespace App;
 use App\Role;
 use App\ServiceLog;
 use App\InvolvementLog;
+use App\Event;
+use App\Invite;
+use DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -131,6 +134,30 @@ class User extends Authenticatable
         $this->setVerification(true);
         $this->setBasicUser();
     }
+
+    public function hasInvitesRemaining(Event $event){
+        if($this->getInvitesRemaining($event) > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public function getInvitesRemaining(Event $event){
+        $invitesPer = $event->num_invites;
+        $match = [
+            'user_id' => $this->id,
+            'event_id' => $event->id,
+        ];
+        $invitesSent = DB::table('invites')->where($match)->count();
+        return $invitesPer - $invitesSent;
+    }
+    public function invites()
+    {
+        return $this->hasMany(Invite::Class);
+    }
     //Permissions getters
     public function canManageMembers(){
         $Can = $this->role->permission->manage_member_details;
@@ -158,6 +185,10 @@ class User extends Authenticatable
     }
     public function canLogServiceEvent(){
         $Can = $this->role->permission->log_service_event;
+        return $Can;
+    }
+    public function canManageEvents(){
+        $Can = $this->role->permission->manage_events;
         return $Can;
     }
 }

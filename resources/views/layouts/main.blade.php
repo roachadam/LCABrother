@@ -46,7 +46,7 @@
 
     <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
      {{-- I broke the css, ADAM HELP *******************************************************************************************************************************************************--}}
-    <link rel="stylesheet" href="http://demo.itsolutionstuff.com/plugin/bootstrap-3.min.css">
+    {{-- <link rel="stylesheet" href="http://demo.itsolutionstuff.com/plugin/bootstrap-3.min.css"> --}}
     <script type="text/javascript" src="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.js") }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/css/bootstrap-notify.css") }}">
 </head>
@@ -165,7 +165,12 @@
                     <span class="lbl">View Contact Info</span>
                 </a>
             </li>
-
+            <li class="yellow">
+                    <a href="/event">
+                        <i class="glyphicon glyphicon-tasks "></i>
+                        <span class="lbl">Events</span>
+                    </a>
+                </li>
 	    </ul>
 
         {{-- TODO: Inline has permission check? --}}

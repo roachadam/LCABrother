@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Organziation;
 use App\Event;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        $events = auth()->user()->organization->event;
+        return view('events.index', compact('events'));
     }
 
     /**
@@ -24,7 +26,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        return view('events.create');
     }
 
     /**
@@ -44,7 +46,7 @@ class EventController extends Controller
         $org = auth()->user()->organization;
         $org->addEvent($attributes);
 
-        return redirect('/dash');
+        return redirect('/event');
     }
 
     /**
@@ -55,7 +57,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        return view('events.show',compact('event'));
     }
 
     /**
@@ -66,7 +68,7 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        //
+        return view('events.edit', compact('event'));
     }
 
     /**
@@ -78,7 +80,11 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        //
+        $attributes = request()->all();
+
+        $event->update($attributes);
+
+        return redirect('event');
     }
 
     /**

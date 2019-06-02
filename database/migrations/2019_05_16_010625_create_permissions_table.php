@@ -22,6 +22,7 @@ class CreatePermissionsTable extends Migration
             $table->unsignedTinyInteger('view_all_involvement')->default('0');
             $table->unsignedTinyInteger('manage_all_service')->default('0');
             $table->unsignedTinyInteger('manage_all_involvement')->default('0');
+            $table->unsignedTinyInteger('manage_events')->default('0');
             $table->timestamps();
         });
     }

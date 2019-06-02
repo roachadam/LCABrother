@@ -26,6 +26,15 @@ class EventInvitesTest extends TestCase
 
         $response->assertStatus(200);
     }
+    public function test_get_edit_view(){
+        $this->withoutExceptionHandling();
+        $this->loginAsAdmin();
+
+        $event = factory(Event::class)->create(['organization_id' => auth()->user()->organization->id]);
+        $response = $this->get('/event/'.$event->id);
+
+        $response->assertStatus(200);
+    }
 
     public function test_create_event()
     {
@@ -43,5 +52,33 @@ class EventInvitesTest extends TestCase
         ]);
 
         $response->assertStatus(302);
+    }
+
+    public function test_edit_event(){
+        $this->withoutExceptionHandling();
+        $this->loginAsAdmin();
+
+        $event = factory(Event::class)->create(['organization_id' => auth()->user()->organization->id]);
+        $newName = 'NewEventName';
+        $response = $this->patch('event/'. $event->id, [
+            'name' => $newName
+        ]);
+
+        $this->assertDatabaseHas('events',[
+            'organization_id' => auth()->user()->organization->id,
+            'name' => $newName,
+            'date_of_event' => $event->date_of_event,
+            'num_invites' => $event->num_invites,
+        ]);
+
+        $this->assertDatabaseMissing('events',[
+            'organization_id' => auth()->user()->organization->id,
+            'name' => $event->name,
+            'date_of_event' => $event->date_of_event,
+            'num_invites' => $event->num_invites,
+        ]);
+
+
+
     }
 }

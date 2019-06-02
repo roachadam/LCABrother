@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Event;
 use App\Invite;
 use Illuminate\Http\Request;
 
@@ -22,9 +23,9 @@ class InviteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Event $event)
     {
-        //
+        return view('invites.create', compact('event'));
     }
 
     /**
@@ -33,9 +34,19 @@ class InviteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Event $event)
     {
-        //
+        $attributes = request()->validate([
+            'guest_name' => 'required',
+        ]);
+        if(auth()->user()->hasInvitesRemaining($event)) //If you have invites remaining, store it
+        {
+            $attributes['user_id'] = auth()->id();
+            $event->addInvite($attributes);
+            auth()->user()->getInvitesRemaining($event);
+        }
+
+        return redirect('/event');
     }
 
     /**
