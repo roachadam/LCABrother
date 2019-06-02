@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Event;
 use App\Invite;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Events\DuplicateGuestInvited;
 
 class InviteController extends Controller
 {
@@ -13,9 +16,10 @@ class InviteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Event $event)
     {
-        //
+        $invites = auth()->user()->getInvites($event);
+        return view('invites.index', compact('event', 'invites'));
     }
 
     /**
@@ -39,6 +43,14 @@ class InviteController extends Controller
         $attributes = request()->validate([
             'guest_name' => 'required',
         ]);
+        $invites = $event->invites;
+        foreach($invites as $invite){
+            if(strtolower($attributes['guest_name']) === strtolower($invite->guest_name)){
+                event(new DuplicateGuestInvited($invite));
+                return redirect('/event');
+            }
+        }
+
         if(auth()->user()->hasInvitesRemaining($event)) //If you have invites remaining, store it
         {
             $attributes['user_id'] = auth()->id();
@@ -91,6 +103,13 @@ class InviteController extends Controller
      */
     public function destroy(Invite $invite)
     {
-        //
+        $event = $invite->event;
+        $invite->delete();
+        return redirect('event/'.$event->id);
+    }
+
+    public function all(Event $event){
+        $invites = $event->invites;
+        return view('invites.all', compact('event', 'invites'));
     }
 }

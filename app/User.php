@@ -154,6 +154,14 @@ class User extends Authenticatable
         $invitesSent = DB::table('invites')->where($match)->count();
         return $invitesPer - $invitesSent;
     }
+    public function getInvites(Event $event){
+        $match = [
+            'user_id' => $this->id,
+            'event_id' => $event->id,
+        ];
+        $invites = DB::table('invites')->where($match)->get();
+        return $invites;
+    }
     public function invites()
     {
         return $this->hasMany(Invite::Class);

@@ -57,9 +57,10 @@ Route::post('/massInvite/send','MassInvite@inviteAll');
 Route::get('/organizations/{organization}/join', 'InvitedRegisterController@showRegistrationForm');
 Route::post('/organization/{organization}/register', 'InvitedRegisterController@register');
 
+Route::get('/event/{event}/invites', 'InviteController@index');
 Route::get('/event/{event}/invite', 'InviteController@create');
 Route::post('/event/{event}/invite', 'InviteController@store');
-
+Route::delete('/invite/{invite}', 'InviteController@destroy');
 // Route::group(['middleware' => ['ManageMembers']], function () {
 
 // });

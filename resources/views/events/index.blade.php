@@ -23,8 +23,9 @@
                         <th>Invites per member</th>
                         <th>Your invites remaining</th>
                         <th>Submit Invitation</th>
+                        <th>My Invites</th>
                         @if (auth()->user()->canManageEvents())
-                            <th>Manage</th>
+                            <th>Details</th>
                         @endif
 
                     </tr>
@@ -38,11 +39,11 @@
                             <td> {{$event->num_invites}} </td>
                             <td> {{auth()->user()->getInvitesRemaining($event)}} </td>
                             <td><a href="/event/{{$event->id}}/invite" class="btn btn-inline {{ auth()->user()->hasInvitesRemaining($event) ? '' : 'disabled' }} ">Invite</a></td>
+                            <td><a href="/event/{{$event->id}}/invites" class="btn btn-inline {{ auth()->user()->getInvitesRemaining($event) === $event->num_invites ? 'disabled' : '' }} ">View</a></td>
                             @if (auth()->user()->canManageEvents())
 
-                                <td><a href="/event/{{$event->id}}/edit" class="btn btn-inline">Edit</a></td>
+                                <td><a href="/event/{{$event->id}}" class="btn btn-inline">Show</a></td>
                             @endif
-
 
                         </tr>
                         @endforeach

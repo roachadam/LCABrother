@@ -14,7 +14,13 @@ class Event extends Model
         return $this->belongsTo(Organization::Class);
     }
 
-    public function addInvite($attributes){
+    public function getGuestList()
+    {
+        return $this->invites->guest_name;
+    }
+    
+    public function addInvite($attributes)
+    {
         return $this->invites()->create($attributes);
     }
 

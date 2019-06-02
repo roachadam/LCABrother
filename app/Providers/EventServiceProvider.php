@@ -10,6 +10,8 @@ use App\Events\UserValidated;
 use App\Listeners\UserWasValidated;
 use App\Events\MemberDeclined;
 use App\Listeners\MemberWasDeclined;
+use App\Listeners\DuplicatedGuestWasInvited;
+use App\Events\DuplicateGuestInvited;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         MemberDeclined::class => [
             MemberWasDeclined::class,
+        ],
+        DuplicateGuestInvited::class => [
+            DuplicatedGuestWasInvited::class
         ],
     ];
 
