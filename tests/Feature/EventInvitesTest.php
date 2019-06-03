@@ -92,8 +92,6 @@ class EventInvitesTest extends TestCase
         $event->addInvite($inviteAttributes1);
         $inviteAttributes2 = factory(Invite::class)->raw(['user_id' => auth()->id()]);
         $event->addInvite($inviteAttributes2);
-        $inviteAttributes2 = factory(Invite::class)->raw(['user_id' => auth()->id()]);
-        $event->addInvite($inviteAttributes2);
         $inviteAttributes3 = factory(Invite::class)->raw(['user_id' => $user2->id]);
         $event->addInvite($inviteAttributes3);
 

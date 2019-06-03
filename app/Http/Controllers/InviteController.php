@@ -105,7 +105,7 @@ class InviteController extends Controller
     {
         $event = $invite->event;
         $invite->delete();
-        return redirect('event/'.$event->id);
+        return back();
     }
 
     public function all(Event $event){

@@ -34,7 +34,6 @@
                 <tr>
                     <th>Brother Name</th>
                     <th>Guest Name</th>
-                    <th>Edit</th>
                     <th>Delete</th>
                 </tr>
             </thead>
@@ -53,7 +52,6 @@
                                 </div>
                             </form>
                         </td>
-                        <td> todo </td>
                     </tr>
                     @endforeach
                 @endif
