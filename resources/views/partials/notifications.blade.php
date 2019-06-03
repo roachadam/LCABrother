@@ -11,7 +11,6 @@
       }).show();
 
      @php
-       //dump(Session::get('success'));
        Session::forget('success');
      @endphp
 

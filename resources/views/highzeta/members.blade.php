@@ -21,6 +21,7 @@
                     <th>Name</th>
                     <th>Role</th>
                     <th>Service Hours</th>
+                    <th>Money Donated</th>
                     <th>Points</th>
                     <th>Manage</th>
                 </tr>
@@ -28,17 +29,16 @@
                 <tbody>
 
                     @if ($members->count())
-
-                    @foreach ($members as $member)
-                    <tr>
-                        <td>{{ $member->name }}</td>
-                        <td>{{ $member->role->name  }}</td>
-                        <td> {{ $member->getserviceHours() }} </td>
-                        <td> {{ $member->getInvolvementPoints() }} </td>
-                        <td><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editServiceEvent">Manage</button></td>
-                    </tr>
-                    @endforeach
-
+                        @foreach ($members as $member)
+                        <tr>
+                            <td>{{ $member->name }}</td>
+                            <td>{{ $member->role->name  }}</td>
+                            <td> {{ $member->getserviceHours() }} </td>
+                            <td>$ {{ $member->getMoneyDonated() }} </td>
+                            <td> {{ $member->getInvolvementPoints() }} </td>
+                            <td><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editServiceEvent">Manage</button></td>
+                        </tr>
+                        @endforeach
                     @endif
 
                 </tbody>

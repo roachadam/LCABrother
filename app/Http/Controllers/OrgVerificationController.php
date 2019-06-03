@@ -60,6 +60,9 @@ class OrgVerificationController extends Controller
         return view('orgPending.rejected');
     }
     public function waiting(){
+        if(auth()->user()->isVerified()){
+            return redirect('/dash');
+        }
         return view('orgPending.waiting');
     }
 }

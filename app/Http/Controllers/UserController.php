@@ -103,7 +103,9 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        //
+        abort_if($user->id != auth()->id(),403);
+        $user->delete();
+        return redirect('/');
     }
 
     public function contact(){

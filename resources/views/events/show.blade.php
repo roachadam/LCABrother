@@ -11,6 +11,7 @@
                 <div class="card-body">
                     <p>Date of Event: {{ $event->date_of_event }}</p>
                     <p>Invites per member: {{ $event->num_invites }}</p>
+                    <p>Total invites logged: {{ $event->getNumInvites() }}</p>
                 </div>
             </div>
         </div>

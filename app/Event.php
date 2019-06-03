@@ -18,7 +18,11 @@ class Event extends Model
     {
         return $this->invites->guest_name;
     }
-    
+
+    public function getNumInvites(){
+        return $this->invites->count();
+    }
+
     public function addInvite($attributes)
     {
         return $this->invites()->create($attributes);
