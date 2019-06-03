@@ -1,34 +1,36 @@
 @extends('main.dash')
 
 @section('content')
-<h1>Service Events</h1>
+
 
 <form method="POST" action="/serviceEvent">
     @csrf
     @include('partials.errors')
     <div class="form-group card">
 
-        <label for="name" class="col-form-label offset-md-1 text-left">{{ __('Name of Event') }}</label>
-        @if ($serviceEvents->count())
-            <div class="form-group row">
-                <label for="name" class="col-form-label offset-md-2 text-left">{{ __('Existing Events') }}</label>
+        <div class="card-header">{{ __('Service Event Log Submission') }}</div>
+        <div class="card-body">
+            <label for="name" class="col-form-label offset-md-1 text-left">{{ __('Name of Event') }}</label>
+            @if ($serviceEvents->count())
+                <div class="form-group row">
+                    <label for="name" class="col-form-label offset-md-2 text-left">{{ __('Existing Events') }}</label>
 
-                <div class="col-md-6">
-                    <select class="form-control m-bot15 @error('service_event_id') is-invalid @enderror" name="service_event_id">
-                        <option value="" >Choose Existing Event</option>
-                    @foreach ($serviceEvents as $serviceEvent)
-                        <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
-                    @endforeach
-                    </select>
+                    <div class="col-md-6">
+                        <select class="form-control m-bot15" name="service_event_id" id="service_event_id">
+                            <option value="-1" >Choose Existing Event</option>
+                        @foreach ($serviceEvents as $serviceEvent)
+                            <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
+                        @endforeach
+                        </select>
+                    </div>
                 </div>
-            </div>
-        @endif
+            @endif
 
             <div class="form-group row">
 
                 <label for="name" class="offcol-form-label offset-md-2 text-left">{{ __('New Event Name') }}</label>
                 <div class="col-md-6">
-                        <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}"  autofocus>
+                    <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}"  autofocus>
                 </div>
             </div>
 
@@ -66,6 +68,7 @@
                         </button>
                     </div>
             </div>
+        </div>
     </div>
 
 </form>
@@ -76,6 +79,27 @@
         showDropdowns: true
     });
     </script>
+<script>
+    var dis1 = document.getElementById("service_event_id");
+    dis1.onchange = function () {
+        if (dis1.value != "-1") {
+            document.getElementById("name").disabled = true;
+        }
+        if (dis1.value === "-1") {
+            document.getElementById("name").disabled = false;
+        }
+    }
+</script>
+
+<script>
+    var dis1 = document.getElementById("name");
+    dis1.onchange = function () {
+        if (this.value != "" || this.value.length > 0) {
+            document.getElementById("service_event_id").disabled = true;
+        }
+    }
+</script>
+
 @endsection
 
 
