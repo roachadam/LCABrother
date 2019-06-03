@@ -21,6 +21,10 @@ class CreateEventsTable extends Migration
             $table->unsignedInteger('num_invites');
             $table->timestamps();
         });
+
+        Schema::table('events', function($table) {
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
+        });
     }
 
     /**

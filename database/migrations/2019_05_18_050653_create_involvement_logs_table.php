@@ -23,9 +23,9 @@ class CreateInvolvementLogsTable extends Migration
         });
 
         Schema::table('involvement_logs', function($table) {
-            $table->foreign('organization_id')->references('id')->on('organizations');
-            $table->foreign('involvement_id')->references('id')->on('involvements');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
+            $table->foreign('involvement_id')->references('id')->on('involvements')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
 
     }

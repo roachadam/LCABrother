@@ -21,7 +21,7 @@ class CreateInvolvementsTable extends Migration
             $table->timestamps();
         });
         Schema::table('involvements', function($table) {
-            $table->foreign('organization_id')->references('id')->on('organizations');
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
         });
 
     }

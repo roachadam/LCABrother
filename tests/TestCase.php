@@ -52,8 +52,8 @@ abstract class TestCase extends BaseTestCase
 
 
 
-    protected function getOrganization(){
-        $org = factory(Organization::class)->create();
+    protected function getOrganization(User $user){
+        $org = factory(Organization::class)->create(['owner_id' => $user->id]);
         return $org;
     }
 
@@ -62,7 +62,7 @@ abstract class TestCase extends BaseTestCase
     protected function createAdmin(array $attributes = []){
         //$adminRole = $this->getAdminRole();
         $user = factory(User::class)->create();
-        $org = $this->getOrganization();
+        $org = $this->getOrganization($user);
         $org->createAdmin();
         $user->join($org);
 
@@ -72,7 +72,7 @@ abstract class TestCase extends BaseTestCase
     protected function createBasic(array $attributes = []){
         //$adminRole = $this->getAdminRole();
         $user = factory(User::class)->create();
-        $org = $this->getOrganization();
+        $org = $this->getOrganization($user);
         $org->createBasicUser();
         $user->join($org);
 
@@ -82,7 +82,7 @@ abstract class TestCase extends BaseTestCase
     protected function createMemManager(array $attributes = []){
         $role = $this->getMemberManagerRole();
         $user = factory(User::class)->create();
-        $org = $this->getOrganization();
+        $org = $this->getOrganization($user);
         $org->createBasicUser();
         $user->join($org);
 
@@ -92,7 +92,7 @@ abstract class TestCase extends BaseTestCase
     protected function createInvolvementManager(array $attributes = []){
         $role = $this->getInvolvementManagerRole();
         $user = factory(User::class)->create();
-        $org = $this->getOrganization();
+        $org = $this->getOrganization($user);
         $org->createBasicUser();
         $user->join($org);
 
@@ -102,7 +102,7 @@ abstract class TestCase extends BaseTestCase
     protected function createServiceManager(array $attributes = []){
         $role = $this->getServiceManagerRole();
         $user = factory(User::class)->create();
-        $org = $this->getOrganization();
+        $org = $this->getOrganization($user);
         $org->createBasicUser();
         $user->join($org);
 
@@ -112,7 +112,7 @@ abstract class TestCase extends BaseTestCase
     protected function createMemberViewer(array $attributes = []){
         $role = $this->getViewMemberRole();
         $user = factory(User::class)->create();
-        $org = $this->getOrganization();
+        $org = $this->getOrganization($user);
         $org->createBasicUser();
         $user->join($org);
 
@@ -122,7 +122,7 @@ abstract class TestCase extends BaseTestCase
     protected function createServiceViewer(array $attributes = []){
         $role = $this->getViewServiceRole();
         $user = factory(User::class)->create();
-        $org = $this->getOrganization();
+        $org = $this->getOrganization($user);
         $org->createBasicUser();
         $user->join($org);
 
@@ -132,7 +132,7 @@ abstract class TestCase extends BaseTestCase
     protected function createInvolvementViewer(array $attributes = []){
         $role = $this->getViewInvolvementRole();
         $user = factory(User::class)->create();
-        $org = $this->getOrganization();
+        $org = $this->getOrganization($user);
         $org->createBasicUser();
         $user->join($org);
 
@@ -142,7 +142,7 @@ abstract class TestCase extends BaseTestCase
     protected function createServiceLogger(array $attributes = []){
         $role = $this->getLogServiceRole();
         $user = factory(User::class)->create();
-        $org = $this->getOrganization();
+        $org = $this->getOrganization($user);
         $org->createBasicUser();
         $user->join($org);
 

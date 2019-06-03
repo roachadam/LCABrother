@@ -20,6 +20,11 @@ class CreateInvitesTable extends Migration
             $table->string('guest_name');
             $table->timestamps();
         });
+
+        Schema::table('invites', function($table) {
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
     }
 
     /**

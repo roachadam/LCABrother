@@ -22,7 +22,7 @@ class CreateServiceEventsTable extends Migration
         });
 
         Schema::table('service_events', function($table) {
-            $table->foreign('organization_id')->references('id')->on('organizations');
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
         });
     }
 

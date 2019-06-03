@@ -23,7 +23,7 @@ class CreateGoalsTable extends Migration
             $table->timestamps();
         });
         Schema::table('goals', function($table) {
-            $table->foreign('organization_id')->references('id')->on('organizations');
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
         });
 
     }

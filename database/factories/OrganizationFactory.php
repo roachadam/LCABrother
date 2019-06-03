@@ -8,7 +8,11 @@ use Faker\Generator as Faker;
 
 $factory->define(Organization::class, function (Faker $faker) {
     return [
-        'name'=> $faker->company //'Bogan-Treutel' closer to an organization name
+        'name'=> $faker->company,
+        'owner_id' => function()
+        {
+            return factory(App\User::class)->create()->id;
+        }
     ];
 });
 $factory->afterCreating(Organization::class, function ($Organization, $faker) {

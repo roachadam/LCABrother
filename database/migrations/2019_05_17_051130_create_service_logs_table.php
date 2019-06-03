@@ -24,9 +24,9 @@ class CreateServiceLogsTable extends Migration
         });
 
         Schema::table('service_logs', function($table) {
-            $table->foreign('organization_id')->references('id')->on('organizations');
-            $table->foreign('service_event_id')->references('id')->on('service_events');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');;
+            $table->foreign('service_event_id')->references('id')->on('service_events')->onDelete('cascade');;
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
      }
 

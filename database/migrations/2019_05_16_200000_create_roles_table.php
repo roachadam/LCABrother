@@ -22,7 +22,7 @@ class CreateRolesTable extends Migration
         });
 
         Schema::table('roles', function($table) {
-            $table->foreign('organization_id')->references('id')->on('organizations');
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
             $table->foreign('permission_id')->references('id')->on('permissions');
          });
 
