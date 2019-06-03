@@ -32,30 +32,35 @@ class ServiceEventController extends Controller
 
     public function store(Request $request)
     {
-        $attributes = $request->all();
-        $attributes['organization_id'] = auth()->user()->organization_id;
-        $attributes['user_id'] = auth()->id();
+        $attributes = $this->validateServiceEvent();
 
-        $logAttributes = [
-            "money_donated" => $attributes['money_donated'],
-            "hours_served" => $attributes['money_donated'],
-            "organization_id" => auth()->user()->organization_id,
-            "user_id" => auth()->id(),
-        ];
-        $eventAtrributes = [
-            'organization_id'=> auth()->user()->organization_id,
-            'name' => $attributes['name'],
-            'date_of_event' => $attributes['date_of_event']
-        ];
+
 
         //persist
         if(isset($attributes['service_event_id'])){
             $event = ServiceEvent::find($attributes['service_event_id']);
-            $event->setLog($logAttributes);
+            $attributes['organization_id'] = auth()->user()->organization_id;
+            $attributes['user_id'] = auth()->id();
+            unset($attributes['date_of_event']);
+            if(isset($attributes['name'])){
+                unset($attributes['name']);
+            }
+            $event->setLog($attributes);
         }
         else{
+            $eventAtrributes = [
+                'organization_id'=> auth()->user()->organization_id,
+                'name' => $attributes['name'],
+                'date_of_event' => $attributes['date_of_event']
+            ];
+
             $event = ServiceEvent::Create($eventAtrributes);
-            $event->setLog($logAttributes);
+
+            $attributes['organization_id'] = auth()->user()->organization_id;
+            $attributes['user_id'] = auth()->id();
+            unset($attributes['date_of_event']);
+            unset($attributes['name']);
+            $event->setLog($attributes);
         }
 
         //redirect
@@ -89,11 +94,11 @@ class ServiceEventController extends Controller
     {
         //todo: fix later, https://stackoverflow.com/questions/41805597/laravel-validation-rules-if-field-empty-another-field-required
         return request()->validate([
-            'service_event_id' => 'numeric',
-            'name' => ['min:3', 'max:255', 'unique:service_events,name'],
-            'money_donated' => ['numeric'],
-            'hours_served' => ['numeric'],
-            'date_of_event',
+            'service_event_id' => ['required_without:name','numeric'],
+            'name' => 'required_without:service_event_id',
+            'money_donated' =>  'required_without:hours_served',
+            'hours_served' =>  'required_without:money_donated',
+            'date_of_event' => 'required'
         ]);
     }
 }
