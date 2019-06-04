@@ -9,6 +9,7 @@ class CreateChatterCategoriesTable extends Migration
     {
         Schema::create('chatter_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('organization_id')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->integer('order')->default(1);
             $table->string('name');

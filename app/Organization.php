@@ -9,6 +9,7 @@ use App\ServiceEvent;
 use App\Involvement;
 use App\Event;
 use DevDojo\Chatter\Models\Discussion;
+use DevDojo\Chatter\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -19,6 +20,10 @@ class Organization extends Model
     public function discussion()
     {
         return $this->hasMany(Discussion::class);
+    }
+    public function category()
+    {
+        return $this->hasMany(Category::class);
     }
 
     public function addRole($attributes)

@@ -26,6 +26,11 @@ class CreateForeignKeys extends Migration
                         ->onDelete('cascade')
                         ->onUpdate('cascade');
         });
+        Schema::table('chatter_categories', function (Blueprint $table) {
+            $table->foreign('organization_id')->references('id')->on('organizations')
+                        ->onDelete('cascade')
+                        ->onUpdate('cascade');
+        });
     }
 
     public function down()
@@ -33,10 +38,14 @@ class CreateForeignKeys extends Migration
         Schema::table('chatter_discussion', function (Blueprint $table) {
             $table->dropForeign('chatter_discussion_chatter_category_id_foreign');
             $table->dropForeign('chatter_discussion_user_id_foreign');
+            $table->dropForeign('chatter_discussion_organization_id_foreign');
         });
         Schema::table('chatter_post', function (Blueprint $table) {
             $table->dropForeign('chatter_post_chatter_discussion_id_foreign');
             $table->dropForeign('chatter_post_user_id_foreign');
+        });
+        Schema::table('chatter_categories', function (Blueprint $table) {
+            $table->dropForeign('chatter_categories_organization_id_foreign');
         });
     }
 }

@@ -135,5 +135,28 @@ class UserController extends Controller
         $user = auth()->user();
         return view('user.profile', compact('user'));
     }
+    public function create_avatar(){
+        $user = Auth::user();
+        return view('user.avatar',compact('user',$user));
+    }
+    public function update_avatar(Request $request){
+
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $user = Auth::user();
+
+        $avatarName = $user->id.'_avatar'.time().'.'.request()->avatar->getClientOriginalExtension();
+
+        $request->avatar->storeAs('avatars',$avatarName);
+
+        $user->avatar = $avatarName;
+        $user->save();
+
+        return back()
+            ->with('success','You have successfully upload image.');
+
+    }
 
 }

@@ -100,9 +100,10 @@
 	                    </div>
                         {{-- Account --}}
 	                    <div class="dropdown user-menu">
-	                        <button class="dropdown-toggle" id="dd-user-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                            <img src="/img/avatar-2-64.png" alt="">
-	                        </button>
+	                        <button class="dropdown-toggle text-left" id="dd-user-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                <img src="/storage/avatars/{{ auth()->user()->avatar }}" alt="">
+
+                            </button>
 	                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
 	                            <a class="dropdown-item" href="/users/profile"><span class="font-icon glyphicon glyphicon-user"></span>Profile</a>
                                 <div class="dropdown-divider"></div>

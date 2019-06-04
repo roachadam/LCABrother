@@ -90,7 +90,7 @@ class User extends Authenticatable
             return false;
         }
     }
-    
+
     public function getMoneyDonated(){
         $logs = $this->serviceLogs;
         $cash =0;
@@ -199,6 +199,10 @@ class User extends Authenticatable
     }
     public function canManageEvents(){
         $Can = $this->role->permission->manage_events;
+        return $Can;
+    }
+    public function canManageForum(){
+        $Can = $this->role->permission->manage_forum;
         return $Can;
     }
 }

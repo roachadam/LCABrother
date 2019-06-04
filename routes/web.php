@@ -65,3 +65,9 @@ Route::delete('/invite/{invite}', 'InviteController@destroy');
 Route::get('/goals/{goals}/notify', 'NotifyController@index');
 Route::post('/goals/{goals}/notify/send', 'NotifyController@send');
 Route::post('/goals/{goals}/notify/sendAll', 'NotifyController@sendAll');
+
+Route::get('/forum/create/categories', 'ForumController@create');
+Route::post('/forum/create/categories', 'ForumController@store');
+
+Route::get('/avatar/create', 'UserController@create_avatar');
+Route::post('/avatar/create', 'UserController@update_avatar');
