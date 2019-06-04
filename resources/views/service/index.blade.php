@@ -7,7 +7,7 @@
             <div class="tbl">
                 <div class="tbl-row">
                     <div class="tbl-cell">
-                        <h2>Members</h2>
+                        <h2>Service Events</h2>
                         {{-- <div class="subtitle">Welcome to Ultimate Dashboard</div> --}}
                     </div>
                 </div>

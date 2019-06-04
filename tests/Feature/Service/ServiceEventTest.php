@@ -48,10 +48,8 @@ class ServiceEventTest extends TestCase
 
         $this->post('/serviceEvent', [
             "service_event_id" => $event->id,
-            "name" => null,
             "date_of_event" => "2001-10-26 21:32:52",
             "money_donated" => "12",
-            "hours_served" => null
         ]);
 
         $this->assertDatabaseHas('service_logs', [
@@ -67,7 +65,7 @@ class ServiceEventTest extends TestCase
 
         $org = auth()->user()->organization;
         $event = $org->serviceEvents()->create(
-            // factory(ServiceEvent::class)->raw()
+             factory(ServiceEvent::class)->raw()
         );
 
         $this->get('/serviceEvent')
@@ -166,6 +164,7 @@ class ServiceEventTest extends TestCase
             "date_of_event" => "2001-10-26 21:32:52",
         ]);
     }
+
     /** @test **/
     public function create_without_hours_served()
     {
@@ -238,4 +237,4 @@ class ServiceEventTest extends TestCase
         ]);
     }
 
-}           
+}
