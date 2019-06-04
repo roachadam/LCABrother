@@ -1,7 +1,7 @@
 @component('mail::message')
 # Hello
 
-You are below the points threshhold for the {{$goalName }}.<br>
+You  are below the points threshhold for the {{$goalName }}.<br>
 You need <b>{{$target}}</b> but only have <b>{{$actual}}</b>.
 
 @component('mail::button', ['url' => '/dash'])

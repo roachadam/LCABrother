@@ -24,8 +24,8 @@ class RegistrationTest extends TestCase
             'name' => $user->name,
             'email' => $user->email,
             'phone' => $user->phone,
-            'password' => 'secret123',
-            'password_confirmation' => 'secret123'
+            'password' => 'secret123!',
+            'password_confirmation' => 'secret123!'
         ]);
         $response->assertStatus(302);
         $this->assertAuthenticated();

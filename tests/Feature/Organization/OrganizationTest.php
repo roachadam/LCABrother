@@ -23,8 +23,8 @@ class OrganizationTest extends TestCase
             'name' => $user->name,
             'email' => $user->email,
             'phone' => $user->phone,
-            'password' => 'secret123',
-            'password_confirmation' => 'secret123'
+            'password' => 'secret123!=-',
+            'password_confirmation' => 'secret123!=-'
         ]);
         return $response;
     }
@@ -35,8 +35,8 @@ class OrganizationTest extends TestCase
             'name' => $user->name,
             'email' => $user->email,
             'phone' => $user->phone,
-            'password' => 'secret123',
-            'password_confirmation' => 'secret123'
+            'password' => 'secret123!=-',
+            'password_confirmation' => 'secret123!=-'
         ]);
 
         $response->assertRedirect('/organization');
@@ -51,8 +51,8 @@ class OrganizationTest extends TestCase
             'name' => $user->name,
             'email' => $user->email,
             'phone' => $user->phone,
-            'password' => 'secret123',
-            'password_confirmation' => 'secret123'
+            'password' => 'secret123!=-',
+            'password_confirmation' => 'secret123!=-'
         ]);
         $dbUser =  DB::table('users')->where('email', $user->email)->first();
 
@@ -81,8 +81,8 @@ class OrganizationTest extends TestCase
             'name' => $user->name,
             'email' => $user->email,
             'phone' => $user->phone,
-            'password' => 'secret123',
-            'password_confirmation' => 'secret123'
+            'password' => 'secret123!=-',
+            'password_confirmation' => 'secret123!=-'
         ]);
         $dbUser =  DB::table('users')->where('email', $user->email)->first();
 
