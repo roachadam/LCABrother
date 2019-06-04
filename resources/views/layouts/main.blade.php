@@ -10,8 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
+    <script src="{{ asset('js/app.js') }}"></script>
 
 	<script src="{{ asset('js/lib/jquery/jquery-3.2.1.min.js') }}"></script>
 	<script src="{{ asset('js/lib/popper/popper.min.js') }}"></script>
@@ -26,7 +25,11 @@
 
     <script type="text/javascript" src="{{ asset('js/lib/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('js/lib/daterangepicker/daterangepicker.js') }}"></script>
-    <!-- Fonts -->
+    <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
+     {{-- I broke the css, ADAM HELP *******************************************************************************************************************************************************--}}
+    {{-- <link rel="stylesheet" href="http://demo.itsolutionstuff.com/plugin/bootstrap-3.min.css"> --}}
+    <script type="text/javascript" src="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.js") }}"></script>
+
 
     <!-- Styles -->
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
@@ -44,11 +47,9 @@
     <link rel="stylesheet" href="{{ asset('css/lib/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/separate/vendor/flatpickr.min.css') }}" rel="stylesheet">
 
-    <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
-     {{-- I broke the css, ADAM HELP *******************************************************************************************************************************************************--}}
-    {{-- <link rel="stylesheet" href="http://demo.itsolutionstuff.com/plugin/bootstrap-3.min.css"> --}}
-    <script type="text/javascript" src="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.js") }}"></script>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/css/bootstrap-notify.css") }}">
+    @yield('css')
 </head>
 <body class="with-side-menu control-panel control-panel-compact">
     @include('partials.notifications')
@@ -138,7 +139,7 @@
                 @yield('content')
 
 	    </div><!--.container-fluid-->
-	</div><!--.page-content-->
+    </div><!--.page-content-->
 
     @yield('js')
 </body>

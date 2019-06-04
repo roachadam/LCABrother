@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('organization_verified')->nullable();
             $table->unsignedInteger('role_id')->nullable();
             $table->string('name');
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
