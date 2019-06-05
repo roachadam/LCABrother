@@ -7,7 +7,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Add Event') }}</div>
+                <div class="card-header">{{ __('Edit Event') }}</div>
                 <div class="card-body">
                     <form method="POST" action="/event/{{$event->id}}">
                         @csrf
@@ -38,8 +38,9 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
+                                <a href="/event/{{ $event->id }}" class="btn btn-primary">Cancel</a>
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Add Event') }}
+                                    {{ __('Update') }}
                                 </button>
                             </div>
                         </div>

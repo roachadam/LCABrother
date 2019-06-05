@@ -44,14 +44,14 @@ class InviteController extends Controller
             'guest_name' => 'required',
         ]);
         $invites = $event->invites;
-        foreach($invites as $invite){
-            if(strtolower($attributes['guest_name']) === strtolower($invite->guest_name)){
+        foreach ($invites as $invite) {
+            if (strtolower($attributes['guest_name']) === strtolower($invite->guest_name)) {
                 event(new DuplicateGuestInvited($invite));
                 return redirect('/event');
             }
         }
 
-        if(auth()->user()->hasInvitesRemaining($event)) //If you have invites remaining, store it
+        if (auth()->user()->hasInvitesRemaining($event)) //If you have invites remaining, store it
         {
             $attributes['user_id'] = auth()->id();
             $event->addInvite($attributes);
@@ -108,7 +108,8 @@ class InviteController extends Controller
         return back();
     }
 
-    public function all(Event $event){
+    public function all(Event $event)
+    {
         $invites = $event->invites;
         return view('invites.all', compact('event', 'invites'));
     }
