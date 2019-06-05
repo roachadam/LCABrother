@@ -22,7 +22,7 @@
             <a href="/goals/edit" class="btn btn-inline col-md-2 offset-4 ">Edit</a>
         </div>
         <div class="row">
-        <a href="/goals/{{$goals->id}}/notify" class="btn btn-inline col-md-2 offset-4 ">Send Notifications</a>
+        <a href="/goals/{{$goals->id}}/notify" class="btn btn-inline col-md-2 offset-4" data-toggle="tooltip" data-placement="top" title="Sends a message to members who do not meet a specified threshold">Notify Memebers</a>
         </div>
     </div>
 </div>
