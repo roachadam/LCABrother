@@ -16,6 +16,7 @@ class CreateChatterDiscussionTable extends Migration
             $table->boolean('sticky')->default(false);
             $table->integer('views')->unsigned()->default('0');
             $table->boolean('answered')->default(0);
+            $table->timestamp('last_reply_at')->useCurrent();
             $table->timestamps();
         });
     }
