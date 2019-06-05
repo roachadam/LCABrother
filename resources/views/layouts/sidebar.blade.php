@@ -41,6 +41,12 @@
                     <span class="lbl">Events</span>
                 </a>
             </li>
+        <li class="yellow">
+            <a href="/forums">
+                <i class="glyphicon glyphicon-console"></i>
+                <span class="lbl">Forum</span>
+            </a>
+        </li>
     </ul>
 
     {{-- TODO: Inline has permission check? --}}

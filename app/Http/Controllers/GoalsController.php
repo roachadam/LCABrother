@@ -37,7 +37,7 @@ class GoalsController extends Controller
         $org->setGoals($attributes);
 
         //redirect
-        return redirect('/massInvite/');
+        return redirect('/forum/create/categories');
 
     }
     public function edit(){
