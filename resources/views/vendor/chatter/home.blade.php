@@ -19,8 +19,11 @@
 
 <div id="chatter" class="chatter_home">
 
-	<h2>Forum</h2>
-
+    <div id="chatter_header" style="background-color:#263237">
+        <div class="justify-content-center offset-1">
+            <h1 style="color:#ffffff">Forum</h1>
+        </div>
+	</div>
 	@if(config('chatter.errors'))
 		@if(Session::has('chatter_alert'))
 			<div class="chatter-alert alert alert-{{ Session::get('chatter_alert_type') }}">

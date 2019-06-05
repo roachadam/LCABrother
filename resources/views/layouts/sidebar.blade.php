@@ -51,9 +51,9 @@
 
     {{-- TODO: Inline has permission check? --}}
     <section>
-        <header class="side-menu-title">High Zeta</header>
         <ul class="side-menu-list">
             @if (auth()->user()->canManageMembers())
+                <header class="side-menu-title">High Zeta</header>
                 <li class="blue">
                     <a href="/user">
                     <span>

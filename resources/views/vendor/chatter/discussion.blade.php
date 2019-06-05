@@ -22,7 +22,7 @@
 
 <div id="chatter" class="discussion">
 
-	<div id="chatter_header" style="background-color:{{ $discussion->color }}">
+	<div id="chatter_header" style="background-color:{{ $discussion->color }}" {{$discussion->color}}>
 		<div class="container">
 			<a class="back_btn" href="/{{ Config::get('chatter.routes.home') }}"><i class="chatter-back"></i></a>
 			<h1>{{ $discussion->title }}</h1><span class="chatter_head_details"> @lang('chatter::messages.discussion.head_details')<a class="chatter_cat" href="/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.category') }}/{{ $discussion->category->slug }}" style="background-color:{{ $discussion->category->color }}">{{ $discussion->category->name }}</a></span>
