@@ -12,7 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home.home');
+});
+Route::get('/about', function () {
+    return view('home.about');
+});
+Route::get('/contact', function () {
+    return view('home.contact');
 });
 
 Auth::routes();
