@@ -44,7 +44,7 @@
             </div>
 
             <div class="form-group row">
-                <label for="threshhold" class="col-md-2 col-form-label text-md-right">{{ __('threshhold') }}</label>
+                <label for="threshhold" class="col-md-2 col-form-label text-md-right">{{ __('Threshhold') }}</label>
 
                 <div class="col-md-6">
                     <input id="threshhold" type="text" class="form-control" name="threshhold" value="{{ old('threshhold') }}" required autocomplete="threshhold" autofocus>
