@@ -8,11 +8,12 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('ManageEvents', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $events = auth()->user()->organization->event;
@@ -96,6 +97,8 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        dump('destroy method');
+        $event->delete();
+        return redirect('/event');
     }
 }

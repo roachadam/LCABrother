@@ -97,6 +97,7 @@ class Kernel extends HttpKernel
         'ServiceLogger' => \App\Http\Middleware\ServiceLogger::class,
         'ServiceView' => \App\Http\Middleware\ServiceView::class,
         'orgverified' => \App\Http\Middleware\CheckOrgVerified::class,
+        'ManageEvents' => \App\Http\Middleware\ManageEvents::class,
     ];
 
     /**

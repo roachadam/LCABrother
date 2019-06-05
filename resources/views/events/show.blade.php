@@ -62,6 +62,12 @@
 
         <div class="row">
             <a href="/event" class="btn btn-inline ">Return</a>
+            <a href="/event/{{ $event->id }}/edit" class="btn btn-inline ">Edit</a>
+            <form method="POST" action="/event/{{ $event->id }}">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-warning">Delete</button>
+            </form>
         </div>
     </div>
 </section>
