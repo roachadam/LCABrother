@@ -2,7 +2,8 @@
 /public/hot
 /public/storage
 /storage/*.key
-/vendor
+/vendor/*
+!/vendor/devdojo
 .env
 .phpunit.result.cache
 Homestead.json

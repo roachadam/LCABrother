@@ -1,0 +1,36 @@
+{
+    "name": "devdojo/chatter",
+    "description": "A simple forum package for your laravel app",
+    "authors": [
+        {
+            "name": "Tony Lea",
+            "email": "tony@devdojo.com"
+        }
+    ],
+    "require": {
+        "luketowers/purifier": "~3.0"
+    },
+    "require-dev": {
+        "illuminate/cache": "~5.1.20|5.2.*|5.3.*",
+        "illuminate/console": "~5.1.20|5.2.*|5.3.*",
+        "mockery/mockery": "^0.9.5",
+        "phpunit/phpunit": "~5.7.14"
+    },
+    "autoload": {
+	    "psr-4": {
+	      "DevDojo\\Chatter\\": "/src"
+		}
+	},
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DevDojo\\Chatter\\ChatterServiceProvider"
+            ]
+        }
+    }
+}
