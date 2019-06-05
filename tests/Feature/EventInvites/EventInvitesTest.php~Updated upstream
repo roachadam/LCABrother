@@ -152,16 +152,4 @@ class EventInvitesTest extends TestCase
         $response = $this->post('event/' . $event->id . '/invite', $invite);
         $response->assertSessionHas('error', $invite['guest_name'] . ' has already been invited.');
     }
-    public function test_delete_event()
-    {
-        $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
-        $event = factory(Event::class)->create(['organization_id' => auth()->user()->organization->id]);
-
-        $response = $this->delete('event/' . $event->id);
-
-        $this->assertDatabaseMissing('events', [
-            'id' => $event->id
-        ]);
-    }
 }
