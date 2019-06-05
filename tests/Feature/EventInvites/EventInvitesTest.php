@@ -165,21 +165,5 @@ class EventInvitesTest extends TestCase
         $this->assertDatabaseMissing('events', [
             'id' => $event->id
         ]);
-        $response->assertRedirect('/events');
-    }
-    public function test_not_admin_cant_delete_event()
-    {
-        $this->withoutExceptionHandling();
-        $organization = factory(Organization::class)->create();
-        $this->loginAsAdmin($organization);
-        $event = factory(Event::class)->create(['organization_id' => auth()->user()->organization->id]);
-        auth()->logout();
-
-        $this->loginAsBasic($organization);
-        $response = $this->delete('event/' . $event->id);
-
-        $this->assertDatabaseHas('events', [
-            'id' => $event->id
-        ]);
     }
 }
