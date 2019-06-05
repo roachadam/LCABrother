@@ -17,7 +17,7 @@
         <div class="form-group row">
             <label for="emailList" class="col-sm-2 form-control-label">Email List</label>
             <div class="col-sm-10">
-                <textarea name='emailList' id="emailList" rows="12" class="form-control" placeholder="Textarea"></textarea>
+                <textarea name='emailList' id="emailList" rows="12" class="form-control" placeholder="dawson@louisiana.edu, adam@gmail.com"></textarea>
             </div>
         </div>
 

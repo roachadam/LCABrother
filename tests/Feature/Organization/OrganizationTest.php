@@ -39,7 +39,6 @@ class OrganizationTest extends TestCase
             'password_confirmation' => 'secret123!=-'
         ]);
 
-        $response->assertRedirect('/organization');
         $response = $this->get('/organization/create');
         $response->assertStatus(200);
     }
@@ -56,7 +55,6 @@ class OrganizationTest extends TestCase
         ]);
         $dbUser =  DB::table('users')->where('email', $user->email)->first();
 
-        $response->assertRedirect('/organization');
         $response = $this->get('/organization/create');
 
         $org = factory(Organization::class)->make();
@@ -86,7 +84,6 @@ class OrganizationTest extends TestCase
         ]);
         $dbUser =  DB::table('users')->where('email', $user->email)->first();
 
-        $response->assertRedirect('/organization');
 
         $response = $this->post('/user/'.$dbUser->id.'/join',[
             'organization' => $org->id,

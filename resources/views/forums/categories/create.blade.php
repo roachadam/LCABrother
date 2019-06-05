@@ -1,24 +1,31 @@
 @extends('layouts.main')
 
 @section('content')
-@if ($category->count())
-    <h3>Current Categories:</h3>
-    <ul>
-        @foreach ($category as $cat)
-        <li>
-           {{ $cat->name}}
-        </li>
-        @endforeach
-    </ul>
-@endif
+
 <div class="container">
     @include('partials.errors')
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Set Forum Categories') }}</div>
-                {{-- todo: middleware for organization being set --}}
+
                 <div class="card-body">
+                    <div class="flex-b"></div>
+                        @if ($category->count())
+                            <h5>Current Categories:</h5>
+                            <ul>
+                                @foreach ($category as $cat)
+                                <div class="row offset-1">
+                                    <ol>
+                                    {{ $cat->name}}
+                                    </ol>
+                                </div>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+
+                    <p class="offset-1">Enter the names of the topics your members can post on the forum under.</p>
                     <form method="POST" action="/forum/create/categories">
                         @csrf
                         <div class="form-group row">
@@ -29,11 +36,12 @@
                         </div>
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-2 offset-2">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Submit Categories') }}
                                 </button>
                             </div>
+                            <a href="/massInvite" class="btn btn-default offset-2">Next</a>
                         </div>
                     </form>
                 </div>

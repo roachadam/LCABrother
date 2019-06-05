@@ -47,7 +47,6 @@ class GoalsTest extends TestCase
             'service_money_goal' => $goals['service_money_goal'],
             'study_goal' => $goals['study_goal'],
         ]);
-        $response->assertRedirect('/massInvite');
     }
 
     public function test_cannot_submit_nonInt_goals(){

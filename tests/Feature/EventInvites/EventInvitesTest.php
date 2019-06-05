@@ -165,7 +165,6 @@ class EventInvitesTest extends TestCase
         $this->assertDatabaseMissing('events', [
             'id' => $event->id
         ]);
-        $response->assertRedirect('/events');
     }
     public function test_not_admin_cant_delete_event()
     {

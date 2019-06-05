@@ -82,7 +82,7 @@ return [
     |
     */
 
-    'sidebar_in_discussion_view' => false,
+    'sidebar_in_discussion_view' => true,
 
     /*
     |--------------------------------------------------------------------------
