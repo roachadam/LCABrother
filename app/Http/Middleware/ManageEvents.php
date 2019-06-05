@@ -17,7 +17,6 @@ class ManageEvents
     {
 
         if ($request->user() && !$request->user()->canManageEvents()) {
-            dump('manage events middware');
             return redirect()->action('DashController@index');
         }
         return $next($request);

@@ -27,7 +27,7 @@ Route::get('/users/edit', 'UserController@edit');
 Route::post('/user/{user}/join', 'UserController@joinOrg');
 Route::post('/users/update', 'UserController@update');
 
-Route::resource('role','RoleController');
+Route::resource('role', 'RoleController');
 Route::resource('serviceEvent', 'ServiceEventController');
 Route::resource('event', 'EventController');
 Route::resource('involvement', 'InvolvementController');
@@ -37,23 +37,23 @@ Route::get('/dash', 'DashController@index');
 
 Route::get('/orgpending/waiting', 'OrgVerificationController@waiting');
 Route::get('/orgpending/rejected', 'OrgVerificationController@rejected');
-Route::resource('role','RoleController');
+Route::resource('role', 'RoleController');
 
 Route::get('/orgpending/{user}', 'OrgVerificationController@show');
 Route::post('/orgpending/{user}/update', 'OrgVerificationController@update');
-Route::post('/organizations/{organization}/roles','OrganizationRolesController@store');
-Route::post('/organizations/{organization}/roles/update','OrganizationRolesController@update');
+Route::post('/organizations/{organization}/roles', 'OrganizationRolesController@store');
+Route::post('/organizations/{organization}/roles/update', 'OrganizationRolesController@update');
 Route::get('/users/contact', 'UserController@contact');
 
 Route::get('/goals', 'GoalsController@index');
-Route::get('/goals/create' , 'GoalsController@create');
+Route::get('/goals/create', 'GoalsController@create');
 Route::post('/goals/store', 'GoalsController@store');
 Route::post('/goals/{goals}/update', 'GoalsController@update');
 Route::get('/goals/edit', 'GoalsController@edit');
 
 
 Route::get('/massInvite', 'MassInvite@index');
-Route::post('/massInvite/send','MassInvite@inviteAll');
+Route::post('/massInvite/send', 'MassInvite@inviteAll');
 Route::get('/organizations/{organization}/join', 'InvitedRegisterController@showRegistrationForm');
 Route::post('/organization/{organization}/register', 'InvitedRegisterController@register');
 
@@ -71,3 +71,4 @@ Route::post('/forum/create/categories', 'ForumController@store');
 
 Route::get('/avatar/create', 'UserController@create_avatar');
 Route::post('/avatar/create', 'UserController@update_avatar');
+Route::post('/avatar/default', 'UserController@default_avatar');

@@ -67,6 +67,11 @@
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
 
+                    <form method="POST" action="/avatar/default">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">Reset to Default</button>
+                    </form>
+
                 </div>
             </div>
         </div>

@@ -97,7 +97,7 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        dump('destroy method');
+        
         $event->delete();
         return redirect('/event');
     }

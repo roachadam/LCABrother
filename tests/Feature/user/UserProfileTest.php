@@ -38,7 +38,6 @@ class UserProfileTest extends TestCase
 
         $response = $this->get('/users/edit');
         $response->assertStatus(200);
-
     }
 
     public function test_can_user_edit_details()
@@ -46,19 +45,30 @@ class UserProfileTest extends TestCase
         $this->withoutExceptionHandling();
         $user = $this->loginAsAdmin();
         $phone = $user->phone;
-        $response = $this->post('users/update',[
+        $response = $this->post('users/update', [
             'phone' => '12224567890',
         ]);
-        $this->assertDatabaseMissing('users',[
+        $this->assertDatabaseMissing('users', [
             'phone' => $phone,
             'id' => $user->id,
         ]);
-        $this->assertDatabaseHas('users',[
+        $this->assertDatabaseHas('users', [
             'phone' => '12224567890',
             'id' => $user->id,
         ]);
+    }
 
+    public function test_make_avatar_default()
+    {
+        $this->withoutExceptionHandling();
+        $this->loginAsAdmin();
+
+        $response = $this->post('/avatar/default');
+        $response->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseHas('users', [
+            'id' => auth()->id(),
+            'avatar' => 'user.jpg'
+        ]);
     }
 }
-
-

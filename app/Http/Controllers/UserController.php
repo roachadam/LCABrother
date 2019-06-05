@@ -14,7 +14,8 @@ use DB;
 class UserController extends Controller
 {
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->middleware('auth');
         $this->middleware('MemberView', ['only' => ['index', 'contact']]);
     }
@@ -30,7 +31,7 @@ class UserController extends Controller
         //$organization = auth()->user()->organization()->get();
         //$users = $organization->users();
         $org = Auth::user()->organization;
-        $members = $org->users()->where('organization_verified',1)->get();
+        $members = $org->users()->where('organization_verified', 1)->get();
         return view('highzeta.members', compact('members'));
     }
 
@@ -103,20 +104,22 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        abort_if($user->id != auth()->id(),403);
+        abort_if($user->id != auth()->id(), 403);
         $user->delete();
         return redirect('/');
     }
 
-    public function contact(){
+    public function contact()
+    {
         $org = auth()->user()->organization;
         $members = $org->getVerifiedMembers();
         return view('highzeta.contact', compact('members'));
     }
 
-    public function joinOrg(Request $request, User $user){
+    public function joinOrg(Request $request, User $user)
+    {
 
-        abort_unless(Auth::id() == $user->id,403);
+        abort_unless(Auth::id() == $user->id, 403);
 
         $orgID = $request->organization;
         $user->join($orgID);
@@ -131,15 +134,18 @@ class UserController extends Controller
         return redirect('/dash');
     }
 
-    public function profile(){
+    public function profile()
+    {
         $user = auth()->user();
         return view('user.profile', compact('user'));
     }
-    public function create_avatar(){
+    public function create_avatar()
+    {
         $user = Auth::user();
-        return view('user.avatar',compact('user',$user));
+        return view('user.avatar', compact('user', $user));
     }
-    public function update_avatar(Request $request){
+    public function update_avatar(Request $request)
+    {
 
         $request->validate([
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -147,16 +153,21 @@ class UserController extends Controller
 
         $user = Auth::user();
 
-        $avatarName = $user->id.'_avatar'.time().'.'.request()->avatar->getClientOriginalExtension();
+        $avatarName = $user->id . '_avatar' . time() . '.' . request()->avatar->getClientOriginalExtension();
 
-        $request->avatar->storeAs('avatars',$avatarName);
+        $request->avatar->storeAs('avatars', $avatarName);
 
         $user->avatar = $avatarName;
         $user->save();
 
-        return back()
-            ->with('success','You have successfully upload image.');
-
+        return back();
     }
 
+    public function default_avatar(Request $request)
+    {
+        $user = auth()->user();
+        $user->avatar = 'user.jpg';
+        $user->save();
+        return back();
+    }
 }
