@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\InvolvementLog;
+
 class Involvement extends Model
 {
     protected $guarded = [];
@@ -12,15 +13,14 @@ class Involvement extends Model
     {
         parent::boot();
 
-        static::created(function ($Involvement)
-        {
+        static::created(function ($Involvement) {
             session()->put('success', 'Created new involvement opprotunity!');
             return back();
         });
     }
 
-    public function InvolvementLogs(){
+    public function InvolvementLogs()
+    {
         return $this->hasMany(InvolvementLog::Class);
     }
-
 }

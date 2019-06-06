@@ -30,11 +30,13 @@
                     @foreach ($users as $user)
                     <tr>
                         <td>{{ $user->name }}</td>
-                        
-
+                        <td>{{ $user->latestAcademics->first()->Cumulative_GPA }}</td>
+                        <td>{{ $user->latestAcademics->first()->Previous_Term_GPA }}</td>
+                        <td>{{ $user->latestAcademics->first()->Current_Term_GPA }}</td>
+                        <td>{{ $user->latestAcademics->first()->Previous_Academic_Standing }}</td>
+                        <td>{{ $user->latestAcademics->first()->Current_Academic_Standing }}</td>
                     </tr>
                 @endforeach
-
                 </tbody>
             </table>
         </div>

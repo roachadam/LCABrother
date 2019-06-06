@@ -36,11 +36,17 @@
             </a>
         </li>
         <li class="yellow">
-                <a href="/event">
-                    <i class="glyphicon glyphicon-tasks "></i>
-                    <span class="lbl">Events</span>
-                </a>
-            </li>
+            <a href="/event">
+                <i class="glyphicon glyphicon-tasks "></i>
+                <span class="lbl">Events</span>
+            </a>
+        </li>
+        <li class="pink">
+            <a href="/academics">
+                <i class="fa fa-book"></i>
+                <span class="lbl">Academics</span>
+            </a>
+        </li>
         <li class="yellow">
             <a href="/forums">
                 <i class="glyphicon glyphicon-console"></i>
