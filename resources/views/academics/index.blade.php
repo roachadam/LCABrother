@@ -4,17 +4,18 @@
 
 
     <header class="section-header">
-            <div class="tbl">
-                <div class="tbl-row">
-                    <div class="tbl-cell">
-                        <h2>Academics</h2>
-                        {{-- <div class="subtitle">Welcome to Ultimate Dashboard</div> --}}
-                    </div>
+        <div class="tbl">
+            <div class="tbl-row">
+                <div class="tbl-cell">
+                    <h2>Academics</h2>
+                    {{-- <div class="subtitle">Welcome to Ultimate Dashboard</div> --}}
                 </div>
             </div>
-        </header>
-        <section class="card">
-		<div class="card-block">
+        </div>
+    </header>
+
+    <section class="card">
+        <div class="card-block">
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
                 <thead>
                 <tr>
@@ -39,19 +40,18 @@
                 @endforeach
                 </tbody>
             </table>
+            <a href="/academics/edit" class="btn btn-primary align-right">Submit New Grades</a>
         </div>
     </section>
 
-
-
-@section('js')
-<script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
-<script>
-		$(function() {
-			$('#table').DataTable({
-				responsive: true
-			});
-		});
+    @section('js')
+    <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
+    <script>
+            $(function() {
+                $('#table').DataTable({
+                    responsive: true
+                });
+            });
     </script>
-@endsection
+    @endsection
 @endsection

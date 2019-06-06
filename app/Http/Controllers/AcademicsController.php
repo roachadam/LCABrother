@@ -30,7 +30,7 @@ class AcademicsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
     }
@@ -43,7 +43,16 @@ class AcademicsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'grades' => 'required|file|max:2048',
+        ]);
+
+        $grades = $request->grades;
+        $name = $grades->getClientOriginalName();
+        $grades->move('grades', $name);
+
+
+        return redirect('/academics');
     }
 
     /**
@@ -63,9 +72,10 @@ class AcademicsController extends Controller
      * @param  \App\Academics  $academics
      * @return \Illuminate\Http\Response
      */
-    public function edit(Academics $academics)
+    //public function edit(Academics $academics)
+    public function edit()
     {
-        //
+        return view('academics.edit');
     }
 
     /**
@@ -76,9 +86,7 @@ class AcademicsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Academics $academics)
-    {
-        //
-    }
+    { }
 
     /**
      * Remove the specified resource from storage.
