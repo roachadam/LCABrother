@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\AcademicsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,11 @@ Route::resource('event', 'EventController');
 Route::resource('involvement', 'InvolvementController');
 Route::resource('involvementLog', 'InvolvementLogController');
 
-Route::resource('academics', 'AcademicsController');
+//Route::resource('academics', 'AcademicsController');
+Route::get('/academics', 'AcademicsController@index');
+Route::post('/academics', 'AcademicsController@store');
+Route::get('/academics/store', 'AcademicsController@store');
+Route::get('/academics/edit', 'AcademicsController@edit');
 
 Route::get('/dash', 'DashController@index');
 
