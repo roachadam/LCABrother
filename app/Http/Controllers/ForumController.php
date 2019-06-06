@@ -12,7 +12,7 @@ class ForumController extends Controller
     }
     public function store(Request $request){
         $attributes = $request->validate([
-            'name' => ['required', 'unique:chatter_categories,name']
+            'name' => ['required']
         ]);
         $rand_color = '#' . substr(md5(mt_rand()), 0, 6);
 

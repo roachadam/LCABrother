@@ -57,14 +57,13 @@
 	    <div class="container-fluid">
 	        <a href="#" class="site-logo">
                 <img class="hidden-md-down" src="/img/logo-2.png" alt="">
-
 	        </a>
 
 	        <button id="show-hide-sidebar-toggle" class="show-hide-sidebar">
 	            <span>toggle menu</span>
 	        </button>
 
-	        <button class="hamburger hamburger--htla">
+	        <button class="hamburger hamburger--htla" class="show-hide-sidebar">
 	            <span>toggle menu</span>
 	        </button>
 	        <div class="site-header-content">

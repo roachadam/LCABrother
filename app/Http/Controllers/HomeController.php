@@ -3,26 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Mail;
+use App\Mail\ContactUs;
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function contactUs(Request $request)
     {
-        $this->middleware('auth');
-    }
+        $atrributes = $request->all();
+        Mail::to('dawsonmjeane@gmail.com')
+            ->send(
+            new ContactUs($atrributes)
+        );
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
-    {
-        return view('home');
+        return redirect('/contact/thanks');
     }
 }

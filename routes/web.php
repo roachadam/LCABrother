@@ -12,16 +12,23 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home.home');
+});
+Route::get('/about', function () {
+    return view('home.about');
+});
+Route::get('/contact', function () {
+    return view('home.contact.contact');
+});
+Route::get('/contact/thanks', function () {
+    return view('home.contact.thanks');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-//Route::get('organization/create', 'OrganizationController@create');
 Route::resource('organization', 'OrganizationController');
-
 Route::resource('user', 'UserController');
+
 Route::get('/users/profile', 'UserController@profile');
 Route::get('/users/edit', 'UserController@edit');
 Route::post('/user/{user}/join', 'UserController@joinOrg');
@@ -72,3 +79,7 @@ Route::post('/forum/create/categories', 'ForumController@store');
 Route::get('/avatar/create', 'UserController@create_avatar');
 Route::post('/avatar/create', 'UserController@update_avatar');
 Route::post('/avatar/default', 'UserController@default_avatar');
+
+Route::post('/home/contactUs', 'HomeController@contactUs');
+
+Route::get('/totals', 'TotalsController@index');
