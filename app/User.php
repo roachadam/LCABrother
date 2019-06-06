@@ -168,7 +168,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Invite::Class);
     }
-    
+
     //Permissions getters
 
     public function canManageMembers(){
@@ -205,6 +205,14 @@ class User extends Authenticatable
     }
     public function canManageForum(){
         $Can = $this->role->permission->manage_forum;
+        return $Can;
+    }
+    public function canViewAllStudy(){
+        $Can = $this->role->permission->view_all_study;
+        return $Can;
+    }
+    public function canManageAllStudy(){
+        $Can = $this->role->permission->manage_all_study;
         return $Can;
     }
 }
