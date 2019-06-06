@@ -15,11 +15,13 @@ class CreateAcademicsTable extends Migration
     {
         Schema::create('academics', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('Cumulative GPA')->nullable();
-            $table->unsignedBigInteger('Previous Term GPA')->nullable();
-            $table->unsignedBigInteger('Current Term GPA')->nullable();
-            $table->string('Previous Academic Standing')->nullable();
-            $table->string('Current Academic Standing')->nullable();
+            $table->unsignedBigInteger('organization_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('Cumulative_GPA')->nullable();
+            $table->unsignedBigInteger('Previous_Term_GPA')->nullable();
+            $table->unsignedBigInteger('Current_Term_GPA')->nullable();
+            $table->string('Previous_Academic_Standing')->nullable();
+            $table->string('Current_Academic_Standing')->nullable();
             $table->timestamps();
         });
 
