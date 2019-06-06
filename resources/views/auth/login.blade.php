@@ -13,7 +13,7 @@
     <!-- Authentication pages -->
 	<div class="auth">
 		<div class="container">
-            @include('partials.errors')
+
 			<div class="auth__inner">
 				<div class="auth__media">
 					<img src="./img/home/undraw_selfie.svg">
@@ -21,7 +21,7 @@
 				<div class="auth__auth">
 					<h1 class="auth__title">Access your dashboard</h1>
                     <p>Fill in your email and password to proceed</p>
-
+                    @include('partials.errors')
 					<form method='POST' action="{{ route('login') }}" autocompelete="new-password" role="presentation" class="form">
                         @csrf
                         <input name="email" class="fakefield">
@@ -30,9 +30,9 @@
 						<label>Password</label>
                         <input type="password" name="password" id='password' placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
                         <p class="row">
-                                <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }} />
-                                <label for="check">Remember Me</label>
-                              </p>
+                            <input type="checkbox" name="remember" id="remember">
+                            <label for="check">Remember Me</label>
+                        </p>
                         <button type='submit' class="button button__primary">Log in</button>
 						<a href=""><h6 class="left-align" >Forgot your password?</h6></a>
 					</form>
@@ -41,6 +41,6 @@
 		</div>
     </div>
 
-<script src='js/app.min.js'></script>
+<script src='/js/app.min.js'></script>
 </body>
 </html>

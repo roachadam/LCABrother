@@ -39,13 +39,13 @@
                         <input type="password" name="password" id='password' placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
 
                         <label>Confirm Password</label>
-                        <input type="password" name="password-confirm" id="password-confirm" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
+                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
 
                         <p class="row">
                                 <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }} />
                                 <label for="check">Remember Me</label>
                               </p>
-                        <button type='submit' class="button button__primary">Log in</button>
+                        <button type='submit' class="button button__primary">Register</button>
 						<a href=""><h6 class="left-align" >Forgot your password?</h6></a>
 					</form>
 				</div>

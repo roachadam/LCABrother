@@ -5,7 +5,7 @@
             <a href="/" class="navbar__logo">ClubHouse</a>
             <nav class="navbar__menu">
                 <ul>
-
+                    <li><a href="{{ url('/') }}" class="{{Request::is('/') ? 'vMenu--active' : ''}}">Home</a></li>
                     <li><a href="{{ url('/about') }}" class="{{Request::is('about*') ? 'vMenu--active' : ''}}">About</a></li>
                     <li><a href="{{ url('/contact') }}" class="{{Request::is('contact*') ? 'vMenu--active' : ''}}">Contact Us</a></li>
 

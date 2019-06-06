@@ -49,9 +49,9 @@
 
                             <input name="body" class="fakefield">
                             <label for='body'>Body</label>
-                            <input type="textarea" placeholder="Thanks for all the hard work!" id='body' name="body">
+                            <input type="textarea" cols="30" rows="13" placeholder="Thanks for all the hard work!" id='body' name="body">
 
-
+                            
                             <button type='submit' class="button button__primary">Send</button>
 
                         </form>

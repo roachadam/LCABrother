@@ -1,84 +1,42 @@
-@extends('main.dash')
-
+@extends('layouts.dashtheme')
+@section('title', 'Add Service Log')
 @section('content')
 
-
+<div class="text-container">
+        <h3 class="app__main__title">Service Logs</h3>
+</div>
 <form method="POST" action="/serviceEvent">
     @csrf
     @include('partials.errors')
-    <div class="form-group card">
 
-        <div class="card-header">{{ __('Service Event Log Submission') }}</div>
-        <div class="card-body">
-            <label for="name" class="col-form-label offset-md-1 text-left">{{ __('Name of Event') }}</label>
-            @if ($serviceEvents->count())
-                <div class="form-group row">
-                    <label for="name" class="col-form-label offset-md-2 text-left">{{ __('Existing Events') }}</label>
 
-                    <div class="col-md-6">
-                        <select class="form-control m-bot15" name="service_event_id" id="service_event_id">
-                            <option value="-1" >Choose Existing Event</option>
-                        @foreach ($serviceEvents as $serviceEvent)
-                            <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
-                        @endforeach
-                        </select>
-                    </div>
-                </div>
-            @endif
+    @if ($serviceEvents->count())
+            <label>Existing Events</label>
+            <select class="form-control m-bot15" name="service_event_id" id="service_event_id">
+                <option value="-1" >Choose Existing Event</option>
+            @foreach ($serviceEvents as $serviceEvent)
+                <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
+            @endforeach
+            </select>
+    @endif
 
-            <div class="form-group row">
+    <label>New Event Name</label>
+    <input id="name" type="text" class="fakefield" name="name" value="{{ old('name') }}"  autofocus>
 
-                <label for="name" class="offcol-form-label offset-md-2 text-left">{{ __('New Event Name') }}</label>
-                <div class="col-md-6">
-                    <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}"  autofocus>
-                </div>
-            </div>
+    <label>Date of Event</label>
+    <input id="date_of_event" type="text" class="fakefield"  name="date_of_event" placeholder="2019-05-20 03:50:15" value="2001-10-26 21:32:52" autofocus>
 
-            <div class="form-group row">
-                    <label for="date_of_event" class="col-form-label offset-md-1 text-left">{{ __('Date of Event') }}</label>
-                    <div class="col-md-6">
-                        {{-- <div class="input-group date">
-                            <input id="date_of_event" type="text" value="10/24/2019" class="form-control">
-                            <span class="input-group-append">
-                                <span class="input-group-text"><i class="font-icon font-icon-calend"></i></span>
-                            </span>
-                        </div> --}}
-                            <input id="date_of_event" type="text" class="form-control"  name="date_of_event" placeholder="2019-05-20 03:50:15" value="2001-10-26 21:32:52" autofocus>
-                    </div>
-            </div>
+    <label for="money_donated" class="col-form-label offset-md-1 text-left">{{ __('Money Donated') }}</label>
+    <input id="money_donated" type="number" class="fakefield"  name="money_donated" value="{{ old('money_donated') }}"  autofocus>
 
-            <div class="form-group row">
-                    <label for="money_donated" class="col-form-label offset-md-1 text-left">{{ __('Money Donated') }}</label>
-                    <div class="col-md-6">
-                            <input id="money_donated" type="number" class="form-control"  name="money_donated" value="{{ old('money_donated') }}"  autofocus>
-                    </div>
-            </div>
+    <label>Hours Served</label>
+    <input id="hours_served" type="number" class="fakefield" name="hours_served" value="{{ old('hours_served') }}"  autofocus>
 
-            <div class="form-group row">
-                    <label for="hours_served" class="col-form-label offset-md-1 text-left">{{ __('Hours Served') }}</label>
-                    <div class="col-md-6">
-                            <input id="hours_served" type="number" class="form-control" name="hours_served" value="{{ old('hours_served') }}"  autofocus>
-                    </div>
-            </div>
-
-            <div class="form-group row mb-0">
-                    <div class="col-md-6  offset-md-4">
-                        <button type="submit" class="btn btn-primary">
-                            {{ __('Log Event') }}
-                        </button>
-                    </div>
-            </div>
-        </div>
-    </div>
+    <button type="submit" class="btn btn-primary">Log Event</button>
 
 </form>
 
 @section('js')
-<script>			$('#date_of_event').daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true
-    });
-    </script>
 <script>
     var dis1 = document.getElementById("service_event_id");
     dis1.onchange = function () {
@@ -101,8 +59,6 @@
 </script>
 
 @endsection
-
-
 
 @endsection
 
