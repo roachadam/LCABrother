@@ -73,6 +73,16 @@
                     </a>
                 </li>
             @endif
+            @if (auth()->user()->canManageAllStudy())
+                <li class="green">
+                    <a href="/academics">
+                    <span>
+                        <i class="fa fa-book"></i>
+                        <span class="lbl">Manage Academics</span>
+                    </span>
+                    </a>
+                </li>
+            @endif
             @if (auth()->user()->canManageMembers())
                 <li class="pink">
                     <a href="/role">
