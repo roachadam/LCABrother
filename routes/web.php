@@ -18,7 +18,10 @@ Route::get('/about', function () {
     return view('home.about');
 });
 Route::get('/contact', function () {
-    return view('home.contact');
+    return view('home.contact.contact');
+});
+Route::get('/contact/thanks', function () {
+    return view('home.contact.thanks');
 });
 
 Auth::routes();

@@ -4,7 +4,7 @@
 	<meta class="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<title>Page | Evie by unDraw</title>
-	<link rel='stylesheet' href='css/style.min.css' />
+	<link rel='stylesheet' href='css/style.css' />
 </head>
 <body>
 	<!-- navbar -->
@@ -41,14 +41,16 @@
 
                             <input name="email" class="fakefield">
                             <label>Email</label>
-                            <input type="text" name="email" id='email' placeholder="you@example.com">
+                            <input type="email" name="email" id='email' placeholder="you@example.com">
 
                             <input name="subject" class="fakefield">
                             <label>Subject</label>
                             <input type="text" name="subject" id='subject' placeholder="Great Site">
 
+                            <input name="body" class="fakefield">
                             <label for='body'>Body</label>
-                            <textarea placeholder="Thanks for all the hard work!" id='body'></textarea>
+                            <input type="textarea" placeholder="Thanks for all the hard work!" id='body' name="body">
+
 
                             <button type='submit' class="button button__primary">Send</button>
 
