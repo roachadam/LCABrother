@@ -93,6 +93,16 @@
                     </a>
                 </li>
             @endif
+            @if (auth()->user()->canManageMembers())
+                <li class="blue">
+                    <a href="/totals">
+                    <span>
+                        <i class="glyphicon glyphicon-briefcase"></i>
+                        <span class="lbl">Totals</span>
+                    </span>
+                    </a>
+                </li>
+            @endif
         </ul>
     </section>
 </nav><!--.side-menu-->

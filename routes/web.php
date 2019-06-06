@@ -81,3 +81,5 @@ Route::post('/avatar/create', 'UserController@update_avatar');
 Route::post('/avatar/default', 'UserController@default_avatar');
 
 Route::post('/home/contactUs', 'HomeController@contactUs');
+
+Route::get('/totals', 'TotalsController@index');

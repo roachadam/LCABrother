@@ -95,4 +95,43 @@ class Organization extends Model
     {
         return $this->hasMany(Event::Class);
     }
+
+    public function getAverages(){
+        $users = $this->users;
+        $attributes = [];
+        $count = 0;
+        $tempService = 0;
+        $tempMoney = 0;
+        $tempPoints = 0;
+        foreach($users as $user){
+            $count++;
+            $tempService += $user->getServiceHours();
+            $tempMoney += $user->getMoneyDonated();
+            $tempPoints += $user->getInvolvementPoints();
+        }
+        $attributes['service'] = $tempService/$count;
+        $attributes['money'] = $tempMoney/$count;
+        $attributes['points'] = $tempPoints/$count;
+
+        return $attributes;
+    }
+    public function getTotals(){
+        $users = $this->users;
+        $attributes = [];
+        $count = 0;
+        $tempService = 0;
+        $tempMoney = 0;
+        $tempPoints = 0;
+        foreach($users as $user){
+            $count++;
+            $tempService += $user->getServiceHours();
+            $tempMoney += $user->getMoneyDonated();
+            $tempPoints += $user->getInvolvementPoints();
+        }
+        $attributes['service'] = $tempService;
+        $attributes['money'] = $tempMoney;
+        $attributes['points'] = $tempPoints;
+
+        return $attributes;
+    }
 }

@@ -8,7 +8,8 @@
     <div class="container">
         @include('partials.errors')
         <div class="col-md-10">
-            <div class="card">                <div class="card-header">{{ __('Add New Involvement Scores') }}</div>
+            <div class="card">
+                <div class="card-header">{{ __('Add New Involvement Scores') }}</div>
                 <div class="card-body">
                     @if($involvements->count())
                     <form method="POST" action="/involvementLog">
