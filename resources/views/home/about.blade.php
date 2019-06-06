@@ -31,8 +31,8 @@
 				@include('home.partials.sidebar')
 				<div class="page__main">
 					<div class="text-container">
-						<h3 class="page__main__title">This is the main area</h3>
-						<p>Write or do whatever you want here!</p>
+						<h3 class="page__main__title">Quis eu culpa ea in ullamco irure in magna.</h3>
+						<p>Voluptate ipsum dolor esse non. Reprehenderit fugiat culpa elit sit adipisicing. Culpa ullamco reprehenderit eiusmod tempor duis officia reprehenderit aliquip et qui consequat qui. Excepteur ad labore ad eiusmod. Magna laborum nulla laboris fugiat id anim magna.</p>
 					</div>
 				</div>
 			</div>

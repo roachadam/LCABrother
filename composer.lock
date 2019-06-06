@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57769f038de776230cd50fbf6844c293",
+    "content-hash": "0c0f73055967efd2be13f8782756ac39",
     "packages": [
         {
             "name": "devdojo/chatter",
@@ -691,6 +691,62 @@
                 "trusted proxy"
             ],
             "time": "2019-01-10T14:06:47+00:00"
+        },
+        {
+            "name": "inani/larapoll",
+            "version": "2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/akiyamaSM/larapoll.git",
+                "reference": "4dfac37bd32347276e34f201e7197ecb0902f541"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/akiyamaSM/larapoll/zipball/4dfac37bd32347276e34f201e7197ecb0902f541",
+                "reference": "4dfac37bd32347276e34f201e7197ecb0902f541",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "~1.4",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Inani\\Larapoll\\LarapollServiceProvider"
+                    ],
+                    "aliases": {
+                        "PollWriter": "Inani\\Larapoll\\PollWriterFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Inani\\Larapoll\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Inani El Houssain",
+                    "email": "inanielhoussain@gmail.com"
+                }
+            ],
+            "description": "A Laravel package to create polls",
+            "keywords": [
+                "laravel",
+                "php",
+                "polls",
+                "votes"
+            ],
+            "time": "2019-03-21T13:30:28+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

@@ -33,7 +33,7 @@
 
                         <input name="phone" class="fakefield">
 						<label>Phone Number</label>
-                        <input type="tel" name="email" id='email' placeholder="13379990909">
+                        <input type="tel" name="phone" id='phone' placeholder="13379990909">
 
 						<label>Password</label>
                         <input type="password" name="password" id='password' placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">

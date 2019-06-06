@@ -17,8 +17,8 @@
 			<div class="container">
 				<div class="page__header__content">
 					<div class="page__header__content__inner" id='navConverter'>
-						<h1 class="page__header__title">Multi-purpose page</h1>
-						<p class="page__header__text">This is mostly a simple layout, rather than a complete page unlike the others. However this is a really useful starting point for anything you want to create.</p>
+						<h1 class="page__header__title">Contact Us</h1>
+						<p class="page__header__text">Sunt qui aliquip aliqua aliqua culpa.</p>
 					</div>
 				</div>
 			</div>
@@ -32,8 +32,27 @@
 
 				<div class="page__main">
 					<div class="text-container">
-						<h3 class="page__main__title">This is the main area</h3>
-						<p>Write or do whatever you want here!</p>
+						<h3 class="page__main__title"></h3>
+						<form method='POST' action="/home/contactUs" role="presentation" class="form">
+                            @csrf
+                            <input name="name" class="fakefield">
+                            <label>Name</label>
+                            <input type="text" name="name" id='name' placeholder="Johnny Smith">
+
+                            <input name="email" class="fakefield">
+                            <label>Email</label>
+                            <input type="text" name="email" id='email' placeholder="you@example.com">
+
+                            <input name="subject" class="fakefield">
+                            <label>Subject</label>
+                            <input type="text" name="subject" id='subject' placeholder="Great Site">
+
+                            <label for='body'>Body</label>
+                            <textarea placeholder="Thanks for all the hard work!" id='body'></textarea>
+
+                            <button type='submit' class="button button__primary">Send</button>
+
+                        </form>
 					</div>
 				</div>
 			</div>
