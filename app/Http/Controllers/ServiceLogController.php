@@ -80,6 +80,7 @@ class ServiceLogController extends Controller
      */
     public function destroy(ServiceLog $serviceLog)
     {
-        //
+        $serviceLog->delete();
+        return back();
     }
 }
