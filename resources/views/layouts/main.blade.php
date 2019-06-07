@@ -30,7 +30,6 @@
     {{-- <link rel="stylesheet" href="http://demo.itsolutionstuff.com/plugin/bootstrap-3.min.css"> --}}
     <script type="text/javascript" src="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.js") }}"></script>
 
-
     <!-- Styles -->
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/lib/datatables-net/datatables.min.css') }}" rel="stylesheet">
@@ -140,7 +139,8 @@
 
 	    </div><!--.container-fluid-->
     </div><!--.page-content-->
-
     @yield('js')
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/echarts/4.0.2/echarts-en.min.js charset=utf-8></script>
+    {!! $chart->script() !!}
 </body>
 </html>

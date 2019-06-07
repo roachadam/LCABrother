@@ -134,4 +134,16 @@ class Organization extends Model
 
         return $attributes;
     }
+
+    public function getArrayOfServiceHours(){
+        $users = $this->users;
+        $attributes = [];
+        $count = 0;
+        $collection = collect();
+        foreach($users as $user){
+            $collection->push($user->getServiceHours());
+        }
+        return $collection->toArray();
+    }
+
 }

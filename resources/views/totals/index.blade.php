@@ -1,4 +1,4 @@
-@extends('main.dash')
+@extends('layouts.main')
 
 @section('content')
 
@@ -14,13 +14,18 @@
 </div>
 
 <div class="card">
-        <div class="card-header">Totals</div>
-        <div class="card-body">
-            Service Hours: {{$totals['service']}}  / {{$sumTotals['service']}}
-            <br>
-            Money Donated: {{$totals['money']}}  /  {{$sumTotals['money']}}
-            <br>
-            Involvement Points: {{$totals['points']}} / {{$sumTotals['points']}}
-        </div>
+    <div class="card-header">Totals</div>
+    <div class="card-body">
+        Service Hours: {{$totals['service']}}  / {{$sumTotals['service']}}
+        <br>
+        Money Donated: {{$totals['money']}}  /  {{$sumTotals['money']}}
+        <br>
+        Involvement Points: {{$totals['points']}} / {{$sumTotals['points']}}
     </div>
+</div>
+
+{!! $chart->container() !!}
+
 @endsection
+
+

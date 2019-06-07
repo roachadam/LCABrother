@@ -35,16 +35,15 @@ class ServiceEventController extends Controller
         $attributes = $this->validateServiceEvent();
 
 
-
         //persist
         if(isset($attributes['service_event_id'])){
             $event = ServiceEvent::find($attributes['service_event_id']);
             $attributes['organization_id'] = auth()->user()->organization_id;
             $attributes['user_id'] = auth()->id();
             unset($attributes['date_of_event']);
-            if(isset($attributes['name'])){
-                unset($attributes['name']);
-            }
+
+            unset($attributes['name']);
+
             $event->setLog($attributes);
         }
         else{
