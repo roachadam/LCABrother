@@ -37,6 +37,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         GoalsNotifSent::class => [
             GoalsEmailWasSent::class
+        ],
+        MemberRemovedFromOrg::class => [
+            EmailRemovedMember::class
         ]
     ];
 

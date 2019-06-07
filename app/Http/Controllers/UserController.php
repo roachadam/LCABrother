@@ -82,12 +82,7 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        // Make sure they don't try to edit the user id and change someone elses organization
-        // if(Auth::id() != $user->id){
-        //     abort();
-        // }
-        //dump($request);
-        //abort(403);
+
         $attributes = request()->validate([
             'name' => ['string', 'max:255'],
             'email' => ['string', 'email', 'max:255',],
@@ -169,5 +164,15 @@ class UserController extends Controller
         $user->avatar = 'user.jpg';
         $user->save();
         return back();
+    }
+
+    public function adminView(Request $request, User $user){
+        return View('user.adminView', compact('user'));
+    }
+    public function orgRemove(Request $request, User $user){
+        $user->organization_verified = 0;
+        $user->save();
+
+        return redirect('user');
     }
 }

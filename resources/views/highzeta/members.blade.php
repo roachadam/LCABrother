@@ -36,7 +36,7 @@
                             <td> {{ $member->getserviceHours() }} </td>
                             <td>$ {{ $member->getMoneyDonated() }} </td>
                             <td> {{ $member->getInvolvementPoints() }} </td>
-                            <td><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editServiceEvent">Manage</button></td>
+                        <td><a href="/users/{{$member->id}}/adminView" class="btn btn-inline">Manage</a></td>
                         </tr>
                         @endforeach
                     @endif
