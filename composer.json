@@ -15,7 +15,8 @@
         "inani/larapoll": "^2.5",
         "laravel/framework": "5.8.*",
         "laravel/telescope": "^2.0",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "maatwebsite/excel": "^3.1"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

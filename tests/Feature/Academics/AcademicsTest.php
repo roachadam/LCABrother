@@ -15,7 +15,7 @@ class AcademicsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $this->loginAsAdmin();
-        $response = $this->get('academics');
+        $response = $this->get('/academics');
         $response->assertStatus(200);
     }
 

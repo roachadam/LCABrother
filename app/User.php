@@ -154,7 +154,7 @@ class User extends Authenticatable
 
     public function latestAcademics()
     {
-        return $this->hasMany(Academics::Class)->latest();
+        return $this->hasMany(Academics::Class)->latest()->first();
     }
 
     public function handleInvite(Organization $organization)
@@ -253,4 +253,5 @@ class User extends Authenticatable
         $Can = $this->role->permission->manage_all_study;
         return $Can;
     }
+  
 }

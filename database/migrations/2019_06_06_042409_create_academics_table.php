@@ -17,9 +17,10 @@ class CreateAcademicsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('Cumulative_GPA')->nullable();
-            $table->unsignedBigInteger('Previous_Term_GPA')->nullable();
-            $table->unsignedBigInteger('Current_Term_GPA')->nullable();
+            $table->string('name')->nullable();
+            $table->float('Cumulative_GPA')->nullable();
+            $table->float('Previous_Term_GPA')->nullable();
+            $table->float('Current_Term_GPA')->nullable();
             $table->string('Previous_Academic_Standing')->nullable();
             $table->string('Current_Academic_Standing')->nullable();
             $table->timestamps();
