@@ -46,6 +46,7 @@ Route::get('/academics', 'AcademicsController@index');
 Route::post('/academics', 'AcademicsController@store');
 Route::get('/academics/store', 'AcademicsController@store');
 Route::get('/academics/edit', 'AcademicsController@edit');
+Route::post('/academics/notify', 'NotifyController@academicsNotify');
 
 Route::get('/dash', 'DashController@index');
 
