@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 
 class RoleController extends Controller
 {
@@ -23,7 +24,7 @@ class RoleController extends Controller
     {
         $roles = Auth::user()->organization->roles;
         $org = Auth::user()->organization;
-        return view('highzeta.roles', compact('roles', 'org'));
+        return view('roles.index', compact('roles', 'org'));
     }
 
     /**
@@ -67,7 +68,14 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        return view('roles.show', compact('role'));
+        $permissionNames = Schema::getColumnListing('permissions');
+
+        foreach ($permissionNames as $key => $value) {
+            if($value == 'id' || $value == 'created_at' || $value == 'updated_at'){
+                unset($permissionNames[$key]);
+            }
+        }
+        return view('roles.edit', compact('role', 'permissionNames'));
     }
 
     /**
@@ -79,12 +87,26 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-
-        // $attributes = request()->validate([
-        //     'name' => ['required', 'max:255']
-        // ]);
-        // dd($attributes);
-        // $role->update($attributes);
+        $permissionNames = Schema::getColumnListing('permissions');
+        $attributes = $request->all();
+        dump($attributes);
+        $permission = $role->permission;
+        foreach ($permissionNames as $key => $value) {
+            if($value == 'id' || $value == 'created_at' || $value == 'updated_at'){
+                unset($permissionNames[$key]);
+            }
+            else{
+                if(isset($attributes[$value])){
+                    $permission->$value = 1;
+                }
+                else{
+                    $permission->$value = 0;
+                }
+            }
+        }
+        $permission->save();
+        dd($permission);
+        return back();
     }
 
     /**
@@ -96,5 +118,8 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         //
+    }
+    public function users(Role $role){
+        return view('roles.userRoles', compact($role));
     }
 }

@@ -27,9 +27,8 @@
                     @foreach ($roles as $role)
                         <tr>
                             <td>{{ $role->name }}</td>
-                            <td><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editRole">Edit</button></td>
-                            <td><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editRole">View</button></td>
-                            <input type="hidden" id="roleId" name="roleId" value="{{$role->id}}">
+                            <td><a href="/role/{{$role->id}}/edit" class="btn btn-inline">Edit</a></td>
+                            <td><a href="/role/{{$role->id}}/users" class="btn btn-inline">Manage</a></td>
                         </tr>
                     @endforeach
                 @endif

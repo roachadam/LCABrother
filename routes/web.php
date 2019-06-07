@@ -46,12 +46,12 @@ Route::get('/dash', 'DashController@index');
 
 Route::get('/orgpending/waiting', 'OrgVerificationController@waiting');
 Route::get('/orgpending/rejected', 'OrgVerificationController@rejected');
-Route::resource('role', 'RoleController');
+
+Route::get('/role/{role}/users', 'RoleController@users' );
 
 Route::get('/orgpending/{user}', 'OrgVerificationController@show');
 Route::post('/orgpending/{user}/update', 'OrgVerificationController@update');
 Route::post('/organizations/{organization}/roles', 'OrganizationRolesController@store');
-Route::post('/organizations/{organization}/roles/update', 'OrganizationRolesController@update');
 Route::get('/users/contact', 'UserController@contact');
 
 Route::get('/goals', 'GoalsController@index');

@@ -30,4 +30,17 @@ class OrganizationRolesController extends Controller
 
         return back();
     }
+    public function update(Request $request, Organization $organization, Role)
+    {
+        $attributes = request()->validate([
+            'name'=> ['required'],
+        ]);
+
+        $role = $organization->addrole($attributes);
+
+        unset($attributes['name']);
+        $role->setPermissions($attributes);
+
+        return back();
+    }
 }
