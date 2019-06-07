@@ -33,6 +33,8 @@ Route::get('/users/profile', 'UserController@profile');
 Route::get('/users/edit', 'UserController@edit');
 Route::post('/user/{user}/join', 'UserController@joinOrg');
 Route::post('/users/update', 'UserController@update');
+Route::get('/users/{user}/adminView', 'UserController@adminView');
+Route::post('/user/{user}/organization/remove', 'UserController@orgRemove');
 
 Route::resource('role', 'RoleController');
 Route::resource('serviceEvent', 'ServiceEventController');
@@ -44,12 +46,14 @@ Route::get('/dash', 'DashController@index');
 
 Route::get('/orgpending/waiting', 'OrgVerificationController@waiting');
 Route::get('/orgpending/rejected', 'OrgVerificationController@rejected');
-Route::resource('role', 'RoleController');
+
+Route::get('/role/{role}/users', 'RoleController@users' );
+Route::post('/role/{role}/massSet', 'RoleController@massSet' );
+
 
 Route::get('/orgpending/{user}', 'OrgVerificationController@show');
 Route::post('/orgpending/{user}/update', 'OrgVerificationController@update');
 Route::post('/organizations/{organization}/roles', 'OrganizationRolesController@store');
-Route::post('/organizations/{organization}/roles/update', 'OrganizationRolesController@update');
 Route::get('/users/contact', 'UserController@contact');
 
 Route::get('/goals', 'GoalsController@index');

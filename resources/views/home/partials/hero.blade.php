@@ -14,7 +14,7 @@
 						<h1 class="hero__title">An all in one comunication tool for your organizatoin.</h1>
 						<p class="hero__text">Clubhouse is available for free, all you have to do sign up and invite your members! It will allow small clubs and organizations to gain insight into the involvement of their membership.</p>
 						<a href="/register" class="button button__accent">Start Now</a>
-						<a href="#" class="button hero__button">Learn more</a>
+						<a href="/about" class="button hero__button">Learn more</a>
 					</div>
 				</div>
 			</div>
