@@ -25,7 +25,7 @@
 
                     <div class="form-group">
                         <label for="subject">Subject</label>
-                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Greate Job on the grades!">
+                        <input type="text" class="form-control" id="subject" name="subject">
                     </div>
 
                     <div class="form-group">

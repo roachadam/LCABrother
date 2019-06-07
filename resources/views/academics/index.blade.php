@@ -29,7 +29,7 @@
                 </thead>
                 <tbody>
                         @foreach ($users as $user)
-                       
+
                             {{-- <td>{{ $user->name }}</td> --}}
                             @if ($user->latestAcademics() !== null)
                             <tr>
@@ -46,7 +46,7 @@
 
                 </tbody>
             </table>
-            <a href="/academics/edit" class="btn btn-primary align-right">Submit New Grades</a>
+            <a href="/academics/edit" class="btn btn-primary align-right">Manage</a>
         </div>
     </section>
 
