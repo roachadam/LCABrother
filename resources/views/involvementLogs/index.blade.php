@@ -28,17 +28,18 @@
                 </tr>
                 </thead>
                 <tbody>
+                    @forelse ($users as $user)
+                        <tr>
+                            <td>{{ $user->name }}</td>
+                            {{-- <td>{{ $log->event_name  }}</td> --}}
+                            <td> {{ $user->getInvolvementPoints() }} </td>
+                            @if (auth()->user()->canManageInvolvment())
+                                <td><a href="/user/{{$user->id}}/involvementLogs" class="btn btn-inline">View</a></td>
+                            @endif
+                        </tr>
+                    @empty
 
-                        @foreach ($users as $user)
-                            <tr>
-                                <td>{{ $user->name }}</td>
-                                {{-- <td>{{ $log->event_name  }}</td> --}}
-                                <td> {{ $user->getInvolvementPoints() }} </td>
-                                @if (auth()->user()->canManageInvolvment())
-                                    <td><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editServiceEvent">View</button></td>
-                                @endif
-                            </tr>
-                        @endforeach
+                    @endforelse
 
                 </tbody>
             </table>

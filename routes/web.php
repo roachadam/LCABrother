@@ -38,10 +38,13 @@ Route::post('/user/{user}/organization/remove', 'UserController@orgRemove');
 
 Route::resource('role', 'RoleController');
 Route::resource('serviceEvent', 'ServiceEventController');
+Route::resource('serviceLog', 'ServiceLogController');
 Route::resource('event', 'EventController');
 Route::resource('involvement', 'InvolvementController');
 Route::resource('involvementLog', 'InvolvementLogController');
 
+
+Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown');
 Route::get('/dash', 'DashController@index');
 
 Route::get('/orgpending/waiting', 'OrgVerificationController@waiting');

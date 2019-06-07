@@ -104,6 +104,13 @@ class InvolvementLogController extends Controller
      */
     public function destroy(InvolvementLog $involvementLog)
     {
-        //
+        $involvementLog->delete();
+        return back();
+    }
+
+    public function breakdown(Request $request, User $user){
+        $logs = $user->InvolvementLogs;
+
+        return view('involvementLogs.breakdown', compact('logs'));
     }
 }

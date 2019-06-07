@@ -69,7 +69,7 @@ class ServiceEventController extends Controller
 
     public function show(ServiceEvent $serviceEvent)
     {
-        //
+        return view('service.show', compact('serviceEvent'));
     }
 
 
@@ -81,13 +81,14 @@ class ServiceEventController extends Controller
 
     public function update(Request $request, ServiceEvent $serviceEvent)
     {
-        //
+
     }
 
 
     public function destroy(ServiceEvent $serviceEvent)
     {
-        //
+        $serviceEvent->delete();
+        return back();
     }
     protected function validateServiceEvent()
     {

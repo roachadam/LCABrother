@@ -36,7 +36,7 @@
                             <td> {{$serviceEvent->date_of_event}} </td>
                             <td> {{ $serviceEvent->getAttendance() }} </td>
                             @if (auth()->user()->canManageService())
-                                <td><button type="button" class="btn btn-inline btn-primary btn-sm ladda-button" data-toggle="modal" data-target="#editServiceEvent">Manage</button></td>
+                                <td><a href="/serviceEvent/{{$serviceEvent->id}}" class="btn btn-primary">Manage</a></td>
                             @endif
 
                         </tr>
