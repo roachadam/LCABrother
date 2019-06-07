@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-
+@extends('partials.notifications')
 
     <header class="section-header">
         <div class="tbl">
@@ -28,16 +28,22 @@
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach ($users as $user)
-                    <tr>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->latestAcademics->first()->Cumulative_GPA }}</td>
-                        <td>{{ $user->latestAcademics->first()->Previous_Term_GPA }}</td>
-                        <td>{{ $user->latestAcademics->first()->Current_Term_GPA }}</td>
-                        <td>{{ $user->latestAcademics->first()->Previous_Academic_Standing }}</td>
-                        <td>{{ $user->latestAcademics->first()->Current_Academic_Standing }}</td>
-                    </tr>
-                @endforeach
+                        @foreach ($users as $user)
+                       
+                            {{-- <td>{{ $user->name }}</td> --}}
+                            @if ($user->latestAcademics() !== null)
+                            <tr>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->latestAcademics()->Cumulative_GPA }}</td>
+                                <td>{{ $user->latestAcademics()->Previous_Term_GPA }}</td>
+                                <td>{{ $user->latestAcademics()->Current_Term_GPA }}</td>
+                                <td>{{ $user->latestAcademics()->Previous_Academic_Standing }}</td>
+                                <td>{{ $user->latestAcademics()->Current_Academic_Standing }}</td>
+                            </tr>
+                            @endif
+
+                        @endforeach
+
                 </tbody>
             </table>
             <a href="/academics/edit" class="btn btn-primary align-right">Submit New Grades</a>

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Academics;
 use Illuminate\Http\Request;
+use App\Imports\GradesImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\User;
 
 class AcademicsController extends Controller
 {
@@ -22,6 +25,10 @@ class AcademicsController extends Controller
     public function index()
     {
         $users = auth()->user()->organization->users;
+
+        foreach ($users as $user) {
+            $data = $user->latestAcademics();
+        }
         return view('academics.index', compact('users'));
     }
 
@@ -43,14 +50,15 @@ class AcademicsController extends Controller
      */
     public function store(Request $request)
     {
+
+        //dd($request);
         $request->validate([
             'grades' => 'required|file|max:2048',
         ]);
 
-        $grades = $request->grades;
-        $name = $grades->getClientOriginalName();
-        $grades->move('grades', $name);
-
+        // $grades = $request->grades;
+        Excel::import(new GradesImport, request()->file('grades'));
+        $users = auth()->user()->organization->users;
 
         return redirect('/academics');
     }
