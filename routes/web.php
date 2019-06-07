@@ -48,6 +48,8 @@ Route::get('/orgpending/waiting', 'OrgVerificationController@waiting');
 Route::get('/orgpending/rejected', 'OrgVerificationController@rejected');
 
 Route::get('/role/{role}/users', 'RoleController@users' );
+Route::post('/role/{role}/massSet', 'RoleController@massSet' );
+
 
 Route::get('/orgpending/{user}', 'OrgVerificationController@show');
 Route::post('/orgpending/{user}/update', 'OrgVerificationController@update');

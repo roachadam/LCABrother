@@ -15,17 +15,15 @@
                 <input type="checkbox" id={{$permission_name}} name={{$permission_name}} {{$role->permission->$permission_name ==1 ? 'checked' : ''}}>
                 <label for={{$permission_name}}>{{ucwords(str_replace('_', ' ', $permission_name))}}</label>
             </div>
-            {{-- <div class="checkbox-toggle">
-                <input type="checkbox" id={{"check-toggle-2"}} checked="">
-                <label for="check-toggle-2">Toggle checked</label>
-            </div> --}}
         @endforeach
-        {{-- <div class="checkbox-toggle">
-            <input type="checkbox" id={{"check-toggle-2"}} checked="">
-            <label for="check-toggle-2">Toggle checked</label>
-        </div> --}}
-
         <button type="submit" class="btn btn-inline btn-primary">Edit</button>
+
+</form>
+<form action="/role/{{$role->id}}" method="POST">
+    @csrf
+    @method('DELETE')
+
+    <button type="submit" class="btn btn-inline btn-warning" onclick="return confirm('Are you sure?')" {{($role->name =='Admin' || $role->name =='Basic') ? 'disabled' : ''}}>Delete</button>
 
 </form>
 

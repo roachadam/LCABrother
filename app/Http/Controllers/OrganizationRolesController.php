@@ -18,27 +18,18 @@ class OrganizationRolesController extends Controller
     public function store(Request $request, Organization $organization)
     {
 
-        //dd($request->all());
-        $attributes = request()->validate([
-            'name'=> ['required'],
-        ]);
+        $attributes = $request->all();
+        unset($attributes['_token']);
 
-        $role = $organization->addrole($attributes);
+        $role = $organization->addrole($attributes['name']);
 
         unset($attributes['name']);
-        $role->setPermissions($attributes);
 
-        return back();
-    }
-    public function update(Request $request, Organization $organization, Role)
-    {
-        $attributes = request()->validate([
-            'name'=> ['required'],
-        ]);
-
-        $role = $organization->addrole($attributes);
-
-        unset($attributes['name']);
+        foreach($attributes as $key => $att){
+            if($att == 'on'){
+                $attributes[$key] = 1;
+             }
+        }
         $role->setPermissions($attributes);
 
         return back();

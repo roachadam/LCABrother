@@ -17,8 +17,8 @@
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Manage</th>
                 <th>View Members In Role </th>
+                <th>Manage</th>
             </tr>
             </thead>
             <tbody>
@@ -27,8 +27,8 @@
                     @foreach ($roles as $role)
                         <tr>
                             <td>{{ $role->name }}</td>
+                            <td><a href="/role/{{$role->id}}/users" class="btn btn-inline">View</a></td>
                             <td><a href="/role/{{$role->id}}/edit" class="btn btn-inline">Edit</a></td>
-                            <td><a href="/role/{{$role->id}}/users" class="btn btn-inline">Manage</a></td>
                         </tr>
                     @endforeach
                 @endif
@@ -68,46 +68,12 @@
 
                             <fieldset>
                                 {{-- edit member details --}}
-                                <div class="checkbox-toggle form-group">
-                                    <input name="manage_member_details" type="checkbox" id="manage_member_details">
-                                    <label for="manage_member_details">Manage Member Details</label>
-                                </div>
-
-                                {{-- view all member service hour logs and edit/remove them --}}
-                                <div class="checkbox-toggle form-group">
-                                    <input type="checkbox" name="manage_all_service" id="manage_all_service">
-                                    <label for="manage_all_service">Manage Service Event Logs</label>
-                                </div>
-
-                                {{-- view all member involvement(points) logs and edit/remove them,AND log them --}}
-                                <div class="checkbox-toggle form-group">
-                                    <input type="checkbox" id="manage_all_involvement" name="manage_all_involvement">
-                                    <label for="manage_all_involvement">Manage Involvement</label>
-                                </div>
-
-                                {{-- view everyones service hours --}}
-                                <div class="checkbox-toggle form-group">
-                                    <input type="checkbox" id="view_all_service" name="view_all_service">
-                                    <label for="view_all_service">View Member's Service Hours</label>
-                                </div>
-
-                                {{-- view everyones involvement(points) --}}
-                                <div class="checkbox-toggle form-group">
-                                    <input type="checkbox" id="view_all_involvement" name="view_all_involvement">
-                                    <label for="view_all_involvement">View Member's Involvement</label>
-                                </div>
-
-                                {{-- // view all members --}}
-                                <div class="checkbox-toggle form-group">
-                                    <input type="checkbox" id="view_member_details" name="view_member_details">
-                                    <label for="view_member_details">View Members</label>
-                                </div>
-
-                                {{-- // log service hours --}}
-                                <div class="checkbox-toggle form-group">
-                                    <input type="checkbox" id="log_service_event" name="log_service_event">
-                                    <label for="log_service_event">Log Service Hours</label>
-                                </div>
+                                @foreach($permissionNames as $permission_name)
+                                    <div class="checkbox-toggle form-group">
+                                        <input type="checkbox" id={{$permission_name}} name={{$permission_name}} {{$role->permission->$permission_name ==1 ? 'checked' : ''}}>
+                                        <label for={{$permission_name}}>{{ucwords(str_replace('_', ' ', $permission_name))}}</label>
+                                    </div>
+                                @endforeach
                             </fieldset>
                         </div>
                     </div>
@@ -119,79 +85,8 @@
             </div>
         </div>
     </div><!--.modal-->
+    
 
-    <div class="modal fade"
-    id="editRole"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="myModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
-                    <i class="font-icon-close-2"></i>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">Edit Role</h4>
-            </div>
-            <form method="POST" action="/organizations/{{ $org->id }}/roles/update" class="box" >
-                <div class="modal-body">
-                    @csrf
-
-                    <div class="col-md-12">
-                        <fieldset class="form-group">
-                            <label class="form-label semibold" for="name">Role Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="TODO" placeholder="President" required>
-                        </fieldset>
-
-                        <label class="form-label semibold" for="exampleInput">Permissions</label>
-
-                        {{-- edit member details --}}
-                        <div class="checkbox-toggle">
-                            <input type="checkbox" id="manage_member_details">
-                            <label for="manage_member_details">Manage Member Details</label>
-                        </div>
-                        {{-- view all member service hour logs and edit/remove them --}}
-                        <div class="checkbox-toggle">
-                            <input type="checkbox" id="manage_all_service">
-                            <label for="manage_all_service">Manage Service Event Logs</label>
-                        </div>
-                        {{-- view all member involvement(points) logs and edit/remove them,AND log them --}}
-                        <div class="checkbox-toggle">
-                            <input type="checkbox" id="manage_all_involvement">
-                            <label for="manage_all_involvement">Manage Involvement</label>
-                        </div>
-                        {{-- view everyones service hours --}}
-                        <div class="checkbox-toggle">
-                            <input type="checkbox" id="view_all_service">
-                            <label for="view_all_service">View Member's Service Hours</label>
-                        </div>
-                        {{-- view everyones involvement(points) --}}
-                        <div class="checkbox-toggle">
-                            <input type="checkbox" id="view_all_involvement">
-                            <label for="view_all_involvement">View Member's Involvement</label>
-                        </div>
-
-                        {{-- // view all members --}}
-                        <div class="checkbox-toggle">
-                            <input type="checkbox" id="view_member_details">
-                            <label for="view_member_details">View Members</label>
-                        </div>
-                        {{-- // log service hours --}}
-                        <div class="checkbox-toggle">
-                            <input type="checkbox" id="log_service_event">
-                            <label for="log_service_event">Log Service Hours</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-inline btn-primary">Edit</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div><!--.modal-->
 </section>
 
     @section('js')

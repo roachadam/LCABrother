@@ -26,26 +26,20 @@ class Organization extends Model
         return $this->hasMany(Category::class);
     }
 
-    public function addRole($attributes)
+    public function addRole($name)
     {
-        return $this->roles()->create($attributes);
+        return $this->roles()->create(['name' =>$name]);
     }
 
     public function createAdmin()
     {
-        $attributes = [
-            'name'  =>'admin'
-        ];
-        $role = $this->addRole($attributes);
+        $role = $this->addRole('Admin');
         $role->setAdminPermissions();
     }
 
     public function createBasicUser()
     {
-        $attributes = [
-            'name'  =>'basic'
-        ];
-        $role = $this->addRole($attributes);
+        $role = $this->addRole('Basic');
         $role->setBasicPermissions();
     }
     public function getVerifiedMembers(){
