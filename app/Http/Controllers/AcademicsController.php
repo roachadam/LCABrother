@@ -58,6 +58,7 @@ class AcademicsController extends Controller
         self::storeFileLocally($request);
 
         Excel::import(new GradesImport, $file);
+        
         return redirect('/academics');
     }
 
