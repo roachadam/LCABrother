@@ -23,37 +23,37 @@ class Academics extends Model
         return $this->belongsTo(User::Class);
     }
 
-    public function updateStanding(){
-        if($this->Current_Term_GPA >2.5){
-            if($this->Previous_Academic_Standing ==='Suspension'){
+    public function updateStanding()
+    {
+        //TODO: Add the ability to check if there is an existing excel file or not. If not need to go off different rules
+        if ($this->Current_Term_GPA > 2.5) {
+            if ($this->Previous_Academic_Standing === 'Suspension') {
                 $this->setToProbation();
-            }
-            else{            //elseif($this->Previous_Academic_Standing ==='Probation' || $this->Previous_Academic_Standing ==='Good'){
+            } else {            //elseif($this->Previous_Academic_Standing ==='Probation' || $this->Previous_Academic_Standing ==='Good'){
                 $this->setToGood();
             }
-        }
-        elseif($this->Current_Term_GPA <2.5 && $this->Current_Term_GPA >1.0){
-            if($this->Previous_Academic_Standing ==='Good'){
+        } else if ($this->Current_Term_GPA < 2.5 && $this->Current_Term_GPA > 1.0) {
+            if ($this->Previous_Academic_Standing === 'Good') {
                 $this->setToProbation();
-            }
-            else{
+            } else {
                 $this->setToSuspension();
             }
+        } else {
+            $this->setToSuspension();
         }
-        else{
-           $this->setToSuspension();
-        }
-
     }
-    public function setToSuspension(){
+    public function setToSuspension()
+    {
         $this->Current_Academic_Standing = 'Suspension';
         $this->save();
     }
-    public function setToGood(){
+    public function setToGood()
+    {
         $this->Current_Academic_Standing = 'Good';
         $this->save();
     }
-    public function setToProbation(){
+    public function setToProbation()
+    {
         $this->Current_Academic_Standing = 'Probation';
         $this->save();
     }
