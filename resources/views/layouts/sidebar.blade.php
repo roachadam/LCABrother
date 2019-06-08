@@ -103,6 +103,16 @@
                     </a>
                 </li>
             @endif
+            @if (auth()->user()->canManageMembers())
+                <li class="blue">
+                    <a href="/survey/create">
+                    <span>
+                        <i class="glyphicon glyphicon-briefcase"></i>
+                        <span class="lbl">Create Survey</span>
+                    </span>
+                    </a>
+                </li>
+            @endif
         </ul>
     </section>
 </nav><!--.side-menu-->

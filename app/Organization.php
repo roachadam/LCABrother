@@ -8,6 +8,7 @@ use App\Goals;
 use App\ServiceEvent;
 use App\Involvement;
 use App\Event;
+use App\Survey;
 use DevDojo\Chatter\Models\Discussion;
 use DevDojo\Chatter\Models\Category;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,12 @@ class Organization extends Model
 {
     protected $fillable = ['name', 'owner_id'];
 
+    public function survey(){
+        return $this->hasMany(Survey::class);
+    }
+    public function addSurvey($attributes){
+        return $this->survey()->create($attributes);
+    }
     public function discussion()
     {
         return $this->hasMany(Discussion::class);
