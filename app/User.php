@@ -180,6 +180,11 @@ class User extends Authenticatable
         return false;
     }
 
+    public function markAsAlumni(){
+        $this->organization_verified = 2;
+        $this->save();
+    }
+
     //Permissions getters
     public function canManageMembers(){
         $Can = $this->role->permission->manage_member_details;

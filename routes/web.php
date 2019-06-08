@@ -52,6 +52,7 @@ Route::get('/dash', 'DashController@index');
 
 Route::get('/orgpending/waiting', 'OrgVerificationController@waiting');
 Route::get('/orgpending/rejected', 'OrgVerificationController@rejected');
+Route::get('/orgpending/alumni', 'OrgVerificationController@alumni');
 
 Route::get('/role/{role}/users', 'RoleController@users' );
 Route::post('/role/{role}/massSet', 'RoleController@massSet' );
@@ -93,3 +94,6 @@ Route::post('/avatar/default', 'UserController@default_avatar');
 Route::post('/home/contactUs', 'HomeController@contactUs');
 
 Route::get('/totals', 'TotalsController@index');
+
+Route::get('/alumni', 'AlumniController@index');
+Route::post('/user/{user}/alumni', 'AlumniController@setAlum');
