@@ -47,6 +47,12 @@
                 <span class="lbl">Forum</span>
             </a>
         </li>
+        <li class="yellow">
+                <a href="/survey">
+                    <i class="glyphicon glyphicon-console"></i>
+                    <span class="lbl">View Surveys</span>
+                </a>
+            </li>
     </ul>
 
     {{-- TODO: Inline has permission check? --}}
@@ -99,6 +105,16 @@
                     <span>
                         <i class="glyphicon glyphicon-briefcase"></i>
                         <span class="lbl">Totals</span>
+                    </span>
+                    </a>
+                </li>
+            @endif
+            @if (auth()->user()->canManageSurveys())
+                <li class="blue">
+                    <a href="/survey/create">
+                    <span>
+                        <i class="glyphicon glyphicon-briefcase"></i>
+                        <span class="lbl">Create Survey</span>
                     </span>
                     </a>
                 </li>

@@ -42,8 +42,11 @@ Route::resource('serviceLog', 'ServiceLogController');
 Route::resource('event', 'EventController');
 Route::resource('involvement', 'InvolvementController');
 Route::resource('involvementLog', 'InvolvementLogController');
+Route::resource('survey', 'SurveyController');
+Route::resource('surveyAnswers', 'SurveyAnswersController');
 
-
+Route::get('survey/{survey}/responses', 'SurveyController@viewResponses');
+Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store');
 Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown');
 Route::get('/dash', 'DashController@index');
 
