@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Survey;
 use Illuminate\Http\Request;
 use App\Organization;
-
+use App\Mail\UserSurveyReminder;
+use Mail;
 class SurveyController extends Controller
 {
     /**
@@ -111,5 +112,18 @@ class SurveyController extends Controller
 
     public function viewResponses(Request $request, Survey $survey){
         return view('survey.responses', compact('survey'));
+    }
+    public function notify(Request $request, Survey  $survey){
+        $users = $survey->getAllUnansweredMembers();
+
+        foreach($users as $user){
+            Mail::to($user->email)->send(
+                new UserSurveyReminder($survey)
+            );
+            if(env('MAIL_HOST', false) == 'smtp.mailtrap.io'){
+                sleep(5); //use usleep(500000) for half a second or less
+            }
+        }
+        return back();
     }
 }

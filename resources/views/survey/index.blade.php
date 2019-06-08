@@ -23,6 +23,7 @@
                     <th>Answer</th>
                     @if (auth()->user()->canManageSurveys())
                         <th>View Responses</th>
+                        <th>Notify Members Who Havent Answered</th>
                         <th>Manage</th>
                     @endif
                 </tr>
@@ -36,6 +37,12 @@
                         <td><a href="/survey/{{$survey->id}}" class="btn btn-inline {{auth()->user()->hasResponded($survey) ? 'disabled' : ''}}" >Submit Response</a></td>
                         @if (auth()->user()->canManageSurveys())
                             <td><a href="/survey/{{$survey->id}}/responses" class="btn btn-inline">View Responses</a></td>
+
+                            <form action="/survey/{{$survey->id}}/notify" method="POST">
+                                @csrf
+                               <td><button type="submit" class="btn btn-primary">Notify</button></td>
+                            </form>
+
                             <form action="/survey/{{$survey->id}}" method="POST">
                                 @csrf
                                 @method('DELETE')
@@ -48,5 +55,14 @@
         </table>
     </div>
 </section>
-
+@section('js')
+<script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
+<script>
+		$(function() {
+			$('#table').DataTable({
+				responsive: true
+			});
+		});
+    </script>
+@endsection
 @endsection
