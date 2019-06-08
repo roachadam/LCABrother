@@ -50,17 +50,24 @@ class AcademicsController extends Controller
      */
     public function store(Request $request)
     {
-
-        //dd($request);
         $request->validate([
             'grades' => 'required|file|max:2048',
         ]);
 
-        // $grades = $request->grades;
-        Excel::import(new GradesImport, request()->file('grades'));
-        $users = auth()->user()->organization->users;
+        $file = request()->file('grades');
+        self::storeFileLocally($request);
 
+        Excel::import(new GradesImport, $file);
         return redirect('/academics');
+    }
+
+    private function storeFileLocally(Request $request)
+    {
+        $filenameWithExt = $request->file('grades')->getClientOriginalName();
+        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);                      // Get just filename
+        $extension = $request->file('grades')->getClientOriginalExtension();            // Get just ext
+        $fileNameToStore = $filename . '.' . $extension;                                // Filename to store TODO Figure out how to name
+        $request->file('grades')->storeAs('/grades', $fileNameToStore);                 // Save Image
     }
 
     /**
