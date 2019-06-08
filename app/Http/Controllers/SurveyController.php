@@ -94,7 +94,8 @@ class SurveyController extends Controller
      */
     public function destroy(Survey $survey)
     {
-        //
+        $survey->delete();
+        return back();
     }
 
     public function viewResponses(Request $request, Survey $survey){

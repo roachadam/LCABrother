@@ -53,6 +53,7 @@ class Role extends Model
             'manage_all_involvement'=> true,
             'manage_events' =>true,
             'manage_forum' =>true,
+            'manage_surveys' =>true,
         ];
 
         $permission = Permission::create($attributes);
@@ -73,6 +74,8 @@ class Role extends Model
             'manage_all_involvement'=> false,
             'manage_events' =>false,
             'manage_forum' =>false,
+            'manage_surveys' =>false,
+
         ];
 
         $permission = Permission::create($attributes);

@@ -24,6 +24,7 @@ class CreatePermissionsTable extends Migration
             $table->unsignedTinyInteger('manage_all_involvement')->default('0');
             $table->unsignedTinyInteger('manage_events')->default('0');
             $table->unsignedTinyInteger('manage_forum')->default('0');
+            $table->unsignedTinyInteger('manage_surveys')->default('0');
             $table->timestamps();
         });
     }

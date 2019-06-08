@@ -20,8 +20,9 @@
                     <th>Survey Name</th>
                     <th>Date Posted</th>
                     <th>Answer</th>
-                    @if (auth()->user()->canManageService())
+                    @if (auth()->user()->canManageSurveys())
                         <th>View Responses</th>
+                        <th>Manage</th>
                     @endif
                 </tr>
             </thead>
@@ -31,7 +32,14 @@
                         <td>{{$survey->name}}</td>
                         <td>{{$survey->created_at}}</td>
                         <td><a href="/survey/{{$survey->id}}" class="btn btn-inline {{auth()->user()->hasResponded($survey) ? 'disabled' : ''}}" >Submit Response</a></td>
-                        <td><a href="/survey/{{$survey->id}}/responses" class="btn btn-inline">View Responses</a></td>
+                        @if (auth()->user()->canManageSurveys())
+                            <td><a href="/survey/{{$survey->id}}/responses" class="btn btn-inline">View Responses</a></td>
+                            <form action="/survey/{{$survey->id}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                               <td><button type="submit" class="btn btn-warning">Delete</button></td> 
+                            </form>
+                            @endif
                     </tr>
                 @endforeach
             </tbody>

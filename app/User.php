@@ -179,7 +179,7 @@ class User extends Authenticatable
         }
         return false;
     }
-    
+
     //Permissions getters
     public function canManageMembers(){
         $Can = $this->role->permission->manage_member_details;
@@ -215,6 +215,10 @@ class User extends Authenticatable
     }
     public function canManageForum(){
         $Can = $this->role->permission->manage_forum;
+        return $Can;
+    }
+    public function canManageSurveys(){
+        $Can = $this->role->permission->manage_surveys;
         return $Can;
     }
 }

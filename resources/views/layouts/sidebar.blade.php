@@ -109,7 +109,7 @@
                     </a>
                 </li>
             @endif
-            @if (auth()->user()->canManageMembers())
+            @if (auth()->user()->canManageSurveys())
                 <li class="blue">
                     <a href="/survey/create">
                     <span>
