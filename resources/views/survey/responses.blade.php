@@ -27,17 +27,22 @@
                 </tr>
             </thead>
             <tbody>
-                    @foreach ($survey->surveyAnswers as $response)
-                        <td>{{$response->user->name}}</td>
-                        @foreach($response->field_answers as $answer)
-                            <th>{{$answer}}</th>
-                        @endforeach
-                        <td>{{$response->created_at}}</td>
-                        <form action="/surveyAnswer/{{$response->id}}" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <td><button type="submit" class="btn btn-warning">Delete</button></td>
-                        </form>
+                    @foreach ($survey->surveyAnswers as $surveyAnswers)
+                        <tr>
+                            <td>{{$surveyAnswers->user->name}}</td>
+                            @foreach($surveyAnswers->field_answers as $answer)
+                                <th>{{$answer}}</th>
+                            @endforeach
+                            <td>{{$surveyAnswers->created_at}}</td>
+
+                            <form action="/surveyAnswers/{{$surveyAnswers->id}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <td>
+                                    <button type="submit" class="btn btn-warning disabled">Delete</button>
+                                </td>
+                            </form>
+                        </tr>
                     @endforeach
 
             </tbody>

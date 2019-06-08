@@ -30,7 +30,12 @@ class Survey extends Model
             $fieldType = $this->field_types[$index];
             $s .=   "<label>".$fieldName."</label>";
             $s .= "<br>";
-            $s .="<input id=\"".$fieldName."\" type=\"".$fieldType."\" class=\"form-control\" name=\"field_answers[]\" required=\"\" autofocus=\"\">";
+            if($fieldType=='textarea'){
+                $s.= "<textarea rows = \"5\" cols = \"50\" name = \"field_answers[]\" class=\"form-control\"></textarea>";
+            }
+            else{
+                $s .="<input id=\"".$fieldName."\" type=\"".$fieldType."\" class=\"form-control\" name=\"field_answers[]\" required=\"\" autofocus=\"\">";
+            }
             $s .= "<br>";
         }
         return $s;

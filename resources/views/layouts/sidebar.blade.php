@@ -47,6 +47,12 @@
                 <span class="lbl">Forum</span>
             </a>
         </li>
+        <li class="yellow">
+                <a href="/survey">
+                    <i class="glyphicon glyphicon-console"></i>
+                    <span class="lbl">View Surveys</span>
+                </a>
+            </li>
     </ul>
 
     {{-- TODO: Inline has permission check? --}}

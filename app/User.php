@@ -168,9 +168,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Invite::Class);
     }
+    public function hasResponded(Survey $survey){
+        $answers = SurveyAnswers::where('survey_id', '=', $survey->id)->get();
+        $answers->load('user');
+
+        foreach($answers as $answer){
+            if($answer->user->id == auth()->id()){
+                return true;
+            }
+        }
+        return false;
+    }
     
     //Permissions getters
-
     public function canManageMembers(){
         $Can = $this->role->permission->manage_member_details;
         return $Can;

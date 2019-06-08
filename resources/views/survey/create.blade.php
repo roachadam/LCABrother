@@ -49,8 +49,10 @@
         select.name = 'field_type[]';
         select.className="form-control";
         select.options[select.options.length] = new Option('Text', 'text');
-        select.options[select.options.length] = new Option('DateTime', 'text');
-        select.options[select.options.length] = new Option('TextArea', 'text');
+        select.options[select.options.length] = new Option('Date', 'date');
+        select.options[select.options.length] = new Option('TextArea', 'textarea');
+        select.options[select.options.length] = new Option('CheckBox', 'checkbox');
+        select.options[select.options.length] = new Option('Dropdown', 'select');
         form.appendChild(select);
     };
     btn.addEventListener('click', function() {
@@ -58,5 +60,34 @@
     }.bind(this));
     })();
 </script>
+{{-- <script>
+    (function() {
+    var elements = document.querySelectorAll('select[id^="select-"]');
+    var form = document.getElementById('frmAccess');
+    for(var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener("change", checkValue(i));
+        console.log(i);
+    }
+
+    var createOptions = function() {
+        console.log("Tried");
+        var input = document.createElement("input");
+        input.id = 'input-';
+        input.className="form-control";
+        input.type = 'text';
+        input.name = 'field_name[]';
+        input.placeholder = 'Survey Field Name';
+        form.appendChild(input);
+    };
+    var checkValue = function(i) {
+        console.log(i);
+        var indexChoice = element[i].selectedIndex;
+        if(indexChoice == 3 || indexChoice == 4){
+            createOptions();
+        }
+    };
+        })();
+
+</script> --}}
 @endsection
 

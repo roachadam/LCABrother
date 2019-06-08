@@ -40,7 +40,6 @@ class SurveyAnswersController extends Controller
         unset($attributes['_token']);
         $attributes['user_id'] = auth()->id();
         $survey->addResponse($attributes);
-
         return redirect('/survey');
     }
 
@@ -86,6 +85,8 @@ class SurveyAnswersController extends Controller
      */
     public function destroy(SurveyAnswers $surveyAnswers)
     {
-        //
+        dd($surveyAnswers->id);
+        $surveyAnswers->delete();
+        return back();
     }
 }
