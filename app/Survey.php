@@ -16,6 +16,9 @@ class Survey extends Model
     public function organization(){
         return $this->belongsTo(Organization::class);
     }
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
     public function surveyAnswers(){
         return $this->hasMany(SurveyAnswers::class);
     }
@@ -39,5 +42,25 @@ class Survey extends Model
             $s .= "<br>";
         }
         return $s;
+    }
+
+    public function getAllMembersWhoAnswered(){
+        $answers = SurveyAnswers::where('survey_id', '=', $this->id)->get();
+        $answers->load('user');
+
+        $answered = collect();
+        foreach($answers as $answer){
+            $user = $answer->user;
+            $answered->push($user);
+        }
+
+        return $answered;
+    }
+
+    public function getAllUnansweredMembers(){
+        $users = auth()->user()->organization->users;
+        $answered = $this->getAllMembersWhoAnswered();
+        $unanswered = $users->diff($answered);
+        return $unanswered;
     }
 }

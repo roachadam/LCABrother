@@ -16,6 +16,7 @@ class CreateSurveysTable extends Migration
         Schema::create('surveys', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('organization_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('name')->nullable();
             $table->string('desc')->nullable();
             $table->text('field_names')->nullable();

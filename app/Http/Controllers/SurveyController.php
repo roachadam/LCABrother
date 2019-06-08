@@ -42,9 +42,20 @@ class SurveyController extends Controller
         $serializedFieldNames = serialize($attributes['field_name']);
         $serializedFieldTypes = serialize($attributes['field_type']);
 
+        //Strips out field if they just hit the add field button but don't insert a name
+        foreach($attributes['field_name'] as $key =>$fieldName){
+            if($fieldName == null)
+            {
+                unset($attributes['field_name'][$key]);
+                unset($attributes['field_type'][$key]);
+            }
+        }
+
         $att['name'] = $attributes['name'];
         $att['field_names'] =   $attributes['field_name'];
         $att['field_types'] = $attributes['field_type'];
+        $att['user_id'] = auth()->id();
+        $att['desc'] = $attributes['desc'];
 
         auth()->user()->organization->addSurvey($att);
 

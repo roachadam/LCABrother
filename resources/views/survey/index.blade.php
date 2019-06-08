@@ -18,6 +18,7 @@
             <thead>
                 <tr>
                     <th>Survey Name</th>
+                    <th>Description</th>
                     <th>Date Posted</th>
                     <th>Answer</th>
                     @if (auth()->user()->canManageSurveys())
@@ -30,6 +31,7 @@
                 @foreach ($surveys as $survey)
                     <tr>
                         <td>{{$survey->name}}</td>
+                        <td>{{$survey->desc}}</td>
                         <td>{{$survey->created_at}}</td>
                         <td><a href="/survey/{{$survey->id}}" class="btn btn-inline {{auth()->user()->hasResponded($survey) ? 'disabled' : ''}}" >Submit Response</a></td>
                         @if (auth()->user()->canManageSurveys())
@@ -37,7 +39,7 @@
                             <form action="/survey/{{$survey->id}}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                               <td><button type="submit" class="btn btn-warning">Delete</button></td> 
+                               <td><button type="submit" class="btn btn-warning">Delete</button></td>
                             </form>
                             @endif
                     </tr>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\SurveyAnswers;
 use Illuminate\Http\Request;
 use App\Survey;
+use App\Events\MemberAnsweredSurvey;
 
 class SurveyAnswersController extends Controller
 {
@@ -40,6 +41,8 @@ class SurveyAnswersController extends Controller
         unset($attributes['_token']);
         $attributes['user_id'] = auth()->id();
         $survey->addResponse($attributes);
+
+        event(new MemberAnsweredSurvey($survey));
         return redirect('/survey');
     }
 

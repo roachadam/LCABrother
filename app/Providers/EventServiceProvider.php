@@ -14,6 +14,8 @@ use App\Listeners\DuplicatedGuestWasInvited;
 use App\Events\DuplicateGuestInvited;
 use App\Events\GoalsNotifSent;
 use App\Listeners\GoalsEmailWasSent;
+use App\Events\MemberAnsweredSurvey;
+use App\Listeners\EmailCreatorIfAllMembersRespond;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -40,6 +42,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         MemberRemovedFromOrg::class => [
             EmailRemovedMember::class
+        ],
+        MemberAnsweredSurvey::class => [
+            EmailCreatorIfAllMembersRespond::class
         ]
     ];
 
