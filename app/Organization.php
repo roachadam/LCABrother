@@ -19,10 +19,12 @@ class Organization extends Model
 {
     protected $fillable = ['name', 'owner_id'];
 
-    public function survey(){
+    public function survey()
+    {
         return $this->hasMany(Survey::class);
     }
-    public function addSurvey($attributes){
+    public function addSurvey($attributes)
+    {
         return $this->survey()->create($attributes);
     }
     public function discussion()
@@ -36,24 +38,18 @@ class Organization extends Model
 
     public function addRole($name)
     {
-        return $this->roles()->create(['name' =>$name]);
+        return $this->roles()->create(['name' => $name]);
     }
 
     public function createAdmin()
     {
-        $attributes = [
-            'name'  => 'admin'
-        ];
-        $role = $this->addRole($attributes);
+        $role = $this->addRole('Admin');
         $role->setAdminPermissions();
     }
 
     public function createBasicUser()
     {
-        $attributes = [
-            'name'  => 'basic'
-        ];
-        $role = $this->addRole($attributes);
+        $role = $this->addRole('Basic');
         $role->setBasicPermissions();
     }
     public function getVerifiedMembers()
@@ -109,33 +105,35 @@ class Organization extends Model
         return $this->hasMany(Event::Class);
     }
 
-    public function getAverages(){
+    public function getAverages()
+    {
         $users = $this->users;
         $attributes = [];
         $count = 0;
         $tempService = 0;
         $tempMoney = 0;
         $tempPoints = 0;
-        foreach($users as $user){
+        foreach ($users  as $user) {
             $count++;
             $tempService += $user->getServiceHours();
             $tempMoney += $user->getMoneyDonated();
             $tempPoints += $user->getInvolvementPoints();
         }
-        $attributes['service'] = $tempService/$count;
-        $attributes['money'] = $tempMoney/$count;
-        $attributes['points'] = $tempPoints/$count;
+        $attributes['service'] = $tempService / $count;
+        $attributes['money'] =  $tempMoney / $count;
+        $attributes['points'] = $tempPoints / $count;
 
         return $attributes;
     }
-    public function getTotals(){
+    public function getTotals()
+    {
         $users = $this->users;
         $attributes = [];
         $count = 0;
         $tempService = 0;
         $tempMoney = 0;
         $tempPoints = 0;
-        foreach($users as $user){
+        foreach ($users  as $user) {
             $count++;
             $tempService += $user->getServiceHours();
             $tempMoney += $user->getMoneyDonated();
@@ -148,12 +146,13 @@ class Organization extends Model
         return $attributes;
     }
 
-    public function getArrayOfServiceHours(){
+    public function getArrayOfServiceHours()
+    {
         $users = $this->users;
         $attributes = [];
         $count = 0;
         $collection = collect();
-        foreach($users as $user){
+        foreach ($users  as $user) {
             $collection->push($user->getServiceHours());
         }
         return $collection->toArray();
