@@ -12,8 +12,11 @@ class MassInvite extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('orgverified');
+
         $this->middleware('ManageMembers');
     }
+
 
     public function index()
     {

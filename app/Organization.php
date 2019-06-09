@@ -63,6 +63,11 @@ class Organization extends Model
         return $this->hasMany(User::class);
     }
 
+    public function alumni()
+    {
+        return $this->users()->where('organization_verified','=','2');
+    }
+
     public function owner()
     {
         return $this->belongsTo(User::class);

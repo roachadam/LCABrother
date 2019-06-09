@@ -65,4 +65,7 @@ class OrgVerificationController extends Controller
         }
         return view('orgPending.waiting');
     }
+    public function alumni(){
+        return view('orgPending.alumni');
+    }
 }

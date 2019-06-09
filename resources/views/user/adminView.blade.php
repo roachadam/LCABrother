@@ -29,7 +29,15 @@
                             </form>
                         </div>
                     @endif
-                    
+
+                    <div class="row">
+                        <form action="/user/{{$user->id}}/alumni" method="POST">
+                            @csrf
+                            <div>
+                                <button class="btn btn-warning offset-4" onclick="return confirm('Are you sure?')" type="submit">Mark as Alumni</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

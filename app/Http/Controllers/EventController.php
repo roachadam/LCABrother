@@ -12,6 +12,7 @@ class EventController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('ManageEvents', ['only' => ['destroy']]);
+        $this->middleware('orgverified');
     }
 
     public function index()
@@ -97,7 +98,7 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        
+
         $event->delete();
         return redirect('/event');
     }

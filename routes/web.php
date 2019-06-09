@@ -46,6 +46,7 @@ Route::resource('involvementLog', 'InvolvementLogController');
 Route::resource('survey', 'SurveyController');
 Route::resource('surveyAnswers', 'SurveyAnswersController');
 
+Route::post('survey/{survey}/notify', 'SurveyController@notify');
 Route::get('survey/{survey}/responses', 'SurveyController@viewResponses');
 Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store');
 Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown');
@@ -60,6 +61,7 @@ Route::get('/dash', 'DashController@index');
 
 Route::get('/orgpending/waiting', 'OrgVerificationController@waiting');
 Route::get('/orgpending/rejected', 'OrgVerificationController@rejected');
+Route::get('/orgpending/alumni', 'OrgVerificationController@alumni');
 
 Route::get('/role/{role}/users', 'RoleController@users');
 Route::post('/role/{role}/massSet', 'RoleController@massSet');
@@ -101,3 +103,8 @@ Route::post('/avatar/default', 'UserController@default_avatar');
 Route::post('/home/contactUs', 'HomeController@contactUs');
 
 Route::get('/totals', 'TotalsController@index');
+
+Route::get('/alumni', 'AlumniController@index');
+Route::post('/user/{user}/alumni', 'AlumniController@setAlum');
+Route::get('/alumni/contact', 'AlumniController@contact');
+Route::post('/alumni/contact/send', 'AlumniController@send');

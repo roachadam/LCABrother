@@ -129,6 +129,16 @@
                     </a>
                 </li>
             @endif
+            @if (auth()->user()->canManageMembers())
+                <li class="blue">
+                    <a href="/alumni">
+                    <span>
+                        <i class=" glyphicon glyphicon-tent "></i>
+                        <span class="lbl">Alumni</span>
+                    </span>
+                    </a>
+                </li>
+            @endif
         </ul>
     </section>
 </nav><!--.side-menu-->

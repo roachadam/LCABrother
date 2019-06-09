@@ -12,6 +12,7 @@ class InvolvementController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('ManageInvolvement');
+        $this->middleware('orgverified');
     }
 
     public function index()
