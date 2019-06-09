@@ -54,6 +54,8 @@ class Role extends Model
             'manage_events' =>true,
             'manage_forum' =>true,
             'manage_surveys' =>true,
+            'manage_all_study' => true,
+            'view_all_study' =>true,
         ];
 
         $permission = Permission::create($attributes);
@@ -76,6 +78,8 @@ class Role extends Model
             'manage_forum' =>false,
             'manage_surveys' =>false,
 
+            'manage_all_study' => false,
+            'view_all_study' =>false,
         ];
 
         $permission = Permission::create($attributes);

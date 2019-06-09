@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\AcademicsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,13 +49,20 @@ Route::resource('surveyAnswers', 'SurveyAnswersController');
 Route::get('survey/{survey}/responses', 'SurveyController@viewResponses');
 Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store');
 Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown');
+
+Route::get('/academics', 'AcademicsController@index');
+Route::post('/academics', 'AcademicsController@store');
+Route::get('/academics/store', 'AcademicsController@store');
+Route::get('/academics/manage', 'AcademicsController@manage');
+Route::post('/academics/notify', 'NotifyController@academicsNotify');
+
 Route::get('/dash', 'DashController@index');
 
 Route::get('/orgpending/waiting', 'OrgVerificationController@waiting');
 Route::get('/orgpending/rejected', 'OrgVerificationController@rejected');
 
-Route::get('/role/{role}/users', 'RoleController@users' );
-Route::post('/role/{role}/massSet', 'RoleController@massSet' );
+Route::get('/role/{role}/users', 'RoleController@users');
+Route::post('/role/{role}/massSet', 'RoleController@massSet');
 
 
 Route::get('/orgpending/{user}', 'OrgVerificationController@show');
