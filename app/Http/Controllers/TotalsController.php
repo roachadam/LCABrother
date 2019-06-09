@@ -6,7 +6,11 @@ use Illuminate\Http\Request;
 use App\Charts\ServiceHoursChart;
 class TotalsController extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('orgverified');
+    }
 
     public function index()
     {

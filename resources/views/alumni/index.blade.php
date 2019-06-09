@@ -45,8 +45,7 @@
 
                     </tbody>
                 </table>
-
-                <form action=""></form>
+                <a href="/alumni/contact" class="btn btn-primary">Contact Alumni</a>
             </div>
         </section>
 

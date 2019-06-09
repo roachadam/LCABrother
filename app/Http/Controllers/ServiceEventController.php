@@ -13,7 +13,7 @@ class ServiceEventController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        //$this->middleware('ManageService', ['except' => ['index']]);
+        $this->middleware('orgverified');
         $this->middleware('ManageService');
     }
 

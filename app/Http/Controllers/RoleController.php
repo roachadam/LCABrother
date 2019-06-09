@@ -15,13 +15,10 @@ class RoleController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('orgverified');
         $this->middleware('ManageMembers');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $permissionNames = Schema::getColumnListing('permissions');

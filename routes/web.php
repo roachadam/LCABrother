@@ -98,3 +98,5 @@ Route::get('/totals', 'TotalsController@index');
 
 Route::get('/alumni', 'AlumniController@index');
 Route::post('/user/{user}/alumni', 'AlumniController@setAlum');
+Route::get('/alumni/contact', 'AlumniController@contact');
+Route::post('/alumni/contact/send', 'AlumniController@send');

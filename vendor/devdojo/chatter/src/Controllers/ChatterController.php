@@ -10,6 +10,11 @@ use Illuminate\Routing\Controller as Controller;
 
 class ChatterController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('orgverified');
+    }
     public function index($slug = '')
     {
         $pagination_results = config('chatter.paginate.num_of_results');

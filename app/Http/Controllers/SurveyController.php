@@ -9,11 +9,12 @@ use App\Mail\UserSurveyReminder;
 use Mail;
 class SurveyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('orgverified');
+    }
+
     public function index()
     {
         $surveys = Survey::where('organization_id' , auth()->user()->organization->id)->get();
@@ -115,7 +116,7 @@ class SurveyController extends Controller
     }
     public function notify(Request $request, Survey  $survey){
         $users = $survey->getAllUnansweredMembers();
-
+        dd('here');
         foreach($users as $user){
             Mail::to($user->email)->send(
                 new UserSurveyReminder($survey)

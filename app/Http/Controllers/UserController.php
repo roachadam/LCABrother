@@ -18,7 +18,10 @@ class UserController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('MemberView', ['only' => ['index', 'contact']]);
+        $this->middleware('orgverified', ['only' => ['index', 'contact']]);
+
     }
+
 
 
     /**

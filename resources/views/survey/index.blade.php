@@ -48,7 +48,7 @@
                                 @method('DELETE')
                                <td><button type="submit" class="btn btn-warning">Delete</button></td>
                             </form>
-                            @endif
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
