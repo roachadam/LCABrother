@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <form method='POST' action="/calendar" role="presentation" class="form">
+    <form method='POST' action="/calendarItem" role="presentation" class="form">
         @csrf
 
         <div class="row m-t-md">

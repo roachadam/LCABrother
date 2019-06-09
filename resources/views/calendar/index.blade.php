@@ -3,7 +3,6 @@
 
 @section('content')
 
-<h3>Calendar</h3>
 
 <div id='calendar'></div>
 
@@ -22,6 +21,7 @@
                         {
                             title : '{{ $calendarItem->name }}',
                             start : '{{ $calendarItem->start_date }}',
+                            end : '{{ $calendarItem->end_date }}',
                             url : '/calendarItem/'+{{$calendarItem->id}},
                         },
                         @endforeach
