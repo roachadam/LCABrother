@@ -45,6 +45,9 @@ Route::resource('involvement', 'InvolvementController');
 Route::resource('involvementLog', 'InvolvementLogController');
 Route::resource('survey', 'SurveyController');
 Route::resource('surveyAnswers', 'SurveyAnswersController');
+Route::resource('calendarItem', 'CalendarController');
+
+Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
 
 Route::post('survey/{survey}/notify', 'SurveyController@notify');
 Route::get('survey/{survey}/responses', 'SurveyController@viewResponses');

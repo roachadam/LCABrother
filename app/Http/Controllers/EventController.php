@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Organziation;
 use App\Event;
 use Illuminate\Http\Request;
+use App\CalendarItem;
 
 class EventController extends Controller
 {
@@ -26,9 +27,9 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(CalendarItem $calendarItem = null)
     {
-        return view('events.create');
+            return view('events.create', compact('calendarItem'));
     }
 
     /**

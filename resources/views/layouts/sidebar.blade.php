@@ -23,36 +23,42 @@
                     <span class="lbl">View Service Events</span>
                 </a>
         </li>
-        <li class="blue">
+        <li class="pink">
                 <a href="/involvementLog">
                     <i class="glyphicon glyphicon-equalizer"></i>
                     <span class="lbl">View Involvment Scores</span>
                 </a>
         </li>
-        <li class="yellow">
+        <li class="blue">
             <a href="/users/contact">
                 <i class="glyphicon glyphicon-earphone"></i>
                 <span class="lbl">View Contact Info</span>
             </a>
         </li>
-        <li class="yellow">
+        <li class="red">
             <a href="/event">
                 <i class="glyphicon glyphicon-tasks "></i>
                 <span class="lbl">Events</span>
             </a>
         </li>
-        <li class="yellow">
+        <li class="green">
             <a href="/forums">
-                <i class="glyphicon glyphicon-console"></i>
+                <i class="glyphicon glyphicon-bullhorn"></i>
                 <span class="lbl">Forum</span>
             </a>
         </li>
-        <li class="yellow">
-                <a href="/survey">
-                    <i class="glyphicon glyphicon-console"></i>
-                    <span class="lbl">View Surveys</span>
-                </a>
-            </li>
+        <li class="pink">
+            <a href="/survey">
+                <i class=" glyphicon glyphicon-blackboard "></i>
+                <span class="lbl">View Surveys</span>
+            </a>
+        </li>
+        <li class="blue">
+            <a href="/calendarItem">
+                <i class="glyphicon glyphicon-calendar"></i>
+                <span class="lbl">View Calendar</span>
+            </a>
+        </li>
     </ul>
 
     {{-- TODO: Inline has permission check? --}}
@@ -110,27 +116,27 @@
                 </li>
             @endif
             @if (auth()->user()->canManageMembers())
-                <li class="blue">
+                <li class="red">
                     <a href="/totals">
                     <span>
-                        <i class="glyphicon glyphicon-briefcase"></i>
+                        <i class="glyphicon glyphicon-book"></i>
                         <span class="lbl">Totals</span>
                     </span>
                     </a>
                 </li>
             @endif
             @if (auth()->user()->canManageSurveys())
-                <li class="blue">
+                <li class="green">
                     <a href="/survey/create">
                     <span>
-                        <i class="glyphicon glyphicon-briefcase"></i>
+                        <i class="glyphicon glyphicon-blackboard"></i>
                         <span class="lbl">Create Survey</span>
                     </span>
                     </a>
                 </li>
             @endif
             @if (auth()->user()->canManageMembers())
-                <li class="blue">
+                <li class="pink">
                     <a href="/alumni">
                     <span>
                         <i class=" glyphicon glyphicon-tent "></i>
@@ -138,6 +144,16 @@
                     </span>
                     </a>
                 </li>
+            @endif
+            @if (auth()->user()->canManageCalendar())
+            <li class="blue">
+                <a href="/calendarItem/create">
+                <span>
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    <span class="lbl">Create Calendar Event</span>
+                </span>
+                </a>
+            </li>
             @endif
         </ul>
     </section>

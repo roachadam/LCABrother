@@ -9,14 +9,14 @@
             <div class="card">
                 <div class="card-header">{{ __('Add Event') }}</div>
                 <div class="card-body">
-                    <form method="POST" action="/event">
+                    <form method="POST" action="/calendarItem/{{$calendarItem->id}}/event/create">
                         @csrf
 
                         <div class="form-group row"> {{-- Name --}}
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Event Name') }}</label>
 
                             <div class="col-md-4">
-                                <input id="name" type="text" class="form-control " name="name" value="{{ isset($calendarItem) ? $calendarItem->name : old('name') }}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control " name="name" value="{{ isset($calendarItem) ? $calendarItem->name : old('name') }}" required autocomplete="name" >
                             </div>
                         </div>
 
@@ -24,7 +24,7 @@
                             <label for="date_of_event" class="col-md-4 col-form-label text-md-right">{{ __('Date of Event') }}</label>
 
                             <div class="col-md-4">
-                                <input id="date_of_event" type="text" class="form-control" name="date_of_event" value="{{ isset($calendarItem) ? $calendarItem->start_date : old('name') }}" required autocomplete="date_of_event" autofocus>
+                                <input id="date_of_event" type="text" class="form-control" name="date_of_event" value="{{ isset($calendarItem) ? $calendarItem->start_date : old('name') }}" required autocomplete="date_of_event" >
                             </div>
                         </div>
 
