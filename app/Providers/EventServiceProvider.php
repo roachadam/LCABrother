@@ -16,6 +16,7 @@ use App\Events\GoalsNotifSent;
 use App\Listeners\GoalsEmailWasSent;
 use App\Events\MemberAnsweredSurvey;
 use App\Listeners\EmailCreatorIfAllMembersRespond;
+use App\Listeners\CheckForExistingAcademicModel;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserValidated::class => [
             UserWasValidated::class,
+            CheckForExistingAcademicModel::class,
         ],
         MemberDeclined::class => [
             MemberWasDeclined::class,

@@ -36,7 +36,7 @@ class ServiceEventController extends Controller
 
 
         //persist
-        if(isset($attributes['service_event_id'])){
+        if (isset($attributes['service_event_id'])) {
             $event = ServiceEvent::find($attributes['service_event_id']);
             $attributes['organization_id'] = auth()->user()->organization_id;
             $attributes['user_id'] = auth()->id();
@@ -45,10 +45,9 @@ class ServiceEventController extends Controller
             unset($attributes['name']);
 
             $event->setLog($attributes);
-        }
-        else{
+        } else {
             $eventAtrributes = [
-                'organization_id'=> auth()->user()->organization_id,
+                'organization_id' => auth()->user()->organization_id,
                 'name' => $attributes['name'],
                 'date_of_event' => $attributes['date_of_event']
             ];
@@ -80,21 +79,19 @@ class ServiceEventController extends Controller
 
 
     public function update(Request $request, ServiceEvent $serviceEvent)
-    {
-
-    }
+    { }
 
 
     public function destroy(ServiceEvent $serviceEvent)
     {
         $serviceEvent->delete();
-        return back();
+        return redirect('/serviceEvent');
     }
     protected function validateServiceEvent()
     {
         //todo: fix later, https://stackoverflow.com/questions/41805597/laravel-validation-rules-if-field-empty-another-field-required
         return request()->validate([
-            'service_event_id' => ['required_without:name','numeric'],
+            'service_event_id' => ['required_without:name', 'numeric'],
             'name' => 'required_without:service_event_id',
             'money_donated' =>  'required_without:hours_served',
             'hours_served' =>  'required_without:money_donated',

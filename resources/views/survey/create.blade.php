@@ -46,15 +46,16 @@
     </div>
 </div>
 
+{{-- <script src="resources\js\survey.js"></script> --}}
 <script>
     (function() {
-    var counter = 0;
-    var btn = document.getElementById('btn');
-    var form = document.getElementById('frmAccess');
-    var form2 = document.getElementById('frmAccess2');
-    var addInput = function() {
+    let counter = 0;
+    let btn = document.getElementById('btn');
+    let form = document.getElementById('frmAccess');
+    let form2 = document.getElementById('frmAccess2');
+    let addInput = function() {
         counter++;
-        var input = document.createElement("input");
+        let input = document.createElement("input");
         input.id = 'input-' + counter;
         input.className="form-control m-t-md offset-1";
         input.type = 'text';
@@ -62,7 +63,7 @@
         input.placeholder = 'Survey Field Name';
         form.appendChild(input);
 
-        var select = document.createElement("select");
+        let select = document.createElement("select");
         select.id = 'select-' + counter;
         select.name = 'field_type[]';
         select.className="form-control m-t-md offset-1";
@@ -80,16 +81,16 @@
 </script>
 {{-- <script>
     (function() {
-    var elements = document.querySelectorAll('select[id^="select-"]');
-    var form = document.getElementById('frmAccess');
-    for(var i = 0; i < elements.length; i++) {
+    let elements = document.querySelectorAll('select[id^="select-"]');
+    let form = document.getElementById('frmAccess');
+    for(let i = 0; i < elements.length; i++) {
         elements[i].addEventListener("change", checkValue(i));
         console.log(i);
     }
 
-    var createOptions = function() {
+    let createOptions = function() {
         console.log("Tried");
-        var input = document.createElement("input");
+        let input = document.createElement("input");
         input.id = 'input-';
         input.className="form-control";
         input.type = 'text';
@@ -97,9 +98,9 @@
         input.placeholder = 'Survey Field Name';
         form.appendChild(input);
     };
-    var checkValue = function(i) {
+    let checkValue = function(i) {
         console.log(i);
-        var indexChoice = element[i].selectedIndex;
+        let indexChoice = element[i].selectedIndex;
         if(indexChoice == 3 || indexChoice == 4){
             createOptions();
         }

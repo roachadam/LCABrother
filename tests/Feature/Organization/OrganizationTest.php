@@ -17,7 +17,8 @@ class OrganizationTest extends TestCase
      * @return void
      */
     use RefreshDatabase;
-    public function registerUser(){
+    public function registerUser()
+    {
         $user = factory(User::class)->make();
         $response = $this->post('/register', [
             'name' => $user->name,
@@ -59,14 +60,13 @@ class OrganizationTest extends TestCase
 
         $org = factory(Organization::class)->make();
 
-        $response = $this->post('/organization/',[
+        $response = $this->post('/organization/', [
             'name' => $org->name
         ]);
-        $this->assertDatabaseHas('organizations',[
+        $this->assertDatabaseHas('organizations', [
             'name' => $org->name,
         ]);
         $response->assertRedirect('/goals/create');
-
     }
 
     public function test_join_Organization()
@@ -85,11 +85,11 @@ class OrganizationTest extends TestCase
         $dbUser =  DB::table('users')->where('email', $user->email)->first();
 
 
-        $response = $this->post('/user/'.$dbUser->id.'/join',[
+        $response = $this->post('/user/' . $dbUser->id . '/join', [
             'organization' => $org->id,
         ]);
 
-        $this->assertDatabaseHas('users',[
+        $this->assertDatabaseHas('users', [
             'email' => $user->email,
             'organization_id' => $org->id,
         ]);
