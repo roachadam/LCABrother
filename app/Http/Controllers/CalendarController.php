@@ -67,8 +67,14 @@ class CalendarController extends Controller
      */
     public function show(CalendarItem $calendarItem)
     {
-        $event = $calendarItem->event;
-        $invites = $event->invites;
+        if($calendarItem->hasEvent()){
+            $event = $calendarItem->event;
+            $invites = $event->invites;
+        }else{
+            $event = null;
+            $invites = null;
+        }
+
         return view('calendar.show', compact('calendarItem', 'event', 'invites'));
     }
 
@@ -103,8 +109,12 @@ class CalendarController extends Controller
      */
     public function destroy(CalendarItem $calendarItem)
     {
+        if($calendarItem->hasEvent()){
+            $event = $calendarItem->event;
+            $event->delete();
+        }
         $calendarItem->delete();
-        return redirect('/calendar');
+        return redirect('/calendarItem');
     }
     public function addEvent(Request $request, CalendarItem $calendarItem){
         $attributes = request()->validate([

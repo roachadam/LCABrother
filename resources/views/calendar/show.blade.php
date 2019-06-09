@@ -5,10 +5,19 @@
         <div class="card-header">{{$calendarItem->name}}</div>
         <div class="card-body">
 
+        <div class="offset-1">
+            <p> Description : {{$calendarItem->description}} </p>
+            @if ($calendarItem->end_date != $calendarItem->start_date)
+                <p>Start Date : {{$calendarItem->start_date}}</p>
+                <p>End Date : {{$calendarItem->end_date}}</p>
+            @else
+                <p>Date : {{$calendarItem->start_date}}</p>
+            @endif
+        </div>
 
         @if ($calendarItem->hasEvent() && auth()->user()->canManageEvents())
             <header class="section-header">
-                <div class="tbl">
+                <div class="tbl m-t-md">
                     <div class="tbl-row">
                         <div class="tbl-cell">
                             <h4>Guest List</h4>
@@ -49,18 +58,23 @@
                     </tbody>
                 </table>
 
-                <div class="row">
-                    <a href="/event" class="btn btn-inline ">Return</a>
-                    <a href="/event/{{ $event->id }}/edit" class="btn btn-inline ">Edit</a>
-                    <form method="POST" action="/event/{{ $event->id }}">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-warning">Delete</button>
-                    </form>
-                </div>
+
             </div>
             </section>
+            <div class="row">
+                    <a href="/event/{{ $event->id }}/edit" class="btn btn-inline ">Edit</a>
+                </div>
         @endif
+        @if (auth()->user()->canManageEvents())
+            <div class="row m-t-md">
+                <form method="POST" action="/calendarItem/{{ $calendarItem->id }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-warning">Delete</button>
+                </form>
+            </div>
+        @endif
+
     </div>
 </div>
 
