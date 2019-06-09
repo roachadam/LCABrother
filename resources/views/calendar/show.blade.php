@@ -6,7 +6,7 @@
         <div class="card-body">
 
 
-        @if ($calendarItem->hasEvent())
+        @if ($calendarItem->hasEvent() && auth()->user()->canManageEvents())
             <header class="section-header">
                 <div class="tbl">
                     <div class="tbl-row">
