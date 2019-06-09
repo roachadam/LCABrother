@@ -56,18 +56,18 @@ class AcademicsController extends Controller
 
         $file = request()->file('grades');
         self::storeFileLocally($request);
-
         Excel::import(new GradesImport, $file);
-        
+
         return redirect('/academics');
     }
 
     private function storeFileLocally(Request $request)
     {
+
         $filenameWithExt = $request->file('grades')->getClientOriginalName();
         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);                      // Get just filename
         $extension = $request->file('grades')->getClientOriginalExtension();            // Get just ext
-        $fileNameToStore = $filename . '.' . $extension;                                // Filename to store TODO Figure out how to name
+        $fileNameToStore = $filename . '_' . time() . '.' . $extension;                                // Filename to store TODO Figure out how to name
         $request->file('grades')->storeAs('/grades', $fileNameToStore);                 // Save Image
     }
 
@@ -89,9 +89,9 @@ class AcademicsController extends Controller
      * @return \Illuminate\Http\Response
      */
     //public function edit(Academics $academics)
-    public function edit()
+    public function manage()
     {
-        return view('academics.edit');
+        return view('academics.manage');
     }
 
     /**

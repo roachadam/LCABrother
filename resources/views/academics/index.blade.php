@@ -46,7 +46,7 @@
 
                 </tbody>
             </table>
-            <a href="/academics/edit" class="btn btn-primary align-right">Manage</a>
+            <a href="/academics/manage" class="btn btn-primary align-right">Manage</a>
         </div>
     </section>
 

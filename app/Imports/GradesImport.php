@@ -3,10 +3,10 @@
 namespace App\Imports;
 
 use App\Academics;
+use App\User;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use DB;
-use App\User;
 
 class GradesImport implements ToModel, WithHeadingRow
 {
@@ -19,23 +19,41 @@ class GradesImport implements ToModel, WithHeadingRow
     {
         $user = User::where('name', $row['student_name'])->first();
 
-        $currentTermGPA = $user->latestAcademics()->Current_Term_GPA;
-
         $academics = new Academics([
             'name' => $row['student_name'],
             'Cumulative_GPA' => $row['cumulative_gpa'],
-            'Previous_Term_GPA' => $currentTermGPA, //$row['cumulative_gpa'],
             'Current_Term_GPA' => $row['term_gpa'],
-            'Previous_Academic_Standing' => $row['academic_standing'],
         ]);
 
         if (isset($user)) {
+            $prevGPA = $this->getPreviousData($user)['prevGPA'];
+            $prevStanding = $this->getPreviousData($user)['prevStanding'];
+
             $user->academics()->save($academics);
+
+            $user->setPreviousData($prevGPA, $prevStanding);
+
+            auth()->user()->organization->academics()->save($academics);
+
+            $user->updateStanding();
         } else {
             session()->put('error', 'Could not find user' . $row['student_name']);
         }
-        auth()->user()->organization->academics()->save($academics);
-        $academics->updateStanding();
         return $academics;
+    }
+
+    private function getPreviousData(User $user)
+    {
+        try {
+            return collect([
+                'prevGPA' => $user->latestAcademics()->Current_Term_GPA,
+                'prevStanding' => $user->latestAcademics()->Current_Academic_Standing,
+            ]);
+        } catch (\Exception $e) {
+            return collect([
+                'prevGPA' => null,
+                'prevStanding' => '',
+            ]);
+        }
     }
 }

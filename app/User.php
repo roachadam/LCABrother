@@ -135,11 +135,19 @@ class User extends Authenticatable
         }
         return $points;
     }
+
     public function InvolvementLogs()
     {
         return $this->hasMany(InvolvementLog::Class);
     }
 
+    public function invites()
+    {
+        return $this->hasMany(Invite::Class);
+    }
+
+
+    //Academics stuff
     public function addAcademics(Academics $academics)
     {
         return $this->Academics()->create([
@@ -155,6 +163,52 @@ class User extends Authenticatable
     public function latestAcademics()
     {
         return $this->hasMany(Academics::Class)->latest()->first();
+    }
+
+    public function setPreviousData($prevGPA, $prevStanding)
+    {
+        $academics = $this->latestAcademics();
+        $academics->Previous_Term_GPA = $prevGPA;
+        $academics->Previous_Academic_Standing = $prevStanding;
+        $academics->save();
+    }
+
+    public function updateStanding()
+    {
+        $academics = $this->latestAcademics();
+        if ($academics->Current_Term_GPA > 2.5) {
+            if ($academics->Previous_Academic_Standing === 'Suspension') {
+                self::setToProbation($academics);
+            } else {
+                self::setToGood($academics);
+            }
+        } else if ($academics->Current_Term_GPA > 1.0) {
+            if ($academics->Previous_Academic_Standing === 'Good' || $academics->Previous_Academic_Standing === '') {
+                self::setToProbation($academics);
+            } else {
+                self::setToSuspension($academics);
+            }
+        } else {
+            self::setToSuspension($academics);
+        }
+    }
+
+    public function setToSuspension(Academics $academics)
+    {
+        $academics->Current_Academic_Standing = 'Suspension';
+        $academics->save();
+    }
+
+    public function setToGood(Academics $academics)
+    {
+        $academics->Current_Academic_Standing = 'Good';
+        $academics->save();
+    }
+
+    public function setToProbation(Academics $academics)
+    {
+        $academics->Current_Academic_Standing = 'Probation';
+        $academics->save();
     }
 
     public function handleInvite(Organization $organization)
@@ -191,10 +245,7 @@ class User extends Authenticatable
         $invites = DB::table('invites')->where($match)->get();
         return $invites;
     }
-    public function invites()
-    {
-        return $this->hasMany(Invite::Class);
-    }
+
 
     //Permissions getters
 
@@ -253,5 +304,4 @@ class User extends Authenticatable
         $Can = $this->role->permission->manage_all_study;
         return $Can;
     }
-  
 }
