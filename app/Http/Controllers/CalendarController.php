@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\CalendarItem;
+use App\Event;
 
 class CalendarController extends Controller
 {
@@ -44,7 +45,7 @@ class CalendarController extends Controller
         if(!isset($attributes['end_date'])){
             $attributes['end_date'] = $attributes['start_date'];
         }
-        
+
         $org = auth()->user()->organization;
         $calendarItem = $org->addCalendarItem($attributes);
 
@@ -66,7 +67,9 @@ class CalendarController extends Controller
      */
     public function show(CalendarItem $calendarItem)
     {
-        return view('calendar.show', compact('calendarItem'));
+        $event = $calendarItem->event;
+        $invites = $event->invites;
+        return view('calendar.show', compact('calendarItem', 'event', 'invites'));
     }
 
     /**
@@ -102,5 +105,18 @@ class CalendarController extends Controller
     {
         $calendarItem->delete();
         return redirect('/calendar');
+    }
+    public function addEvent(Request $request, CalendarItem $calendarItem){
+        $attributes = request()->validate([
+            'name' => 'required',
+            'date_of_event' => 'required',
+            'num_invites' => 'required',
+        ]);
+
+        $org = auth()->user()->organization;
+        $event = $org->addEvent($attributes);
+
+        $calendarItem->event()->associate($event)->save();
+        return redirect('/event');
     }
 }

@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header">{{ __('Add Event') }}</div>
                 <div class="card-body">
-                    <form method="POST" action="/event">
+                    <form method="POST" action="/calendarItem/{{$calendarItem->id}}/event/create">
                         @csrf
 
                         <div class="form-group row"> {{-- Name --}}
