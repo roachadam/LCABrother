@@ -41,12 +41,6 @@
                 <span class="lbl">Events</span>
             </a>
         </li>
-        <li class="pink">
-            <a href="/academics">
-                <i class="fa fa-book"></i>
-                <span class="lbl">Academics</span>
-            </a>
-        </li>
         <li class="yellow">
             <a href="/forums">
                 <i class="glyphicon glyphicon-console"></i>
