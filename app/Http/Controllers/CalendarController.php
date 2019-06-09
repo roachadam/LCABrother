@@ -38,13 +38,24 @@ class CalendarController extends Controller
     public function store(Request $request)
     {
         $attributes = $request->all();
+        $makeGuest = isset($attributes['guestList']);
+        unset($attributes['guestList']);
 
+        if(!isset($attributes['end_date'])){
+            $attributes['end_date'] = $attributes['start_date'];
+        }
+        
         $org = auth()->user()->organization;
-        $org->addCalendarItem($attributes);
+        $calendarItem = $org->addCalendarItem($attributes);
 
-        return back();
-
-
+        if($makeGuest)
+        {
+            return view('calendar.guestList',compact('calendarItem'));
+        }
+        else
+        {
+            return back();
+        }
     }
 
     /**

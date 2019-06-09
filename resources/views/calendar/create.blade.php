@@ -25,6 +25,13 @@
         </div>
 
         <div class="row m-t-md">
+            <div class="checkbox-toggle form-group">
+                    <input type="checkbox" id=guestList name=guestList>
+                    <label for=guestList>Generate GuestList</label>
+            </div>
+        </div>
+
+        <div class="row m-t-md">
             <button type='submit' class="btn btn-primary">Send</button>
         </div>
 
