@@ -310,6 +310,7 @@ class User extends Authenticatable
     }
     public function canManageSurveys(){
         $Can = $this->role->permission->manage_surveys;
+        return $Can;
     }
     public function canViewAllStudy()
     {
