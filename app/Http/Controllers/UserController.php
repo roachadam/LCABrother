@@ -98,8 +98,7 @@ class UserController extends Controller
 
         return redirect('/users/profile');
     }
-
-
+    
     public function destroy(User $user)
     {
         abort_if($user->id != auth()->id(), 403);

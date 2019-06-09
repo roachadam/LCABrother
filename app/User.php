@@ -250,12 +250,12 @@ class User extends Authenticatable
         }
         return false;
     }
-  
+
     public function markAsAlumni(){
         $this->organization_verified = 2;
         $this->save();
     }
-  
+
     public function invites()
     {
         return $this->hasMany(Invite::Class);
@@ -319,6 +319,11 @@ class User extends Authenticatable
     public function canManageAllStudy()
     {
         $Can = $this->role->permission->manage_all_study;
+        return $Can;
+    }
+    public function canManageCalendar()
+    {
+        $Can = $this->role->permission->manage_calendar;
         return $Can;
     }
 }

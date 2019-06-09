@@ -10,6 +10,7 @@ use App\Involvement;
 use App\Event;
 use App\Survey;
 use App\Academics;
+use App\CalendarItem;
 use DevDojo\Chatter\Models\Discussion;
 use DevDojo\Chatter\Models\Category;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,14 @@ class Organization extends Model
 {
     protected $fillable = ['name', 'owner_id'];
 
+    public function calendarItem(){
+        return $this->hasMany(CalendarItem::class);
+    }
+
+    public function addCalendarItem($attributes)
+    {
+        return $this->calendarItem()->create($attributes);
+    }
     public function survey()
     {
         return $this->hasMany(Survey::class);

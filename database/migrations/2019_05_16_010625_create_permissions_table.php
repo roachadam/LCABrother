@@ -27,6 +27,7 @@ class CreatePermissionsTable extends Migration
             $table->unsignedTinyInteger('manage_surveys')->default('0');
             $table->unsignedTinyInteger('view_all_study')->default('0');
             $table->unsignedTinyInteger('manage_all_study')->default('0');
+            $table->unsignedTinyInteger('manage_calendar')->default('0');
             $table->timestamps();
         });
     }

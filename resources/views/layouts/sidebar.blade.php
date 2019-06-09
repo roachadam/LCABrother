@@ -48,11 +48,17 @@
             </a>
         </li>
         <li class="yellow">
-                <a href="/survey">
-                    <i class="glyphicon glyphicon-console"></i>
-                    <span class="lbl">View Surveys</span>
-                </a>
-            </li>
+            <a href="/survey">
+                <i class="glyphicon glyphicon-console"></i>
+                <span class="lbl">View Surveys</span>
+            </a>
+        </li>
+        <li class="green">
+            <a href="/calendarItem">
+                <i class="glyphicon glyphicon-console"></i>
+                <span class="lbl">View Calendar</span>
+            </a>
+        </li>
     </ul>
 
     {{-- TODO: Inline has permission check? --}}
@@ -138,6 +144,16 @@
                     </span>
                     </a>
                 </li>
+            @endif
+            @if (auth()->user()->canManageCalendar())
+            <li class="blue">
+                <a href="/calendarItem/create">
+                <span>
+                    <i class=" glyphicon glyphicon-tent "></i>
+                    <span class="lbl">Create Calendar Event</span>
+                </span>
+                </a>
+            </li>
             @endif
         </ul>
     </section>
