@@ -155,6 +155,14 @@
                 </a>
             </li>
             @endif
+            <li class="red">
+                    <a href="/newsletter/create">
+                    <span>
+                        <i class="glyphicon glyphicon-calendar"></i>
+                        <span class="lbl">Send newsletter</span>
+                    </span>
+                    </a>
+                </li>
         </ul>
     </section>
 </nav><!--.side-menu-->

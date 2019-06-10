@@ -47,6 +47,8 @@ Route::resource('survey', 'SurveyController');
 Route::resource('surveyAnswers', 'SurveyAnswersController');
 Route::resource('calendarItem', 'CalendarController');
 
+Route::get('newsletter/create', 'NewsLetterController@create');
+
 Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
 
 Route::post('survey/{survey}/notify', 'SurveyController@notify');
