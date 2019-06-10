@@ -1,26 +1,48 @@
 @extends('layouts.main')
-<link rel="stylesheet" href="/vendor/trumbowyg/ui/trumbowyg.css">
+
 @section('content')
 
-
-
-    <div class="row">
-            <label for="editor">Email Body</label>
-        <textarea name="body" id="editor" cols="30" rows="10"></textarea>
+<form action="/newsletter" method="POST">
+    @csrf
+    <div class="row m-t-md">
+        <label>Newletter Campaign Name</label>
+        <input class="offset-1 form-control" type="text" name="name" id='name' placeholder="Meeting Minutes">
     </div>
 
-    <form action="/" method="post"></form>
 
+    <label>Members To Add</label>
+    <div class="offset-1">
+        <div class="checkbox-toggle form-group">
+                <input type="checkbox" value="-2" id="all" name="all">
+                <label for="all">
+                    All Users
+                </label>
+            </div>
+        <div class="checkbox-toggle form-group">
+            <input type="checkbox" value="-1" id="allUsers" name="allUsers">
+            <label for="allUsers">
+                All Active Members
+            </label>
+        </div>
+        <div class="checkbox-toggle form-group">
+                <input type="checkbox" value="0" id="allAlumni" name="allAlumni">
+                <label for="allAlumni">
+                    All Alumni
+                </label>
+            </div>
+        @foreach ($users as $user)
+            <div class="checkbox-toggle form-group">
+                <input type="checkbox" value="{{$user->id}}" id="subscribers[]" name="subscribers[]">
+                <label for="subscribers[]">
+                    {{$user->name}}
+                </label>
+            </div>
+        @endforeach
+    </div>
 
+    <button type="submit" class="btn btn-primary">Add</button>
 
-    @section('js')
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
-        <script src="/vendor/trumbowyg/trumbowyg.js"></script>
+</form>
 
-        <script>
-            $('#editor').trumbowyg();
-        </script>
-    @endsection
 
 @endsection
