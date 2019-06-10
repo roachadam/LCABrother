@@ -46,10 +46,17 @@ Route::resource('involvementLog', 'InvolvementLogController');
 Route::resource('survey', 'SurveyController');
 Route::resource('surveyAnswers', 'SurveyAnswersController');
 Route::resource('calendarItem', 'CalendarController');
+Route::resource('subscribers', 'SubscribersController');
 
-Route::get('newsletter/send', 'NewsLetterController@send');
+Route::post('newsletter/send/preview', 'NewsLetterController@preview');
+Route::get('newsletter/send/show', 'NewsLetterController@showSend');
 Route::get('newsletter/create', 'NewsLetterController@create');
 Route::post('newsletter', 'NewsLetterController@store');
+
+Route::get('newsletter', 'NewsLetterController@index');
+Route::get('newsletter/{newsletter}/edit', 'NewsLetterController@edit');
+Route::get('newsletter/{newsletter}/subscribers', 'NewsLetterController@subscribers');
+Route::post('newsletter/send', 'NewsLetterController@send');
 
 Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
 
