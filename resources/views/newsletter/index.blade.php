@@ -30,7 +30,11 @@
                         <td>{{ $newsletter->name }}</td>
                         <td>{{ $newsletter->last_email_sent  }}</td>
                         <td><a href="/newsletter/{{$newsletter->id}}/subscribers" class="btn btn-inline">View</a></td>
-                        <td><a href="/newsletter/{{$newsletter->id}}/edit" class="btn btn-inline">Manage</a></td>
+                        <form action="/newsletter/{{$newsletter->id}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                        <td><button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure?')">Delete</button></td>
+                        </form>
                     </tr>
                     @endforeach
                 @endif

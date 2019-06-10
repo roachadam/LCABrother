@@ -52,6 +52,7 @@ Route::post('newsletter/send/preview', 'NewsLetterController@preview');
 Route::get('newsletter/send/show', 'NewsLetterController@showSend');
 Route::get('newsletter/create', 'NewsLetterController@create');
 Route::post('newsletter', 'NewsLetterController@store');
+Route::delete('/newsletter/{newsletter}', 'NewsLetterController@destroy');
 
 Route::get('newsletter', 'NewsLetterController@index');
 Route::get('newsletter/{newsletter}/edit', 'NewsLetterController@edit');

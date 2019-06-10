@@ -49,9 +49,43 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
         <script src="/vendor/trumbowyg/trumbowyg.js"></script>
-
+        <script src="/vendor/trumbowyg/plugins/upload/trumbowyg.upload.js"></script>
+        <script src="vendor/trumbowyg/plugins/pasteimage/trumbowyg.pasteimage.min.js"></script>
         <script>
-            $('#editor').trumbowyg();
+            $('#editor').trumbowyg({
+                btnsDef: {
+                    // Create a new dropdown
+                    image: {
+                        dropdown: ['insertImage', 'upload'],
+                        ico: 'insertImage'
+                    }
+                },
+                // Redefine the button pane
+                btns: [
+                    ['viewHTML'],
+                    ['formatting'],
+                    ['strong', 'em', 'del'],
+                    ['superscript', 'subscript'],
+                    ['link'],
+                    ['image'], // Our fresh created dropdown
+                    ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+                    ['unorderedList', 'orderedList'],
+                    ['horizontalRule'],
+                    ['removeformat'],
+                    ['fullscreen']
+                ],
+                plugins: {
+                    // Add imagur parameters to upload plugin for demo purposes
+                    upload: {
+                        serverPath: 'https://api.imgur.com/3/image',
+                        fileFieldName: 'image',
+                        headers: {
+                            'Authorization': 'Client-ID xxxxxxxxxxxx'
+                        },
+                        urlPropertyName: 'data.link'
+                    }
+                }
+            });
         </script>
         <script>
             $('#previewButton').click(function(){

@@ -32,8 +32,8 @@
             </div>
         @foreach ($users as $user)
             <div class="checkbox-toggle form-group">
-                <input type="checkbox" value="{{$user->id}}" id="subscribers[]" name="subscribers[]">
-                <label for="subscribers[]">
+                <input type="checkbox" value="{{$user->id}}" name="subscribers[]" id="subscribers{{$user->id}}">
+                <label for="subscribers{{$user->id}}">
                     {{$user->name}}
                 </label>
             </div>

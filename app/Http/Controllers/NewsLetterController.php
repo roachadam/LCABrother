@@ -65,6 +65,7 @@ class NewsLetterController extends Controller
                 ]);
             }
         }
+        return redirect('/newsletter');
     }
     public function edit(NewsLetter $newsletter){
         return view('newsletter.edit', compact('newsletter'));
@@ -76,6 +77,10 @@ class NewsLetterController extends Controller
     public function showSend(){
         $newsletters = auth()->user()->organization->newsletter;
         return view('newsletter.send', compact('newsletters'));
+    }
+    public function destroy(NewsLetter $newsletter){
+        $newsletter->delete();
+        return back();
     }
 
     public function send(Request $request){
