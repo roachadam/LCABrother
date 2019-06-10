@@ -155,6 +155,31 @@
                 </a>
             </li>
             @endif
+            <li class="red">
+                <a href="/newsletter/send/show">
+                <span>
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    <span class="lbl">Send newsletter</span>
+                </span>
+                </a>
+            </li>
+            <li class="red">
+                <a href="/newsletter/create">
+                <span>
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    <span class="lbl">Create newsletter</span>
+                </span>
+                </a>
+            </li>
+            <li class="red">
+                <a href="/newsletter">
+                <span>
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    <span class="lbl">View Newsletters</span>
+                </span>
+                </a>
+            </li>
+
         </ul>
     </section>
 </nav><!--.side-menu-->

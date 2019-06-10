@@ -11,6 +11,7 @@ use App\Event;
 use App\Survey;
 use App\Academics;
 use App\CalendarItem;
+use App\NewsLetter;
 use DevDojo\Chatter\Models\Discussion;
 use DevDojo\Chatter\Models\Category;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,15 @@ use Illuminate\Support\Facades\DB;
 class Organization extends Model
 {
     protected $fillable = ['name', 'owner_id'];
+
+    public function newsletter(){
+        return $this->hasMany(NewsLetter::class);
+    }
+
+    public function addNewsletter($attributes)
+    {
+        return $this->NewsLetter()->create($attributes);
+    }
 
     public function calendarItem(){
         return $this->hasMany(CalendarItem::class);
