@@ -17,35 +17,34 @@ class GradesImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-        $user = User::where('name', $row['student_name'])->first();                 //Finds the user with a matching name
+        if ($row['student_name'] !== null) {
+            $user = User::where('name', $row['student_name'])->first();                 //Finds the user with a matching name
+            $academics = new Academics([                                                //Reads the information from the file
+                'name' => $row['student_name'],
+                'Cumulative_GPA' => $row['cumulative_gpa'],
+                'Current_Term_GPA' => $row['term_gpa'],
+            ]);
 
-        $academics = new Academics([                                                //Reads the information from the file
-            'name' => $row['student_name'],
-            'Cumulative_GPA' => $row['cumulative_gpa'],
-            'Current_Term_GPA' => $row['term_gpa'],
-        ]);
+            if (isset($user)) {
+                $prevGPA = $this->getPreviousData($user)['prevGPA'];                    //Get and store the current gpa and standing from database
+                $prevStanding = $this->getPreviousData($user)['prevStanding'];
 
-        if (isset($user)) {
-            //Get and store the current gpa and standing from database
-            $prevGPA = $this->getPreviousData($user)['prevGPA'];
-            $prevStanding = $this->getPreviousData($user)['prevStanding'];
+                $user->academics()->save($academics);                                   //Saves the excel data to the user
 
-            //Saves the excel data to the user
-            $user->academics()->save($academics);
+                $user->setPreviousData($prevGPA, $prevStanding);                        //Sets the previous standings based on the variables above
 
-            //Sets the previous standings based on the variables above
-            $user->setPreviousData($prevGPA, $prevStanding);
 
-            //Saves the academics to the organization
-            auth()->user()->organization->academics()->save($academics);
 
-            //Re-Calculates the Standings of all members
-            $user->updateStanding();
-        } else {
-            session()->put('error', 'Could not find user' . $row['student_name']);
+                $user->updateStanding();                                                //Re-Calculates the Standings of all members
+            } else {
+                session()->put('error', 'Could not find user' . $row['student_name']);
+                //auth()->user()->organization->academics()->save($academics);
+            }
+            auth()->user()->organization->academics()->save($academics);            //Sets the organization id for the current user
+            return $academics;
         }
-        return $academics;
     }
+
     private function getPreviousData(User $user)
     {
         /*
