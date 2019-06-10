@@ -35,7 +35,7 @@ class GradesImport implements ToModel, WithHeadingRow
             auth()->user()->organization->academics()->save($academics);                //Sets the organization id for the current user
 
             return $academics;
-        } else {
+        } else if ($alumni->contains('name', $row['student_name'])) {
             $alum = $alumni->firstWhere('name', $row['student_name']);                  //Selects the alumni that is trying to add more grades
             DB::table('academics')->where('user_id', '=', $alum['id'])->delete();       //Removes all previous entries of that alum from the database
         }
