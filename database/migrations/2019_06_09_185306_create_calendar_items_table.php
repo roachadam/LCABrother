@@ -14,7 +14,7 @@ class CreateCalendarItemsTable extends Migration
     public function up()
     {
         Schema::create('calendar', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('event_id')->nullable();
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->string('name');

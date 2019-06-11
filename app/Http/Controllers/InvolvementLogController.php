@@ -19,11 +19,7 @@ class InvolvementLogController extends Controller
 
     public function index()
     {
-        //Need to really think about a way to sum each of the same brothers stuff without just a
-        //big nested loop
-        //Need to left join and sum or something, not returning the brothers with 0 points
-        $users = auth()->user()->organization->users;
-
+        $users = auth()->user()->organization->getVerifiedMembers();
         return view('involvementLogs.index', compact('users'));
     }
 

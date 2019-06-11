@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\CalendarItem;
 use App\Event;
+use App\AttendanceEvent;
 
 class CalendarController extends Controller
 {
@@ -38,9 +39,23 @@ class CalendarController extends Controller
      */
     public function store(Request $request)
     {
-        $attributes = $request->all();
+        $attributes = $request->validate([
+            "name" => ['required'],
+            "description" => ['required'],
+            "start_date" => ['required'],
+            "end_date" => ['nullable'],
+            "guestList" => ['nullable'],
+            "attendance" => ['nullable'],
+            "involvement" => ['numeric']
+        ]);
+
         $makeGuest = isset($attributes['guestList']);
+        $allowAttendance = isset($attributes['attendance']);
+        $involvementId = $attributes['involvement'];
+
         unset($attributes['guestList']);
+        unset($attributes['attendance']);
+        unset($attributes['involvement']);
 
         if(!isset($attributes['end_date'])){
             $attributes['end_date'] = $attributes['start_date'];
@@ -49,14 +64,27 @@ class CalendarController extends Controller
         $org = auth()->user()->organization;
         $calendarItem = $org->addCalendarItem($attributes);
 
+
+        if($allowAttendance){
+            if($involvementId != 0){
+                $attendanceEvent = auth()->user()->organization->addAttendanceEvent([
+                    'calendar_item_id' => $calendarItem->id,
+                    'involvement_id' => $involvementId,
+                ]);
+            }
+            else{
+                $attendanceEvent = auth()->user()->organization->addAttendanceEvent([
+                    'calendar_item_id' => $calendarItem->id,
+                ]);
+            }
+
+        }
         if($makeGuest)
         {
             return view('calendar.guestList',compact('calendarItem'));
         }
-        else
-        {
-            return back();
-        }
+        return back();
+
     }
 
     /**
@@ -74,8 +102,8 @@ class CalendarController extends Controller
             $event = null;
             $invites = null;
         }
-
-        return view('calendar.show', compact('calendarItem', 'event', 'invites'));
+        $attendanceEvent = $calendarItem->attendanceEvent;
+        return view('calendar.show', compact('calendarItem', 'event', 'invites', 'attendanceEvent'));
     }
 
     /**
