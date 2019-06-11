@@ -7,8 +7,7 @@
             <div class="tbl">
                 <div class="tbl-row">
                     <div class="tbl-cell">
-                        <h2>Involvement Logs</h2>
-                        {{-- <div class="subtitle">Welcome to Ultimate Dashboard</div> --}}
+                        <h2>Attendance</h2>
                     </div>
                 </div>
             </div>
@@ -18,27 +17,23 @@
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Points</th>
-                    @if (auth()->user()->canManageInvolvment())
-                    <th>View BreakDown</th>
-                    @endif
-
-
+                    <th>Event Name</th>
+                    <th>Manage</th>
                 </tr>
                 </thead>
                 <tbody>
-                    @forelse ($users as $user)
+                    @if ($attendances->count())
+                        @foreach ($attendances as $attendance)
                         <tr>
-                            <td>{{ $user->name }}</td>
-                            <td> {{ $user->getInvolvementPoints() }} </td>
-                            @if (auth()->user()->canManageInvolvment())
-                                <td><a href="/user/{{$user->id}}/involvementLogs" class="btn btn-inline">View</a></td>
-                            @endif
+                            <td>{{ $attendance->user->name }}</td>
+                            <form action="/attendance/{{$attendance->id}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                            <td><button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure?')">Delete</button></td>
+                            </form>
                         </tr>
-                    @empty
-
-                    @endforelse
+                        @endforeach
+                    @endif
 
                 </tbody>
             </table>

@@ -3,7 +3,7 @@
 @section('content')
     <form method='POST' action="/calendarItem" role="presentation" class="form">
         @csrf
-
+        @include('partials.errors')
         <div class="row m-t-md">
             <label>Event Name</label>
             <input class="offset-1 form-control" type="text" name="name" id='name' placeholder="Chapter Meeting">
@@ -30,12 +30,43 @@
                     <label for=guestList>Generate GuestList</label>
             </div>
         </div>
+        <div class="row m-t-md">
+            <div class="checkbox-toggle form-group">
+                    <input type="checkbox" id="attendance" name="attendance" onclick="showInvolvement()">
+                    <label for="attendance">Allow Attendance</label>
+            </div>
+        </div>
+        <div class="row m-t-md">
+            <div class="checkbox-toggle form-group" id="inv" style="display: none">
+                    <label for="involvement">Add involvement points to users who attend (optional)</label>
+                    <select name="involvement" id="involvement" class="form-control">
+                        <option value="0">Choose Involvement Item</option>
+                        @foreach (auth()->user()->organization->involvement as $involvement)
+                            <option value="{{$involvement->id}}">{{$involvement->name}}</option>
+                        @endforeach
+                    </select>
+            </div>
+        </div>
 
         <div class="row m-t-md">
             <button type='submit' class="btn btn-primary">Send</button>
         </div>
 
     </form>
+@section('js')
+<script>
+    function showInvolvement(){
+        if(document.getElementById('attendance').checked){
+            var div = document.getElementById('inv');
+            inv.style.display = "block";
+        }
+        else{
+            var div = document.getElementById('inv');
+            inv.style.display = "none";
+        }
+    }
+</script>
+@endsection
 @endsection
 
 

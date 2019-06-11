@@ -47,6 +47,17 @@ Route::resource('survey', 'SurveyController');
 Route::resource('surveyAnswers', 'SurveyAnswersController');
 Route::resource('calendarItem', 'CalendarController');
 Route::resource('subscribers', 'SubscribersController');
+Route::resource('attendance', 'AttendanceController');
+Route::resource('attendanceEvent', 'AttendanceEventController');
+
+
+Route::get('/attendance/attendanceEvent/{attendanceEvent}','AttendanceController@index');
+Route::post('/attendanceEvent/calendarItem/{calendarItem}', 'AttendanceEventController@store');
+Route::post('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@store');
+Route::get('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@create');
+Route::get('/attendanceEvents', 'AttendanceEventController@index');
+
+
 
 Route::post('newsletter/send/preview', 'NewsLetterController@preview');
 Route::get('newsletter/send/show', 'NewsLetterController@showSend');

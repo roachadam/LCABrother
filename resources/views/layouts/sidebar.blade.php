@@ -59,6 +59,12 @@
                 <span class="lbl">View Calendar</span>
             </a>
         </li>
+        <li class="blue">
+            <a href="/attendanceEvents">
+                <i class="glyphicon glyphicon-calendar"></i>
+                <span class="lbl">View Attendace</span>
+            </a>
+        </li>
     </ul>
 
     {{-- TODO: Inline has permission check? --}}

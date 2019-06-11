@@ -38,9 +38,12 @@
                         <div class="form-group row">
                             <label for="usersInvolved[]" class="col-form-label text-md-right">{{ __('Members Involved') }}</label>
                         </div>
-                        @foreach (auth()->user()->organization->users as $user)
-                            <div class="form-group row offset-1">
-                                <input type="checkbox" id="inlineCheckbox1" name="usersInvolved[]" value="{{$user->id}}"> {{ $user->name }}
+                        @foreach (auth()->user()->organization->getVerifiedMembers() as $user)
+                            <div class="row offset-1">
+                                <div class="checkbox-toggle form-group">
+                                        <input type="checkbox" id="usersInvolved{{$user->id}}" name="usersInvolved[]" value="{{$user->id}}">
+                                        <label for="attendance">{{ $user->name }}
+                                </div>
                             </div>
                         @endforeach
 

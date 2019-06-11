@@ -13,6 +13,12 @@
             @else
                 <p>Date : {{$calendarItem->start_date}}</p>
             @endif
+
+            @if ($attendanceEvent !== null)
+            <a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-primary">Take Attendance</a>
+
+            @endif
+
         </div>
 
         @if ($calendarItem->hasEvent() && auth()->user()->canManageEvents())
@@ -77,7 +83,45 @@
 
     </div>
 </div>
+    @if ($attendanceEvent !== null)
+    <header class="section-header">
+            <div class="tbl">
+                <div class="tbl-row">
+                    <div class="tbl-cell">
+                        <h2>{{$attendanceEvent->calendarItem->name}} Attendance</h2>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="card">
+        <div class="card-block">
+            <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Manage</th>
+                </tr>
+                </thead>
+                <tbody>
+                    @if ($attendanceEvent->attendance->count())
+                        @foreach ($attendanceEvent->attendance as $att)
+                        <tr>
+                            <td>{{ $att->user->name }}</td>
+                            <form action="/attendance/{{$att->id}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                            <td><button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure?')">Delete</button></td>
+                            </form>
+                        </tr>
+                        @endforeach
+                    @endif
 
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    @endif
     @section('js')
     <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
     <script>
