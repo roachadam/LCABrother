@@ -79,7 +79,7 @@ class CalendarController extends Controller
             }
 
         }
-        elseif($makeGuest)
+        if($makeGuest)
         {
             return view('calendar.guestList',compact('calendarItem'));
         }

@@ -13,11 +13,21 @@
             @else
                 <p>Date : {{$calendarItem->start_date}}</p>
             @endif
-
-            @if ($attendanceEvent !== null)
-            <a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-primary">Take Attendance</a>
-
+            @if (auth()->user()->canManageEvents())
+                <div class="row m-t-md">
+                    <form method="POST" action="/calendarItem/{{ $calendarItem->id }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-warning">Delete</button>
+                    </form>
+                </div>
             @endif
+            
+            @if ($attendanceEvent !== null)
+            <div class="row m-t-md">
+                <a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-primary">Take Attendance</a>
+            </div>
+                @endif
 
         </div>
 
@@ -68,22 +78,11 @@
             </div>
             </section>
             <div class="row">
-                    <a href="/event/{{ $event->id }}/edit" class="btn btn-inline ">Edit</a>
-                </div>
-        @endif
-        @if (auth()->user()->canManageEvents())
-            <div class="row m-t-md">
-                <form method="POST" action="/calendarItem/{{ $calendarItem->id }}">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-warning">Delete</button>
-                </form>
+                <a href="/event/{{ $event->id }}/edit" class="btn btn-inline ">Edit</a>
             </div>
         @endif
 
-    </div>
-</div>
-    @if ($attendanceEvent !== null)
+        @if ($attendanceEvent !== null)
     <header class="section-header">
             <div class="tbl">
                 <div class="tbl-row">
@@ -120,8 +119,11 @@
             </table>
         </div>
     </section>
-
     @endif
+
+    </div>
+</div>
+
     @section('js')
     <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
     <script>

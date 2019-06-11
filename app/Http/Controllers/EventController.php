@@ -43,7 +43,7 @@ class EventController extends Controller
         $attributes = request()->validate([
             'name' => 'required',
             'date_of_event' => 'required',
-            'num_invites' => 'required',
+            'num_invites' => ['required', 'numeric'],
         ]);
 
         $org = auth()->user()->organization;
