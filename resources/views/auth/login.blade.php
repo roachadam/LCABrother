@@ -31,7 +31,7 @@
                         <input type="password" name="password" id='password' placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
                         <p class="row">
                             <input type="checkbox" name="remember" id="remember">
-                            <label for="check">Remember Me</label>
+                            <label for="remember">Remember Me</label>
                         </p>
                         <button type='submit' class="button button__primary">Log in</button>
 						<a href=""><h6 class="left-align" >Forgot your password?</h6></a>
