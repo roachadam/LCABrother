@@ -25,15 +25,15 @@
                         @csrf
                         <input name="name" class="fakefield">
 						<label>Name</label>
-                        <input type="text" name="name" id='name' placeholder="Johnny Smith">
+                        <input type="text" name="name" id='name' placeholder="Johnny Smith" required autocomplete="name">
 
                         <input name="email" class="fakefield">
 						<label>Email</label>
-                        <input type="text" name="email" id='email' placeholder="you@example.com">
+                        <input type="email" name="email" id='email' placeholder="you@example.com" required autocomplete="email">
 
                         <input name="phone" class="fakefield">
 						<label>Phone Number</label>
-                        <input type="tel" name="phone" id='phone' placeholder="13379990909">
+                        <input type="tel" name="phone" id='frmPhoneNumA' placeholder="13379990909" required autocomplete="tel">
 
 						<label>Password</label>
                         <input type="password" name="password" id='password' placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
