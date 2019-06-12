@@ -20,6 +20,7 @@
                 <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Last Name</th>
                     <th>Cumulative GPA</th>
                     <th>Previous Term GPA</th>
                     <th>Current Term GPA</th>
@@ -61,11 +62,24 @@
     @section('js')
     <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
     <script>
-            $(function() {
-                $('#table').DataTable({
-                    responsive: true
-                });
+        $(document).ready(function() {
+            // find full name, get surname and add it to table as second column
+            $('#table td:first-child').each(function() {
+                $('<td>'+$(this).text().split(' ')[1]+'</td>').insertAfter($(this));
             });
+            // configure sorting
+            $('#table').DataTable({
+                'columnDefs': [
+                {'orderData':[1], 'targets': [0]},
+                {
+                    'targets': [1],
+                    'visible': false,
+                    'searchable': false
+                },
+                ],
+                responsive: true
+            })
+        });
     </script>
     @endsection
 @endsection
