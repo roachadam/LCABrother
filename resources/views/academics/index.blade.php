@@ -25,7 +25,7 @@
                     <th>Current Term GPA</th>
                     <th>Previous Academic Standing</th>
                     <th>Current Academic Standing</th>
-                    <th>Manage</th>
+                    <th>Override</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,7 +42,7 @@
                             <td>{{ $user->latestAcademics()->Current_Academic_Standing }}</td>
                             <form action="/academics/user_id/{{ $user->latestAcademics()->id }}/edit" method="POST">
                                 @csrf
-                                <td><button type="submit" class="btn btn-inline">Edit</button></td>
+                                <td><button type="submit" class="btn btn-inline">Override</button></td>
                             </form>
                         </tr>
 

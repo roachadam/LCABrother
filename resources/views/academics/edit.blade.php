@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Edit Academics') }}</div>
+                <div class="card-header">{{ __('Override Academics') }}</div>
                 <div class="card-body">
                     <form method="POST" action="/academics/{{$academics->id}}/update">
                         @csrf
@@ -63,7 +63,7 @@
                             <div class="col-md-6 offset-md-4">
                                 <a href="/academics" class="btn btn-primary">Cancel</a>
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Update') }}
+                                    {{ __('Override') }}
                                 </button>
                             </div>
                         </div>

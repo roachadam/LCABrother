@@ -84,9 +84,7 @@ class AcademicsController extends Controller
 
     public function edit(Academics $academics)
     {
-        //dump($academics);
         $academics = auth()->user()->organization->users->firstWhere('id', $academics->user_id)->latestAcademics();
-        //dd(auth()->user()->organization->users->firstWhere('id', $academics->user_id));
         return view('academics.edit', compact('academics'));
     }
 
