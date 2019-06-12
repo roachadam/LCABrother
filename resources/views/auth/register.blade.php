@@ -33,7 +33,7 @@
 
                         <input name="phone" class="fakefield">
 						<label>Phone Number</label>
-                        <input type="tel" name="phone" id='frmPhoneNumA' placeholder="13379990909" required autocomplete="tel">
+                        <input type="tel" name="phone" id='frmPhoneNumA' placeholder="(337) 999-0909" required autocomplete="tel">
 
 						<label>Password</label>
                         <input type="password" name="password" id='password' placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
