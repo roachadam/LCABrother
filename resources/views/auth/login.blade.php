@@ -22,11 +22,11 @@
 					<h1 class="auth__title">Access your dashboard</h1>
                     <p>Fill in your email and password to proceed</p>
                     @include('partials.errors')
-					<form method='POST' action="{{ route('login') }}" autocompelete="new-password" role="presentation" class="form">
+					<form method='POST' action="{{ route('login') }}" role="presentation" class="form">
                         @csrf
                         <input name="email" class="fakefield">
 						<label>Email</label>
-						<input type="text" name="email" id='email' placeholder="you@example.com">
+						<input type="text" name="email" id='email' placeholder="you@example.com" autocomplete="email">
 						<label>Password</label>
                         <input type="password" name="password" id='password' placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
                         <p class="row">
