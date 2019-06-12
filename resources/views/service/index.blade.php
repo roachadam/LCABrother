@@ -22,7 +22,7 @@
                             <th>Date</th>
                             <th>Attendance</th>
                             @if (auth()->user()->canManageService())
-                                <td>Manage</td>
+                                <th>Manage</th>
                             @endif
 
 
