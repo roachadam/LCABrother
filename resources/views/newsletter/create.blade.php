@@ -6,7 +6,7 @@
     @csrf
     <div class="row m-t-md">
         <label>Newletter Campaign Name</label>
-        <input class="offset-1 form-control" type="text" name="name" id='name' placeholder="Meeting Minutes">
+        <input class="offset-1 form-control" type="text" name="name" id='name' placeholder="Meeting Minutes" required>
     </div>
 
 

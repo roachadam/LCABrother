@@ -141,7 +141,7 @@ class Organization extends Model
 
     public function getAverages()
     {
-        $users = $this->users;
+        $users = $this->getVerifiedMembers();
         $attributes = [];
         $count = 0;
         $tempService = 0;

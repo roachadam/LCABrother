@@ -16,7 +16,7 @@ class TotalsController extends Controller
     {
         $chart = new ServiceHoursChart;
         $org = auth()->user()->organization;
-        $users = $org->users;
+        $users = $org->getVerifiedMembers();
         $serviceHoursArray = $org->getArrayOfServiceHours();
 
         $chart->labels([1,2,3]);
@@ -28,7 +28,7 @@ class TotalsController extends Controller
         $averages = auth()->user()->organization->getAverages();
         $goals = auth()->user()->organization->goals;
 
-        $numMembers = auth()->user()->organization->users()->count();
+        $numMembers = auth()->user()->organization->getVerifiedMembers()->count();
         $sumTotals['service'] = $goals->service_hours_goal * $numMembers;
         $sumTotals['money'] = $goals->service_money_goal* $numMembers;
         $sumTotals['points'] = $goals->points_goal* $numMembers;

@@ -19,11 +19,12 @@
 
 <div id="chatter" class="chatter_home">
 
-    <div id="chatter_header" style="background-color:#263237">
+    {{-- <div id="chatter_header" style="background-color:#263237">
         <div class="justify-content-center offset-1">
             <h1 style="color:#ffffff">Forum</h1>
         </div>
-	</div>
+    </div> --}}
+    <h1>Forum</h1>
 	@if(config('chatter.errors'))
 		@if(Session::has('chatter_alert'))
 			<div class="chatter-alert alert alert-{{ Session::get('chatter_alert_type') }}">
@@ -59,7 +60,7 @@
 	    		<div class="chatter_sidebar">
 					<button class="btn btn-default" id="new_discussion_btn"><i class="chatter-new"></i> @lang('chatter::messages.discussion.new')</button>
 					<a href="/{{ Config::get('chatter.routes.home') }}"><i class="chatter-bubble"></i> @lang('chatter::messages.discussion.all')</a>
-          {!! $categoriesMenu !!}
+                    {!! $categoriesMenu !!}
 				</div>
 				<!-- END SIDEBAR -->
 	    	</div>

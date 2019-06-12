@@ -7,16 +7,18 @@
         @csrf
 
             <label>Alumni To Contact</label>
-            <div class="form-check offset-1">
-                    <input class="form-check-input" type="checkbox" value="0" id="alum[]" name="alum[]">
-                    <label class="form-check-label" for="alum[]">
+            <div class="checkbox-toggle form-group offset-1">
+                    <input type="checkbox" value="0" id="alum0" name="alum[]">
+                    <label for="alum0">
                         All Alumni
                     </label>
                 </div>
+
+
             @foreach ($alumni as $alum)
-                <div class="form-check offset-1">
-                    <input class="form-check-input" type="checkbox" value="{{$alum->id}}" id="alum[]" name="alum[]">
-                    <label class="form-check-label" for="alum[]">
+                <div class="checkbox-toggle form-group offset-1">
+                    <input type="checkbox" value="{{$alum->id}}" id="alum{{$alum->id}}" name="alum[]">
+                    <label for="alum{{$alum->id}}">
                         {{$alum->name}}
                     </label>
                 </div>
