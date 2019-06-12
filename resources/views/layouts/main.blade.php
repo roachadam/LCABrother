@@ -10,8 +10,6 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-
 	<script src="{{ asset('js/lib/jquery/jquery-3.2.1.min.js') }}"></script>
 	<script src="{{ asset('js/lib/popper/popper.min.js') }}"></script>
     <script src="{{ asset('js/lib/bootstrap/bootstrap.min.js') }}"></script>
@@ -45,86 +43,43 @@
     <link rel="stylesheet" href="{{ asset('css/separate/vendor/flatpickr.min.css') }}" rel="stylesheet">
     {{-- <link rel="stylesheet" href="http://demo.itsolutionstuff.com/plugin/bootstrap-3.min.css"> --}}
 
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/css/bootstrap-notify.css") }}">
     @yield('css')
+    <style>
+        #header {
+            position: fixed;
+            z-index: 100;
+            width: 100%;
+            background-color: #6C63FF;
+            transition: 0.7s; }
+            .navbar--nofixed {
+                position: relative;
+                z-index: 3; }
+        }
+    </style>
+    <style>
+        #logoId {
+            font-size: 1.325rem;
+            transition: 0;
+            color: #fff;
+            text-decoration: none; }
+        }
+    </style>
+    <style>
+        html body{
+            font-family: "Lato", sans-serif;
+        }
+    </style>
+    <style>
+        #sidebarId{
+            background-color: rgb(51,60,68);
+        }
+    </style>
+
 </head>
-<body class="with-side-menu control-panel control-panel-compact">
+<body class="with-side-menu ">
     @include('partials.notifications')
-	<header class="site-header">
-	    <div class="container-fluid">
-	        <a href="#" class="site-logo">
-                <img class="hidden-md-down" src="/img/logo-2.png" alt="">
-	        </a>
-
-	        <button id="show-hide-sidebar-toggle" class="show-hide-sidebar">
-	            <span>toggle menu</span>
-	        </button>
-
-	        <button class="hamburger hamburger--htla" class="show-hide-sidebar">
-	            <span>toggle menu</span>
-	        </button>
-	        <div class="site-header-content">
-	            <div class="site-header-content-in">
-	                <div class="site-header-shown">
-	                    <div class="dropdown dropdown-notification notif">
-	                        <a href="#"
-	                           class="header{{ Auth::user()->organization->users()->where('organization_verified',null)->get()->count() > 0 ? '-alarm' : '' }} dropdown-toggle active"
-	                           id="dd-notification"
-	                           data-toggle="dropdown"
-	                           aria-haspopup="true"
-	                           aria-expanded="false">
-	                            <i class="font-icon-alarm"></i>
-                            </a>
-                            {{-- Notifications --}}
-	                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-notif" aria-labelledby="dd-notification">
-	                            <div class="dropdown-menu-notif-header">
-	                                Notifications
-	                                <span class="label label-pill label-danger">{{Auth::user()->organization->users()->where('organization_verified',null)->get()->count()}}</span>
-                                </div>
-	                            <div class="dropdown-menu-notif-list">
-                                    @if (Auth::user()->canManageMembers())
-                                        @foreach (Auth::user()->organization->users()->where('organization_verified',null)->get() as $member)
-                                            <div class="dropdown-menu-notif-item">
-                                                <div class="dot"></div>
-                                                <a href="/orgpending/{{$member->id}}"> {{ $member->name }} </a> is waiting for verification
-                                                <div class="color-blue-grey-lighter"> {{ $member->created_at }}</div>
-                                            </div>
-                                        @endforeach
-                                    @endif
-	                            </div>
-	                        </div>
-	                    </div>
-                        {{-- Account --}}
-	                    <div class="dropdown user-menu">
-	                        <button class="dropdown-toggle text-left" id="dd-user-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                                <img src="/storage/avatars/{{ auth()->user()->avatar }}" alt="">
-
-                            </button>
-	                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
-	                            <a class="dropdown-item" href="/users/profile"><span class="font-icon glyphicon glyphicon-user"></span>Profile</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        <span class="font-icon glyphicon glyphicon-log-out"></span>{{ __('Logout') }}
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            </div>
-	                    </div>
-
-	                    <button type="button" class="burger-right">
-	                        <i class="font-icon-menu-addl"></i>
-	                    </button>
-	                </div><!--.site-header-shown-->
-
-	            </div><!--site-header-content-in-->
-	        </div><!--.site-header-content-->
-	    </div><!--.container-fluid-->
-	</header><!--.site-header-->
+	@include('layouts.headbar')
 
 	<div class="mobile-menu-left-overlay"></div>
 	@if (auth()->user()->isVerified())
@@ -133,11 +88,9 @@
 
 	<div class="page-content">
 	    <div class="container-fluid">
-
                 @yield('content')
-
-	    </div><!--.container-fluid-->
-    </div><!--.page-content-->
+	    </div>
+    </div>
     @yield('js')
 </body>
 </html>
