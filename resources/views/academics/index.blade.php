@@ -25,28 +25,36 @@
                     <th>Current Term GPA</th>
                     <th>Previous Academic Standing</th>
                     <th>Current Academic Standing</th>
+                    <th>Override</th>
                 </tr>
                 </thead>
                 <tbody>
-                        @foreach ($users as $user)
+                    @foreach ($users as $user)
 
-                            {{-- <td>{{ $user->name }}</td> --}}
-                            @if ($user->latestAcademics() !== null)
-                            <tr>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->latestAcademics()->Cumulative_GPA }}</td>
-                                <td>{{ $user->latestAcademics()->Previous_Term_GPA }}</td>
-                                <td>{{ $user->latestAcademics()->Current_Term_GPA }}</td>
-                                <td>{{ $user->latestAcademics()->Previous_Academic_Standing }}</td>
-                                <td>{{ $user->latestAcademics()->Current_Academic_Standing }}</td>
-                            </tr>
-                            @endif
+                        {{-- <td>{{ $user->name }}</td> --}}
+                        @if ($user->latestAcademics() !== null)
+                        <tr>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->latestAcademics()->Cumulative_GPA }}</td>
+                            <td>{{ $user->latestAcademics()->Previous_Term_GPA }}</td>
+                            <td>{{ $user->latestAcademics()->Current_Term_GPA }}</td>
+                            <td>{{ $user->latestAcademics()->Previous_Academic_Standing }}</td>
+                            <td>{{ $user->latestAcademics()->Current_Academic_Standing }}</td>
+                            <form action="/academics/user_id/{{ $user->latestAcademics()->id }}/edit" method="POST">
+                                @csrf
+                                <td><button type="submit" class="btn btn-inline">Override</button></td>
+                            </form>
+                        </tr>
 
-                        @endforeach
+                        @endif
+
+                    @endforeach
 
                 </tbody>
             </table>
-            <a href="/academics/manage" class="btn btn-primary align-right">Manage</a>
+            <form action="/academics/manage" method="GET">
+                <button type="submit" class="btn btn-primary align-right">Manage</button>
+            </form>
         </div>
     </section>
 
