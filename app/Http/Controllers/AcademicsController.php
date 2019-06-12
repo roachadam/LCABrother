@@ -61,13 +61,13 @@ class AcademicsController extends Controller
         return redirect('/academics');
     }
 
+    //Helper function for store()
     private function storeFileLocally(Request $request)
     {
-
         $filenameWithExt = $request->file('grades')->getClientOriginalName();
         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);                      // Get just filename
         $extension = $request->file('grades')->getClientOriginalExtension();            // Get just ext
-        $fileNameToStore = $filename . '_' . time() . '.' . $extension;                                // Filename to store TODO Figure out how to name
+        $fileNameToStore = $filename . '_' . time() . '.' . $extension;                 // Filename to store TODO Figure out how to name
         $request->file('grades')->storeAs('/grades', $fileNameToStore);                 // Save Image
     }
 
@@ -82,13 +82,20 @@ class AcademicsController extends Controller
         //
     }
 
+    public function edit(Academics $academics)
+    {
+        //dump($academics);
+        $academics = auth()->user()->organization->users->firstWhere('id', $academics->user_id)->latestAcademics();
+        //dd(auth()->user()->organization->users->firstWhere('id', $academics->user_id));
+        return view('academics.edit', compact('academics'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Academics  $academics
      * @return \Illuminate\Http\Response
      */
-    //public function edit(Academics $academics)
     public function manage()
     {
         return view('academics.manage');
@@ -102,7 +109,13 @@ class AcademicsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Academics $academics)
-    { }
+    {
+        $user = auth()->user()->organization->users->firstWhere('id', $academics->user_id);
+        $attributes = request()->all();
+        $user->latestAcademics()->update($attributes);
+
+        return redirect('/academics');
+    }
 
     /**
      * Remove the specified resource from storage.

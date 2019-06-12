@@ -51,13 +51,11 @@ Route::resource('attendance', 'AttendanceController');
 Route::resource('attendanceEvent', 'AttendanceEventController');
 
 
-Route::get('/attendance/attendanceEvent/{attendanceEvent}','AttendanceController@index');
+Route::get('/attendance/attendanceEvent/{attendanceEvent}', 'AttendanceController@index');
 Route::post('/attendanceEvent/calendarItem/{calendarItem}', 'AttendanceEventController@store');
 Route::post('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@store');
 Route::get('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@create');
 Route::get('/attendanceEvents', 'AttendanceEventController@index');
-
-
 
 Route::post('newsletter/send/preview', 'NewsLetterController@preview');
 Route::get('newsletter/send/show', 'NewsLetterController@showSend');
@@ -77,10 +75,13 @@ Route::get('survey/{survey}/responses', 'SurveyController@viewResponses');
 Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store');
 Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown');
 
+//Route::resource('academics', 'AcademicsController');
 Route::get('/academics', 'AcademicsController@index');
 Route::post('/academics', 'AcademicsController@store');
+Route::post('/academics/user_id/{academics}/edit', 'AcademicsController@edit');
 Route::get('/academics/store', 'AcademicsController@store');
 Route::get('/academics/manage', 'AcademicsController@manage');
+Route::patch('/academics/{academics}/update', 'AcademicsController@update');
 Route::post('/academics/notify', 'NotifyController@academicsNotify');
 
 Route::get('/dash', 'DashController@index');
