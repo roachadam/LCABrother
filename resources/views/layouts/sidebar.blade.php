@@ -5,8 +5,8 @@
     {{-- <div class="jspContainer">
         <div class="jspPane"> --}}
             <ul class="side-menu-list" >
-                <li class="grey" style="color:azure">
-                    <a href="/dash" style="color:white">
+                <li class="grey">
+                    <a href="/dash">
                         <i class="font-icon glyphicon glyphicon-home"></i>
                         <span class="lbl">Dashboard</span>
                     </a>
