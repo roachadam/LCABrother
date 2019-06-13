@@ -11,7 +11,7 @@
                     <form method="POST" action="/academics/{{$academics->id}}/update">
                         @csrf
                         @method('PATCH')
-                        <div class="form-group row"> {{-- Name --}}
+                        <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('User Name') }}</label>
 
                             <div class="col-md-4">
@@ -19,7 +19,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row"> {{--date_of_event --}}
+                        <div class="form-group row">
                             <label for="Cumulative_GPA" class="col-md-4 col-form-label text-md-right">{{ __('Cumulative GPA') }}</label>
 
                             <div class="col-md-4">
@@ -27,7 +27,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row"> {{-- num_invites --}}
+                        <div class="form-group row">
                             <label for="Previous_Term_GPA" class="col-md-4 col-form-label text-md-right">{{ __('Previous Term GPA') }}</label>
 
                             <div class="col-md-4">
@@ -35,7 +35,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row"> {{-- num_invites --}}
+                        <div class="form-group row">
                             <label for="Current_Term_GPA" class="col-md-4 col-form-label text-md-right">{{ __('Current Term GPA') }}</label>
 
                             <div class="col-md-4">
@@ -43,20 +43,37 @@
                             </div>
                         </div>
 
-                        <div class="form-group row"> {{-- num_invites --}}
+                        <?php
+                            $default_Previous_Academic_Standing = $academics->Previous_Academic_Standing == null ? " " : $academics->Previous_Academic_Standing;
+                            $default_Current_Academic_Standing = $academics->Current_Academic_Standing == null ? " " : $academics->Current_Academic_Standing;
+                         ?>
+                        <script>
+                            $(document).ready(() => {
+                                $("#Previous_Academic_Standing option:contains(" + '<?php echo $default_Previous_Academic_Standing?>' + ")").attr('selected', 'selected');
+                                $("#Current_Academic_Standing option:contains(" + '<?php echo $default_Current_Academic_Standing?>' + ")").attr('selected', 'selected');
+                            });
+                        </script>
+
+                        <div class="form-group row">
                             <label for="Previous_Academic_Standing" class="col-md-4 col-form-label text-md-right">{{ __('Previous Academic Standing') }}</label>
 
-                            <div class="col-md-4">
-                                <input id="Previous_Academic_Standing" type="text" class="form-control " name="Previous_Academic_Standing" value="{{ $academics->Previous_Academic_Standing }}" autofocus>
-                            </div>
+                            <select name="Previous_Academic_Standing" id="Previous_Academic_Standing" class="col-md-4 form-control" value="{{ $academics->Previous_Academic_Standing }}">
+                                <option value=" "> </option>
+                                <option value="Good">Good</option>
+                                <option value="Probation">Probation</option>
+                                <option value="Suspension">Suspension</option>
+                            </select>
                         </div>
 
-                        <div class="form-group row"> {{-- num_invites --}}
+                        <div class="form-group row">
                             <label for="Current_Academic_Standing" class="col-md-4 col-form-label text-md-right">{{ __('Current Academic Standing') }}</label>
 
-                            <div class="col-md-4">
-                                <input id="Current_Academic_Standing" type="text" class="form-control " name="Current_Academic_Standing" value="{{ $academics->Current_Academic_Standing }}" autofocus>
-                            </div>
+                            <select name="Current_Academic_Standing" id="Current_Academic_Standing" class="col-md-4 form-control" value="{{ $academics->Current_Academic_Standing }}">
+                                <option value=" "> </option>
+                                <option value="Good">Good</option>
+                                <option value="Probation">Probation</option>
+                                <option value="Suspension">Suspension</option>
+                            </select>
                         </div>
 
                         <div class="form-group row mb-0">
@@ -75,4 +92,6 @@
         </div>
     </div>
 </div>
+
 @endsection
+

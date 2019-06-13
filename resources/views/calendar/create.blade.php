@@ -61,20 +61,19 @@
         </div>
     </div>
 
-@section('js')
-<script>
-    function showInvolvement(){
-        if(document.getElementById('attendance').checked){
-            var div = document.getElementById('inv');
-            inv.style.display = "block";
+    @section('js')
+    <script>
+        function showInvolvement(){
+            if(document.getElementById('attendance').checked){
+                let div = document.getElementById('inv');
+                inv.style.display = "block";
+            } else {
+                let div = document.getElementById('inv');
+                inv.style.display = "none";
+            }
         }
-        else{
-            var div = document.getElementById('inv');
-            inv.style.display = "none";
-        }
-    }
-</script>
-@endsection
+    </script>
+    @endsection
 @endsection
 
 
