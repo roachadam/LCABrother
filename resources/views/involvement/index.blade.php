@@ -29,12 +29,15 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                                <label for="date_of_event" class="col-form-label text-md-right">Date of Event</label>
-                                <div class="col-md-4">
-                                        <input id="date_of_event" type="text" class="form-control" name="date_of_event" placeholder="2019-05-20 03:50:15" value="2001-10-26 21:32:52" autofocus="">
-                                </div>
+                        <div class="row m-t-md">
+                            <label for='date_of_event'>Date of Event</label>
+
+                            <div class="col-md-4">
+                                    <input class="offset-1 form-control" type="date" name="date_of_event" id="date_of_event">
+
+                            </div>
                         </div>
+
                         <div class="form-group row">
                             <label for="usersInvolved[]" class="col-form-label text-md-right">{{ __('Members Involved') }}</label>
                         </div>

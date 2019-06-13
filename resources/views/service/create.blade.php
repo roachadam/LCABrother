@@ -1,4 +1,4 @@
-@extends('layouts.dashtheme')
+@extends('layouts.main')
 @section('title', 'Add Service Log')
 @section('content')
 
@@ -11,26 +11,46 @@
 
 
     @if ($serviceEvents->count())
-            <label>Existing Events</label>
-            <select class="form-control m-bot15" name="service_event_id" id="service_event_id">
-                <option value="-1" >Choose Existing Event</option>
-            @foreach ($serviceEvents as $serviceEvent)
-                <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
-            @endforeach
-            </select>
+        <div class="row m-t-md">
+            <label for="service_event_id">Existing Events</label>
+            <div class="col-md-4">
+                <select class="form-control m-bot15" name="service_event_id" id="service_event_id">
+                    <option value="-1" >Choose Existing Event</option>
+                    @foreach ($serviceEvents as $serviceEvent)
+                        <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
     @endif
+    <div class="row m-t-md">
+        <label>New Event Name</label>
+        <div class="col-md-4">
+            <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}"  autofocus>
+        </div>
+    </div>
 
-    <label>New Event Name</label>
-    <input id="name" type="text" class="fakefield" name="name" value="{{ old('name') }}"  autofocus>
+    <div class="row m-t-md">
+        <label for='date_of_event'>Date of Event</label>
+        <div class="col-md-4">
+                <input class="offset-1 form-control" type="date" name="date_of_event" id="date_of_event">
+        </div>
+    </div>
 
-    <label>Date of Event</label>
-    <input id="date_of_event" type="text" class="fakefield"  name="date_of_event" placeholder="2019-05-20 03:50:15" value="2001-10-26 21:32:52" autofocus>
+    <div class="row m-t-md">
+        <label for="money_donated">Money Donated</label>
+        <div class="col-md-4">
+            <input id="money_donated" type="number" class="offset-1 form-control"  name="money_donated" value="{{ old('money_donated') }}"  autofocus>
+        </div>
+    </div>
 
-    <label for="money_donated" class="col-form-label offset-md-1 text-left">{{ __('Money Donated') }}</label>
-    <input id="money_donated" type="number" class="fakefield"  name="money_donated" value="{{ old('money_donated') }}"  autofocus>
+    <div class="row m-t-md">
+            <label for="hours_served">Hours Served</label>
+            <div class="col-md-4">
+                    <input id="hours_served" type="number" class="offset-1 form-control" name="hours_served" value="{{ old('hours_served') }}"  autofocus>
+                </div>
+    </div>
 
-    <label>Hours Served</label>
-    <input id="hours_served" type="number" class="fakefield" name="hours_served" value="{{ old('hours_served') }}"  autofocus>
 
     <button type="submit" class="btn btn-primary">Log Event</button>
 
