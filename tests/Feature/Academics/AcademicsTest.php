@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Academics;
+use App\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -27,5 +28,20 @@ class AcademicsTest extends TestCase
 
         $response->assertRedirect('/dash');
         $response->assertStatus(302);
+    }
+
+    public function test_can_manage()
+    {
+        $this->withoutExceptionHandling();
+        $this->loginAsAdmin();
+
+        $response = $this->get('/academics/manage');
+        $response->assertStatus(200);
+    }
+
+    public function test_add_academics()
+    {
+        $this->withoutExceptionHandling();
+        $this->loginAsAdmin();
     }
 }
