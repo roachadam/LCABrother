@@ -24,15 +24,15 @@
 					<div class="step__media">
 						<img src="./img/home/clean.svg" class="step__image">
 					</div>
-					<h4>Commodo mollit anim officia laborum incididunt Lorem.</h4>
-					<p class="step__text">Est ex enim adipisicing minim velit anim non incididunt fugiat. Enim duis laboris qui eiusmod et.</p>
+					<h4>Simplify your record keeping.</h4>
+					<p class="step__text">Streamline the way your organization collects and stores involvement data, service hours and more. No more Google Sheets, Forms and lost notebook pages.</p>
 				</div>
 				<div class="step">
 					<div class="step__media">
 						<img src="./img/home/voting.svg" class="step__image">
 					</div>
-					<h4>Culpa velit minim cupidatat nostrud dolor adipisicing mollit proident veniam irure sit ipsum.</h4>
-					<p class="step__text">Qui eiusmod elit excepteur eu eiusmod do voluptate deserunt magna fugiat sint dolor.Voluptate Lorem quis cillum mollit pariatur nisi ex sint.</p>
+					<h4>Easily poll and survey your membership</h4>
+					<p class="step__text">In order to operate efficiently, you need to be able to gather opinions from yours members. Find out where you should have formal, where you next meeting should be, or where your Spring trip should be; all without ever mass texting or email blasting.</p>
 				</div>
 				<div class="step">
 					<div class="step__media">
