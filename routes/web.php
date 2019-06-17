@@ -75,11 +75,9 @@ Route::get('survey/{survey}/responses', 'SurveyController@viewResponses');
 Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store');
 Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown');
 
-//Route::resource('academics', 'AcademicsController');
 Route::get('/academics', 'AcademicsController@index');
-Route::post('/academics', 'AcademicsController@store');
 Route::post('/academics/user_id/{academics}/edit', 'AcademicsController@edit');
-Route::get('/academics/store', 'AcademicsController@store');
+Route::post('/academics/store', 'AcademicsController@store');
 Route::get('/academics/manage', 'AcademicsController@manage');
 Route::patch('/academics/{academics}/update', 'AcademicsController@update');
 Route::post('/academics/notify', 'NotifyController@academicsNotify');

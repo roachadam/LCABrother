@@ -5,11 +5,11 @@
 <div class="card">
     <div class="card-header">Add More Grades</div>
     <div class="row justify-content-center card-body">
-        <form action="/academics" method="post" enctype="multipart/form-data">
+        <form action="/academics/store" method="post" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <input type="file" class="form-control-file" name="grades" id="gradeFile" aria-describedby="fileHelp">
-                <small id="fileHelp" class="form-text text-muted">Please upload a valid image file. Size of image should not be more than 2MB.</small>
+                <small id="fileHelp" class="form-text text-muted">Please upload a valid excel file.</small>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

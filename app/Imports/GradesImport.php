@@ -6,10 +6,16 @@ use App\Academics;
 use App\User;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\Importable;
+use PhpOffice\PhpSpreadsheet\Worksheet\AutoFilter\Column\Rule;
 use DB;
+
+
 
 class GradesImport implements ToModel, WithHeadingRow
 {
+    //use Importable;
     /**
      * @param array $row
      *
@@ -26,7 +32,6 @@ class GradesImport implements ToModel, WithHeadingRow
                 'Cumulative_GPA' => $row['cumulative_gpa'],
                 'Current_Term_GPA' => $row['term_gpa'],
             ]);
-
             if (isset($user)) {
                 $this->saveAndUpdateData($user, $academics);
             } else {

@@ -24,6 +24,7 @@ class AcademicsController extends Controller
      */
     public function index()
     {
+
         $users = auth()->user()->organization->users;
 
         foreach ($users as $user) {
@@ -53,7 +54,6 @@ class AcademicsController extends Controller
         $request->validate([
             'grades' => 'required|file|max:2048',
         ]);
-
         $file = request()->file('grades');
         self::storeFileLocally($request);
         Excel::import(new GradesImport, $file);

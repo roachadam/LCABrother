@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Goals;
 use App\Organization;
+
 class GoalsController extends Controller
 {
     public function __construct()
@@ -14,12 +15,14 @@ class GoalsController extends Controller
         $this->middleware('orgverified');
     }
 
-    public function index(){
+    public function index()
+    {
         $goals = auth()->user()->organization->goals;
         return view('goals.index', compact('goals'));
     }
 
-    public function create(){
+    public function create()
+    {
         return view('goals.create');
     }
 
@@ -27,11 +30,11 @@ class GoalsController extends Controller
     {
         //validate
         $attributes = request()->validate([
-             'points_goal' => ['required', 'numeric', 'min:0', 'max:10000'],
-             'service_hours_goal' => ['required', 'numeric', 'min:0', 'max:999'],
-             'service_money_goal' => ['required', 'numeric', 'min:0', 'max:999'],
-             'study_goal' => ['required', 'numeric', 'min:0', 'max:999'],
-         ]);
+            'points_goal' => ['required', 'numeric', 'min:0', 'max:10000'],
+            'service_hours_goal' => ['required', 'numeric', 'min:0', 'max:999'],
+            'service_money_goal' => ['required', 'numeric', 'min:0', 'max:999'],
+            'study_goal' => ['required', 'numeric', 'min:0', 'max:999'],
+        ]);
 
         //persist
         $org = auth()->user()->organization;
@@ -39,9 +42,9 @@ class GoalsController extends Controller
 
         //redirect
         return redirect('/forum/create/categories');
-
     }
-    public function edit(){
+    public function edit()
+    {
         $goals = auth()->user()->organization->goals;
         return view('goals.edit', compact('goals'));
     }

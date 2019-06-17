@@ -10,6 +10,7 @@ $factory->define(Academics::class, function (Faker $faker) {
     return [
         'id' => rand(1, 10),
         'organization_id' => 1,
+        'user_id' => rand(0, 500),
         'name' => $faker->name,
         'Cumulative_GPA' => rand(0, 4.0),
         'Previous_Term_GPA' => rand(0, 4.0),
