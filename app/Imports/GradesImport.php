@@ -48,7 +48,6 @@ class GradesImport implements ToModel, WithHeadingRow
 
     private function saveAndUpdateData(User $user, Academics $academics)
     {
-
         $prevGPA = $this->getPreviousData($user)['prevGPA'];                    //Get and store the current gpa from database
         $prevStanding = $this->getPreviousData($user)['prevStanding'];          //Get and store the current academic standing from database
 

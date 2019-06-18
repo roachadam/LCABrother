@@ -110,7 +110,9 @@ class AcademicsController extends Controller
     {
         $user = auth()->user()->organization->users->firstWhere('id', $academics->user_id);
         $attributes = request()->all();
+        $previousAcademics = $user->latestAcademics();
         $user->latestAcademics()->update($attributes);
+        $user->updateStanding($previousAcademics, true);
 
         return redirect('/academics');
     }

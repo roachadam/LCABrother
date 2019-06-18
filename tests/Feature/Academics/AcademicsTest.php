@@ -101,4 +101,90 @@ class AcademicsTest extends TestCase
         $response = $this->patch('academics/' . $user->latestAcademics()->id . '/update', $updated_academics);
         $this->assertDatabaseHas('academics', $updated_academics);
     }
+
+
+
+    public function test_basic_update_standing()        //"Basic" is when you upload a new excel file with data that gets updated
+    {
+        $this->withoutExceptionHandling();
+        $user = $this->loginAsAdmin();
+
+        factory(Academics::class)->create([
+            'name' => $user->name,
+            'user_id' => $user->id,
+            'Cumulative_GPA' => 3.2,
+            'Previous_Term_GPA' => '',
+            'Current_Term_GPA' => 3.0,
+            'Previous_Academic_Standing' => '',
+            'Current_Academic_Standing' => '',
+        ]);
+
+
+        //Initial standing calculation
+        $user->updateStanding();
+        $this->assertDatabaseHas('academics', [
+            'id' => $user->latestAcademics()->id,
+            'Current_Academic_Standing' => 'Good',
+        ]);
+
+        //Standing: Good -> Probation
+        $this->patch('academics/' . $user->latestAcademics()->id . '/update', [
+            'Current_Term_GPA' => 2.2
+        ]);
+        $user->updateStanding();
+        $this->assertDatabaseHas('academics', [
+            'id' => $user->latestAcademics()->id,
+            'Current_Academic_Standing' => 'Probation',
+        ]);
+
+
+        //Standing: Probation -> Suspension
+        $this->patch('academics/' . $user->latestAcademics()->id . '/update', [
+            'Current_Term_GPA' => 1.0
+        ]);
+        $user->updateStanding();
+        $this->assertDatabaseHas('academics', [
+            'id' => $user->latestAcademics()->id,
+            'Current_Academic_Standing' => 'Suspension',
+        ]);
+
+
+        //Standing: Suspension -> Probation
+        $this->patch('academics/' . $user->latestAcademics()->id . '/update', [
+            'id' => $user->latestAcademics()->id,
+            'Current_Term_GPA' => 4.0,
+            'Previous_Academic_Standing' => $user->latestAcademics()->Current_Academic_Standing,
+        ]);
+        $user->updateStanding();
+        $this->assertDatabaseHas('academics', [
+            'id' => $user->latestAcademics()->id,
+            'Current_Academic_Standing' => 'Probation',
+        ]);
+
+
+        //Standing: Probation -> Good
+        $this->patch('academics/' . $user->latestAcademics()->id . '/update', [
+            'id' => $user->latestAcademics()->id,
+            'Current_Term_GPA' => '3.1',
+            'Previous_Academic_Standing' => $user->latestAcademics()->Current_Academic_Standing,
+        ]);
+        $user->updateStanding();
+        $this->assertDatabaseHas('academics', [
+            'id' => $user->latestAcademics()->id,
+            'Current_Academic_Standing' => 'Good',
+        ]);
+
+
+        //Standing: Good -> Suspension
+        $this->patch('academics/' . $user->latestAcademics()->id . '/update', [
+            'id' => $user->latestAcademics()->id,
+            'Current_Term_GPA' => 0.5,
+            'Previous_Academic_Standing' => $user->latestAcademics()->Current_Academic_Standing,
+        ]);
+        $user->updateStanding();
+        $this->assertDatabaseHas('academics', [
+            'id' => $user->latestAcademics()->id,
+            'Current_Academic_Standing' => 'Suspension',
+        ]);
+    }
 }

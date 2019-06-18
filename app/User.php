@@ -167,23 +167,29 @@ class User extends Authenticatable
         $academics->save();
     }
 
-    public function updateStanding()
+    public function updateStanding($previousAcademics = null, $overridden = false)
     {
         $academics = $this->latestAcademics();
-        if ($academics->Current_Term_GPA > 2.5) {
-            if ($academics->Previous_Academic_Standing === 'Suspension') {
-                self::setToProbation($academics);
-            } else {
-                self::setToGood($academics);
-            }
-        } else if ($academics->Current_Term_GPA > 1.0) {
-            if ($academics->Previous_Academic_Standing === 'Good' || $academics->Previous_Academic_Standing === '') {
-                self::setToProbation($academics);
+        if (!$overridden && !isset($previousAcademics)) {
+            if ($academics->Current_Term_GPA > 2.5 && $academics->Cumulative_GPA > 2.5) {
+                if ($academics->Previous_Academic_Standing === 'Suspension') {
+                    self::setToProbation($academics);
+                } else {
+                    self::setToGood($academics);
+                }
+            } else if ($academics->Current_Term_GPA > 1.0 && $academics->Cumulative_GPA > 1.0) {
+                if ($academics->Previous_Academic_Standing === 'Good' || $academics->Previous_Academic_Standing === null || $academics->Previous_Academic_Standing === "") {
+                    self::setToProbation($academics);
+                } else {
+                    self::setToSuspension($academics);
+                }
             } else {
                 self::setToSuspension($academics);
             }
         } else {
-            self::setToSuspension($academics);
+            if ($academics->Previous_Term_GPA === $previousAcademics->Previous_Term_GPA && $academics->Current_Term_GPA === $previousAcademics->Current_Term_GPA && $academics->Cumulative_GPA === $previousAcademics->Cumulative_GPA) { } else {
+                self::updateStanding();
+            }
         }
     }
 
@@ -239,19 +245,21 @@ class User extends Authenticatable
         $invites = DB::table('invites')->where($match)->get();
         return $invites;
     }
-    public function hasResponded(Survey $survey){
+    public function hasResponded(Survey $survey)
+    {
         $answers = SurveyAnswers::where('survey_id', '=', $survey->id)->get();
         $answers->load('user');
 
-        foreach($answers as $answer){
-            if($answer->user->id == auth()->id()){
+        foreach ($answers as $answer) {
+            if ($answer->user->id == auth()->id()) {
                 return true;
             }
         }
         return false;
     }
 
-    public function markAsAlumni(){
+    public function markAsAlumni()
+    {
         $this->organization_verified = 2;
         $this->save();
     }
@@ -308,7 +316,8 @@ class User extends Authenticatable
         $Can = $this->role->permission->manage_forum;
         return $Can;
     }
-    public function canManageSurveys(){
+    public function canManageSurveys()
+    {
         $Can = $this->role->permission->manage_surveys;
         return $Can;
     }
