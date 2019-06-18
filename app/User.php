@@ -193,6 +193,15 @@ class User extends Authenticatable
         }
     }
 
+    public function checkAcademicRecords()              //Finds any entry in the database where it has the same name as the new user and assigns the user id to it
+    {
+        $academics = Academics::where('name', $this->name)->get();
+        foreach ($academics as $entry) {
+            $entry->user_id = $this->id;
+            $entry->save();
+        }
+    }
+
     public function setToSuspension(Academics $academics)
     {
         $academics->Current_Academic_Standing = 'Suspension';
