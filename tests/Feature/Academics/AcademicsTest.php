@@ -60,6 +60,7 @@ class AcademicsTest extends TestCase
         $this->loginAsAdmin();
         try {
             Excel::import(new GradesImport, 'grades/testFile/gradesTestFail.xlsx');
+            $this->assertFalse('Something is wrong here. This should have failed');
         } catch (\ErrorException $e) {
             $this->assertTrue(true);
         }
@@ -186,5 +187,10 @@ class AcademicsTest extends TestCase
             'id' => $user->latestAcademics()->id,
             'Current_Academic_Standing' => 'Suspension',
         ]);
+    }
+
+    public function test_advanced_update_standing()         //"Advanced" is when you override a user and it has to figure out what you changed and update from there
+    {
+        //TODO
     }
 }

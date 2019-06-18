@@ -187,7 +187,7 @@ class User extends Authenticatable
                 self::setToSuspension($academics);
             }
         } else {
-            if ($academics->Previous_Term_GPA === $previousAcademics->Previous_Term_GPA && $academics->Current_Term_GPA === $previousAcademics->Current_Term_GPA && $academics->Cumulative_GPA === $previousAcademics->Cumulative_GPA) { } else {
+            if (!($academics->Previous_Term_GPA === $previousAcademics->Previous_Term_GPA && $academics->Current_Term_GPA === $previousAcademics->Current_Term_GPA && $academics->Cumulative_GPA === $previousAcademics->Cumulative_GPA)) {
                 self::updateStanding();
             }
         }
