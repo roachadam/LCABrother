@@ -181,6 +181,10 @@ class User extends Authenticatable
                 Good -> Probation: 2.5 > GPA || Cumulative GPA > 1.0 and previous standing of Good
                 Good -> Suspension: GPA || Cumulative GPA <= 1.0 and previous standing doesn't matter
                 Probation -> Suspension: GPA || Cumulative GPA <= 2.5 and previous standing of Probation
+
+
+            Bug:
+                if previous is 0.8 and current is 3.0 standings go from suspension -> good
         */
 
         if (!$overridden && !isset($previousAcademics)) {
