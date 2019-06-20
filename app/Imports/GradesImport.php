@@ -34,7 +34,9 @@ class GradesImport implements ToModel, WithHeadingRow
             ]);
             if (isset($user)) {
                 $this->saveAndUpdateData($user, $academics);
-            } else {
+            } /*else if ($user === null && auth()->user()->organization->academics->contains('name', $row['student_name'])) {
+                $prevAcademics = auth()->user()->organization->academics->where('name', $row['student_name'])->last();
+            } */else {
                 session()->put('error', 'Could not find user' . $row['student_name']);
             }
             auth()->user()->organization->academics()->save($academics);                //Sets the organization id for the current user

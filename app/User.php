@@ -167,24 +167,37 @@ class User extends Authenticatable
         $academics->save();
     }
 
-    public function updateStanding($previousAcademics = null, $overridden = false)
+    public function updateStanding($previousAcademics = null, $overridden = false, $entry = null)
     {
-        $academics = $this->latestAcademics();
+        //Checks if this method is being used for updating previous database entries (returns $entry)
+        //or if called when a new file is uploaded (returns $this->latestAcademics())
+        $academics = isset($entry) ? $entry : $this->latestAcademics();
+
+        /*
+            Requirements to increase standing:
+                Suspension -> Probation: GPA & Cumulative GPA >= 2.5 and previous standing of Suspension
+                Probation -> Good: GPA & Cumulative GPA 2.5 >= and previous standing of Probation
+            Requirements to decrease standing:
+                Good -> Probation: 2.5 > GPA || Cumulative GPA > 1.0 and previous standing of Good
+                Good -> Suspension: GPA || Cumulative GPA <= 1.0 and previous standing doesn't matter
+                Probation -> Suspension: GPA || Cumulative GPA <= 2.5 and previous standing of Probation
+        */
+
         if (!$overridden && !isset($previousAcademics)) {
             if ($academics->Current_Term_GPA > 2.5 && $academics->Cumulative_GPA > 2.5) {
                 if ($academics->Previous_Academic_Standing === 'Suspension') {
-                    self::setToProbation($academics);
+                    $this->setToProbation($academics);
                 } else {
-                    self::setToGood($academics);
+                    $this->setToGood($academics);
                 }
             } else if ($academics->Current_Term_GPA > 1.0 && $academics->Cumulative_GPA > 1.0) {
                 if ($academics->Previous_Academic_Standing === 'Good' || $academics->Previous_Academic_Standing === null || $academics->Previous_Academic_Standing === "") {
-                    self::setToProbation($academics);
+                    $this->setToProbation($academics);
                 } else {
-                    self::setToSuspension($academics);
+                    $this->setToSuspension($academics);
                 }
             } else {
-                self::setToSuspension($academics);
+                $this->setToSuspension($academics);
             }
         } else {
             if (!($academics->Previous_Term_GPA === $previousAcademics->Previous_Term_GPA && $academics->Current_Term_GPA === $previousAcademics->Current_Term_GPA && $academics->Cumulative_GPA === $previousAcademics->Cumulative_GPA)) {
@@ -193,12 +206,25 @@ class User extends Authenticatable
         }
     }
 
-    public function checkAcademicRecords()              //Finds any entry in the database where it has the same name as the new user and assigns the user id to it
+    public function checkAcademicRecords()              //Finds any entry in the database where it has the same name and organization as the new user and assigns the user id to it
     {
-        $academics = Academics::where('name', $this->name)->get();
-        foreach ($academics as $entry) {
-            $entry->user_id = $this->id;
-            $entry->save();
+        $match = [
+            'name' => $this->name,
+            'organization_id' => $this->organization_id
+        ];
+
+        $logs = Academics::where($match)->get();
+        if ($logs->isNotEmpty()) {
+            foreach ($logs as $entry) {
+                $entry->update([
+                    'user_id' => $this->id,
+                ]);
+                $this->updateStanding(null, false, $entry);
+                $prevAcademics = $this->academics()->latest()->skip(1)->first();
+                if ($prevAcademics !== null) {
+                    $this->setPreviousData($prevAcademics->Current_Term_GPA, $prevAcademics->Current_Academic_Standing);
+                }
+            }
         }
     }
 

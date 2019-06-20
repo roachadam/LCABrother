@@ -16,15 +16,17 @@ use App\Events\MemberDeclined;
 class OrgVerificationController extends Controller
 {
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->middleware('auth');
-        $this->middleware('orgverified', ['only' =>'show']);
+        $this->middleware('orgverified', ['only' => 'show']);
         //$this->middleware('ManageMembers', ['only' =>'show']);
 
     }
 
     // hits from rout /orgpending
-    public function index(){
+    public function index()
+    {
 
         // if(Auth::user()->organization_verified == 1){
         //     return redirect('/dash');
@@ -32,40 +34,49 @@ class OrgVerificationController extends Controller
         return view('orgpending.waitingScreen');
     }
 
-    public function show(User $user){
+    public function show(User $user)
+    {
         return view('orgPending.show', compact('user'));
     }
 
     public function update(Request $request, User $user)
     {
-        $approved = request()->has('organization_verified');
-        if($approved){
+        $isApproved = request()->has('organization_verified');
+        if ($isApproved) {
             event(new UserValidated($user));
 
             Mail::to($user->email)->send(
                 new OrgVerified($user)
             );
-        }
-        else{
+            $user->setVerification($isApproved);
+            $user->checkAcademicRecords();
+        } else {
             event(new MemberDeclined($user));
             Mail::to($user->email)->send(
                 new OrgDenied($user)
             );
+            $user->setVerification($isApproved);
         }
-        $user->setVerification($approved);
+
 
         return redirect('/dash');
     }
-    public function rejected(){
+
+    public function rejected()
+    {
         return view('orgPending.rejected');
     }
-    public function waiting(){
-        if(auth()->user()->isVerified()){
+
+    public function waiting()
+    {
+        if (auth()->user()->isVerified()) {
             return redirect('/dash');
         }
         return view('orgPending.waiting');
     }
-    public function alumni(){
+
+    public function alumni()
+    {
         return view('orgPending.alumni');
     }
 }

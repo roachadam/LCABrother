@@ -76,7 +76,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'phone' => $data['phone'],
         ]);
-        $user->checkAcademicRecords();
+        // $user->checkAcademicRecords();
         return $user;
     }
 }
