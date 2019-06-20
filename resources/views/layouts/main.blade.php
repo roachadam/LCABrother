@@ -22,7 +22,7 @@
         <script type="text/javascript" src="{{ asset('https://www.gstatic.com/charts/loader.js') }}"></script>
 
         <script type="text/javascript" src="{{ asset('js/lib/flatpickr/flatpickr.min.js') }}"></script>
-        <script src="{{ asset('js/lib/daterangepicker/daterangepicker.js') }}"></script>
+        {{-- <script src="{{ asset('js/lib/daterangepicker/daterangepicker.js') }}"></script> --}}
         <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
         <script type="text/javascript" src="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.js") }}"></script>
 
@@ -32,7 +32,7 @@
         <link rel="stylesheet" href="{{ asset('css/separate/vendor/datatables-net.min.css') }}" rel="stylesheet">
 
         {{-- Move these to appropriate page blades --}}
-        <link rel="stylesheet" href="{{ asset('css/separate/vendor/bootstrap-daterangepicker.min.css') }}" rel="stylesheet">
+        {{-- <link rel="stylesheet" href="{{ asset('css/separate/vendor/bootstrap-daterangepicker.min.css') }}" rel="stylesheet"> --}}
         <link href="{{ asset('css/lib/lobipanel/lobipanel.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/separate/vendor/lobipanel.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/lib/jqueryui/jquery-ui.min.css') }}" rel="stylesheet">
@@ -86,9 +86,49 @@
 
         <div class="page-content">
             <div class="container-fluid">
-                    @yield('content')
+                @yield('content')
             </div>
         </div>
         @yield('js')
+        <script>
+        $('#show-hide-sidebar-toggle').on('click', function() {
+            if (!$('body').hasClass('sidebar-hidden')) {
+                $('body').addClass('sidebar-hidden');
+            } else {
+                $('body').removeClass('sidebar-hidden');
+            }
+	    });
+        	// Left mobile menu
+        $('.hamburger').click(function(){
+            if ($('body').hasClass('menu-left-opened')) {
+                $(this).removeClass('is-active');
+                $('body').removeClass('menu-left-opened');
+                $('html').css('overflow','auto');
+            } else {
+                $(this).addClass('is-active');
+                $('body').addClass('menu-left-opened');
+                $('html').css('overflow','hidden');
+            }
+        });
+
+        $('.mobile-menu-left-overlay').click(function(){
+            $('.hamburger').removeClass('is-active');
+            $('body').removeClass('menu-left-opened');
+            $('html').css('overflow','auto');
+        });
+
+        // Right mobile menu
+        $('.site-header .burger-right').click(function(){
+            if ($('body').hasClass('menu-right-opened')) {
+                $('body').removeClass('menu-right-opened');
+                $('html').css('overflow','auto');
+            } else {
+                $('.hamburger').removeClass('is-active');
+                $('body').removeClass('menu-left-opened');
+                $('body').addClass('menu-right-opened');
+                $('html').css('overflow','hidden');
+            }
+        });
+    </script>
     </body>
 </html>
