@@ -112,7 +112,7 @@ class AcademicsController extends Controller
         $attributes = request()->all();
         $previousAcademics = $user->latestAcademics();
         $user->latestAcademics()->update($attributes);
-        $user->updateStanding($previousAcademics, true);
+        $user->updateStanding($previousAcademics);
 
         return redirect('/academics');
     }
