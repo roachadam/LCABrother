@@ -170,9 +170,6 @@ class User extends Authenticatable
             'Previous_Term_GPA' => $prevGPA,
             'Previous_Academic_Standing' => $prevStanding
         ]);
-        // $academics->Previous_Term_GPA = $prevGPA;
-        // $academics->Previous_Academic_Standing = $prevStanding;
-        // $academics->save();
     }
 
     public function updateStanding($storedAcademics = null, $entry = null)
@@ -199,6 +196,7 @@ class User extends Authenticatable
 
         if (!isset($storedAcademics)) {
             if ($academics->Current_Term_GPA > 2.5 && $academics->Cumulative_GPA > 2.5) {
+                dump($academics->Previous_Academic_Standing);
                 if ($academics->Previous_Academic_Standing === 'Suspension') {
                     $this->setToProbation($academics);
                 } else {

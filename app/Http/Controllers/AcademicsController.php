@@ -6,6 +6,7 @@ use App\Academics;
 use Illuminate\Http\Request;
 use App\Imports\GradesImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\HeadingRowImport;
 use App\User;
 
 class AcademicsController extends Controller
@@ -51,14 +52,25 @@ class AcademicsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'grades' => 'required|file|max:2048',
-        ]);
-        $file = request()->file('grades');
-        self::storeFileLocally($request);
-        Excel::import(new GradesImport, $file);
+        $request->validate(
+            [
+                'grades' => 'required|file|max:2048|mimes:xlsx',
+            ],
+            //Error messages
+            ['grades.mimes' => 'You must upload a spread sheet']
+        );
 
-        return redirect('/academics');
+        $file = request()->file('grades');
+        $headings = (new HeadingRowImport)->toArray($file);
+
+        if ($this->validateHeadingRow($headings[0][0])) {
+            $this->storeFileLocally($request);
+            Excel::import(new GradesImport, $file);
+            return redirect('/academics');
+        } else {
+            //TODO put an error into the session saying an invalid format was inputted
+            return back();
+        }
     }
 
     //Helper function for store()
@@ -69,6 +81,16 @@ class AcademicsController extends Controller
         $extension = $request->file('grades')->getClientOriginalExtension();            // Get just ext
         $fileNameToStore = $filename . '_' . time() . '.' . $extension;                 // Filename to store TODO Figure out how to name
         $request->file('grades')->storeAs('/grades', $fileNameToStore);                 // Save Image
+    }
+
+    private function validateHeadingRow($headings): bool
+    {
+        $keys = [
+            'student_name',
+            'cumulative_gpa',
+            'term_gpa'
+        ];
+        return count(array_intersect($keys, $headings)) === count($keys) ? true : false;
     }
 
     /**
