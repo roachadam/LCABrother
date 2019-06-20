@@ -166,20 +166,21 @@ class User extends Authenticatable
 
     public function setPreviousData($prevGPA, $prevStanding)        //Takes data on previous gpa and previous academic standing and saves it to the user
     {
-        $academics = $this->latestAcademics();
-        $academics->update([
+        $this->latestAcademics()->update([
             'Previous_Term_GPA' => $prevGPA,
             'Previous_Academic_Standing' => $prevStanding
         ]);
         // $academics->Previous_Term_GPA = $prevGPA;
         // $academics->Previous_Academic_Standing = $prevStanding;
-        $academics->save();
+        // $academics->save();
     }
 
-    public function updateStanding($previousAcademics = null, $overridden = false, $entry = null)
+    public function updateStanding($storedAcademics = null, $entry = null)
     {
-        //Checks if this method is being used for updating previous database entries (returns $entry)
-        //or if called when a new file is uploaded (returns $this->latestAcademics())
+        /*
+            Checks if this method is being used for updating previous database entries (returns $entry)
+            or if called when a new file is uploaded (returns $this->latestAcademics())
+        */
         $academics = isset($entry) ? $entry : $this->latestAcademics();
 
         /*
@@ -192,7 +193,7 @@ class User extends Authenticatable
                 Probation -> Suspension: GPA || Cumulative GPA <= 2.5 and previous standing of Probation
         */
 
-        if (!$overridden && !isset($previousAcademics)) {
+        if (!isset($storedAcademics)) {
             if ($academics->Current_Term_GPA > 2.5 && $academics->Cumulative_GPA > 2.5) {
                 if ($academics->Previous_Academic_Standing === 'Suspension') {
                     $this->setToProbation($academics);
@@ -209,7 +210,7 @@ class User extends Authenticatable
                 $this->setToSuspension($academics);
             }
         } else {
-            if (!($academics->Previous_Term_GPA === $previousAcademics->Previous_Term_GPA && $academics->Current_Term_GPA === $previousAcademics->Current_Term_GPA && $academics->Cumulative_GPA === $previousAcademics->Cumulative_GPA)) {
+            if (!($academics->Previous_Term_GPA === $storedAcademics->Previous_Term_GPA && $academics->Current_Term_GPA === $storedAcademics->Current_Term_GPA && $academics->Cumulative_GPA === $storedAcademics->Cumulative_GPA)) {
                 $this->updateStanding();
             }
         }
@@ -228,7 +229,7 @@ class User extends Authenticatable
                 $entry->update([                                   //Assigns the user's id to each log
                     'user_id' => $this->id,
                 ]);
-                $this->updateStanding(null, false, $entry);                         //Initializes the initial standing of the log
+                $this->updateStanding(null, $entry);                                //Initializes the initial standing of the log
                 $prevAcademics = $this->academics()->latest()->skip(1)->first();    //Gets a reference to the second latest academics
                 if ($prevAcademics !== null) {                                      //If this is the first entry $prevAcademics will be null so there is nothing to save as previous data so just leave it blank
                     $this->setPreviousData($prevAcademics->Current_Term_GPA, $prevAcademics->Current_Academic_Standing);    //Sets the previous GPA and Standing data
