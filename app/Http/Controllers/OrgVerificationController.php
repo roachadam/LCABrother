@@ -57,8 +57,6 @@ class OrgVerificationController extends Controller
             );
             $user->setVerification($isApproved);
         }
-
-
         return redirect('/dash');
     }
 

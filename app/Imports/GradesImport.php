@@ -6,9 +6,6 @@ use App\Academics;
 use App\User;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithValidation;
-use Maatwebsite\Excel\Concerns\Importable;
-use PhpOffice\PhpSpreadsheet\Worksheet\AutoFilter\Column\Rule;
 use DB;
 
 
@@ -34,9 +31,7 @@ class GradesImport implements ToModel, WithHeadingRow
             ]);
             if (isset($user)) {
                 $this->saveAndUpdateData($user, $academics);
-            } /*else if ($user === null && auth()->user()->organization->academics->contains('name', $row['student_name'])) {
-                $prevAcademics = auth()->user()->organization->academics->where('name', $row['student_name'])->last();
-            } */else {
+            } else {
                 session()->put('error', 'Could not find user' . $row['student_name']);
             }
             auth()->user()->organization->academics()->save($academics);                //Sets the organization id for the current user
