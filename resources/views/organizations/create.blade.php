@@ -7,7 +7,7 @@
     </div>
 
     <div class="auth__auth">
-        <h1 class="auth__title">Join Organization</h1>
+        <h1 class="auth__title">Create Organization</h1>
         @include('partials.errors')
         <form method="POST" action="/organization">
             @csrf
