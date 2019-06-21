@@ -24,7 +24,7 @@ class Academics extends Model
         return $this->belongsTo(User::Class);
     }
 
-    public function updateStandings()
+    public function updateStanding()
     {
         //$academics = isset($entry) ? $entry : $this->latestAcademics();
         $academics = $this;

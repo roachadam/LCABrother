@@ -73,14 +73,12 @@ class AcademicsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $this->loginAsAdmin();
-        dd($response = $this->post('/academics/store', ['grades/testFile/gradesTestFail.xlsx']));
-        // try {
-        //     Excel::import(new GradesImport,);
-        //     $this->assertFalse('Something is wrong here. This should have failed');
-        // } catch (\ErrorException $e) {
-        //     dump($e);
-        //     $this->assertTrue(true);
-        // }
+        try {
+            Excel::import(new GradesImport, 'grades/testFile/gradesTestFail.xlsx');
+            $this->assertFalse('Something is wrong here. This should have failed');
+        } catch (\ErrorException $e) {
+            $this->assertTrue(true);
+        }
     }
 
     public function test_can_get_override_view()
