@@ -80,8 +80,9 @@ Route::get('/academics', 'AcademicsController@index');
 Route::post('/academics/user_id/{academics}/edit', 'AcademicsController@edit');
 Route::post('/academics/store', 'AcademicsController@store');
 Route::get('/academics/manage', 'AcademicsController@manage');
-Route::patch('/academics/{academics}/update', 'AcademicsController@update');
+Route::post('/user/{user}/academics/{academics}/update', 'AcademicsController@update');
 Route::post('/academics/notify', 'NotifyController@academicsNotify');
+
 
 Route::get('/dash', 'DashController@index');
 

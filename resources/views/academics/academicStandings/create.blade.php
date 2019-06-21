@@ -15,7 +15,7 @@
             </div>
         @empty
         {{-- To do --}}
-        Add default option for the lowest possible standing
+        TODO: Add default option for the lowest possible standing for every submission after the first
         @endforelse
 
         @include('partials.errors')

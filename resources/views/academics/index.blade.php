@@ -33,15 +33,16 @@
                     @foreach ($users as $user)
 
                         {{-- <td>{{ $user->name }}</td> --}}
-                        @if ($user->latestAcademics() !== null)
+
+                        @if ($user->academics->last() !== null)
                         <tr>
                             <td>{{ $user->name }}</td>
-                            <td>{{ $user->latestAcademics()->Cumulative_GPA }}</td>
-                            <td>{{ $user->latestAcademics()->Previous_Term_GPA }}</td>
-                            <td>{{ $user->latestAcademics()->Current_Term_GPA }}</td>
-                            <td>{{ $user->latestAcademics()->Previous_Academic_Standing }}</td>
-                            <td>{{ $user->latestAcademics()->Current_Academic_Standing }}</td>
-                            <form action="/academics/user_id/{{ $user->latestAcademics()->id }}/edit" method="POST">
+                            <td>{{ $user->academics->last()->Cumulative_GPA }}</td>
+                            <td>{{ $user->academics->last()->Previous_Term_GPA }}</td>
+                            <td>{{ $user->academics->last()->Current_Term_GPA }}</td>
+                            <td>{{ $user->academics->last()->Previous_Academic_Standing }}</td>
+                            <td>{{ $user->academics->last()->Current_Academic_Standing }}</td>
+                            <form action="/academics/user_id/{{ $user->academics->last()->id }}/edit" method="POST">
                                 @csrf
                                 <td><button type="submit" class="btn btn-inline">Override</button></td>
                             </form>

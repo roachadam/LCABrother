@@ -68,7 +68,7 @@ class GradesImport implements ToModel, WithHeadingRow
         } else {
             return collect([
                 'prevGPA' => null,
-                'prevStanding' => '',
+                'prevStanding' => null,
             ]);
         }
     }

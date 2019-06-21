@@ -25,12 +25,10 @@ class AcademicsController extends Controller
      */
     public function index()
     {
-
-        $users = auth()->user()->organization->users;
-
-        foreach ($users as $user) {
-            $data = $user->latestAcademics();
-        }
+        $users = User::where('organization_id', auth()->user()->organization->id)->get();
+        $users->load(['Academics' => function ($query) {
+            $query->orderBy('created_at', 'desc');
+        }]);
         return view('academics.index', compact('users'));
     }
 
@@ -107,7 +105,8 @@ class AcademicsController extends Controller
     public function edit(Academics $academics)
     {
         $academics = auth()->user()->organization->users->firstWhere('id', $academics->user_id)->latestAcademics();
-        return view('academics.edit', compact('academics'));
+        $user = User::find($academics->user_id);
+        return view('academics.override', compact('academics', 'user'));
     }
 
     /**
@@ -128,13 +127,17 @@ class AcademicsController extends Controller
      * @param  \App\Academics  $academics
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Academics $academics)
+    public function update(Request $request, User $user, Academics $academics)
     {
-        $user = auth()->user()->organization->users->firstWhere('id', $academics->user_id);
+
+        //TODO validation
         $attributes = request()->all();
-        $previousAcademics = $user->latestAcademics();
-        $user->latestAcademics()->update($attributes);
-        $user->updateStanding($previousAcademics);
+        if ($attributes['Previous_Academic_Standing'] === $academics->Previous_Academic_Standing && $attributes['Current_Academic_Standing'] === $academics->Current_Academic_Standing) {
+            $academics->update($attributes);
+            $academics->updateStandings();
+        } else {
+            $academics = $user->latestAcademics()->update($attributes);
+        }
 
         return redirect('/academics');
     }

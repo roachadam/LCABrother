@@ -172,89 +172,12 @@ class User extends Authenticatable
         ]);
     }
 
-    public function updateStanding($storedAcademics = null, $entry = null)          //TODO fix overriding shit
+    public function updateStanding()
     {
-        /*
-            Checks if this method is being used for updating previous database entries (returns $entry)
-            or if called when a new file is uploaded (returns $this->latestAcademics())
-        */
-        $academics = isset($entry) ? $entry : $this->latestAcademics();
-
-        $org = auth()->user()->organization;
-        $standingsOuter = $org->getStandingsAsc();
-        $standingsInner = $org->getStandingsDsc();
-
-        $hitOuter = false;
-        $found = false;
-        $readyToSet = false;
-        $passedOuter = false;
-        $prevTermIndex = 0;
-        /*
-            standings [
-                good 2.5 - prev
-                risk 2.0 - new standing
-                probation 1.5 -current
-                bad 1.0
-            ]
-        */
-        $standingsOuter = $standingsOuter->all();
-
-        for ($i = 0; $i < count($standingsOuter); $i++) {
-            $outer = $standingsOuter[$i];
-            if ($outer->name == $academics->Previous_Academic_Standing) {
-                $prevTermIndex = $i;
-            }
-
-            if ($this->check($outer, $academics)) {
-                if ($academics->Previous_Academic_Standing === null || $academics->Previous_Academic_Standing === "") {
-                    $this->setTo($outer->name, $academics);
-                    break;
-                }
-                foreach ($standingsInner as $inner) {
-                    if ($hitOuter) {
-                        $passedOuter = true;
-                    }
-
-                    if ($outer->name == $inner->name) {   //Check if crossed middle
-                        $hitOuter = true;
-                    }
-
-                    if ($hitOuter) {                    //Step down
-                        if (!$passedOuter) {
-                            $this->setTo($inner->name, $academics);
-                            break;
-                        } else {
-                            $this->setTo($standingsOuter[$prevTermIndex + 1]->name, $academics);
-                            break;
-                        }
-                    } else {                            //Step up
-                        if ($readyToSet) {
-                            $this->setTo($inner->name, $academics);
-                            break;
-                        }
-                        if ($inner->name == $academics->Previous_Academic_Standing) {
-                            $readyToSet = true;
-                        }
-                    }
-                }
-                break;
-            }
-        }
+        $this->latestAcademics()->updateStandings();
     }
 
-    public function setTo($name, $academics)
-    {
-        $academics->update([
-            'Current_Academic_Standing' => $name
-        ]);
-    }
-
-    public function check(AcademicStandings $standing, $academics): bool
-    {
-        return $academics->Current_Term_GPA > $standing->Term_GPA_Min;
-    }
-
-    public function checkAcademicRecords()          //Finds any entry in the database where it has the same name and organization as the new user and assigns the user id to it
+    public function checkAcademicRecords()                  //Finds any entry in the database where it has the same name and organization as the new user and assigns the user id to it
     {
         $match = [                                  //The attributes that will be searched for when querying the database for the previous logs
             'name' => $this->name,
@@ -262,19 +185,62 @@ class User extends Authenticatable
         ];
 
         $logs = Academics::where($match)->get();                   //Finds all the previous logs for the user and returns a collection
-        if ($logs->isNotEmpty()) {                                 //Checks if the collection is empty (Meaning there are no previous logs)
-            foreach ($logs as $entry) {                            //Loops through each entry in the logs collection
-                $entry->update([                                   //Assigns the user's id to each log
+        if ($logs->isNotEmpty()) {                                //Checks if the collection is empty (Meaning there are no previous logs)
+            foreach ($logs as $log) {                            //Loops through each entry in the logs collection
+                $prevGPA = $this->getPreviousData()['prevGPA'];                    //Get and store the current gpa from database
+                $prevStanding = $this->getPreviousData()['prevStanding'];          //Get and store the current academic standing from database
+
+                $log->update([
                     'user_id' => $this->id,
                 ]);
-                $this->updateStanding(null, $entry);                                //Initializes the initial standing of the log
-                $prevAcademics = $this->academics()->latest()->skip(1)->first();    //Gets a reference to the second latest academics
-                if ($prevAcademics !== null) {                                      //If this is the first entry $prevAcademics will be null so there is nothing to save as previous data so just leave it blank
-                    $this->setPreviousData($prevAcademics->Current_Term_GPA, $prevAcademics->Current_Academic_Standing);    //Sets the previous GPA and Standing data
-                }
+                $this->setPreviousData($prevGPA, $prevStanding);
+                $log->updateStandings();
             }
         }
     }
+
+    private function getPreviousData()
+    {
+        /*
+            If this is the very first entry an error will be thrown because the are no instances of academics.
+            Then the method will return null and empty strings in order to allow the program to continue as expected
+        */
+
+        if ($this->latestAcademics() !== null) {
+            return collect([
+                'prevGPA' => $this->latestAcademics()->Current_Term_GPA,
+                'prevStanding' => $this->latestAcademics()->Current_Academic_Standing,
+            ]);
+        } else {
+            return collect([
+                'prevGPA' => null,
+                'prevStanding' => null,
+            ]);
+        }
+    }
+
+
+    // public function checkAcademicRecords()                  //Finds any entry in the database where it has the same name and organization as the new user and assigns the user id to it
+    // {
+    //     $match = [                                  //The attributes that will be searched for when querying the database for the previous logs
+    //         'name' => $this->name,
+    //         'organization_id' => $this->organization_id
+    //     ];
+
+    //     $logs = Academics::where($match)->get();                   //Finds all the previous logs for the user and returns a collection
+    //     if ($logs->isNotEmpty()) {                                 //Checks if the collection is empty (Meaning there are no previous logs)
+    //         foreach ($logs as $entry) {                            //Loops through each entry in the logs collection
+    //             $entry->update([                                   //Assigns the user's id to each log
+    //                 'user_id' => $this->id,
+    //             ]);
+    //             $this->updateStanding(null, $entry);                                //Initializes the initial standing of the log
+    //             $prevAcademics = $this->academics()->latest()->skip(1)->first();    //Gets a reference to the second latest academics
+    //             if ($prevAcademics !== null) {                                      //If this is the first entry $prevAcademics will be null so there is nothing to save as previous data so just leave it blank
+    //                 $this->setPreviousData($prevAcademics->Current_Term_GPA, $prevAcademics->Current_Academic_Standing);    //Sets the previous GPA and Standing data
+    //             }
+    //         }
+    //     }
+    // }
 
     public function handleInvite(Organization $organization)
     {
