@@ -76,13 +76,13 @@
     </head>
 
     <body class="with-side-menu ">
-        @include('partials.notifications')
         @include('layouts.headbar')
 
         <div class="mobile-menu-left-overlay"></div>
         @if (auth()->user()->isVerified())
             @include('layouts.sidebar')
         @endif
+        @include('partials.notifications')
 
         <div class="page-content">
             <div class="container-fluid">

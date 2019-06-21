@@ -8,6 +8,7 @@ use App\Imports\GradesImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
 use App\User;
+use Illuminate\Support\Facades\Session;
 
 class AcademicsController extends Controller
 {
@@ -69,6 +70,24 @@ class AcademicsController extends Controller
             //TODO put an error into the session saying an invalid format was inputted
             return back();
         }
+        self::storeFileLocally($request);
+        Excel::import(new GradesImport, $file);
+
+
+        $newMsg = 'Successfully imported new academic records!';
+        if (Session::has('success')) {
+            $msgs = Session('success');
+
+
+            array_push($msgs, $newMsg);
+            Session()->forget('success');
+            Session()->put('success', $msgs);
+
+        } else {
+            Session()->put('success', array($newMsg));
+        }
+
+        return redirect('/academics');
     }
 
     //Helper function for store()
@@ -136,6 +155,7 @@ class AcademicsController extends Controller
         } else {
             $academics = $user->latestAcademics()->update($attributes);
         }
+
 
         return redirect('/academics');
     }
