@@ -45,31 +45,11 @@ class GradesImport implements ToModel, WithHeadingRow
 
     private function saveAndUpdateData(User $user, Academics $academics)
     {
-        $prevGPA = $this->getPreviousData($user)['prevGPA'];                    //Get and store the current gpa from database
-        $prevStanding = $this->getPreviousData($user)['prevStanding'];          //Get and store the current academic standing from database
+        $prevGPA = $user->getPreviousAcademicData()['prevGPA'];                    //Get and store the current gpa from database
+        $prevStanding = $user->getPreviousAcademicData()['prevStanding'];          //Get and store the current academic standing from database
 
         $user->academics()->save($academics);                                   //Saves the excel data to the user
         $user->setPreviousData($prevGPA, $prevStanding);                        //Sets the previous standings based on the variables above
         $user->updateStanding();                                                //Re-Calculates the Standings of all members
-    }
-
-    private function getPreviousData(User $user)
-    {
-        /*
-            If this is the very first entry an error will be thrown because the are no instances of academics.
-            Then the method will return null and empty strings in order to allow the program to continue as expected
-        */
-
-        if ($user->latestAcademics() !== null) {
-            return collect([
-                'prevGPA' => $user->latestAcademics()->Current_Term_GPA,
-                'prevStanding' => $user->latestAcademics()->Current_Academic_Standing,
-            ]);
-        } else {
-            return collect([
-                'prevGPA' => null,
-                'prevStanding' => null,
-            ]);
-        }
     }
 }

@@ -187,8 +187,8 @@ class User extends Authenticatable
         $logs = Academics::where($match)->get();
         if ($logs->isNotEmpty()) {
             foreach ($logs as $log) {
-                $prevGPA = $this->getPreviousData()['prevGPA'];
-                $prevStanding = $this->getPreviousData()['prevStanding'];
+                $prevGPA = $this->getPreviousAcademicData($this)['prevGPA'];
+                $prevStanding = $this->getPreviousAcademicData($this)['prevStanding'];
 
                 $log->update([
                     'user_id' => $this->id,
@@ -199,7 +199,7 @@ class User extends Authenticatable
         }
     }
 
-    private function getPreviousData()
+    public function getPreviousAcademicData()
     {
         /*
             If this is the very first entry an error will be thrown because the are no instances of academics.
@@ -218,29 +218,6 @@ class User extends Authenticatable
             ]);
         }
     }
-
-
-    // public function checkAcademicRecords()                  //Finds any entry in the database where it has the same name and organization as the new user and assigns the user id to it
-    // {
-    //     $match = [                                  //The attributes that will be searched for when querying the database for the previous logs
-    //         'name' => $this->name,
-    //         'organization_id' => $this->organization_id
-    //     ];
-
-    //     $logs = Academics::where($match)->get();                   //Finds all the previous logs for the user and returns a collection
-    //     if ($logs->isNotEmpty()) {                                 //Checks if the collection is empty (Meaning there are no previous logs)
-    //         foreach ($logs as $entry) {                            //Loops through each entry in the logs collection
-    //             $entry->update([                                   //Assigns the user's id to each log
-    //                 'user_id' => $this->id,
-    //             ]);
-    //             $this->updateStanding(null, $entry);                                //Initializes the initial standing of the log
-    //             $prevAcademics = $this->academics()->latest()->skip(1)->first();    //Gets a reference to the second latest academics
-    //             if ($prevAcademics !== null) {                                      //If this is the first entry $prevAcademics will be null so there is nothing to save as previous data so just leave it blank
-    //                 $this->setPreviousData($prevAcademics->Current_Term_GPA, $prevAcademics->Current_Academic_Standing);    //Sets the previous GPA and Standing data
-    //             }
-    //         }
-    //     }
-    // }
 
     public function handleInvite(Organization $organization)
     {

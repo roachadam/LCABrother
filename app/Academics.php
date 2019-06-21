@@ -26,7 +26,6 @@ class Academics extends Model
 
     public function updateStanding()
     {
-        //$academics = isset($entry) ? $entry : $this->latestAcademics();
         $academics = $this;
 
         $org = auth()->user()->organization;
