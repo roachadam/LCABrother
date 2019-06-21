@@ -41,6 +41,20 @@ class AcademicsTest extends TestCase
         $response->assertStatus(200);
     }
 
+    //Does not use the store route directly tries to import the file
+    // public function test_can_import_file()
+    // {
+    //     $this->withoutExceptionHandling();
+    //     $this->loginAsAdmin();
+
+    //     try {
+    //         Excel::import(new GradesImport, 'grades/testFile/gradesTestWorking.xlsx');
+    //         $this->assertTrue(true);
+    //     } catch (\ErrorException $e) {
+    //         $this->assertFalse($e->getMessage());
+    //     }
+    // }
+
     public function test_can_import_file()
     {
         $this->withoutExceptionHandling();
@@ -54,16 +68,19 @@ class AcademicsTest extends TestCase
         }
     }
 
-    public function test_cannot_import_invalid_file()
+
+    public function test_cannot_import_improper_formated_file()
     {
         $this->withoutExceptionHandling();
         $this->loginAsAdmin();
-        try {
-            Excel::import(new GradesImport, 'grades/testFile/gradesTestFail.xlsx');
-            $this->assertFalse('Something is wrong here. This should have failed');
-        } catch (\ErrorException $e) {
-            $this->assertTrue(true);
-        }
+        dd($response = $this->post('/academics/store', ['grades/testFile/gradesTestFail.xlsx']));
+        // try {
+        //     Excel::import(new GradesImport,);
+        //     $this->assertFalse('Something is wrong here. This should have failed');
+        // } catch (\ErrorException $e) {
+        //     dump($e);
+        //     $this->assertTrue(true);
+        // }
     }
 
     public function test_can_get_override_view()

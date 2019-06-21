@@ -49,6 +49,7 @@ Route::resource('calendarItem', 'CalendarController');
 Route::resource('subscribers', 'SubscribersController');
 Route::resource('attendance', 'AttendanceController');
 Route::resource('attendanceEvent', 'AttendanceEventController');
+Route::resource('academicStandings', 'AcademicStandingsController');
 
 
 Route::get('/attendance/attendanceEvent/{attendanceEvent}', 'AttendanceController@index');

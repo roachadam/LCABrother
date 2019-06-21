@@ -22,7 +22,8 @@ class Organization extends Model
 {
     protected $fillable = ['name', 'owner_id'];
 
-    public function attendanceEvent(){
+    public function attendanceEvent()
+    {
         return $this->hasMany(AttendanceEvent::class);
     }
 
@@ -31,7 +32,8 @@ class Organization extends Model
         return $this->AttendanceEvent()->create($attributes);
     }
 
-    public function newsletter(){
+    public function newsletter()
+    {
         return $this->hasMany(NewsLetter::class);
     }
 
@@ -40,7 +42,8 @@ class Organization extends Model
         return $this->NewsLetter()->create($attributes);
     }
 
-    public function calendarItem(){
+    public function calendarItem()
+    {
         return $this->hasMany(CalendarItem::class);
     }
 
@@ -94,7 +97,7 @@ class Organization extends Model
 
     public function alumni()
     {
-        return $this->users()->where('organization_verified','=','2');
+        return $this->users()->where('organization_verified', '=', '2');
     }
 
     public function owner()
@@ -195,5 +198,25 @@ class Organization extends Model
     public function academics()
     {
         return $this->hasMany(Academics::Class);
+    }
+
+    public function academicStandings()
+    {
+        return $this->hasMany(AcademicStandings::class);
+    }
+
+    public function addAcademicStandings($attributes)
+    {
+        return $this->academicStandings()->create($attributes);
+    }
+
+    public function getStandingsAsc()
+    {
+        return $this->academicStandings()->orderBy('Term_GPA_Min', 'desc')->get();
+    }
+
+    public function getStandingsDsc()
+    {
+        return $this->academicStandings()->orderBy('Term_GPA_Min', 'asc')->get();
     }
 }

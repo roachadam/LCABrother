@@ -172,7 +172,7 @@ class User extends Authenticatable
         ]);
     }
 
-    public function updateStanding($storedAcademics = null, $entry = null)
+    public function updateStanding($storedAcademics = null, $entry = null)          //TODO fix overriding shit
     {
         /*
             Checks if this method is being used for updating previous database entries (returns $entry)
@@ -180,42 +180,78 @@ class User extends Authenticatable
         */
         $academics = isset($entry) ? $entry : $this->latestAcademics();
 
+        $org = auth()->user()->organization;
+        $standingsOuter = $org->getStandingsAsc();
+        $standingsInner = $org->getStandingsDsc();
+
+        $hitOuter = false;
+        $found = false;
+        $readyToSet = false;
+        $passedOuter = false;
+        $prevTermIndex = 0;
         /*
-            Requirements to increase standing:
-                Suspension -> Probation: GPA & Cumulative GPA >= 2.5 and previous standing of Suspension
-                Probation -> Good: GPA & Cumulative GPA 2.5 >= and previous standing of Probation
-            Requirements to decrease standing:
-                Good -> Probation: 2.5 > GPA || Cumulative GPA > 1.0 and previous standing of Good
-                Good -> Suspension: GPA || Cumulative GPA <= 1.0 and previous standing doesn't matter
-                Probation -> Suspension: GPA || Cumulative GPA <= 2.5 and previous standing of Probation
-
-
-            Bug:
-                if previous is 0.8 and current is 3.0 standings go from suspension -> good
+            standings [
+                good 2.5 - prev
+                risk 2.0 - new standing
+                probation 1.5 -current
+                bad 1.0
+            ]
         */
+        $standingsOuter = $standingsOuter->all();
 
-        if (!isset($storedAcademics)) {
-            if ($academics->Current_Term_GPA > 2.5 && $academics->Cumulative_GPA > 2.5) {
-                dump($academics->Previous_Academic_Standing);
-                if ($academics->Previous_Academic_Standing === 'Suspension') {
-                    $this->setToProbation($academics);
-                } else {
-                    $this->setToGood($academics);
-                }
-            } else if ($academics->Current_Term_GPA > 1.0 && $academics->Cumulative_GPA > 1.0) {
-                if ($academics->Previous_Academic_Standing === 'Good' || $academics->Previous_Academic_Standing === null || $academics->Previous_Academic_Standing === "") {
-                    $this->setToProbation($academics);
-                } else {
-                    $this->setToSuspension($academics);
-                }
-            } else {
-                $this->setToSuspension($academics);
+        for ($i = 0; $i < count($standingsOuter); $i++) {
+            $outer = $standingsOuter[$i];
+            if ($outer->name == $academics->Previous_Academic_Standing) {
+                $prevTermIndex = $i;
             }
-        } else {
-            if (!($academics->Previous_Term_GPA === $storedAcademics->Previous_Term_GPA && $academics->Current_Term_GPA === $storedAcademics->Current_Term_GPA && $academics->Cumulative_GPA === $storedAcademics->Cumulative_GPA)) {
-                $this->updateStanding();
+
+            if ($this->check($outer, $academics)) {
+                if ($academics->Previous_Academic_Standing === null || $academics->Previous_Academic_Standing === "") {
+                    $this->setTo($outer->name, $academics);
+                    break;
+                }
+                foreach ($standingsInner as $inner) {
+                    if ($hitOuter) {
+                        $passedOuter = true;
+                    }
+
+                    if ($outer->name == $inner->name) {   //Check if crossed middle
+                        $hitOuter = true;
+                    }
+
+                    if ($hitOuter) {                    //Step down
+                        if (!$passedOuter) {
+                            $this->setTo($inner->name, $academics);
+                            break;
+                        } else {
+                            $this->setTo($standingsOuter[$prevTermIndex + 1]->name, $academics);
+                            break;
+                        }
+                    } else {                            //Step up
+                        if ($readyToSet) {
+                            $this->setTo($inner->name, $academics);
+                            break;
+                        }
+                        if ($inner->name == $academics->Previous_Academic_Standing) {
+                            $readyToSet = true;
+                        }
+                    }
+                }
+                break;
             }
         }
+    }
+
+    public function setTo($name, $academics)
+    {
+        $academics->update([
+            'Current_Academic_Standing' => $name
+        ]);
+    }
+
+    public function check(AcademicStandings $standing, $academics): bool
+    {
+        return $academics->Current_Term_GPA > $standing->Term_GPA_Min;
     }
 
     public function checkAcademicRecords()          //Finds any entry in the database where it has the same name and organization as the new user and assigns the user id to it
@@ -238,24 +274,6 @@ class User extends Authenticatable
                 }
             }
         }
-    }
-
-    public function setToSuspension(Academics $academics)
-    {
-        $academics->Current_Academic_Standing = 'Suspension';
-        $academics->save();
-    }
-
-    public function setToGood(Academics $academics)
-    {
-        $academics->Current_Academic_Standing = 'Good';
-        $academics->save();
-    }
-
-    public function setToProbation(Academics $academics)
-    {
-        $academics->Current_Academic_Standing = 'Probation';
-        $academics->save();
     }
 
     public function handleInvite(Organization $organization)
