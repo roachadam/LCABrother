@@ -1,21 +1,38 @@
 
-<div class='notifications top-right'></div>
+<div class='notifications top-right'>
+    {{-- {{dd(Session()->all())}} --}}
+    {{-- {{Session::forget('success')}} --}}
+    @if(Session::has('success'))
+        {{-- {{dd(Session::get('success'))}} --}}
+        @foreach (Session::get('success') as $msg)
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{$msg}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+          </div>
+        @endforeach
+
+       {{Session::forget('success')}}
+
+    @endif
+    @if(Session::has('primary'))
+        {{-- {{dd(Session::get('success'))}} --}}
+        @foreach (Session::get('primary') as $msg)
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                {{$msg}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+          </div>
+        @endforeach
+
+       {{Session::forget('primary')}}
+
+    @endif
+</div>
 
 <script>
-  @if(Session::has('success'))
-
-     $('.top-right').notify({
-
-        message: { text: "{{ Session::get('success') }}" }
-
-      }).show();
-
-     @php
-       Session::forget('success');
-     @endphp
-
-  @endif
-
 
   @if(Session::has('info'))
 

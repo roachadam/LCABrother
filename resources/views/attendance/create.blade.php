@@ -2,14 +2,17 @@
 
 
 @section('content')
+
     <div class="card">
+
         <div class="card-header">{{$attendanceEvent->name}} Attendance</div>
         <div class="card-body">
+                @include('partials.errors')
             <form method="POST" action="/attendanceEvent/{{$attendanceEvent->id}}/attendance">
                 @csrf
-
+                <label for="users"><h3>Users</h3></label>
                 @foreach ($attendanceEvent->getUsersNotInAttendance() as $user)
-                    <div class="checkbox-toggle form-group">
+                    <div class="checkbox-toggle form-group" id='users'>
                         <input type="checkbox" value="{{$user->id}}" name="users[]" id="subscribers{{$user->id}}">
                         <label for="subscribers{{$user->id}}">
                             {{$user->name}}

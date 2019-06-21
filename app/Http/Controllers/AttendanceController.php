@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\CalendarItem;
 use App\User;
 use App\AttendanceEvent;
+use App\Events\AttendanceRecorded;
 
 class AttendanceController extends Controller
 {
@@ -40,16 +41,22 @@ class AttendanceController extends Controller
      */
     public function store(Request $request, AttendanceEvent $attendanceEvent)
     {
-        $attributes = $request->all();
+
+        //dd($request->all());
+        $attributes = $request->validate([
+            'users' => 'required'
+        ]);
         $involvement = $attendanceEvent->involvement;
         foreach($attributes['users'] as $userID){
             $attendanceEvent->addAttendance([
                 'user_id' => $userID
             ]);
             $user = User::find($userID);
-            $user->addInvolvementLog($involvement, $attendanceEvent->calendarItem->start_date);
+            if($involvement !== null){
+                $user->addInvolvementLog($involvement, $attendanceEvent->calendarItem->start_date);
+            }
         }
-
+        event(new AttendanceRecorded($attendanceEvent));
         return back();
     }
 
@@ -95,6 +102,17 @@ class AttendanceController extends Controller
      */
     public function destroy(Attendance $attendance)
     {
+        $involvement = $attendance->attendanceEvent->involvement;
+        if($involvement != null){
+            $involvementLogs = $involvement->involvementLogs;
+            foreach($involvementLogs as $involvementLog){
+                if($involvementLog->user_id==$attendance->user_id){
+                    // dump('Found attendance log');
+                    $involvementLog->delete();
+                    break;
+                }
+            }
+        }
         $attendance->delete();
         return back();
     }

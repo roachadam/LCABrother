@@ -17,6 +17,8 @@ use App\Listeners\GoalsEmailWasSent;
 use App\Events\MemberAnsweredSurvey;
 use App\Listeners\EmailCreatorIfAllMembersRespond;
 use App\Listeners\CheckForExistingAcademicModel;
+use App\Events\AttendanceRecorded;
+use App\Listeners\AttendanceRecordedSuccessfully;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -47,6 +49,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         MemberAnsweredSurvey::class => [
             EmailCreatorIfAllMembersRespond::class
+        ],
+        AttendanceRecorded::class => [
+            AttendanceRecordedSuccessfully::class
         ]
     ];
 

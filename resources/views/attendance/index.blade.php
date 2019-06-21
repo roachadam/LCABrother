@@ -14,6 +14,7 @@
         </header>
         <section class="card">
 		<div class="card-block">
+            @include('partials.errors')
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
                 <thead>
                 <tr>
