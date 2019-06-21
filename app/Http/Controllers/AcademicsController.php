@@ -58,6 +58,18 @@ class AcademicsController extends Controller
         self::storeFileLocally($request);
         Excel::import(new GradesImport, $file);
 
+        $newMsg = 'Successfully imported new academic records!';
+        if (Session::has('success')) {
+            $msgs = Session('success');
+
+
+            array_push($msgs, $newMsg);
+            Session()->forget('success');
+            Session()->put('success', $msgs);
+        } else {
+            Session()->put('success', array($newMsg));
+        }
+
         return redirect('/academics');
     }
 
@@ -111,6 +123,12 @@ class AcademicsController extends Controller
         $user = auth()->user()->organization->users->firstWhere('id', $academics->user_id);
         $attributes = request()->all();
         $user->latestAcademics()->update($attributes);
+        if ($attributes['Previous_Academic_Standing'] === $academics->Previous_Academic_Standing && $attributes['Current_Academic_Standing'] === $academics->Current_Academic_Standing) {
+            $academics->update($attributes);
+            $academics->updateStanding();
+        } else {
+            $academics = $user->latestAcademics()->update($attributes);
+        }
 
         return redirect('/academics');
     }

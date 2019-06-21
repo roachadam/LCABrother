@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use Illuminate\Support\Facades\Session;
 
 class Academics extends Model
 {
@@ -13,8 +14,16 @@ class Academics extends Model
     {
         parent::boot();
 
-        static::created(function ($Academics) {
-            session()->put('success', 'Created new Academic!');
+        static::updated(function ($Academics) {
+            $newMsg = 'Successfully overrode academic record!';
+            if (Session::has('success')) {
+                $msgs = Session('success');
+                array_push($msgs, $newMsg);
+                Session()->forget('success');
+                Session()->put('success', $msgs);
+            } else {
+                Session()->put('success', array($newMsg));
+            }
             return back();
         });
     }
