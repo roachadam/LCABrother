@@ -33,9 +33,8 @@
                                 <td>{{ $alum->email  }}</td>
                                 <td>{{ $alum->updated_at  }}</td>
                                 @if (auth()->user()->canManageMembers())
-                                    <form action="/user/{{$alum->id}}" method="POST">
+                                    <form action="/user/{{$alum->id}}/organization/remove" method="POST">
                                         @csrf
-                                        @method('DELETE')
                                     <td><button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure?')">Delete</button></td>
                                     </form>
                                 @endif

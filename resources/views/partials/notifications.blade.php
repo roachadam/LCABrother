@@ -30,65 +30,18 @@
        {{Session::forget('primary')}}
 
     @endif
+    @if(Session::has('danger'))
+        {{-- {{dd(Session::get('success'))}} --}}
+        @foreach (Session::get('danger') as $msg)
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{$msg}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+          </div>
+        @endforeach
+
+       {{Session::forget('danger')}}
+
+    @endif
 </div>
-
-<script>
-
-  @if(Session::has('info'))
-
-      $('.top-right').notify({
-
-        message: { text: "{{ Session::get('info') }}" },
-
-        type:'info'
-
-      }).show();
-
-      @php
-
-        Session::forget('info');
-
-      @endphp
-
-  @endif
-
-
-  @if(Session::has('warning'))
-
-  		$('.top-right').notify({
-
-        message: { text: "{{ Session::get('warning') }}" },
-
-        type:'warning'
-
-      }).show();
-
-      @php
-
-        Session::forget('warning');
-
-      @endphp
-
-  @endif
-
-
-  @if(Session::has('error'))
-
-  		$('.top-right').notify({
-
-        message: { text: "{{ Session::get('error') }}" },
-
-        type:'danger'
-
-      }).show();
-
-      @php
-
-        Session::forget('error');
-
-      @endphp
-
-  @endif
-
-
-</script>

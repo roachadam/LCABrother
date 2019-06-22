@@ -32,21 +32,19 @@ class MassInvite extends Controller
         ]);
         $emailStr = $request->all()['emailList'];
         $emails = explode(',', $emailStr);
-        //dd($emails);
-        foreach($emails as $email){
+        foreach ($emails as $email) {
             $email = trim($email, " \t\n\r");
             Mail::to($email)->queue(
                 new JoinOrgInvitation($org)
             );
             //Extreme non production only, gets around email server request limit
             //need to move away from mailtrap for master
-            if(env('MAIL_HOST', false) == 'smtp.mailtrap.io'){
+            if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
                 sleep(5); //use usleep(500000) for half a second or less
             }
             // REMOVE IF ON MASTER
         }
 
-        return redirect('/dash');
-
-;   }
+        return redirect('/academicStandings/create');
+    }
 }

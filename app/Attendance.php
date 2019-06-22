@@ -15,32 +15,32 @@ class Attendance extends Model
     {
         parent::boot();
 
-        static::deleted(function ($Attendance)
-        {
+        static::deleted(function ($Attendance) {
             $newMsg = 'Attendance log(s) deleted!';
-            if(Session::has('primary')){
+            if (Session::has('primary')) {
                 $msgs = Session('primary');
 
                 $alreadyInSession = false;
 
-                if(!$alreadyInSession){
+                if (!$alreadyInSession) {
                     array_push($msgs, $newMsg);
-                Session()->forget('primary');
-                Session()->put('primary', $msgs);
+                    Session()->forget('primary');
+                    Session()->put('primary', $msgs);
                 }
-
-            }else{
+            } else {
                 Session()->put('primary', array($newMsg));
             }
         });
         return back();
     }
 
-    public function attendanceEvent(){
+    public function attendanceEvent()
+    {
         return $this->belongsTo(AttendanceEvent::class);
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }
