@@ -30,6 +30,21 @@
        {{Session::forget('primary')}}
 
     @endif
+
+    @if(Session::has('error'))
+    {{-- {{dd(Session::get('success'))}} --}}
+    @foreach (Session::get('error') as $msg)
+    <div class="alert alert-danger alert-dismissible fade show" id="primary-alert" role="alert">
+            {{$msg}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+      </div>
+    @endforeach
+
+   {{Session::forget('error')}}
+
+@endif
 </div>
 
 <script>

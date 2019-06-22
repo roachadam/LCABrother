@@ -37,7 +37,7 @@
                 </div>
                 <div class="row m-t-md">
                     <div class="checkbox-toggle form-group">
-                        <input type="checkbox" id="attendance" name="attendance" onclick="showInvolvement()">
+                        <input type="checkbox" id="attendance" name="attendance" onclick="showInvolvement()" >
                         <label for="attendance">Allow Attendance</label>
                     </div>
                 </div>
