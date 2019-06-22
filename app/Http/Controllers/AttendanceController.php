@@ -9,6 +9,7 @@ use App\User;
 use App\AttendanceEvent;
 use App\Events\AttendanceRecorded;
 use App\Events\FailedToRecordAttendance;
+
 class AttendanceController extends Controller
 {
     /**
@@ -41,33 +42,28 @@ class AttendanceController extends Controller
      */
     public function store(Request $request, AttendanceEvent $attendanceEvent)
     {
-
-        //dd($request->all());
         $attributes = $request->validate([
             'users' => 'required'
         ]);
         $involvement = $attendanceEvent->involvement;
         $usersNotInAttendance = $attendanceEvent->getUsersNotInAttendance();
         $notAllFailed = false;
-        foreach($attributes['users'] as $userID){
+        foreach ($attributes['users'] as $userID) {
             $user = User::find($userID);
-            if($usersNotInAttendance->contains('id', $user->id)){
+            if ($usersNotInAttendance->contains('id', $user->id)) {
                 $attendanceEvent->addAttendance([
                     'user_id' => $user->id
-                    ]);
-                if($involvement !== null){
+                ]);
+                if ($involvement !== null) {
                     $user->addInvolvementLog($involvement, $attendanceEvent->calendarItem->start_date);
                 }
                 $notAllFailed = true;
-            }
-            else{
+            } else {
                 event(new FailedToRecordAttendance($user));
             }
-
         }
-        if($notAllFailed){
+        if ($notAllFailed) {
             event(new AttendanceRecorded($attendanceEvent));
-
         }
         return back();
     }
@@ -79,9 +75,7 @@ class AttendanceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Attendance $attendance)
-    {
-
-    }
+    { }
 
     /**
      * Show the form for editing the specified resource.
@@ -115,10 +109,10 @@ class AttendanceController extends Controller
     public function destroy(Attendance $attendance)
     {
         $involvement = $attendance->attendanceEvent->involvement;
-        if($involvement != null){
+        if ($involvement != null) {
             $involvementLogs = $involvement->involvementLogs;
-            foreach($involvementLogs as $involvementLog){
-                if($involvementLog->user_id==$attendance->user_id){
+            foreach ($involvementLogs as $involvementLog) {
+                if ($involvementLog->user_id == $attendance->user_id) {
                     // dump('Found attendance log');
                     $involvementLog->delete();
                     break;
