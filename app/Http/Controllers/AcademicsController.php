@@ -65,29 +65,13 @@ class AcademicsController extends Controller
         if ($this->validateHeadingRow($headings[0][0])) {
             $this->storeFileLocally($request);
             Excel::import(new GradesImport, $file);
+
+            $this->alert('success', 'Successfully imported new academic records!');
             return redirect('/academics');
         } else {
-            //TODO put an error into the session saying an invalid format was inputted
+            $this->alert('danger', 'Failed to import new Records: Invalid format');
             return back();
         }
-        self::storeFileLocally($request);
-        Excel::import(new GradesImport, $file);
-
-
-        $newMsg = 'Successfully imported new academic records!';
-        if (Session::has('success')) {
-            $msgs = Session('success');
-
-
-            array_push($msgs, $newMsg);
-            Session()->forget('success');
-            Session()->put('success', $msgs);
-
-        } else {
-            Session()->put('success', array($newMsg));
-        }
-
-        return redirect('/academics');
     }
 
     //Helper function for store()
@@ -151,7 +135,7 @@ class AcademicsController extends Controller
         $attributes = request()->all();
         if ($attributes['Previous_Academic_Standing'] === $academics->Previous_Academic_Standing && $attributes['Current_Academic_Standing'] === $academics->Current_Academic_Standing) {
             $academics->update($attributes);
-            $academics->updateStandings();
+            $academics->updateStanding();
         } else {
             $academics = $user->latestAcademics()->update($attributes);
         }
@@ -169,5 +153,18 @@ class AcademicsController extends Controller
     public function destroy(Academics $academics)
     {
         //
+    }
+
+    private function alert($type, $newMsg)
+    {
+        if (Session::has($type)) {
+            $msgs = Session($type);
+
+            array_push($msgs, $newMsg);
+            Session()->forget($type);
+            Session()->put($type, $msgs);
+        } else {
+            Session()->put($type, array($newMsg));
+        }
     }
 }

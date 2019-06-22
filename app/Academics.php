@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use Illuminate\Support\Facades\Session;
 
 
 
@@ -15,7 +16,7 @@ class Academics extends Model
         parent::boot();
 
         static::updated(function ($Academics) {
-            $newMsg = 'Successfully overrode ' . self::name . '\'s academics!';
+            $newMsg = 'Successfully overrode academic records!';
             if (Session::has('success')) {
                 $msgs = Session('success');
                 array_push($msgs, $newMsg);
