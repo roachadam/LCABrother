@@ -19,7 +19,8 @@ use App\Listeners\EmailCreatorIfAllMembersRespond;
 use App\Listeners\CheckForExistingAcademicModel;
 use App\Events\AttendanceRecorded;
 use App\Listeners\AttendanceRecordedSuccessfully;
-
+use App\Events\FailedToRecordAttendance;
+use App\Listeners\NotifyFailedRecordAttendance;
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -52,6 +53,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         AttendanceRecorded::class => [
             AttendanceRecordedSuccessfully::class
+        ],
+        FailedToRecordAttendance::class => [
+            NotifyFailedRecordAttendance::class
         ]
     ];
 

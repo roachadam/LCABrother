@@ -8,7 +8,7 @@ use App\CalendarItem;
 use App\User;
 use App\AttendanceEvent;
 use App\Events\AttendanceRecorded;
-
+use App\Events\FailedToRecordAttendance;
 class AttendanceController extends Controller
 {
     /**
@@ -19,7 +19,7 @@ class AttendanceController extends Controller
     public function index(AttendanceEvent $attendanceEvent)
     {
         $attendances = $attendanceEvent->attendance;
-        return view('attendance.index', compact('attendances'));
+        return view('attendance.index', compact('attendances', 'attendanceEvent'));
     }
 
     /**
@@ -47,16 +47,28 @@ class AttendanceController extends Controller
             'users' => 'required'
         ]);
         $involvement = $attendanceEvent->involvement;
+        $usersNotInAttendance = $attendanceEvent->getUsersNotInAttendance();
+        $notAllFailed = false;
         foreach($attributes['users'] as $userID){
-            $attendanceEvent->addAttendance([
-                'user_id' => $userID
-            ]);
             $user = User::find($userID);
-            if($involvement !== null){
-                $user->addInvolvementLog($involvement, $attendanceEvent->calendarItem->start_date);
+            if($usersNotInAttendance->contains('id', $user->id)){
+                $attendanceEvent->addAttendance([
+                    'user_id' => $user->id
+                    ]);
+                if($involvement !== null){
+                    $user->addInvolvementLog($involvement, $attendanceEvent->calendarItem->start_date);
+                }
+                $notAllFailed = true;
             }
+            else{
+                event(new FailedToRecordAttendance($user));
+            }
+
         }
-        event(new AttendanceRecorded($attendanceEvent));
+        if($notAllFailed){
+            event(new AttendanceRecorded($attendanceEvent));
+
+        }
         return back();
     }
 
