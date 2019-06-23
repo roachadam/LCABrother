@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Mail\GoalsNotify;
 use App\Events\GoalsNotifSent;
 use App\Mail\AcademicsContact;
+use App\Mail\AcademicsNotifyAll;
 
 class NotifyController extends Controller
 {
@@ -16,6 +17,7 @@ class NotifyController extends Controller
     {
         return view('notify.index', compact('goals'));
     }
+
     public function send(Request $request, Goals $goals)
     {
 
@@ -64,6 +66,7 @@ class NotifyController extends Controller
         }
         return back();
     }
+
     public function sendAll(Goals $goals)
     {
         $users = auth()->user()->organization->users;
@@ -117,7 +120,7 @@ class NotifyController extends Controller
             'body' => 'required',
             'subject' => 'required',
         ]);
-        // dd('here');
+
         $users = auth()->user()->organization->users;
 
         foreach ($users as $user) {
@@ -131,5 +134,30 @@ class NotifyController extends Controller
             }
         }
         return back();
+    }
+
+    public function academicsNotifyAll(Request $request)
+    {
+        $users = auth()->user()->organization->users;
+
+        foreach ($users as $user) {
+            Mail::to($user->email)->queue(
+                new AcademicsNotifyAll($user->latestAcademics())
+            );
+            if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
+                sleep(5); //use usleep(500000) for half a second or less
+            }
+        }
+        return back();
+    }
+
+    public function academicsNotifySelected()
+    {
+        return redirect('/academics/manage');
+    }
+
+    public function academicsNotifySpecificStanding()
+    {
+        return redirect('/academics/manage');
     }
 }

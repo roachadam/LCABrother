@@ -9,6 +9,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
 use App\User;
 use Illuminate\Support\Facades\Session;
+use App\Commons\NotificationFunctions;
+use App\Events\OverrideAcademics;
 
 class AcademicsController extends Controller
 {
@@ -66,10 +68,10 @@ class AcademicsController extends Controller
             $this->storeFileLocally($request);
             Excel::import(new GradesImport, $file);
 
-            $this->alert('success', 'Successfully imported new academic records!');
+            NotificationFunctions::alert('success', 'Successfully imported new academic records!');
             return redirect('/academics');
         } else {
-            $this->alert('danger', 'Failed to import new Records: Invalid format');
+            NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
             return back();
         }
     }
@@ -137,10 +139,11 @@ class AcademicsController extends Controller
             $academics->update($attributes);
             $academics->updateStanding();
         } else {
-            $academics = $user->latestAcademics()->update($attributes);
+            //$user->latestAcademics()->update($attributes);
+            $academics->update($attributes);
         }
 
-
+        Event(new OverrideAcademics($user, $academics));
         return redirect('/academics');
     }
 
@@ -153,18 +156,5 @@ class AcademicsController extends Controller
     public function destroy(Academics $academics)
     {
         //
-    }
-
-    private function alert($type, $newMsg)
-    {
-        if (Session::has($type)) {
-            $msgs = Session($type);
-
-            array_push($msgs, $newMsg);
-            Session()->forget($type);
-            Session()->put($type, $msgs);
-        } else {
-            Session()->put($type, array($newMsg));
-        }
     }
 }
