@@ -89,8 +89,17 @@
                 @yield('content')
             </div>
         </div>
+
         @yield('js')
         <script>
+        $(document).ready(function () {
+        window.setTimeout(function() {
+                $("#success-alert").fadeTo(500, 0).slideUp(1000, function(){
+                    $(this).remove();
+                });
+            }, 5000);
+        });
+        
         $('#show-hide-sidebar-toggle').on('click', function() {
             if (!$('body').hasClass('sidebar-hidden')) {
                 $('body').addClass('sidebar-hidden');
@@ -128,14 +137,6 @@
                 $('body').addClass('menu-right-opened');
                 $('html').css('overflow','hidden');
             }
-        });
-
-        $(document).ready(function () {
-            window.setTimeout(function() {
-                $("#success-alert").fadeTo(500, 0).slideUp(1000, function(){
-                    $(this).remove();
-                });
-            }, 5000);
         });
     </script>
     </body>
