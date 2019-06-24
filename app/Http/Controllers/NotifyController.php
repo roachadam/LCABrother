@@ -151,6 +151,7 @@ class NotifyController extends Controller
         return back();
     }
 
+    //TODO connect all the backend to the new notify buttons
     public function academicsNotifySelected()
     {
         return redirect('/academics/manage');

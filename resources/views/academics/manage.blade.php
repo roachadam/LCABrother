@@ -179,4 +179,6 @@
             </div>
         </div>
     </div><!--.modal-->
+
+    <a href="/academics" class="btn btn btn-secondary">Back</a>
 @endsection
