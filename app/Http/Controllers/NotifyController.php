@@ -8,8 +8,9 @@ use App\Goals;
 use Illuminate\Http\Request;
 use App\Mail\GoalsNotify;
 use App\Events\GoalsNotifSent;
-use App\Mail\AcademicsContact;
-use App\Mail\AcademicsNotifyAll;
+use App\Mail\AcademicsSpecificStanding;
+use App\Mail\AcademicsNotify;
+use App\User;
 
 class NotifyController extends Controller
 {
@@ -114,27 +115,27 @@ class NotifyController extends Controller
         return back();
     }
 
-    public function academicsNotify(Request $request)
-    {
-        $attributes = request()->validate([
-            'body' => 'required',
-            'subject' => 'required',
-        ]);
+    // public function academicsNotify(Request $request)
+    // {
+    //     $attributes = request()->validate([
+    //         'body' => 'required',
+    //         'subject' => 'required',
+    //     ]);
 
-        $users = auth()->user()->organization->users;
+    //     $users = auth()->user()->organization->users;
 
-        foreach ($users as $user) {
-            if ($user->latestAcademics()->Current_Academic_Standing !== 'Good') {
-                Mail::to($user->email)->queue(
-                    new AcademicsContact($attributes, $user->latestAcademics())
-                );
-                if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
-                    sleep(5); //use usleep(500000) for half a second or less
-                }
-            }
-        }
-        return back();
-    }
+    //     foreach ($users as $user) {
+    //         if ($user->latestAcademics()->Current_Academic_Standing !== 'Good') {
+    //             Mail::to($user->email)->queue(
+    //                 new AcademicsContact($attributes, $user->latestAcademics())
+    //             );
+    //             if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
+    //                 sleep(5); //use usleep(500000) for half a second or less
+    //             }
+    //         }
+    //     }
+    //     return back();
+    // }
 
     public function academicsNotifyAll(Request $request)
     {
@@ -142,7 +143,7 @@ class NotifyController extends Controller
 
         foreach ($users as $user) {
             Mail::to($user->email)->queue(
-                new AcademicsNotifyAll($user->latestAcademics())
+                new AcademicsNotify($user->latestAcademics())
             );
             if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
                 sleep(5); //use usleep(500000) for half a second or less
@@ -151,14 +152,44 @@ class NotifyController extends Controller
         return back();
     }
 
-    //TODO connect all the backend to the new notify buttons
-    public function academicsNotifySelected()
+    public function academicsNotifySelected(Request $request, User $users)
     {
-        return redirect('/academics/manage');
+        $attributes = $request->validate([
+            'users' => 'required'
+        ]);
+
+        foreach ($attributes['users'] as $userID) {
+            $user = User::find($userID);
+            Mail::to($user->email)->queue(
+                new AcademicsNotify($user->latestAcademics())
+            );
+            if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
+                sleep(5); //use usleep(500000) for half a second or less
+            }
+        }
+        return back();
     }
 
-    public function academicsNotifySpecificStanding()
+    public function academicsNotifySpecificStanding(Request $request)
     {
+        $attributes = request()->validate([
+            'body' => 'required',
+            'subject' => 'required',
+            'academicStanding' => 'required',
+        ]);
+
+        $users = auth()->user()->organization->users;
+
+        foreach ($users as $user) {
+            if ($user->latestAcademics()->Current_Academic_Standing == $attributes['academicStanding']) {
+                Mail::to($user->email)->queue(
+                    new AcademicsSpecificStanding($attributes, $user->latestAcademics())
+                );
+                if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
+                    sleep(5); //use usleep(500000) for half a second or less
+                }
+            }
+        }
         return redirect('/academics/manage');
     }
 }

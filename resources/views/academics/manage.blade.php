@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="card-columns d-flex justify-content-center">
-        <div class="card">
+        <div class="card m-t-md">
             <div class="card-header">Add More Grades</div>
 
             <div class="row card-body justify-content-center m-t-md">
@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card m-t-md">
             <div class="card-header">Format Rules</div>
 
             <div class="row card-body justify-content-left m-t-md">
@@ -55,21 +55,6 @@
     <div class="card">
         <div class="card-header">Notify Members of Academic Standing</div>
             <div class="card-body">
-                {{-- <form action="/academics/notify" method="post">
-                    @csrf
-
-                    <div class="row m-t-md">
-                        <label for="subject">Subject</label>
-                        <input type="text" class="offset-1 form-control" id="subject" name="subject">
-                    </div>
-
-                    <div class="row m-t-md">
-                        <label for="body">Body</label>
-                        <textarea class="offset-1 form-control" name="body" id="body" cols="30" rows="10"></textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form> --}}
                 <div class="btn-toolbar">
                     <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#notifyAll">Notify All</button>
                     <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#notifySelectMembers">Notify Select Members</button>
@@ -146,8 +131,8 @@
     </div><!--.modal-->
 
     <!--.modal for notifying selected standings-->
-    <div class="modal fade" id="notifySpecificStanding" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="notifySpecificStanding" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
@@ -159,15 +144,28 @@
                     <div class="modal-body">
                         @csrf
                         <div class="col-md-12">
-                            <label class="form-label semibold" for="exampleInput">Choose a Specific Standing to Notify</label>
+                            <label class="form-label semibold" for="academicStanding">Choose a Specific Standing to Notify</label>
                             <fieldset>
-                                {{-- edit member details --}}
-                                <select name="Previous_Academic_Standing" id="Previous_Academic_Standing" class="col-md-4 form-control">
-                                    @foreach (auth()->user()->organization->academicStandings as $academicStanding)
-                                        <option value="{{$academicStanding->name}}">{{$academicStanding->name}}</option>
+                                <select name="academicStanding" id="academicStanding" class="col-md-4 form-control">
+                                    @foreach ($newAcademicStandings as $academicStanding)
+                                        <option value="{{$academicStanding}}">{{$academicStanding}}</option>
                                     @endforeach
                                 </select>
                             </fieldset>
+
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Send a Custom Message</h4>
+                            </div>
+
+                            <div class="row m-t-md">
+                                <label class="form-label semibold" for="subject">Subject</label>
+                                <input type="text" class="form-control" id="subject" name="subject">
+                            </div>
+
+                            <div class="row m-t-md">
+                                <label class="form-label semibold" for="body">Body</label>
+                                <textarea class="form-control" name="body" id="body" cols="30" rows="10"></textarea>
+                            </div>
                         </div>
                     </div>
 

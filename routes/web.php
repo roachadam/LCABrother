@@ -81,7 +81,6 @@ Route::post('/academics/user_id/{academics}/edit', 'AcademicsController@edit');
 Route::post('/academics/store', 'AcademicsController@store');
 Route::get('/academics/manage', 'AcademicsController@manage');
 Route::post('/user/{user}/academics/{academics}/update', 'AcademicsController@update');
-Route::post('/academics/notify', 'NotifyController@academicsNotify');
 Route::post('/academics/notifyAll', 'NotifyController@academicsNotifyAll');
 Route::post('/academics/notify/selected', 'NotifyController@academicsNotifySelected');
 Route::post('/academics/notify/specificStanding', 'NotifyController@academicsNotifySpecificStanding');

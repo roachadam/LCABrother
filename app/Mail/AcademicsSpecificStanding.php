@@ -2,20 +2,23 @@
 
 namespace App\Mail;
 
+use App\Academics;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Academics;
 
-class academicsNotifyAll extends Mailable
+class AcademicsSpecificStanding extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $subject;
+    public $body;
     public $academics;
-
-    public function __construct($academics)
+    public function __construct($attributes, $academics)
     {
+        $this->subject = $attributes['subject'];
+        $this->body = $attributes['body'];
         $this->academics = $academics;
     }
 
@@ -26,6 +29,7 @@ class academicsNotifyAll extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.academics.NotifyAll');
+        return $this->markdown('emails.academics.AcademicsSpecificStanding')
+            ->subject($this->subject);
     }
 }

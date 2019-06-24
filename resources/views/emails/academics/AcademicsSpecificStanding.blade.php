@@ -2,6 +2,7 @@
 # Introduction
 
 {{$body}} <br>
+{{$academics->name}}
 {{$academics->Current_Academic_Standing}}
 <br>
 

@@ -122,7 +122,23 @@ class AcademicsController extends Controller
      */
     public function manage()
     {
-        return view('academics.manage');
+        $usedStandings = array();
+        $newAcademicStandings = array();
+
+        $academicStandings = auth()->user()->organization->academicStandings;
+        foreach (auth()->user()->organization->users as $user) {
+            if (isset($user->latestAcademics()->Current_Academic_Standing)) {
+                array_push($usedStandings, $user->latestAcademics()->Current_Academic_Standing);
+            }
+        }
+
+        foreach ($academicStandings->all() as $academicStanding) {
+            if (in_array($academicStanding->name, $usedStandings)) {
+                array_push($newAcademicStandings, $academicStanding->name);
+            }
+        }
+
+        return view('academics.manage', compact('academicStandings', 'newAcademicStandings'));
     }
 
     /**
