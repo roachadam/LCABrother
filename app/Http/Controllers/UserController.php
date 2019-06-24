@@ -19,7 +19,6 @@ class UserController extends Controller
         $this->middleware('auth');
         $this->middleware('MemberView', ['only' => ['index', 'contact']]);
         $this->middleware('orgverified', ['only' => ['index', 'contact']]);
-
     }
 
 
@@ -98,7 +97,7 @@ class UserController extends Controller
 
         return redirect('/users/profile');
     }
-    
+
     public function destroy(User $user)
     {
         abort_if($user->id != auth()->id(), 403);
@@ -168,13 +167,15 @@ class UserController extends Controller
         return back();
     }
 
-    public function adminView(Request $request, User $user){
+    public function adminView(Request $request, User $user)
+    {
         return View('user.adminView', compact('user'));
     }
-    public function orgRemove(Request $request, User $user){
+    public function orgRemove(Request $request, User $user)
+    {
         $user->organization_verified = 0;
         $user->save();
 
-        return redirect('user');
+        return back();
     }
 }

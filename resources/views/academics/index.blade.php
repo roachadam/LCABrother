@@ -20,6 +20,7 @@
                 <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Last Name</th>
                     <th>Cumulative GPA</th>
                     <th>Previous Term GPA</th>
                     <th>Current Term GPA</th>
@@ -32,15 +33,16 @@
                     @foreach ($users as $user)
 
                         {{-- <td>{{ $user->name }}</td> --}}
-                        @if ($user->latestAcademics() !== null)
+
+                        @if ($user->academics->last() !== null)
                         <tr>
                             <td>{{ $user->name }}</td>
-                            <td>{{ $user->latestAcademics()->Cumulative_GPA }}</td>
-                            <td>{{ $user->latestAcademics()->Previous_Term_GPA }}</td>
-                            <td>{{ $user->latestAcademics()->Current_Term_GPA }}</td>
-                            <td>{{ $user->latestAcademics()->Previous_Academic_Standing }}</td>
-                            <td>{{ $user->latestAcademics()->Current_Academic_Standing }}</td>
-                            <form action="/academics/user_id/{{ $user->latestAcademics()->id }}/edit" method="POST">
+                            <td>{{ $user->academics->last()->Cumulative_GPA }}</td>
+                            <td>{{ $user->academics->last()->Previous_Term_GPA }}</td>
+                            <td>{{ $user->academics->last()->Current_Term_GPA }}</td>
+                            <td>{{ $user->academics->last()->Previous_Academic_Standing }}</td>
+                            <td>{{ $user->academics->last()->Current_Academic_Standing }}</td>
+                            <form action="/academics/user_id/{{ $user->academics->last()->id }}/edit" method="POST">
                                 @csrf
                                 <td><button type="submit" class="btn btn-inline">Override</button></td>
                             </form>
@@ -61,11 +63,24 @@
     @section('js')
     <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
     <script>
-            $(function() {
-                $('#table').DataTable({
-                    responsive: true
-                });
+        $(document).ready(function() {
+            // find full name, get surname and add it to table as second column
+            $('#table td:first-child').each(function() {
+                $('<td>'+$(this).text().split(' ')[1]+'</td>').insertAfter($(this));
             });
+            // configure sorting
+            $('#table').DataTable({
+                'columnDefs': [
+                {'orderData':[1], 'targets': [0]},
+                {
+                    'targets': [1],
+                    'visible': false,
+                    'searchable': false
+                },
+                ],
+                responsive: true
+            })
+        });
     </script>
     @endsection
 @endsection

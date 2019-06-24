@@ -46,6 +46,7 @@
 
                 </tbody>
             </table>
+            <a href="/calendarItem/create" class="btn btn-primary">Create New Event</a>
         </div>
     </section>
 

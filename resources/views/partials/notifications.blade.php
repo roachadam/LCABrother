@@ -1,77 +1,46 @@
+<div class='notifications top-right'>
+    {{-- {{dd(Session()->all())}} --}}
+    {{-- {{Session::forget('success')}} --}}
+    @if(Session::has('success'))
+        {{-- {{dd(Session::get('success'))}} --}}
+        @foreach (Session::get('success') as $msg)
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert[]">
+                {{$msg}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+          </div>
+        @endforeach
 
-<div class='notifications top-right'></div>
+       {{Session::forget('success')}}
 
-<script>
-  @if(Session::has('success'))
+    @endif
+    @if(Session::has('primary'))
+        {{-- {{dd(Session::get('success'))}} --}}
+        @foreach (Session::get('primary') as $msg)
+        <div class="alert alert-primary alert-dismissible fade show" role="alert" id="alert[]">
+                {{$msg}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+          </div>
+        @endforeach
 
-     $('.top-right').notify({
+       {{Session::forget('primary')}}
 
-        message: { text: "{{ Session::get('success') }}" }
+    @endif
+    @if(Session::has('danger'))
+        {{-- {{dd(Session::get('success'))}} --}}
+        @foreach (Session::get('danger') as $msg)
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert[]">
+                {{$msg}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+          </div>
+        @endforeach
 
-      }).show();
+       {{Session::forget('danger')}}
 
-     @php
-       Session::forget('success');
-     @endphp
-
-  @endif
-
-
-  @if(Session::has('info'))
-
-      $('.top-right').notify({
-
-        message: { text: "{{ Session::get('info') }}" },
-
-        type:'info'
-
-      }).show();
-
-      @php
-
-        Session::forget('info');
-
-      @endphp
-
-  @endif
-
-
-  @if(Session::has('warning'))
-
-  		$('.top-right').notify({
-
-        message: { text: "{{ Session::get('warning') }}" },
-
-        type:'warning'
-
-      }).show();
-
-      @php
-
-        Session::forget('warning');
-
-      @endphp
-
-  @endif
-
-
-  @if(Session::has('error'))
-
-  		$('.top-right').notify({
-
-        message: { text: "{{ Session::get('error') }}" },
-
-        type:'danger'
-
-      }).show();
-
-      @php
-
-        Session::forget('error');
-
-      @endphp
-
-  @endif
-
-
-</script>
+    @endif
+</div>

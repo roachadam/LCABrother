@@ -7,17 +7,19 @@
             <div class="tbl">
                 <div class="tbl-row">
                     <div class="tbl-cell">
-                        <h2>Attendance</h2>
+                    <h2>{{$attendanceEvent->calendarItem->name}} Attendance</h2>
+                    <h4>{{$attendanceEvent->calendarItem->start_date}}</h4>
                     </div>
                 </div>
             </div>
         </header>
         <section class="card">
 		<div class="card-block">
+            @include('partials.errors')
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
                 <thead>
                 <tr>
-                    <th>Event Name</th>
+                    <th>Member Name</th>
                     <th>Manage</th>
                 </tr>
                 </thead>
@@ -37,6 +39,7 @@
 
                 </tbody>
             </table>
+            <a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-inline btn-outline-primary">Take Attendance</a>
         </div>
     </section>
 

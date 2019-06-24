@@ -6,7 +6,11 @@ use App\Academics;
 use Illuminate\Http\Request;
 use App\Imports\GradesImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\HeadingRowImport;
 use App\User;
+use Illuminate\Support\Facades\Session;
+use App\Commons\NotificationFunctions;
+use App\Events\OverrideAcademics;
 
 class AcademicsController extends Controller
 {
@@ -24,11 +28,10 @@ class AcademicsController extends Controller
      */
     public function index()
     {
-        $users = auth()->user()->organization->users;
-
-        foreach ($users as $user) {
-            $data = $user->latestAcademics();
-        }
+        $users = User::where('organization_id', auth()->user()->organization->id)->get();
+        $users->load(['Academics' => function ($query) {
+            $query->orderBy('created_at', 'desc');
+        }]);
         return view('academics.index', compact('users'));
     }
 
@@ -50,15 +53,27 @@ class AcademicsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'grades' => 'required|file|max:2048',
-        ]);
+        $request->validate(
+            [
+                'grades' => 'required|file|max:2048|mimes:xlsx',
+            ],
+            //Error messages
+            ['grades.mimes' => 'You must upload a spread sheet']
+        );
 
         $file = request()->file('grades');
-        self::storeFileLocally($request);
-        Excel::import(new GradesImport, $file);
+        $headings = (new HeadingRowImport)->toArray($file);
 
-        return redirect('/academics');
+        if ($this->validateHeadingRow($headings[0][0])) {
+            $this->storeFileLocally($request);
+            Excel::import(new GradesImport, $file);
+
+            NotificationFunctions::alert('success', 'Successfully imported new academic records!');
+            return redirect('/academics');
+        } else {
+            NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
+            return back();
+        }
     }
 
     //Helper function for store()
@@ -69,6 +84,16 @@ class AcademicsController extends Controller
         $extension = $request->file('grades')->getClientOriginalExtension();            // Get just ext
         $fileNameToStore = $filename . '_' . time() . '.' . $extension;                 // Filename to store TODO Figure out how to name
         $request->file('grades')->storeAs('/grades', $fileNameToStore);                 // Save Image
+    }
+
+    private function validateHeadingRow($headings): bool
+    {
+        $keys = [
+            'student_name',
+            'cumulative_gpa',
+            'term_gpa'
+        ];
+        return count(array_intersect($keys, $headings)) === count($keys) ? true : false;
     }
 
     /**
@@ -85,7 +110,8 @@ class AcademicsController extends Controller
     public function edit(Academics $academics)
     {
         $academics = auth()->user()->organization->users->firstWhere('id', $academics->user_id)->latestAcademics();
-        return view('academics.edit', compact('academics'));
+        $user = User::find($academics->user_id);
+        return view('academics.override', compact('academics', 'user'));
     }
 
     /**
@@ -96,7 +122,23 @@ class AcademicsController extends Controller
      */
     public function manage()
     {
-        return view('academics.manage');
+        $usedStandings = array();
+        $newAcademicStandings = array();
+
+        $academicStandings = auth()->user()->organization->academicStandings;
+        foreach (auth()->user()->organization->users as $user) {
+            if (isset($user->latestAcademics()->Current_Academic_Standing)) {
+                array_push($usedStandings, $user->latestAcademics()->Current_Academic_Standing);
+            }
+        }
+
+        foreach ($academicStandings->all() as $academicStanding) {
+            if (in_array($academicStanding->name, $usedStandings)) {
+                array_push($newAcademicStandings, $academicStanding->name);
+            }
+        }
+
+        return view('academics.manage', compact('academicStandings', 'newAcademicStandings'));
     }
 
     /**
@@ -106,12 +148,18 @@ class AcademicsController extends Controller
      * @param  \App\Academics  $academics
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Academics $academics)
+    public function update(Request $request, User $user, Academics $academics)
     {
-        $user = auth()->user()->organization->users->firstWhere('id', $academics->user_id);
         $attributes = request()->all();
-        $user->latestAcademics()->update($attributes);
+        if ($attributes['Previous_Academic_Standing'] === $academics->Previous_Academic_Standing && $attributes['Current_Academic_Standing'] === $academics->Current_Academic_Standing) {
+            $academics->update($attributes);
+            $academics->updateStanding();
+        } else {
+            //$user->latestAcademics()->update($attributes);
+            $academics->update($attributes);
+        }
 
+        Event(new OverrideAcademics($user, $academics));
         return redirect('/academics');
     }
 

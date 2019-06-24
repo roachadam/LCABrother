@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password', 'phone', 'organization_verified', 'organization_id'
     ];
+
     protected $hidden = [
         'password', 'remember_token',
     ];
@@ -44,6 +45,7 @@ class User extends Authenticatable
 
         $this->setRole($role);
     }
+
     public function setAdmin()
     {
         $role = $this->organization->roles[0];
@@ -104,6 +106,7 @@ class User extends Authenticatable
 
         return $cash;
     }
+
     public function getServiceHours()
     {
         $logs = $this->serviceLogs;
@@ -113,10 +116,12 @@ class User extends Authenticatable
         }
         return $hours;
     }
+
     public function serviceLogs()
     {
         return $this->hasMany(ServiceLog::Class);
     }
+
     public function addInvolvementLog(Involvement $involvement, $date)
     {
         return $this->InvolvementLogs()->create([
@@ -159,50 +164,59 @@ class User extends Authenticatable
         return $this->hasMany(Academics::Class)->latest()->first();
     }
 
-    public function setPreviousData($prevGPA, $prevStanding)
+    public function setPreviousData($prevGPA, $prevStanding)        //Takes data on previous gpa and previous academic standing and saves it to the user
     {
-        $academics = $this->latestAcademics();
-        $academics->Previous_Term_GPA = $prevGPA;
-        $academics->Previous_Academic_Standing = $prevStanding;
-        $academics->save();
+        $this->latestAcademics()->update([
+            'Previous_Term_GPA' => $prevGPA,
+            'Previous_Academic_Standing' => $prevStanding
+        ]);
     }
 
     public function updateStanding()
     {
-        $academics = $this->latestAcademics();
-        if ($academics->Current_Term_GPA > 2.5) {
-            if ($academics->Previous_Academic_Standing === 'Suspension') {
-                self::setToProbation($academics);
-            } else {
-                self::setToGood($academics);
+        $this->latestAcademics()->updateStanding();
+    }
+
+    public function checkAcademicRecords()                  //Finds any entry in the database where it has the same name and organization as the new user and assigns the user id to it
+    {
+        $match = [
+            'name' => $this->name,
+            'organization_id' => $this->organization_id
+        ];
+
+        $logs = Academics::where($match)->get();
+        if ($logs->isNotEmpty()) {
+            foreach ($logs as $log) {
+                $prevGPA = $this->getPreviousAcademicData($this)['prevGPA'];
+                $prevStanding = $this->getPreviousAcademicData($this)['prevStanding'];
+
+                $log->update([
+                    'user_id' => $this->id,
+                ]);
+                $this->setPreviousData($prevGPA, $prevStanding);
+                $log->updateStanding();
             }
-        } else if ($academics->Current_Term_GPA > 1.0) {
-            if ($academics->Previous_Academic_Standing === 'Good' || $academics->Previous_Academic_Standing === '') {
-                self::setToProbation($academics);
-            } else {
-                self::setToSuspension($academics);
-            }
-        } else {
-            self::setToSuspension($academics);
         }
     }
 
-    public function setToSuspension(Academics $academics)
+    public function getPreviousAcademicData()
     {
-        $academics->Current_Academic_Standing = 'Suspension';
-        $academics->save();
-    }
+        /*
+            If this is the very first entry an error will be thrown because the are no instances of academics.
+            Then the method will return null and empty strings in order to allow the program to continue as expected
+        */
 
-    public function setToGood(Academics $academics)
-    {
-        $academics->Current_Academic_Standing = 'Good';
-        $academics->save();
-    }
-
-    public function setToProbation(Academics $academics)
-    {
-        $academics->Current_Academic_Standing = 'Probation';
-        $academics->save();
+        if ($this->latestAcademics() !== null) {
+            return collect([
+                'prevGPA' => $this->latestAcademics()->Current_Term_GPA,
+                'prevStanding' => $this->latestAcademics()->Current_Academic_Standing,
+            ]);
+        } else {
+            return collect([
+                'prevGPA' => null,
+                'prevStanding' => null,
+            ]);
+        }
     }
 
     public function handleInvite(Organization $organization)
@@ -220,6 +234,7 @@ class User extends Authenticatable
             return false;
         }
     }
+
     public function getInvitesRemaining(Event $event)
     {
         $invitesPer = $event->num_invites;
@@ -230,6 +245,7 @@ class User extends Authenticatable
         $invitesSent = DB::table('invites')->where($match)->count();
         return $invitesPer - $invitesSent;
     }
+
     public function getInvites(Event $event)
     {
         $match = [
@@ -239,19 +255,22 @@ class User extends Authenticatable
         $invites = DB::table('invites')->where($match)->get();
         return $invites;
     }
-    public function hasResponded(Survey $survey){
+
+    public function hasResponded(Survey $survey)
+    {
         $answers = SurveyAnswers::where('survey_id', '=', $survey->id)->get();
         $answers->load('user');
 
-        foreach($answers as $answer){
-            if($answer->user->id == auth()->id()){
+        foreach ($answers as $answer) {
+            if ($answer->user->id == auth()->id()) {
                 return true;
             }
         }
         return false;
     }
 
-    public function markAsAlumni(){
+    public function markAsAlumni()
+    {
         $this->organization_verified = 2;
         $this->save();
     }
@@ -268,60 +287,73 @@ class User extends Authenticatable
         $Can = $this->role->permission->manage_member_details;
         return $Can;
     }
+
     public function canManageInvolvment()
     {
         $Can = $this->role->permission->manage_all_involvement;
         return $Can;
     }
+
     public function canManageService()
     {
         $Can = $this->role->permission->manage_all_service;
         return $Can;
     }
+
     public function canViewMemberDetails()
     {
         $Can = $this->role->permission->view_member_details;
         return $Can;
     }
+
     public function canViewAllService()
     {
         $Can = $this->role->permission->view_all_service;
         return $Can;
     }
+
     public function canViewAllInvolvement()
     {
         $Can = $this->role->permission->view_all_involvement;
         return $Can;
     }
+
     public function canLogServiceEvent()
     {
         $Can = $this->role->permission->log_service_event;
         return $Can;
     }
+
     public function canManageEvents()
     {
         $Can = $this->role->permission->manage_events;
         return $Can;
     }
+
     public function canManageForum()
     {
         $Can = $this->role->permission->manage_forum;
         return $Can;
     }
-    public function canManageSurveys(){
+
+    public function canManageSurveys()
+    {
         $Can = $this->role->permission->manage_surveys;
         return $Can;
     }
+
     public function canViewAllStudy()
     {
         $Can = $this->role->permission->view_all_study;
         return $Can;
     }
+
     public function canManageAllStudy()
     {
         $Can = $this->role->permission->manage_all_study;
         return $Can;
     }
+
     public function canManageCalendar()
     {
         $Can = $this->role->permission->manage_calendar;

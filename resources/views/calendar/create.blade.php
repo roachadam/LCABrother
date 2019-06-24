@@ -37,7 +37,7 @@
                 </div>
                 <div class="row m-t-md">
                     <div class="checkbox-toggle form-group">
-                        <input type="checkbox" id="attendance" name="attendance" onclick="showInvolvement()">
+                        <input type="checkbox" id="attendance" name="attendance" onclick="showInvolvement()" >
                         <label for="attendance">Allow Attendance</label>
                     </div>
                 </div>
@@ -61,20 +61,19 @@
         </div>
     </div>
 
-@section('js')
-<script>
-    function showInvolvement(){
-        if(document.getElementById('attendance').checked){
-            var div = document.getElementById('inv');
-            inv.style.display = "block";
+    @section('js')
+    <script>
+        function showInvolvement(){
+            if(document.getElementById('attendance').checked){
+                let div = document.getElementById('inv');
+                inv.style.display = "block";
+            } else {
+                let div = document.getElementById('inv');
+                inv.style.display = "none";
+            }
         }
-        else{
-            var div = document.getElementById('inv');
-            inv.style.display = "none";
-        }
-    }
-</script>
-@endsection
+    </script>
+    @endsection
 @endsection
 
 

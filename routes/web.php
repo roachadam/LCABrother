@@ -49,6 +49,7 @@ Route::resource('calendarItem', 'CalendarController');
 Route::resource('subscribers', 'SubscribersController');
 Route::resource('attendance', 'AttendanceController');
 Route::resource('attendanceEvent', 'AttendanceEventController');
+Route::resource('academicStandings', 'AcademicStandingsController');
 
 
 Route::get('/attendance/attendanceEvent/{attendanceEvent}', 'AttendanceController@index');
@@ -75,14 +76,14 @@ Route::get('survey/{survey}/responses', 'SurveyController@viewResponses');
 Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store');
 Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown');
 
-//Route::resource('academics', 'AcademicsController');
 Route::get('/academics', 'AcademicsController@index');
-Route::post('/academics', 'AcademicsController@store');
 Route::post('/academics/user_id/{academics}/edit', 'AcademicsController@edit');
-Route::get('/academics/store', 'AcademicsController@store');
+Route::post('/academics/store', 'AcademicsController@store');
 Route::get('/academics/manage', 'AcademicsController@manage');
-Route::patch('/academics/{academics}/update', 'AcademicsController@update');
-Route::post('/academics/notify', 'NotifyController@academicsNotify');
+Route::post('/user/{user}/academics/{academics}/update', 'AcademicsController@update');
+Route::post('/academics/notifyAll', 'NotifyController@academicsNotifyAll');
+Route::post('/academics/notify/selected', 'NotifyController@academicsNotifySelected');
+Route::post('/academics/notify/specificStanding', 'NotifyController@academicsNotifySpecificStanding');
 
 Route::get('/dash', 'DashController@index');
 
