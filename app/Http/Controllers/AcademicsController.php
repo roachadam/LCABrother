@@ -9,6 +9,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
 use App\User;
 use Illuminate\Support\Facades\Session;
+use App\Commons\NotificationFunctions;
+use App\Events\OverrideAcademics;
 
 class AcademicsController extends Controller
 {
@@ -66,10 +68,10 @@ class AcademicsController extends Controller
             $this->storeFileLocally($request);
             Excel::import(new GradesImport, $file);
 
-            $this->alert('success', 'Successfully imported new academic records!');
+            NotificationFunctions::alert('success', 'Successfully imported new academic records!');
             return redirect('/academics');
         } else {
-            $this->alert('danger', 'Failed to import new Records: Invalid format');
+            NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
             return back();
         }
     }
@@ -120,7 +122,23 @@ class AcademicsController extends Controller
      */
     public function manage()
     {
-        return view('academics.manage');
+        $usedStandings = array();
+        $newAcademicStandings = array();
+
+        $academicStandings = auth()->user()->organization->academicStandings;
+        foreach (auth()->user()->organization->users as $user) {
+            if (isset($user->latestAcademics()->Current_Academic_Standing)) {
+                array_push($usedStandings, $user->latestAcademics()->Current_Academic_Standing);
+            }
+        }
+
+        foreach ($academicStandings->all() as $academicStanding) {
+            if (in_array($academicStanding->name, $usedStandings)) {
+                array_push($newAcademicStandings, $academicStanding->name);
+            }
+        }
+
+        return view('academics.manage', compact('academicStandings', 'newAcademicStandings'));
     }
 
     /**
@@ -137,9 +155,11 @@ class AcademicsController extends Controller
             $academics->update($attributes);
             $academics->updateStanding();
         } else {
-            $academics = $user->latestAcademics()->update($attributes);
+            //$user->latestAcademics()->update($attributes);
+            $academics->update($attributes);
         }
 
+        Event(new OverrideAcademics($user, $academics));
         return redirect('/academics');
     }
 
@@ -152,18 +172,5 @@ class AcademicsController extends Controller
     public function destroy(Academics $academics)
     {
         //
-    }
-
-    private function alert($type, $newMsg)
-    {
-        if (Session::has($type)) {
-            $msgs = Session($type);
-
-            array_push($msgs, $newMsg);
-            Session()->forget($type);
-            Session()->put($type, $msgs);
-        } else {
-            Session()->put($type, array($newMsg));
-        }
     }
 }

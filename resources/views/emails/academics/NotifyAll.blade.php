@@ -1,9 +1,14 @@
 @component('mail::message')
 # Introduction
 
-{{$body}} <br>
+{{$academics->name}}
 {{$academics->Current_Academic_Standing}}
-<br>
+
+@component('mail::button', ['url' => ''])
+Button Text
+@endcomponent
 
 Thanks,<br>
 Your Academics Chair
+
+@endcomponent

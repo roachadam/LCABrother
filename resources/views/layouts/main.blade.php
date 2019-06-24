@@ -92,6 +92,7 @@
 
         @yield('js')
         <script>
+
         $(document).ready(function () {
         window.setTimeout(function() {
                 $("#success-alert").fadeTo(500, 0).slideUp(1000, function(){
@@ -120,12 +121,6 @@
             }
         });
 
-        $('.mobile-menu-left-overlay').click(function(){
-            $('.hamburger').removeClass('is-active');
-            $('body').removeClass('menu-left-opened');
-            $('html').css('overflow','auto');
-        });
-
         // Right mobile menu
         $('.site-header .burger-right').click(function(){
             if ($('body').hasClass('menu-right-opened')) {
@@ -138,6 +133,13 @@
                 $('html').css('overflow','hidden');
             }
         });
-    </script>
+
+
+          $('.mobile-menu-left-overlay').click(function(){
+              $('.hamburger').removeClass('is-active');
+              $('body').removeClass('menu-left-opened');
+              $('html').css('overflow','auto');
+          });     
+        </script>
     </body>
 </html>

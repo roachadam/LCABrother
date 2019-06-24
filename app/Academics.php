@@ -9,23 +9,6 @@ use Illuminate\Support\Facades\Session;
 class Academics extends Model
 {
     protected $guarded = [];
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::updated(function ($Academics) {
-            $newMsg = 'Successfully overrode academic records!';
-            if (Session::has('success')) {
-                $msgs = Session('success');
-                array_push($msgs, $newMsg);
-                Session()->forget('success');
-                Session()->put('success', $msgs);
-            } else {
-                Session()->put('success', array($newMsg));
-            }
-            return back();
-        });
-    }
 
     public function user()
     {

@@ -1,10 +1,9 @@
-
 <div class='notifications top-right'>
 
     @if(Session::has('success'))
 
         @foreach (Session::get('success') as $msg)
-        <div class="alert alert-success alert-dismissible fade show" id="success-alert" role="alert">
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert[]">
                 {{$msg}}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -17,7 +16,7 @@
     @endif
     @if(Session::has('primary'))
         @foreach (Session::get('primary') as $msg)
-        <div class="alert alert-primary alert-dismissible fade show" id="primary-alert" role="alert">
+        <div class="alert alert-primary alert-dismissible fade show" role="alert" id="alert[]">
                 {{$msg}}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -30,7 +29,7 @@
     @endif
     @if(Session::has('danger'))
         @foreach (Session::get('danger') as $msg)
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert[]">
                 {{$msg}}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>

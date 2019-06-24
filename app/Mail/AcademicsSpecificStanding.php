@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AcademicsContact extends Mailable
+class AcademicsSpecificStanding extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -29,7 +29,7 @@ class AcademicsContact extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.Academics-Contact')
-        ->subject($this->subject);
+        return $this->markdown('emails.academics.AcademicsSpecificStanding')
+            ->subject($this->subject);
     }
 }
