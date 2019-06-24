@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\User;
 use Illuminate\Support\Facades\Session;
 
-
-
 class Academics extends Model
 {
     protected $guarded = [];

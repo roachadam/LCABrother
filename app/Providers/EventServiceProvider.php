@@ -19,6 +19,10 @@ use App\Listeners\EmailCreatorIfAllMembersRespond;
 use App\Listeners\CheckForExistingAcademicModel;
 use App\Events\OverrideAcademics;
 use App\Listeners\NotifyOverrideAcademics;
+use App\Events\AttendanceRecorded;
+use App\Listeners\AttendanceRecordedSuccessfully;
+use App\Events\FailedToRecordAttendance;
+use App\Listeners\NotifyFailedRecordAttendance;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -52,6 +56,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         OverrideAcademics::class => [
             NotifyOverrideAcademics::class
+        ],
+        AttendanceRecorded::class => [
+            AttendanceRecordedSuccessfully::class
+        ],
+        FailedToRecordAttendance::class => [
+            NotifyFailedRecordAttendance::class
         ]
     ];
 

@@ -6,10 +6,37 @@ use App\Attendance;
 use App\CalendarItem;
 use App\Involvement;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
+
 
 class AttendanceEvent extends Model
 {
     protected $guarded = [];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($AttendanceEvent)
+        {
+            $newMsg = 'Event Deleted!';
+            if(Session::has('primary')){
+                $msgs = Session('primary');
+
+                $alreadyInSession = false;
+
+                if(!$alreadyInSession){
+                    array_push($msgs, $newMsg);
+                Session()->forget('primary');
+                Session()->put('primary', $msgs);
+                }
+
+            }else{
+                Session()->put('primary', array($newMsg));
+            }
+        });
+        return back();
+    }
 
     public function attendance(){
         return $this->hasMany(Attendance::class);

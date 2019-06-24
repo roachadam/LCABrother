@@ -5,6 +5,7 @@ namespace App;
 use App\AttendanceEvent;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
 
 class Attendance extends Model
 {
