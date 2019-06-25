@@ -1,8 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-@extends('partials.notifications')
-
     <header class="section-header">
         <div class="tbl">
             <div class="tbl-row">
