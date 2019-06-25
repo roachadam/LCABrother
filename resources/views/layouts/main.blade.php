@@ -9,23 +9,6 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Scripts -->
-        <script src="{{ asset('js/lib/jquery/jquery-3.2.1.min.js') }}"></script>
-        <script src="{{ asset('js/lib/popper/popper.min.js') }}"></script>
-        <script src="{{ asset('js/lib/bootstrap/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('js/lib/tether/tether.min.js') }}"></script>
-        <script src="{{ asset('js/plugins.js') }}"></script>
-
-        <script type="text/javascript" src="{{ asset('js/lib/jqueryui/jquery-ui.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/lib/lobipanel/lobipanel.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/lib/match-height/jquery.matchHeight.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('https://www.gstatic.com/charts/loader.js') }}"></script>
-
-        <script type="text/javascript" src="{{ asset('js/lib/flatpickr/flatpickr.min.js') }}"></script>
-        {{-- <script src="{{ asset('js/lib/daterangepicker/daterangepicker.js') }}"></script> --}}
-        <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
-        <script type="text/javascript" src="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.js") }}"></script>
-
         <!-- Styles -->
         <link href="{{ asset('css/main.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/lib/datatables-net/datatables.min.css') }}" rel="stylesheet">
@@ -89,6 +72,23 @@
                 @yield('content')
             </div>
         </div>
+
+        <!-- Scripts -->
+        <script src="{{ asset('js/lib/jquery/jquery-3.2.1.min.js') }}"></script>
+        <script src="{{ asset('js/lib/popper/popper.min.js') }}"></script>
+        <script src="{{ asset('js/lib/bootstrap/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/lib/tether/tether.min.js') }}"></script>
+        <script src="{{ asset('js/plugins.js') }}"></script>
+
+        <script type="text/javascript" src="{{ asset('js/lib/jqueryui/jquery-ui.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/lib/lobipanel/lobipanel.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/lib/match-height/jquery.matchHeight.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('https://www.gstatic.com/charts/loader.js') }}"></script>
+
+        <script type="text/javascript" src="{{ asset('js/lib/flatpickr/flatpickr.min.js') }}"></script>
+        {{-- <script src="{{ asset('js/lib/daterangepicker/daterangepicker.js') }}"></script> --}}
+        <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
+        <script type="text/javascript" src="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.js") }}"></script>
 
         @yield('js')
         <script>
