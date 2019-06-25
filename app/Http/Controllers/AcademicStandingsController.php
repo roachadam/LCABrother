@@ -42,6 +42,7 @@ class AcademicStandingsController extends Controller
             'Term_GPA_Min' => ['required', 'numeric']
         ]);
 
+        dd($attributes);
         Auth()->user()->organization->addAcademicStandings($attributes);
 
         return back();

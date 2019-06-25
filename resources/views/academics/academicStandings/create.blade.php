@@ -14,7 +14,6 @@
                 </ol>
             </div>
         @empty
-        {{-- To do --}}
         TODO: Add default option for the lowest possible standing for every submission after the first
         @endforelse
 
@@ -26,15 +25,37 @@
             <label>Name of Category</label>
             <input id="name" type="text" class="form-control " name="name" value="{{ old('name') }}" required autofocus>
 
-            <label>Cum Term Gpa Min</label>
-            <input id="Cumulative_GPA_Min" type="text" class="form-control " name="Cumulative_GPA_Min" value="{{ old('Cumulative_GPA_Min') }}" required autofocus>
+            <div class="checkbox-toggle form-group">
+                <input type="checkbox" value="worstStanding" name="worstStanding" id="worstStanding" onclick="toggleGPAs()">
+                <label for="worstStanding">Worst</label>
+            </div>
 
-            <label>Current Term Gpa Min</label>
-            <input id="Term_GPA_Min" type="text" class="form-control " name="Term_GPA_Min" value="{{ old('Term_GPA_Min') }}" required autofocus>
+            <div class="form-group" id="GPAs" style="display: true">
+                <label>Cum Term Gpa Min</label>
+                <input id="Cumulative_GPA_Min" type="text" class="form-control " name="Cumulative_GPA_Min" value="{{ old('Cumulative_GPA_Min') }}" required autofocus>
 
+                <label>Current Term Gpa Min</label>
+                <input id="Term_GPA_Min" type="text" class="form-control " name="Term_GPA_Min" value="{{ old('Term_GPA_Min') }}" required autofocus>
+            </div>
 
             <button type="submit" class="button button__primary">Submit</button>
             <a href="/dash" class="button">Next</a>
         </form>
     </div>
+
+    <script>
+        function toggleGPAs(){
+            if(document.getElementById('worstStanding').checked){
+                let div = document.getElementById('GPAs');
+                div.style.display = "none";
+                document.getElementById("Cumulative_GPA_Min").value = 0;
+                document.getElementById("Term_GPA_Min").value = 0;
+            } else {
+                let div = document.getElementById('GPAs');
+                div.style.display = "block";
+                document.getElementById("Cumulative_GPA_Min").value = null;
+                document.getElementById("Term_GPA_Min").value = null;
+            }
+        }
+    </script>
 @endsection
