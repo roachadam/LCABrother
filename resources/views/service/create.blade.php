@@ -6,7 +6,7 @@
     <div class="tbl">
         <div class="tbl-row">
             <div class="tbl-cell">
-                <h3>Form extras</h3>
+                <h3>Form extraaaaas</h3>
                 {{-- <ol class="breadcrumb breadcrumb-simple">
                     <li><a href="#">StartUI</a></li>
                     <li><a href="#">Forms</a></li>
