@@ -1,12 +1,13 @@
 <header class="site-header" id="header">
 	    <div class="container-fluid">
-	        <a href="/dash" class="site-logo" id="logoId">
+	        {{-- <a href="/dash" class="site-logo" id="logoId">
                 <h2>ClubHouse</h2>
-	        </a>
+            </a> --}}
+            <a href="#" class="site-logo-text">ClubHouse</a>
 
-	        <button id="show-hide-sidebar-toggle" class="show-hide-sidebar">
+	        {{-- <button id="show-hide-sidebar-toggle" class="show-hide-sidebar">
 	            <span>toggle menu</span>
-	        </button>
+	        </button> --}}
 
 	        <button class="hamburger hamburger--htla" class="show-hide-sidebar">
 	            <span>toggle menu</span>

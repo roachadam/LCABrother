@@ -10,55 +10,35 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Styles -->
-        <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('css/lib/datatables-net/datatables.min.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('css/separate/vendor/datatables-net.min.css') }}" rel="stylesheet">
+
+
+
+        <link href="{{ asset('css/lib/datatables-net/datatables.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/separate/vendor/datatables-net.min.css') }}" rel="stylesheet">
 
         {{-- Move these to appropriate page blades --}}
         {{-- <link rel="stylesheet" href="{{ asset('css/separate/vendor/bootstrap-daterangepicker.min.css') }}" rel="stylesheet"> --}}
         <link href="{{ asset('css/lib/lobipanel/lobipanel.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/separate/vendor/lobipanel.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/lib/jqueryui/jquery-ui.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/separate/pages/widgets.min.css') }}" rel="stylesheet">
+        {{-- <link href="{{ asset('css/separate/pages/widgets.min.css') }}" rel="stylesheet"> --}}
         <link href="{{ asset('css/lib/font-awesome/font-awesome.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/lib/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('css/lib/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('css/separate/vendor/flatpickr.min.css') }}" rel="stylesheet">
-        {{-- <link rel="stylesheet" href="http://demo.itsolutionstuff.com/plugin/bootstrap-3.min.css"> --}}
+        <link href="{{ asset('css/bootstrap-combobox.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/lib/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/separate/vendor/flatpickr.min.css') }}" rel="stylesheet">
 
-        <link rel="stylesheet" type="text/css" href="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/css/bootstrap-notify.css") }}">
+        <link type="text/css" href="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/css/bootstrap-notify.css") }}" rel="stylesheet">
         @yield('css')
-            <style>
-                #header {
-                    position: fixed;
-                    z-index: 100;
-                    width: 100%;
-                    background-color: #6C63FF;
-                    transition: 0.7s;
-                }
-                .navbar--nofixed {
-                    position: relative;
-                    z-index: 3;
-                }
-                #logoId {
-                    font-size: 1.325rem;
-                    transition: 0;
-                    color: #fff;
-                    text-decoration: none;
-                }
-                html body {
-                    font-family: "Lato", sans-serif;
-                }
-                #sidebarId {
-                    background-color: rgb(51,60,68);
-                }
-                #sidebarId .lbl {
-                    color: azure;
-                }
-            </style>
+        {{-- <style>
+        #sidebar {
+            overflow-y:hidden;
+        }
+        </style> --}}
+        <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     </head>
 
-    <body class="with-side-menu ">
+    <body class="with-side-menu dark-theme mozilla-browser">
         @include('layouts.headbar')
 
         <div class="mobile-menu-left-overlay"></div>
@@ -89,10 +69,12 @@
         {{-- <script src="{{ asset('js/lib/daterangepicker/daterangepicker.js') }}"></script> --}}
         <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
         <script type="text/javascript" src="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.js") }}"></script>
+        <script src="{{ asset('js/bootstrap-combobox.js') }}"></script>
 
         @yield('js')
         <script>
             $(document).ready(function () {
+
                 window.setTimeout(function() {
                     $(".alert").fadeTo(500, 0).slideUp(1000, function(){
                         $(this).remove();
@@ -100,13 +82,13 @@
                 }, 5000);
             });
 
-            $('#show-hide-sidebar-toggle').on('click', function() {
-                if (!$('body').hasClass('sidebar-hidden')) {
-                    $('body').addClass('sidebar-hidden');
-                } else {
-                    $('body').removeClass('sidebar-hidden');
-                }
-            });
+            // $('#show-hide-sidebar-toggle').on('click', function() {
+            //     if (!$('body').hasClass('sidebar-hidden')) {
+            //         $('body').addClass('sidebar-hidden');
+            //     } else {
+            //         $('body').removeClass('sidebar-hidden');
+            //     }
+            // });
                 // Left mobile menu
             $('.hamburger').click(function(){
                 if ($('body').hasClass('menu-left-opened')) {
@@ -136,6 +118,7 @@
                     $('html').css('overflow','hidden');
                 }
             });
+
         </script>
 
     </body>
