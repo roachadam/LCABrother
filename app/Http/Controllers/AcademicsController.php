@@ -8,7 +8,6 @@ use App\Imports\GradesImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
 use App\User;
-use Illuminate\Support\Facades\Session;
 use App\Commons\NotificationFunctions;
 use App\Events\OverrideAcademics;
 
@@ -17,7 +16,7 @@ class AcademicsController extends Controller
 
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->middleware('auth');
         $this->middleware('ManageAcademics');
     }
 
