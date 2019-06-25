@@ -11,24 +11,24 @@
 
 
     @if ($serviceEvents->count())
-        <div class="row m-t-md">
+        {{-- <div class="row m-t-md"> --}}
             <label for="service_event_id">Existing Events</label>
-            <div class="col-md-4">
-                <select class="form-control m-bot15" name="service_event_id" id="service_event_id">
+            {{-- <div class="col-md-4"> --}}
+                <select class="combobox form-control" name="service_event_id" id="service_event_id">
                     <option value="-1" >Choose Existing Event</option>
                     @foreach ($serviceEvents as $serviceEvent)
                         <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
                     @endforeach
                 </select>
-            </div>
-        </div>
+            {{-- </div> --}}
+        {{-- </div> --}}
     @endif
-    <div class="row m-t-md">
+    {{-- <div class="row m-t-md">
         <label>New Event Name</label>
         <div class="col-md-4">
             <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}"  autofocus>
         </div>
-    </div>
+    </div> --}}
 
     <div class="row m-t-md">
         <label for='date_of_event'>Date of Event</label>
@@ -57,26 +57,11 @@
 </form>
 
 @section('js')
-<script>
-    var dis1 = document.getElementById("service_event_id");
-    dis1.onchange = function () {
-        if (dis1.value != "-1") {
-            document.getElementById("name").disabled = true;
-        }
-        if (dis1.value === "-1") {
-            document.getElementById("name").disabled = false;
-        }
-    }
-</script>
-
-<script>
-    var dis1 = document.getElementById("name");
-    dis1.onchange = function () {
-        if (this.value != "" || this.value.length > 0) {
-            document.getElementById("service_event_id").disabled = true;
-        }
-    }
-</script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+        $('.combobox').combobox();
+        });
+    </script>
 
 @endsection
 
