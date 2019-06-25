@@ -75,9 +75,9 @@ class ChatterDiscussionController extends Controller
 			'body_content.min' => trans('chatter::alert.danger.reason.content_min'),
 			'chatter_category_id.required' => trans('chatter::alert.danger.reason.category_required'),
 		]);
+        
 
-
-        Event(new ChatterBeforeNewDiscussion($request, $validator));
+        Event::fire(new ChatterBeforeNewDiscussion($request, $validator));
         if (function_exists('chatter_before_new_discussion')) {
             chatter_before_new_discussion($request, $validator);
         }
@@ -87,7 +87,7 @@ class ChatterDiscussionController extends Controller
         }
 
         $user_id = Auth::user()->id;
-        $organization_id = auth()->user()->organization->id;
+
         if (config('chatter.security.limit_time_between_posts')) {
             if ($this->notEnoughTimeBetweenDiscussion()) {
                 $minutes = trans_choice('chatter::messages.words.minutes', config('chatter.security.time_between_posts'));
@@ -122,7 +122,6 @@ class ChatterDiscussionController extends Controller
             'title'               => $request->title,
             'chatter_category_id' => $request->chatter_category_id,
             'user_id'             => $user_id,
-            'organization_id'     => $organization_id,
             'slug'                => $slug,
             'color'               => $request->color,
             ];
@@ -150,7 +149,7 @@ class ChatterDiscussionController extends Controller
         $post = Models::post()->create($new_post);
 
         if ($post->id) {
-            Event(new ChatterAfterNewDiscussion($request, $discussion, $post));
+            Event::fire(new ChatterAfterNewDiscussion($request, $discussion, $post));
             if (function_exists('chatter_after_new_discussion')) {
                 chatter_after_new_discussion($request);
             }
@@ -218,7 +217,7 @@ class ChatterDiscussionController extends Controller
         }
 
         $discussion->increment('views');
-
+        
         return view('chatter::discussion', compact('discussion', 'posts', 'chatter_editor'));
     }
 

@@ -2,7 +2,6 @@
 
 namespace DevDojo\Chatter\Models;
 
-use App\Organization;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -12,14 +11,9 @@ class Category extends Model
     public $timestamps = true;
     public $with = 'parents';
 
-
-    public function organization()
-    {
-        return $this->belongsTo(Organization::class);
-    }
     public function discussions()
     {
-        return $this->hasMany(Models::className(Discussion::class), 'chatter_category_id');
+        return $this->hasMany(Models::className(Discussion::class),'chatter_category_id');
     }
 
     public function parents()

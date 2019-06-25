@@ -2,9 +2,20 @@
 @section('title', 'Add Service Log')
 @section('content')
 
-<div class="text-container">
-        <h3 class="app__main__title">Service Logs</h3>
-</div>
+<header class="section-header">
+    <div class="tbl">
+        <div class="tbl-row">
+            <div class="tbl-cell">
+                <h3>Form extras</h3>
+                {{-- <ol class="breadcrumb breadcrumb-simple">
+                    <li><a href="#">StartUI</a></li>
+                    <li><a href="#">Forms</a></li>
+                    <li class="active">Form extras</li>
+                </ol> --}}
+            </div>
+        </div>
+    </div>
+</header>
 <form method="POST" action="/serviceEvent">
     @csrf
     @include('partials.errors')
