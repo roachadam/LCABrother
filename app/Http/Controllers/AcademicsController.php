@@ -173,4 +173,9 @@ class AcademicsController extends Controller
     {
         //
     }
+
+    public function getExampleFile()
+    {
+        return response()->download(public_path('/storage/grades/exampleFiles/ExampleGradeUploadFile.xlsx'));
+    }
 }

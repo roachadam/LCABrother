@@ -38,8 +38,8 @@
 
             <div class="row card-body justify-content-left m-t-md">
                 <p class="offset-1">
-                    All files <b><u>must</u></b> have at least the listed headings and<br/> Student names must use the same convention.<br/>
-                    <small class="offset-4"><a href="">Example file</a></small><br/>
+                    All files <b><u>must</u></b> have at least the listed headings (can have others) and<br/> Student names must use the same convention.<br/>
+                    <small class="offset-4"><a href="/academics/downloadExampleFile" download="Example File.xlsx">Example file</a></small><br/>
                 </p>
 
                 <ul class="offset-1" style="list-style-type:disc;">
