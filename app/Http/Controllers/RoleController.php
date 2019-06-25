@@ -52,7 +52,21 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+        $attributes = $request->all();
+        unset($attributes['_token']);
 
+        $role = auth()->user()->organization->addrole($attributes['name']);
+
+        unset($attributes['name']);
+
+        foreach($attributes as $key => $att){
+            if($att == 'on'){
+                $attributes[$key] = 1;
+             }
+        }
+        $role->setPermissions($attributes);
+
+        return back();
     }
 
     /**

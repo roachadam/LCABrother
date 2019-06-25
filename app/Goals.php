@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Commons\NotificationFunctions;
 
 class Goals extends Model
 {
@@ -14,12 +15,12 @@ class Goals extends Model
 
         static::created(function ($Goals)
         {
-            session()->put('success', 'Set organization goals.');
+            NotificationFunctions::alert('success', 'Set organization goals.');
             return back();
         });
         static::updated(function ($Goals)
         {
-            session()->put('success', 'Updated organization goals.');
+            NotificationFunctions::alert('success', 'Updated organization goals.');
             return back();
         });
     }

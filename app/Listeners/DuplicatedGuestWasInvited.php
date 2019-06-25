@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\DuplicateGuestInvited;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Commons\NotificationFunctions;
 
 class DuplicatedGuestWasInvited
 {
@@ -26,7 +27,7 @@ class DuplicatedGuestWasInvited
      */
     public function handle(DuplicateGuestInvited $event)
     {
-        session()->put('error',$event->invite->guest_name.' has already been invited.');
+        NotificationFunctions::alert('success', $event->invite->guest_name.' has already been invited.');
         return back();
     }
 }

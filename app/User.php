@@ -12,7 +12,7 @@ use DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use App\Commons\NotificationFunctions;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -34,7 +34,7 @@ class User extends Authenticatable
         parent::boot();
 
         static::updated(function ($User) {
-            session()->put('success', 'Updated your details!');
+            NotificationFunctions::alert('success','Updated your details!');
             return back();
         });
     }

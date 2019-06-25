@@ -4,6 +4,7 @@ namespace App;
 
 use App\ServiceLog;
 use Illuminate\Database\Eloquent\Model;
+use App\Commons\NotificationFunctions;
 
 class ServiceEvent extends Model
 {
@@ -15,13 +16,13 @@ class ServiceEvent extends Model
 
         static::created(function ($ServiceEvent)
         {
-            session()->put('success', 'Logged Service Event!');
+            NotificationFunctions::alert('success', 'Logged Service Event!');
             return back();
         });
 
         static::updated(function ($ServiceEvent)
         {
-            session()->put('success', 'Updated service event details!');
+            NotificationFunctions::alert('success', 'Updated service event details!');
             return back();
         });
     }

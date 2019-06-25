@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Events\MemberDeclined;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-
+use App\Commons\NotificationFunctions;
 class MemberWasDeclined
 {
     /**
@@ -26,7 +26,9 @@ class MemberWasDeclined
      */
     public function handle(MemberDeclined $event)
     {
-        session()->put('success','You have successfully declined '.$event->user->name);
+
+        NotificationFunctions::alert('success', 'You have successfully declined '.$event->user->name);
+
         return back();
     }
 }

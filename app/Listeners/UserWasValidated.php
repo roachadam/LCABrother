@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Events\UserValidated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-
+use App\Commons\NotificationFunctions;
 class UserWasValidated
 {
     /**
@@ -26,7 +26,7 @@ class UserWasValidated
      */
     public function handle(UserValidated $event)
     {
-        session()->put('success','You have successfully validated '.$event->user->name);
+        NotificationFunctions::alert('success', 'You have successfully validated '.$event->user->name);
         return back();
     }
 }

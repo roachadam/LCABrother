@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\GoalsNotifSent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Commons\NotificationFunctions;
 
 class GoalsEmailWasSent
 {
@@ -26,10 +27,12 @@ class GoalsEmailWasSent
      */
     public function handle(GoalsNotifSent $event)
     {
-        if($event->sent)
-            session()->put('success','Emails sent successfully');
+        if($event->sent){
+            NotificationFunctions::alert('success', $event->invite->guest_name.' has already been invited.');
+        }
         else
-            session()->put('info','No members below threshhold');
+            NotificationFunctions::alert('success', 'No members below threshhold');
+
         return back();
     }
 }

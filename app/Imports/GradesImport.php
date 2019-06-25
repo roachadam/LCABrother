@@ -7,6 +7,8 @@ use App\User;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use DB;
+use App\Commons\NotificationFunctions;
+
 
 
 
@@ -32,7 +34,7 @@ class GradesImport implements ToModel, WithHeadingRow
             if (isset($user)) {
                 $this->saveAndUpdateData($user, $academics);
             } else {
-                session()->put('error', 'Could not find user' . $row['student_name']);
+                NotificationFunctions::alert('error', 'Could not find user' . $row['student_name']);
             }
             auth()->user()->organization->academics()->save($academics);                //Sets the organization id for the current user
 

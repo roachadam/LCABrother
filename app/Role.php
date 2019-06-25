@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Permission;
 use App\Organization;
+use App\Commons\NotificationFunctions;
 
 class Role extends Model
 {
@@ -15,13 +16,13 @@ class Role extends Model
         parent::boot();
 
         static::created(function ($Role) {
-            session()->put('success', 'Added role!');
+            NotificationFunctions::alert('success', 'Added role!');
             return back();
         });
-        static::updated(function ($Role) {
-            session()->put('success', 'Updated role.');
-            return back();
-        });
+        // static::updated(function ($Role) {
+        //     NotificationFunctions::alert('success', 'Updated role.');
+        //     return back();
+        // });
     }
     public function permission()
     {

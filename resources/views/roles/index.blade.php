@@ -55,7 +55,7 @@
                     </button>
                     <h4 class="modal-title" id="myModalLabel">Add Role</h4>
                 </div>
-                <form method="POST" action="/organizations/{{ $org->id }}/roles" class="box" >
+                <form method="POST" action="/role" class="box" >
                     <div class="modal-body">
                         @csrf
                         <div class="col-md-12">
@@ -85,7 +85,7 @@
             </div>
         </div>
     </div><!--.modal-->
-    
+
 
 </section>
 

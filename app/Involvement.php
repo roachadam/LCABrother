@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\InvolvementLog;
+use App\Commons\NotificationFunctions;
 
 class Involvement extends Model
 {
@@ -14,7 +15,7 @@ class Involvement extends Model
         parent::boot();
 
         static::created(function ($Involvement) {
-            session()->put('success', 'Created new involvement opprotunity!');
+            NotificationFunctions::alert('success', 'Created new involvement opprotunity!');
             return back();
         });
     }

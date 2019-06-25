@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Commons\NotificationFunctions;
 
 class Invite extends Model
 {
@@ -13,7 +14,7 @@ class Invite extends Model
 
         static::created(function ($invite)
         {
-            session()->put('success', $invite->guest_name.' has been invited!');
+            NotificationFunctions::alert('success', $invite->guest_name.' has been invited!');
             return back();
         });
     }
