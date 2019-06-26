@@ -1,5 +1,4 @@
-<div class="mobile-menu-left-overlay"></div>
-<nav class="side-menu jscroll" id="sidebar">
+<nav class="side-menu">
     <ul class="side-menu-list">
         <li class="grey {{ request()->is('dash') ? 'opened' : '' }}">
             <a href="/dash">

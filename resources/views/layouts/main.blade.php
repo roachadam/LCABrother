@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
+<html>
+    <head lang="{{ str_replace('_', '-', app()->getLocale()) }}">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -53,7 +53,10 @@
 
         <!-- Scripts All Pages-->
         <script src="{{ asset('js/lib/jquery/jquery-3.2.1.min.js') }}"></script>
-        {{-- <script src="{{ asset('js/lib/popper/popper.min.js') }}"></script> --}}
+
+        {{-- VV this is for notifications --}}
+        <script src="{{ asset('js/lib/popper/popper.min.js') }}"></script>
+
         <script src="{{ asset('js/lib/bootstrap/bootstrap.min.js') }}"></script>
         {{-- <script src="{{ asset('js/lib/tether/tether.min.js') }}"></script> --}}
         <script src="{{ asset('js/plugins.js') }}"></script>
@@ -79,13 +82,28 @@
                     });
                 }, 5000);
             });
+            if (!("ontouchstart" in document.documentElement)) {
 
+                document.documentElement.className += " no-touch";
+
+                var jScrollOptions = {
+                    autoReinitialise: true,
+                    autoReinitialiseDelay: 100,
+                    contentWidth: '0px'
+                };
+
+                $('.scrollable .box-typical-body').jScrollPane(jScrollOptions);
+                $('.side-menu').jScrollPane(jScrollOptions);
+                $('.side-menu-addl').jScrollPane(jScrollOptions);
+                $('.scrollable-block').jScrollPane(jScrollOptions);
+            }
             // Left mobile menu
             $('.hamburger').click(function(){
                 if ($('body').hasClass('menu-left-opened')) {
                     $(this).removeClass('is-active');
                     $('body').removeClass('menu-left-opened');
                     $('html').css('overflow','auto');
+
                 } else {
                     $(this).addClass('is-active');
                     $('body').addClass('menu-left-opened');
@@ -93,21 +111,10 @@
                 }
             });
             $('.mobile-menu-left-overlay').click(function(){
+                console.log('two')
                 $('.hamburger').removeClass('is-active');
                 $('body').removeClass('menu-left-opened');
                 $('html').css('overflow','auto');
-            });
-            // Right mobile menu
-            $('.site-header .burger-right').click(function(){
-                if ($('body').hasClass('menu-right-opened')) {
-                    $('body').removeClass('menu-right-opened');
-                    $('html').css('overflow','auto');
-                } else {
-                    $('.hamburger').removeClass('is-active');
-                    $('body').removeClass('menu-left-opened');
-                    $('body').addClass('menu-right-opened');
-                    $('html').css('overflow','hidden');
-                }
             });
         </script>
     </body>
