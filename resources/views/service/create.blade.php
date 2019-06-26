@@ -2,33 +2,44 @@
 @section('title', 'Add Service Log')
 @section('content')
 
-<div class="text-container">
-        <h3 class="app__main__title">Service Logs</h3>
-</div>
+<header class="section-header">
+    <div class="tbl">
+        <div class="tbl-row">
+            <div class="tbl-cell">
+                <h3>Form extraaaaas</h3>
+                {{-- <ol class="breadcrumb breadcrumb-simple">
+                    <li><a href="#">StartUI</a></li>
+                    <li><a href="#">Forms</a></li>
+                    <li class="active">Form extras</li>
+                </ol> --}}
+            </div>
+        </div>
+    </div>
+</header>
 <form method="POST" action="/serviceEvent">
     @csrf
     @include('partials.errors')
 
 
     @if ($serviceEvents->count())
-        <div class="row m-t-md">
+        {{-- <div class="row m-t-md"> --}}
             <label for="service_event_id">Existing Events</label>
-            <div class="col-md-4">
-                <select class="form-control m-bot15" name="service_event_id" id="service_event_id">
+            {{-- <div class="col-md-4"> --}}
+                <select class="combobox form-control" name="service_event_id" id="service_event_id">
                     <option value="-1" >Choose Existing Event</option>
                     @foreach ($serviceEvents as $serviceEvent)
                         <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
                     @endforeach
                 </select>
-            </div>
-        </div>
+            {{-- </div> --}}
+        {{-- </div> --}}
     @endif
-    <div class="row m-t-md">
+    {{-- <div class="row m-t-md">
         <label>New Event Name</label>
         <div class="col-md-4">
             <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}"  autofocus>
         </div>
-    </div>
+    </div> --}}
 
     <div class="row m-t-md">
         <label for='date_of_event'>Date of Event</label>
@@ -57,26 +68,11 @@
 </form>
 
 @section('js')
-<script>
-    var dis1 = document.getElementById("service_event_id");
-    dis1.onchange = function () {
-        if (dis1.value != "-1") {
-            document.getElementById("name").disabled = true;
-        }
-        if (dis1.value === "-1") {
-            document.getElementById("name").disabled = false;
-        }
-    }
-</script>
-
-<script>
-    var dis1 = document.getElementById("name");
-    dis1.onchange = function () {
-        if (this.value != "" || this.value.length > 0) {
-            document.getElementById("service_event_id").disabled = true;
-        }
-    }
-</script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+        $('.combobox').combobox();
+        });
+    </script>
 
 @endsection
 

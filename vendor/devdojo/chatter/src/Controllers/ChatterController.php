@@ -3,27 +3,20 @@
 namespace DevDojo\Chatter\Controllers;
 
 use Auth;
-use App\Organization;
 use DevDojo\Chatter\Helpers\ChatterHelper as Helper;
 use DevDojo\Chatter\Models\Models;
 use Illuminate\Routing\Controller as Controller;
 
 class ChatterController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('orgverified');
-    }
     public function index($slug = '')
     {
         $pagination_results = config('chatter.paginate.num_of_results');
-
-        $organization = auth()->user()->organization;
-        $discussions = $organization->discussion()->with('user')->with('post')->with('postsCount')->with('category')->orderBy(config('chatter.order_by.discussions.order'), config('chatter.order_by.discussions.by'));
+        
+        $discussions = Models::discussion()->with('user')->with('post')->with('postsCount')->with('category')->orderBy(config('chatter.order_by.discussions.order'), config('chatter.order_by.discussions.by'));
         if (isset($slug)) {
             $category = Models::category()->where('slug', '=', $slug)->first();
-
+            
             if (isset($category->id)) {
                 $current_category_id = $category->id;
                 $discussions = $discussions->where('chatter_category_id', '=', $category->id);
@@ -31,31 +24,31 @@ class ChatterController extends Controller
                 $current_category_id = null;
             }
         }
-
+        
         $discussions = $discussions->paginate($pagination_results);
-
-        $categories = $organization->category()->get();
+        
+        $categories = Models::category()->get();
         $categoriesMenu = Helper::categoriesMenu(array_filter($categories->toArray(), function ($item) {
             return $item['parent_id'] === null;
         }));
-
+        
         $chatter_editor = config('chatter.editor');
-
+        
         if ($chatter_editor == 'simplemde') {
             // Dynamically register markdown service provider
             \App::register('GrahamCampbell\Markdown\MarkdownServiceProvider');
         }
-
+        
         return view('chatter::home', compact('discussions', 'categories', 'categoriesMenu', 'chatter_editor', 'current_category_id'));
     }
-
+    
     public function login()
     {
         if (!Auth::check()) {
             return \Redirect::to('/'.config('chatter.routes.login').'?redirect='.config('chatter.routes.home'))->with('flash_message', 'Please create an account before posting.');
         }
     }
-
+    
     public function register()
     {
         if (!Auth::check()) {
