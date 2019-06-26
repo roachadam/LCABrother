@@ -12749,9 +12749,10 @@ html {
 .dark-theme .side-menu .side-menu-list .lbl {
  color:#fff
 }
+/*nav shit*/
 .dark-theme .side-menu .side-menu-list a:hover,
 .dark-theme .side-menu .side-menu-list>li>span:hover {
- background-color:#919fa9
+ background-color:#00A8FF
 }
 .dark-theme .side-menu .side-menu-list a:hover .lbl,
 .dark-theme .side-menu .side-menu-list>li>span:hover .lbl {
@@ -12808,7 +12809,7 @@ html {
  border-color:#fff!important
 }
 .dark-theme .side-menu .side-menu-list>li.opened {
- background-color:#919fa9
+ background-color:#00A8FF
 }
 .dark-theme .side-menu .side-menu-list>li.opened>span:before {
  border-top-color:#fff

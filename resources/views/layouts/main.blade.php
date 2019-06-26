@@ -30,11 +30,11 @@
 
         <link type="text/css" href="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/css/bootstrap-notify.css") }}" rel="stylesheet">
         @yield('css')
-        {{-- <style>
-        #sidebar {
-            overflow-y:hidden;
+        <style>
+        #nav > ul > li > a:hover{
+            background-color:#f44259;
         }
-        </style> --}}
+        </style>
         <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     </head>
 

@@ -1,40 +1,40 @@
 <div class="mobile-menu-left-overlay"></div>
 <nav class="side-menu jscroll" id="sidebar">
     <ul class="side-menu-list">
-        <li class="grey">
+        <li class="grey {{ request()->is('dash') ? 'opened' : '' }}">
             <a href="/dash">
                 <i class="font-icon glyphicon glyphicon-home"></i>
                 <span class="lbl ">Dashboard</span>
             </a>
         </li>
-        <li class="red">
+        <li class="red {{ request()->is('serviceEvent/create') ? 'opened' : '' }}">
             <a href="/serviceEvent/create">
                 <i class="font-icon glyphicon glyphicon-send"></i>
                 <span class="lbl">Submit Service Hours</span>
             </a>
         </li>
-        <li class="green">
+        <li class="green {{ request()->is('serviceEvent') ? 'opened' : '' }}">
                 <a href="/serviceEvent">
                     <i class="font-icon glyphicon glyphicon-leaf"></i>
                     <span class="lbl">View Service Events</span>
                 </a>
         </li>
-        <li class="blue">
+        <li class="blue {{ request()->is('serviceEvents/indexByUser') ? 'opened' : '' }}">
             <a href="/serviceEvents/indexByUser">
                 <i class="glyphicon glyphicon-calendar"></i>
                 <span class="lbl">View Service Logs</span>
             </a>
         </li>
-        <li class="pink">
+        <li class="pink {{ request()->is('involvementLog') ? 'opened' : '' }}">
             <a href="/involvementLog">
                 <i class="glyphicon glyphicon-equalizer"></i>
-                <span class="lbl">View Involvment Scores</span>
+                <span class="lbl">Involvment Points</span>
             </a>
         </li>
-        <li class="blue">
+        <li class="blue {{ request()->is('users/contact') ? 'opened' : '' }}">
             <a href="/users/contact">
                 <i class="glyphicon glyphicon-earphone"></i>
-                <span class="lbl">View Contact Info</span>
+                <span class="lbl">Member Info</span>
             </a>
         </li>
         <li class="red">
@@ -52,25 +52,23 @@
         <li class="pink">
             <a href="/survey">
                 <i class=" glyphicon glyphicon-blackboard "></i>
-                <span class="lbl">View Surveys</span>
+                <span class="lbl">Surveys</span>
             </a>
         </li>
         <li class="blue">
             <a href="/calendarItem">
                 <i class="glyphicon glyphicon-calendar"></i>
-                <span class="lbl">View Calendar</span>
+                <span class="lbl">Calendar</span>
             </a>
         </li>
         <li class="blue">
             <a href="/attendanceEvents">
                 <i class="glyphicon glyphicon-calendar"></i>
-                <span class="lbl">View Attendace</span>
+                <span class="lbl">Attendace</span>
             </a>
         </li>
 
     </ul>
-
-    {{-- TODO: Inline has permission check? --}}
     <section>
         <ul class="side-menu-list">
             @if (auth()->user()->canManageMembers())
@@ -164,7 +162,7 @@
                 </a>
             </li>
             @endif
-            <li class="red">
+            {{-- <li class="red">
                 <a href="/newsletter/send/show">
                 <span>
                     <i class="glyphicon glyphicon-calendar"></i>
@@ -187,8 +185,7 @@
                     <span class="lbl">View Newsletters</span>
                 </span>
                 </a>
-            </li>
-
+            </li> --}}
         </ul>
     </section>
 </nav><!--.side-menu-->
