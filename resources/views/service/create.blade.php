@@ -1,9 +1,11 @@
 @extends('layouts.main')
 
-@section('title', 'Add Service Log')
+
 @section('css')
+<link href="{{ asset('css/bootstrap-combobox.css') }}" rel="stylesheet">
 <link href="{{ asset('css/separate/vendor/bootstrap-daterangepicker.min.css') }}" rel="stylesheet" >
 @endsection
+
 @section('content')
 
 

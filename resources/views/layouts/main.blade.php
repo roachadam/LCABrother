@@ -9,33 +9,31 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Styles -->
-
-
-
+        <!-- Global Styles -->
         <link href="{{ asset('css/lib/datatables-net/datatables.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/separate/vendor/datatables-net.min.css') }}" rel="stylesheet">
-
-        {{-- Move these to appropriate page blades --}}
-        {{-- <link rel="stylesheet" href="{{ asset('css/separate/vendor/bootstrap-daterangepicker.min.css') }}" rel="stylesheet"> --}}
-        <link href="{{ asset('css/lib/lobipanel/lobipanel.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/separate/vendor/lobipanel.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/lib/jqueryui/jquery-ui.min.css') }}" rel="stylesheet">
-        {{-- <link href="{{ asset('css/separate/pages/widgets.min.css') }}" rel="stylesheet"> --}}
         <link href="{{ asset('css/lib/font-awesome/font-awesome.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/lib/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/bootstrap-combobox.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/lib/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/separate/vendor/flatpickr.min.css') }}" rel="stylesheet">
 
         <link type="text/css" href="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/css/bootstrap-notify.css") }}" rel="stylesheet">
+
+
         @yield('css')
-        <style>
-        #nav > ul > li > a:hover{
-            background-color:#f44259;
-        }
-        </style>
+
         <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+        <!-- End Global Styles -->
+
+
+
+        {{-- <link rel="stylesheet" href="{{ asset('css/separate/vendor/bootstrap-daterangepicker.min.css') }}" rel="stylesheet"> --}}
+        {{-- <link href="{{ asset('css/lib/lobipanel/lobipanel.min.css') }}" rel="stylesheet"> --}}
+        {{-- <link href="{{ asset('css/separate/vendor/lobipanel.min.css') }}" rel="stylesheet"> --}}
+
+        {{-- <link href="{{ asset('css/separate/pages/widgets.min.css') }}" rel="stylesheet"> --}}
+
+        {{-- <link href="{{ asset('css/lib/flatpickr/flatpickr.min.css') }}" rel="stylesheet"> --}}
+        {{-- <link href="{{ asset('css/separate/vendor/flatpickr.min.css') }}" rel="stylesheet"> --}}
     </head>
 
     <body class="with-side-menu dark-theme mozilla-browser">
@@ -53,21 +51,21 @@
             </div>
         </div>
 
-        <!-- Scripts -->
+        <!-- Scripts All Pages-->
         <script src="{{ asset('js/lib/jquery/jquery-3.2.1.min.js') }}"></script>
-        <script src="{{ asset('js/lib/popper/popper.min.js') }}"></script>
+        {{-- <script src="{{ asset('js/lib/popper/popper.min.js') }}"></script> --}}
         <script src="{{ asset('js/lib/bootstrap/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('js/lib/tether/tether.min.js') }}"></script>
+        {{-- <script src="{{ asset('js/lib/tether/tether.min.js') }}"></script> --}}
         <script src="{{ asset('js/plugins.js') }}"></script>
 
         <script type="text/javascript" src="{{ asset('js/lib/jqueryui/jquery-ui.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/lib/lobipanel/lobipanel.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/lib/match-height/jquery.matchHeight.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('https://www.gstatic.com/charts/loader.js') }}"></script>
+        {{-- <script type="text/javascript" src="{{ asset('js/lib/lobipanel/lobipanel.min.js') }}"></script> --}}
+        {{-- <script type="text/javascript" src="{{ asset('js/lib/match-height/jquery.matchHeight.min.js') }}"></script> --}}
+        {{-- <script type="text/javascript" src="{{ asset('https://www.gstatic.com/charts/loader.js') }}"></script> --}}
 
-        <script type="text/javascript" src="{{ asset('js/lib/flatpickr/flatpickr.min.js') }}"></script>
-        {{-- <script src="{{ asset('js/lib/daterangepicker/daterangepicker.js') }}"></script> --}}
-        <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
+        {{-- <script type="text/javascript" src="{{ asset('js/lib/flatpickr/flatpickr.min.js') }}"></script> --}}
+
+        {{-- <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script> --}}
         <script type="text/javascript" src="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.js") }}"></script>
         <script src="{{ asset('js/bootstrap-combobox.js') }}"></script>
 
@@ -82,14 +80,7 @@
                 }, 5000);
             });
 
-            // $('#show-hide-sidebar-toggle').on('click', function() {
-            //     if (!$('body').hasClass('sidebar-hidden')) {
-            //         $('body').addClass('sidebar-hidden');
-            //     } else {
-            //         $('body').removeClass('sidebar-hidden');
-            //     }
-            // });
-                // Left mobile menu
+            // Left mobile menu
             $('.hamburger').click(function(){
                 if ($('body').hasClass('menu-left-opened')) {
                     $(this).removeClass('is-active');
@@ -118,8 +109,6 @@
                     $('html').css('overflow','hidden');
                 }
             });
-
         </script>
-
     </body>
 </html>
