@@ -1,8 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-@extends('partials.notifications')
-
     <header class="section-header">
         <div class="tbl">
             <div class="tbl-row">
@@ -42,10 +40,7 @@
                             <td>{{ $user->academics->last()->Current_Term_GPA }}</td>
                             <td>{{ $user->academics->last()->Previous_Academic_Standing }}</td>
                             <td>{{ $user->academics->last()->Current_Academic_Standing }}</td>
-                            <form action="/academics/user_id/{{ $user->academics->last()->id }}/edit" method="POST">
-                                @csrf
-                                <td><button type="submit" class="btn btn-inline">Override</button></td>
-                            </form>
+                            <td><a href="/academics/user_id/{{ $user->academics->last()->id }}/edit" class="btn btn-inline">Override</a></td>
                         </tr>
 
                         @endif
@@ -54,9 +49,10 @@
 
                 </tbody>
             </table>
-            <form action="/academics/manage" method="GET">
-                <button type="submit" class="btn btn-primary align-right">Manage</button>
-            </form>
+            <div class="btn-toolbar">
+                <a href="/academics/manage" class="btn btn-inline btn-primary">Manage</a>
+                <a href="/academicStandings" class="btn btn-inline btn-primary">Override Academic Rules</a>
+            </div>
         </div>
     </section>
 

@@ -99,7 +99,6 @@
                     });
                 }, 5000);
 
-
                 $('#show-hide-sidebar-toggle').on('click', function() {
                     if (!$('body').hasClass('sidebar-hidden')) {
                         $('body').addClass('sidebar-hidden');

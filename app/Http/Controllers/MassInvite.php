@@ -45,6 +45,6 @@ class MassInvite extends Controller
             // REMOVE IF ON MASTER
         }
 
-        return redirect('/academicStandings/create');
+        return redirect('/dash');
     }
 }
