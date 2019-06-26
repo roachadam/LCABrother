@@ -48,7 +48,7 @@ class AcademicStandingsController extends Controller
 
         Auth()->user()->organization->addAcademicStandings($attributes);
 
-        return ($SubmitAndFinishCheck) ? redirect('/dash') : back();
+        return ($SubmitAndFinishCheck) ? redirect('/forum/create/categories') : back();
     }
 
     /**

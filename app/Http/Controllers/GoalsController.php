@@ -41,7 +41,7 @@ class GoalsController extends Controller
         $org->setGoals($attributes);
 
         //redirect
-        return redirect('/forum/create/categories');
+        return redirect('/academicStandings/create');
     }
     public function edit()
     {
