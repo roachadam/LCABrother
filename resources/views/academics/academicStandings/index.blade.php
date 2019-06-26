@@ -33,8 +33,8 @@
                     @endforeach
                 </tbody>
             </table>
-            {{-- <p>TODO: fix this add more</p>
-            <a href="/academicStandings/create" class="btn btn-primary align-right">Add more</a> --}}
+            <p>TODO: fix this add more</p>
+            <a href="/academicStandings/create" class="btn btn-primary align-right">Add more</a>
         </div>
     </section>
 @endsection
