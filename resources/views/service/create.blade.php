@@ -25,58 +25,62 @@
                         <form method="POST" action="/serviceEvent">
                             @csrf
                             @include('partials.errors')
-{{--
+
 
                             @if ($serviceEvents->count())
-
-                                    <label for="name">Existing Events</label>
-
-                                        <select class="combobox form-control" name="name" id="name" >
-                                            <option value="-1" >Choose Existing Event</option>
-                                            @foreach ($serviceEvents as $serviceEvent)
-                                                <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
-                                            @endforeach
-                                        </select>
-
-
-                            @endif --}}
-                            <div class="row">
+                                <div class="row ">
                                     <div class="col-md-6">
-                                            <div class='input-group date'>
-                                                    <input id="date_of_event" type="text" value="10/24/2019" class="form-control">
-                                                    <span class="input-group-append">
-                                                        <span class="input-group-text"><i class="font-icon font-icon-calend"></i></span>
-                                                    </span>
-                                                </div>
-                                            {{-- <input id="date_of_event" type="text" value="10/24/2019" class="form-control"> --}}
-                                            <label for='date_of_event'>Date of Event</label>
-                                            {{-- <input class="form-control" type="date" name="date_of_event" id="date_of_event"> --}}
-                                    </div>
-                            </div>
+                                            <label for="name">Event Name</label>
 
-                            {{-- <div class="row m-t-md">
-                                <label for='date_of_event'>Date of Event</label>
-                                <div class="col-md-4">
-                                        <input class="offset-1 form-control" type="date" name="date_of_event" id="date_of_event">
-                                </div>
-                            </div> --}}
-
-                            <div class="row m-t-md">
-                                <label for="money_donated">Money Donated</label>
-                                <div class="col-md-4">
-                                    <input id="money_donated" type="number" class="offset-1 form-control"  name="money_donated" value="{{ old('money_donated') }}"  autofocus>
-                                </div>
-                            </div>
-
-                            <div class="row m-t-md">
-                                    <label for="hours_served">Hours Served</label>
-                                    <div class="col-md-4">
-                                            <input id="hours_served" type="number" class="offset-1 form-control" name="hours_served" value="{{ old('hours_served') }}"  autofocus>
+                                        <div class='input-group'>
+                                            <select class="combobox form-control" name="name" id="EventName" >
+                                                <option value="-1" >Choose Existing Event</option>
+                                                @foreach ($serviceEvents as $serviceEvent)
+                                                    <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div class="row m-t-md">
+                                <div class="col-md-6">
+                                    <label for='date_of_event'>Date of Event</label>
+
+                                    <div class='input-group date'>
+
+                                        <input id="date_of_event" type="text" value="10/24/2019" class="form-control" name="date_of_event">
+                                        <span class="input-group-append">
+                                            <span class="input-group-text"><i class="font-icon font-icon-calend"></i></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row m-t-md">
+                                <div class="col-md-6">
+                                    <label for="money_donated">Money Donated (Optional)</label>
+
+                                    <div class='input-group'>
+                                        <input id="money_donated" type="text" class="form-control"  name="money_donated" value="{{ old('money_donated') }}"  autofocus>
+                                    </div>
+                                </div>
                             </div>
 
 
-                            <button type="submit" class="btn btn-primary">Log Event</button>
+                            <div class="row m-t-md">
+                                <div class="col-md-6">
+                                    <label for="hours_served">Hours Served</label>
+
+                                    <div class='input-group'>
+                                        <input id="hours_served" type="text" class="form-control" name="hours_served" value="{{ old('hours_served') }}"  autofocus>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <button type="submit" class="btn btn-primary m-t-md">Log Event</button>
 
                         </form>
 
@@ -90,7 +94,7 @@
 <script src="{{ asset('js/lib/daterangepicker/daterangepicker.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $('#name').combobox({
+        $('#EventName').combobox({
             freeInput:{
                 name:'name',
                 value:''
