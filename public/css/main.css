@@ -12734,29 +12734,30 @@ html {
 .side-table-of-contents ul a:hover {
  color:#00a8ff
 }
+/* START DARK THEME */
 .dark-theme .side-menu {
- background-color:#343434;
- border-right-color:#343434
+background-color:#343434;
+border-right-color:#343434
 }
 .dark-theme .side-menu .jspDrag {
- border-color:#343434;
- background-color:#535353
+border-color:#343434;
+background-color:#535353
 }
 .dark-theme .side-menu .side-menu-avatar {
- background-color:#343434;
- border-bottom:solid 1px #272727
+background-color:#343434;
+border-bottom:solid 1px #272727
 }
 .dark-theme .side-menu .side-menu-list .lbl {
- color:#fff
+color:#fff
 }
 /*nav shit*/
 .dark-theme .side-menu .side-menu-list a:hover,
 .dark-theme .side-menu .side-menu-list>li>span:hover {
- background-color:#00A8FF
+background-color:#00A8FF
 }
 .dark-theme .side-menu .side-menu-list a:hover .lbl,
 .dark-theme .side-menu .side-menu-list>li>span:hover .lbl {
- color:#fff
+color:#fff
 }
 .dark-theme .side-menu .side-menu-list a:hover .fa,
 .dark-theme .side-menu .side-menu-list a:hover .font-icon,
@@ -12764,33 +12765,33 @@ html {
 .dark-theme .side-menu .side-menu-list>li>span:hover .fa,
 .dark-theme .side-menu .side-menu-list>li>span:hover .font-icon,
 .dark-theme .side-menu .side-menu-list>li>span:hover .glyphicon {
- color:#fff
+color:#fff
 }
 .dark-theme .side-menu .side-menu-list a:hover .fa.active:after,
 .dark-theme .side-menu .side-menu-list a:hover .font-icon.active:after,
 .dark-theme .side-menu .side-menu-list a:hover .glyphicon.active:after,
-.dark-theme .side-menu .side-menu-list>li>span:hover .fa.active:after,
+.dark-theme .side-menu .side-menu-list>li>span:hover .fa.active:after
 .dark-theme .side-menu .side-menu-list>li>span:hover .font-icon.active:after,
 .dark-theme .side-menu .side-menu-list>li>span:hover .glyphicon.active:after {
- border-color:#919fa9!important
+border-color:#919fa9!important
 }
 .dark-theme .side-menu .side-menu-list>li.with-sub>span:before {
- border-top-color:#919fa9
+border-top-color:#919fa9
 }
 .dark-theme .side-menu .side-menu-list>li.with-sub>span:hover:before {
- border-top-color:#fff
+border-top-color:#fff
 }
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub a,
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub>span {
- border-left-color:transparent
+border-left-color:transparent
 }
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub a:hover,
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub>span:hover {
- background-color:#fff!important
+background-color:#fff!important
 }
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub a:hover .lbl,
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub>span:hover .lbl {
- color:#343434
+color:#343434
 }
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub a:hover .fa,
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub a:hover .font-icon,
@@ -12798,7 +12799,7 @@ html {
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub>span:hover .fa,
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub>span:hover .font-icon,
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub>span:hover .glyphicon {
- color:#919fa9
+color:#919fa9
 }
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub a:hover .fa.active:after,
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub a:hover .font-icon.active:after,
@@ -12806,42 +12807,42 @@ html {
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub>span:hover .fa.active:after,
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub>span:hover .font-icon.active:after,
 .dark-theme .side-menu .side-menu-list>li.with-sub ul>li.with-sub>span:hover .glyphicon.active:after {
- border-color:#fff!important
+border-color:#fff!important
 }
 .dark-theme .side-menu .side-menu-list>li.opened {
- background-color:#00A8FF
+background-color:#00A8FF
 }
 .dark-theme .side-menu .side-menu-list>li.opened>span:before {
- border-top-color:#fff
+border-top-color:#fff
 }
 .dark-theme .side-menu .side-menu-list>li.opened>span .lbl {
- color:#fff
+color:#fff
 }
 .dark-theme .side-menu .side-menu-list>li.opened .fa,
 .dark-theme .side-menu .side-menu-list>li.opened .font-icon,
 .dark-theme .side-menu .side-menu-list>li.opened .glyphicon {
- color:#fff
+color:#fff
 }
 .dark-theme .side-menu .side-menu-list>li.opened .fa.active:after,
 .dark-theme .side-menu .side-menu-list>li.opened .font-icon.active:after,
 .dark-theme .side-menu .side-menu-list>li.opened .glyphicon.active:after {
- border-color:#919fa9
+border-color:#919fa9
 }
 .dark-theme .side-menu .side-menu-list>li.opened a,
 .dark-theme .side-menu .side-menu-list>li.opened>span {
- border-left-color:transparent
+border-left-color:transparent
 }
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub a,
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub>span {
- border-left-color:transparent
+border-left-color:transparent
 }
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub a:hover,
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub>span:hover {
- background-color:#fff!important
+background-color:#fff!important
 }
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub a:hover .lbl,
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub>span:hover .lbl {
- color:#343434
+color:#343434
 }
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub a:hover .fa,
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub a:hover .font-icon,
@@ -12849,7 +12850,7 @@ html {
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub>span:hover .fa,
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub>span:hover .font-icon,
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub>span:hover .glyphicon {
- color:#919fa9
+color:#919fa9
 }
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub a:hover .fa.active:after,
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub a:hover .font-icon.active:after,
@@ -12857,29 +12858,31 @@ html {
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub>span:hover .fa.active:after,
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub>span:hover .font-icon.active:after,
 .dark-theme .side-menu .side-menu-list>li.opened.with-sub>span:hover .glyphicon.active:after {
- border-color:#fff!important
+border-color:#fff!important
 }
 .dark-theme .side-menu .side-menu-list .fa,
 .dark-theme .side-menu .side-menu-list .font-icon,
 .dark-theme .side-menu .side-menu-list .glyphicon {
- color:#919fa9;
- -webkit-transition:all .2s ease-in-out;
- transition:all .2s ease-in-out
+/* color:#919fa9; */
+-webkit-transition:all .2s ease-in-out;
+transition:all .2s ease-in-out
 }
 .dark-theme .side-menu .side-menu-list .fa.active:after,
 .dark-theme .side-menu .side-menu-list .font-icon.active:after,
 .dark-theme .side-menu .side-menu-list .glyphicon.active:after {
- border-color:#343434
+border-color:#343434
 }
 .dark-theme .side-menu.side-menu-compact .side-menu-avatar {
- margin-top:-30px
+margin-top:-30px
 }
 .dark-theme .side-menu.side-menu-compact .side-menu-list {
- text-align:center
+text-align:center
 }
 .dark-theme .side-menu.side-menu-compact .side-menu-list>li.opened .lbl {
- color:#fff
+color:#fff
 }
+
+/* END DARK THEME */
 .dark-theme.dark-theme-blue .side-menu-list a:hover,
 .dark-theme.dark-theme-blue .side-menu-list>li>span:hover {
  background-color:#00a8ff
