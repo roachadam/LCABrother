@@ -104,11 +104,11 @@ class AcademicStandingsController extends Controller
         ]);
         $academicStandings->update($attributes);
 
-        $users = auth()->user()->organization->users;
+        // $users = auth()->user()->organization->users;
 
-        foreach ($users as $user) {
-            $user->checkAcademicRecords();
-        }
+        // foreach ($users as $user) {
+        //     $user->checkAcademicRecords();
+        // }
 
         return redirect('/academicStandings');
     }
