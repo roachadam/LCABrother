@@ -8,7 +8,8 @@
             <div class="card">
                 <div class="card-header">{{ __('Override Academics') }}</div>
                 <div class="card-body">
-                    <form method="POST" action="/user/{{$user->id}}/academics/{{$academics->id}}/update">
+                    <form method="post" action="/user/{{$user->id}}/academics/{{$academics->id}}/update">
+                        @method('PATCH')
                         @csrf
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('User Name') }}</label>

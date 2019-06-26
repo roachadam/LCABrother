@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class AcademicStandingsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('orgverified');
+        $this->middleware('ManageAcademics');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,8 @@ class AcademicStandingsController extends Controller
      */
     public function index()
     {
-        //
+        $academicStandings = auth()->user()->organization->academicStandings;
+        return view('academics.academicStandings.index', compact('academicStandings'));
     }
 
     /**
@@ -68,9 +77,15 @@ class AcademicStandingsController extends Controller
      * @param  \App\AcademicStandings  $academicStandings
      * @return \Illuminate\Http\Response
      */
-    public function edit(AcademicStandings $academicStandings)
+    public function edit($academicStandingId)
     {
-        //
+        $match = [
+            'id' => $academicStandingId,
+            'organization_id' => auth()->user()->organization->id
+        ];
+
+        $academicStanding = AcademicStandings::where('id', $academicStandingId)->get()->first();
+        return view('academics.academicStandings.override', compact('academicStanding'));
     }
 
     /**
@@ -82,7 +97,13 @@ class AcademicStandingsController extends Controller
      */
     public function update(Request $request, AcademicStandings $academicStandings)
     {
-        //
+        $attributes = $request->validate([
+            'name' => ['required', 'alpha'],
+            'Cumulative_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
+            'Term_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
+        ]);
+        $academicStandings->update($attributes);
+        return redirect('/academicStandings');
     }
 
     /**

@@ -155,7 +155,6 @@ class AcademicsController extends Controller
             $academics->update($attributes);
             $academics->updateStanding();
         } else {
-            //$user->latestAcademics()->update($attributes);
             $academics->update($attributes);
         }
 

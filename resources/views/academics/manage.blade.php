@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-
     <div class="card-columns d-flex justify-content-center">
         <div class="card m-t-md">
             <div class="card-header">Add More Grades</div>
@@ -179,5 +178,6 @@
             </div>
         </div><!--.modal-->
     @endif
+    <a href="/academicStandings" class="btn btn-primary align-right">Override Academic Rules</a>
     <a href="/academics" class="btn btn btn-secondary">Back</a>
 @endsection
