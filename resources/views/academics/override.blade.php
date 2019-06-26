@@ -46,12 +46,15 @@
                             $default_Previous_Academic_Standing = $academics->Previous_Academic_Standing == null ? " " : $academics->Previous_Academic_Standing;
                             $default_Current_Academic_Standing = $academics->Current_Academic_Standing == null ? " " : $academics->Current_Academic_Standing;
                          ?>
+                        @section('js')
                         <script>
-                            $(document).ready(() => {
-                                $("#Previous_Academic_Standing option:contains(" + '<?php echo $default_Previous_Academic_Standing?>' + ")").attr('selected', 'selected');
-                                $("#Current_Academic_Standing option:contains(" + '<?php echo $default_Current_Academic_Standing?>' + ")").attr('selected', 'selected');
-                            });
-                        </script>
+                                $(document).ready(() => {
+                                    $("#Previous_Academic_Standing option:contains(" + '<?php echo $default_Previous_Academic_Standing?>' + ")").attr('selected', 'selected');
+                                    $("#Current_Academic_Standing option:contains(" + '<?php echo $default_Current_Academic_Standing?>' + ")").attr('selected', 'selected');
+                                });
+                            </script>
+                        @endsection
+
 
                         <div class="form-group row">
                             <label for="Previous_Academic_Standing" class="col-md-4 col-form-label text-md-right">{{ __('Previous Academic Standing') }}</label>
