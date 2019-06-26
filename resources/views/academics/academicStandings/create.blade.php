@@ -32,7 +32,7 @@
             @endif
 
             <div class="form-group" id="GPAs">
-                <label>Cum Term Gpa Min</label>
+                <label>Cumulative Term Gpa Min</label>
                 <input id="Cumulative_GPA_Min" type="text" class="form-control " name="Cumulative_GPA_Min" value="{{ old('Cumulative_GPA_Min') }}" required autofocus>
 
                 <label>Current Term Gpa Min</label>
