@@ -4,24 +4,21 @@ namespace DevDojo\Chatter\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Organization;
+
 class Discussion extends Model
 {
     use SoftDeletes;
-
+    
     protected $table = 'chatter_discussion';
     public $timestamps = true;
-    protected $fillable = ['title', 'chatter_category_id', 'user_id', 'slug', 'color', 'organization_id'];
+    protected $fillable = ['title', 'chatter_category_id', 'user_id', 'slug', 'color'];
     protected $dates = ['deleted_at', 'last_reply_at'];
 
     public function user()
     {
         return $this->belongsTo(config('chatter.user.namespace'));
     }
-    public function organization()
-    {
-        return $this->belongsTo(Organization::class);
-    }
+
     public function category()
     {
         return $this->belongsTo(Models::className(Category::class), 'chatter_category_id');
