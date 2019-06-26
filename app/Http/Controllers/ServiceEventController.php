@@ -39,7 +39,7 @@ class ServiceEventController extends Controller
         if ($serviceEvent!==null) {
             $attributes['organization_id'] = auth()->user()->organization_id;
             $attributes['user_id'] = auth()->id();
-            unset($attributes['date_of_event']);
+            unset($attributes['eventDate']);
 
             unset($attributes['name']);
 
@@ -48,14 +48,14 @@ class ServiceEventController extends Controller
             $eventAtrributes = [
                 'organization_id' => auth()->user()->organization_id,
                 'name' => $attributes['name'],
-                'date_of_event' => $attributes['date_of_event']
+                'eventDate' => $attributes['eventDate']
             ];
 
             $event = ServiceEvent::Create($eventAtrributes);
 
             $attributes['organization_id'] = auth()->user()->organization_id;
             $attributes['user_id'] = auth()->id();
-            unset($attributes['date_of_event']);
+            unset($attributes['eventDate']);
             unset($attributes['name']);
             $event->setLog($attributes);
         }
@@ -93,7 +93,7 @@ class ServiceEventController extends Controller
             'name' => 'required',
             'money_donated' =>  'required_without:hours_served',
             'hours_served' =>  'required_without:money_donated',
-            'date_of_event' => 'required'
+            'eventDate' => 'required'
         ]);
     }
 
