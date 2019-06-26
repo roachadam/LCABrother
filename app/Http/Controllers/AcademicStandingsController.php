@@ -37,15 +37,18 @@ class AcademicStandingsController extends Controller
     public function store(Request $request)
     {
         $attributes = $request->validate([
-            'name' => 'required',             //TODO validate unique to organization
-            'Cumulative_GPA_Min' => ['required', 'numeric'],
-            'Term_GPA_Min' => ['required', 'numeric']
+            'name' => ['required', 'alpha', 'unique:academic_standings,organization_id'],
+            'Cumulative_GPA_Min' => ['required', 'numeric', 'between:0,4.0', 'unique:academic_standings'],
+            'Term_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
+            'SubmitAndFinishCheck' => ['required', 'boolean'],
         ]);
 
-        dd($attributes);
+        $SubmitAndFinishCheck = $attributes['SubmitAndFinishCheck'];
+        unset($attributes['SubmitAndFinishCheck']);
+
         Auth()->user()->organization->addAcademicStandings($attributes);
 
-        return back();
+        return ($SubmitAndFinishCheck) ? redirect('/dash') : back();
     }
 
     /**
