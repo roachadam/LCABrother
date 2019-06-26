@@ -7,7 +7,7 @@
 <div id='calendar'></div>
 
 
-<div class="card col-md-8 m-t-lg">
+{{-- <div class="card col-md-8 m-t-lg">
     <div class="card-header">Create New Event</div>
     <div class="card-body">
         <form method='POST' action="/calendarItem" role="presentation" class="form">
@@ -65,7 +65,7 @@
 
         </form>
 
-</div>
+</div> --}}
 </div>
 @section('js')
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
