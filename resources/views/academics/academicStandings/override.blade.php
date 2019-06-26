@@ -38,7 +38,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <a href="/academics" class="btn btn-primary">Cancel</a>
+                                <a href="/academicStandings" class="btn btn-primary">Cancel</a>
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Override') }}
                                 </button>

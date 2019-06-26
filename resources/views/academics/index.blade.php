@@ -49,7 +49,10 @@
 
                 </tbody>
             </table>
-            <a href="/academics/manage" class="btn btn-primary align-right">Manage</a>
+            <div class="btn-toolbar">
+                <a href="/academics/manage" class="btn btn-inline btn-primary">Manage</a>
+                <a href="/academicStandings" class="btn btn-inline btn-primary">Override Academic Rules</a>
+            </div>
         </div>
     </section>
 

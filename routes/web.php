@@ -49,6 +49,7 @@ Route::resource('calendarItem', 'CalendarController');
 Route::resource('subscribers', 'SubscribersController');
 Route::resource('attendance', 'AttendanceController');
 Route::resource('attendanceEvent', 'AttendanceEventController');
+Route::resource('academicStandings', 'AcademicStandingsController');
 
 Route::get('/attendance/attendanceEvent/{attendanceEvent}', 'AttendanceController@index');
 Route::post('/attendanceEvent/calendarItem/{calendarItem}', 'AttendanceEventController@store');
@@ -81,11 +82,11 @@ Route::post('/academics/store', 'AcademicsController@store');
 Route::get('/academics/manage', 'AcademicsController@manage');
 Route::get('/academics/downloadExampleFile', 'AcademicsController@getExampleFile');
 
-Route::get('/academicStandings', 'AcademicStandingsController@index');
-Route::get('/academicStandings/create', 'AcademicStandingsController@create');
-Route::post('/academicStandings/store', 'AcademicStandingsController@store');
-Route::get('/academicStandings/{academicStanding}/edit', 'AcademicStandingsController@edit');
-Route::patch('/academicStandings/{academicStandings}', 'AcademicStandingsController@update');
+// Route::get('/academicStandings', 'AcademicStandingsController@index');
+// Route::get('/academicStandings/create', 'AcademicStandingsController@create');
+// Route::post('/academicStandings', 'AcademicStandingsController@store');
+// Route::get('/academicStandings/{academicStanding}/edit', 'AcademicStandingsController@edit');
+// Route::patch('/academicStandings/{academicStandings}', 'AcademicStandingsController@update');
 
 Route::post('/academics/notifyAll', 'NotifyController@academicsNotifyAll');
 Route::post('/academics/notify/selected', 'NotifyController@academicsNotifySelected');

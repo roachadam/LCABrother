@@ -17,8 +17,8 @@ class CreateAcademicStandingsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->string('name')->nullable();
-            $table->float('Cumulative_GPA_Min')->nullable();
             $table->float('Term_GPA_Min')->nullable();
+            $table->float('Cumulative_GPA_Min')->nullable();
             $table->timestamps();
         });
     }

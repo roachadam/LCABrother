@@ -178,6 +178,5 @@
             </div>
         </div><!--.modal-->
     @endif
-    <a href="/academicStandings" class="btn btn-primary align-right">Override Academic Rules</a>
     <a href="/academics" class="btn btn btn-secondary">Back</a>
 @endsection

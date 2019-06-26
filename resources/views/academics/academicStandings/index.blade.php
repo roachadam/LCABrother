@@ -31,9 +31,10 @@
                             <td><a href="/academicStandings/{{$academicStanding->id}}/edit" class="btn btn-inline">Override</a></td>
                         </tr>
                     @endforeach
-
                 </tbody>
             </table>
+            <p>TODO: fix this add more</p>
+            <a href="/academicStandings/create" class="btn btn-primary align-right">Add more</a>
         </div>
     </section>
 @endsection

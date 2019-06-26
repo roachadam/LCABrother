@@ -13,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Commons\NotificationFunctions;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -34,7 +35,7 @@ class User extends Authenticatable
         parent::boot();
 
         static::updated(function ($User) {
-            NotificationFunctions::alert('success','Updated your details!');
+            NotificationFunctions::alert('success', 'Updated your details!');
             return back();
         });
     }
@@ -177,12 +178,20 @@ class User extends Authenticatable
         $this->latestAcademics()->updateStanding();
     }
 
-    public function checkAcademicRecords()                  //Finds any entry in the database where it has the same name and organization as the new user and assigns the user id to it
+    public function checkAcademicRecords($id = null)                  //Finds any entry in the database where it has the same name and organization as the new user and assigns the user id to it
     {
-        $match = [
-            'name' => $this->name,
-            'organization_id' => $this->organization_id
-        ];
+        if (isset($id)) {
+            $match = [
+                'id' => $id,
+                'name' => $this->name,
+                'organization_id' => $this->organization_id
+            ];
+        } else {
+            $match = [
+                'name' => $this->name,
+                'organization_id' => $this->organization_id
+            ];
+        }
 
         $logs = Academics::where($match)->get();
         if ($logs->isNotEmpty()) {
@@ -190,9 +199,11 @@ class User extends Authenticatable
                 $prevGPA = $this->getPreviousAcademicData($this)['prevGPA'];
                 $prevStanding = $this->getPreviousAcademicData($this)['prevStanding'];
 
-                $log->update([
-                    'user_id' => $this->id,
-                ]);
+                if (!isset($id)) {
+                    $log->update([
+                        'user_id' => $this->id,
+                    ]);
+                }
                 $this->setPreviousData($prevGPA, $prevStanding);
                 $log->updateStanding();
             }

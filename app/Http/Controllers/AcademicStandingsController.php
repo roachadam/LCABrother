@@ -103,6 +103,13 @@ class AcademicStandingsController extends Controller
             'Term_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
         ]);
         $academicStandings->update($attributes);
+
+        $users = auth()->user()->organization->users;
+
+        foreach ($users as $user) {
+            $user->checkAcademicRecords();
+        }
+
         return redirect('/academicStandings');
     }
 
