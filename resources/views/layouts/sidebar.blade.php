@@ -37,31 +37,31 @@
                 <span class="lbl">Member Info</span>
             </a>
         </li>
-        <li class="red">
+        <li class="red {{ request()->is('event') ? 'opened' : '' }}">
             <a href="/event">
                 <i class="glyphicon glyphicon-tasks "></i>
                 <span class="lbl">Events</span>
             </a>
         </li>
-        <li class="green">
+        <li class="green {{ request()->is('forums') ? 'opened' : '' }}">
             <a href="/forums">
                 <i class="glyphicon glyphicon-bullhorn"></i>
                 <span class="lbl">Forum</span>
             </a>
         </li>
-        <li class="pink">
+        <li class="pink {{ request()->is('survey') ? 'opened' : '' }}">
             <a href="/survey">
                 <i class=" glyphicon glyphicon-blackboard "></i>
                 <span class="lbl">Surveys</span>
             </a>
         </li>
-        <li class="blue">
+        <li class="blue {{ request()->is('calendarItem') ? 'opened' : '' }}">
             <a href="/calendarItem">
                 <i class="glyphicon glyphicon-calendar"></i>
                 <span class="lbl">Calendar</span>
             </a>
         </li>
-        <li class="blue">
+        <li class="blue {{ request()->is('attendanceEvents') ? 'opened' : '' }}">
             <a href="/attendanceEvents">
                 <i class="glyphicon glyphicon-calendar"></i>
                 <span class="lbl">Attendace</span>
@@ -73,7 +73,7 @@
         <ul class="side-menu-list">
             @if (auth()->user()->canManageMembers())
                 <header class="side-menu-title">High Zeta</header>
-                <li class="blue">
+                <li class="blue {{ request()->is('user') ? 'opened' : '' }}">
                     <a href="/user">
                     <span>
                         <i class="font-icon font-icon-users"></i>
@@ -83,7 +83,7 @@
                 </li>
             @endif
             @if (auth()->user()->canManageInvolvment())
-                <li class="red">
+                <li class="red {{ request()->is('involvement') ? 'opened' : '' }}">
                     <a href="/involvement">
                     <span>
                         <i class="glyphicon glyphicon-signal"></i>
@@ -93,7 +93,7 @@
                 </li>
             @endif
             @if (auth()->user()->canManageAllStudy())
-                <li class="green">
+                <li class="green {{ request()->is('academics') ? 'opened' : '' }}">
                     <a href="/academics">
                     <span>
                         <i class="fa fa-book"></i>
@@ -103,7 +103,7 @@
                 </li>
             @endif
             @if (auth()->user()->canManageMembers())
-                <li class="pink">
+                <li class="pink {{ request()->is('role') ? 'opened' : '' }}">
                     <a href="/role">
                     <span>
                         <i class="glyphicon glyphicon-th-list"></i>
@@ -113,7 +113,7 @@
                 </li>
             @endif
             @if (auth()->user()->canManageMembers())
-                <li class="blue">
+                <li class="blue {{ request()->is('goals') ? 'opened' : '' }}">
                     <a href="/goals">
                     <span>
                         <i class="font-icon font-icon-users"></i>
@@ -123,7 +123,7 @@
                 </li>
             @endif
             @if (auth()->user()->canManageMembers())
-                <li class="red">
+                <li class="red {{ request()->is('totals') ? 'opened' : '' }}">
                     <a href="/totals">
                     <span>
                         <i class="glyphicon glyphicon-book"></i>
@@ -133,7 +133,7 @@
                 </li>
             @endif
             @if (auth()->user()->canManageSurveys())
-                <li class="green">
+                <li class="green {{ request()->is('survey/create') ? 'opened' : '' }}">
                     <a href="/survey/create">
                     <span>
                         <i class="glyphicon glyphicon-blackboard"></i>
@@ -143,7 +143,7 @@
                 </li>
             @endif
             @if (auth()->user()->canManageMembers())
-                <li class="pink">
+                <li class="pink {{ request()->is('alumni') ? 'opened' : '' }}">
                     <a href="/alumni">
                     <span>
                         <i class=" glyphicon glyphicon-tent "></i>
@@ -153,7 +153,7 @@
                 </li>
             @endif
             @if (auth()->user()->canManageCalendar())
-            <li class="blue">
+            <li class="blue {{ request()->is('calendarItem/create') ? 'opened' : '' }}">
                 <a href="/calendarItem/create">
                 <span>
                     <i class="glyphicon glyphicon-calendar"></i>
