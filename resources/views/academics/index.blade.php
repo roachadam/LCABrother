@@ -40,7 +40,7 @@
                             <td>{{ $user->academics->last()->Current_Term_GPA }}</td>
                             <td>{{ $user->academics->last()->Previous_Academic_Standing }}</td>
                             <td>{{ $user->academics->last()->Current_Academic_Standing }}</td>
-                            <td><a href="/academics/user_id/{{ $user->academics->last()->id }}/edit" class="btn btn-inline">Override</a></td>
+                            <td><a href="/academics/user_id/{{ $user->academics->last()->id }}/edit" class="btn btn-inline btn-primary">Override</a></td>
                         </tr>
 
                         @endif
@@ -51,7 +51,7 @@
             </table>
             <div class="btn-toolbar">
                 <a href="/academics/manage" class="btn btn-inline btn-primary">Manage</a>
-                <a href="/academicStandings" class="btn btn-inline btn-primary">Override Academic Rules</a>
+                <a href="/academicStandings" class="btn btn-inline btn-secondary">Override Academic Rules</a>
             </div>
         </div>
     </section>
