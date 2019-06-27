@@ -20,12 +20,34 @@
         <button type="submit" class="btn btn-inline btn-primary">Edit</button>
 
 </form>
-<form action="/role/{{$role->id}}" method="POST">
-    @csrf
-    @method('DELETE')
+<button type="button" class="btn btn-inline btn-danger" data-toggle="modal" data-target="#deleteRoleModal" {{($role->name =='Admin' || $role->name =='Basic') ? 'disabled' : ''}}>Delete</button>
 
-    <button type="submit" class="btn btn-inline btn-warning" onclick="return confirm('Are you sure?')" {{($role->name =='Admin' || $role->name =='Basic') ? 'disabled' : ''}}>Delete</button>
+<!--.modal for notifying all memebrs-->
+<div class="modal fade" id="deleteRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                        <i class="font-icon-close-2"></i>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Delete Role</h4>
+                </div>
+                <form action="/role/{{$role->id}}" method="post" class="box" >
+                    <div class="modal-body">
+                        @csrf
+                        @method('delete')
+                        <div class="col-md-12">
+                            <p>Are you sure you want to delete this role?</p>
+                        </div>
+                    </div>
 
-</form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-inline btn-primary">Notify</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div><!--.modal-->
 
 @endsection
