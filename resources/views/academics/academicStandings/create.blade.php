@@ -39,6 +39,7 @@
                 <input id="Cumulative_GPA_Min" type="text" class="form-control " name="Cumulative_GPA_Min" value="{{ old('Cumulative_GPA_Min') }}" required autofocus>
 
                 <input type="hidden" name="SubmitAndFinishCheck" id="SubmitAndFinishCheck" value="0">
+                <input type="hidden" name="lowest" id="lowest" value="0">
             </div>
             <button type="submit" class="button button__primary" id="submit">Submit</button>
             <a href="/dash" class="button" id="nextButton">Next</a>
@@ -55,6 +56,7 @@
                 document.getElementById('nextButton').style.display = "none";
                 document.getElementById('submitAndFinish').style.display = "";
 
+                document.getElementById("lowest").value = "1";
                 document.getElementById("Cumulative_GPA_Min").value = 0;
                 document.getElementById("Term_GPA_Min").value = 0;
             } else {
@@ -63,6 +65,7 @@
                 document.getElementById('nextButton').style.display = "";
                 document.getElementById('submitAndFinish').style.display = "none";
 
+                document.getElementById("lowest").value = "1";
                 document.getElementById("Cumulative_GPA_Min").value = null;
                 document.getElementById("Term_GPA_Min").value = null;
             }

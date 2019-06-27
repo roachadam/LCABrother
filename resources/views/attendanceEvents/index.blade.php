@@ -1,8 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-
-
     <header class="section-header">
             <div class="tbl">
                 <div class="tbl-row">
@@ -14,7 +12,7 @@
             </div>
         </header>
         <section class="card">
-		<div class="card-block">
+        <div class="card-block">
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
                 <thead>
                 <tr>
@@ -27,7 +25,6 @@
                 </tr>
                 </thead>
                 <tbody>
-
                     @if ($attendanceEvents->count())
                         @foreach ($attendanceEvents as $attendanceEvent)
                         <tr>
@@ -43,15 +40,11 @@
                         </tr>
                         @endforeach
                     @endif
-
                 </tbody>
             </table>
             <a href="/calendarItem/create" class="btn btn-primary">Create New Event</a>
         </div>
     </section>
-
-
-
 @section('js')
 <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
 <script>

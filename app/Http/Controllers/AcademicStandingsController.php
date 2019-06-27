@@ -22,7 +22,7 @@ class AcademicStandingsController extends Controller
      */
     public function index()
     {
-        $academicStandings = auth()->user()->organization->academicStandings;
+        $academicStandings = AcademicStandings::where('organization_id', auth()->user()->organization->id)->get()->sortByDesc('Term_GPA_Min');
         return view('academics.academicStandings.index', compact('academicStandings'));
     }
 
@@ -33,7 +33,7 @@ class AcademicStandingsController extends Controller
      */
     public function create()
     {
-        $academicStandings = auth()->user()->organization->academicStandings;
+        $academicStandings = AcademicStandings::where('organization_id', auth()->user()->organization->id)->get()->sortByDesc('Term_GPA_Min');
         return view('academics.academicStandings.create', compact('academicStandings'));
     }
 
@@ -102,14 +102,8 @@ class AcademicStandingsController extends Controller
             'Cumulative_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
             'Term_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
         ]);
+
         $academicStandings->update($attributes);
-
-        // $users = auth()->user()->organization->users;
-
-        // foreach ($users as $user) {
-        //     $user->checkAcademicRecords();
-        // }
-
         return redirect('/academicStandings');
     }
 
@@ -121,6 +115,7 @@ class AcademicStandingsController extends Controller
      */
     public function destroy(AcademicStandings $academicStandings)
     {
-        //
+        $academicStandings->delete();
+        return back();
     }
 }
