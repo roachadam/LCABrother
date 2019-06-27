@@ -61,17 +61,6 @@ class AcademicStandingsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\AcademicStandings  $academicStandings
-     * @return \Illuminate\Http\Response
-     */
-    public function show(AcademicStandings $academicStandings)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\AcademicStandings  $academicStandings

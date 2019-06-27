@@ -82,6 +82,6 @@ class Academics extends Model
 
     public function check(AcademicStandings $standing): bool
     {
-        return $this->Current_Term_GPA > $standing->Term_GPA_Min;
+        return $this->Current_Term_GPA >= $standing->Term_GPA_Min && $this->Cumulative_GPA >= $standing->Cumulative_GPA_Min;
     }
 }

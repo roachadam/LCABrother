@@ -150,7 +150,6 @@ class AcademicsController extends Controller
      */
     public function update(Request $request, User $user, Academics $academics)
     {
-        dd($academics);
         $attributes = request()->all();
         if ($attributes['Previous_Academic_Standing'] === $academics->Previous_Academic_Standing && $attributes['Current_Academic_Standing'] === $academics->Current_Academic_Standing) {
             $academics->update($attributes);
