@@ -46,7 +46,7 @@ class AcademicStandingsController extends Controller
     public function store(Request $request)
     {
         $attributes = $request->validate([
-            'name' => ['required', 'alpha', 'unique:academic_standings,organization_id'],
+            'name' => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/', 'unique:academic_standings,organization_id'],
             'Cumulative_GPA_Min' => ['required', 'numeric', 'between:0,4.0', 'unique:academic_standings'],
             'Term_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
             'SubmitAndFinishCheck' => ['required', 'boolean'],
