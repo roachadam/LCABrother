@@ -29,9 +29,6 @@
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
-
-                        {{-- <td>{{ $user->name }}</td> --}}
-
                         @if ($user->academics->last() !== null)
                         <tr>
                             <td>{{ $user->name }}</td>
@@ -51,7 +48,7 @@
             </table>
             <div class="btn-toolbar">
                 <a href="/academics/manage" class="btn btn-inline btn-primary">Manage</a>
-                <a href="/academicStandings" class="btn btn-inline btn-secondary">Override Academic Rules</a>
+                <a href="/academicStandings" class="btn btn-inline btn-outline-secondary">Override Academic Rules</a>
             </div>
         </div>
     </section>

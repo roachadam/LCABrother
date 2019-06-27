@@ -15,7 +15,7 @@
 
                 @if (auth()->user()->canManageEvents())
                     <div class="row m-t-md">
-                        <td><button type="button" class="btn btn-inline btn-danger" data-toggle="modal" data-target="#{{$calendarItem->id}}">Delete</button></td>
+                        <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$calendarItem->id}}">Delete</button></td>
                     </div>
                 @endif
 
@@ -53,7 +53,7 @@
                                         <tr>
                                             <td>{{ $invite->user->name }}</td>
                                             <td> {{$invite->guest_name}} </td>
-                                            <td><button type="button" class="btn btn-inline btn-danger" data-toggle="modal" data-target="#{{$invite->id}}">Delete</button></td>
+                                            <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$invite->id}}">Delete</button></td>
                                         </tr>
 
                                         <!--.modal for confirming deletion-->
@@ -77,7 +77,7 @@
 
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-inline btn-primary">Delete</button>
+                                                            <button type="submit" class="btn btn-inline btn-danger">Delete</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -118,7 +118,7 @@
                                     @foreach ($attendanceEvent->attendance as $att)
                                         <tr>
                                             <td>{{ $att->user->name }}</td>
-                                            <td><button type="button" class="btn btn-inline btn-danger" data-toggle="modal" data-target="#{{$att->id}}">Delete</button></td>
+                                            <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$att->id}}">Delete</button></td>
                                         </tr>
 
                                         <!--.modal for confirming deletion-->
@@ -142,7 +142,7 @@
 
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-inline btn-primary">Delete</button>
+                                                            <button type="submit" class="btn btn-inline btn-danger">Delete</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -179,7 +179,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-inline btn-primary">Delete</button>
+                        <button type="submit" class="btn btn-inline btn-danger">Delete</button>
                     </div>
                 </form>
             </div>

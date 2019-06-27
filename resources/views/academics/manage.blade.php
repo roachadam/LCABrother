@@ -84,7 +84,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-inline btn-primary">Notify</button>
+                            <button type="submit" class="btn btn-inline btn-danger">Notify</button>
                         </div>
                     </form>
                 </div>
@@ -123,7 +123,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-inline btn-primary">Notify</button>
+                            <button type="submit" class="btn btn-inline btn-danger">Notify</button>
                         </div>
                     </form>
                 </div>
@@ -171,7 +171,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-inline btn-primary">Notify</button>
+                            <button type="submit" class="btn btn-inline btn-danger">Notify</button>
                         </div>
                     </form>
                 </div>

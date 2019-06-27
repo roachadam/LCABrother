@@ -23,7 +23,7 @@
                             <button type="button" class="btn btn-inline btn-warning" data-toggle="modal" data-target="#MakeAlumModal">Mark as Alumni</button>
 
                             @if ($user->role->name !=='admin'&& $user->id !== $user->organization->owner->id && auth()->user()->canManageMembers())
-                                <button type="button" class="btn btn-inline btn-danger" data-toggle="modal" data-target="#RemoveFromOrgModal">Remove From Organization</button>
+                                <button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#RemoveFromOrgModal">Remove From Organization</button>
 
                                 <!--.modal for confirming deletion-->
                                 <div class="modal fade" id="RemoveFromOrgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -45,7 +45,7 @@
 
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-inline btn-primary">Delete</button>
+                                                    <button type="submit" class="btn btn-inline btn-danger">Delete</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -74,7 +74,7 @@
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-inline btn-primary">Delete</button>
+                                            <button type="submit" class="btn btn-inline btn-danger">Delete</button>
                                         </div>
                                     </form>
                                 </div>

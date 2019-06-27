@@ -27,7 +27,7 @@
                         @foreach ($subscribersz as $subscribers)
                             <tr>
                                 <td>{{ $subscribers->user->name }}</td>
-                                <td><button type="button" class="btn btn-inline btn-danger" data-toggle="modal" data-target="#{{$subscribers->id}}">Delete</button></td>
+                                <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$subscribers->id}}">Delete</button></td>
                             </tr>
 
                             <!--.modal for confirming deletion-->
@@ -51,7 +51,7 @@
 
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-inline btn-primary">Delete</button>
+                                                <button type="submit" class="btn btn-inline btn-danger">Delete</button>
                                             </div>
                                         </form>
                                     </div>

@@ -87,7 +87,7 @@
 		                			@if(!Auth::guest() && ((Auth::user()->id == $post->user->id) || (auth()->user()->canManageForum())))
 		                				<div id="delete_warning_{{ $post->id }}" class="chatter_warning_delete">
 		                					<i class="chatter-warning"></i> @lang('chatter::messages.response.confirm')
-		                					<button class="btn btn-sm btn-danger pull-right delete_response">@lang('chatter::messages.response.yes_confirm')</button>
+		                					<button class="btn btn-sm btn-outline-danger pull-right delete_response">@lang('chatter::messages.response.yes_confirm')</button>
 		                					<button class="btn btn-sm btn-default pull-right">@lang('chatter::messages.response.no_confirm')</button>
 		                				</div>
 			                			<div class="chatter_post_actions">

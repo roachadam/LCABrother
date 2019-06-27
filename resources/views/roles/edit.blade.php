@@ -20,7 +20,7 @@
         <button type="submit" class="btn btn-inline btn-primary">Edit</button>
 
 </form>
-<button type="button" class="btn btn-inline btn-danger" data-toggle="modal" data-target="#deleteRoleModal" {{($role->name =='Admin' || $role->name =='Basic') ? 'disabled' : ''}}>Delete</button>
+<button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#deleteRoleModal" {{($role->name =='Admin' || $role->name =='Basic') ? 'disabled' : ''}}>Delete</button>
 
 <!--.modal for notifying all memebrs-->
 <div class="modal fade" id="deleteRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
