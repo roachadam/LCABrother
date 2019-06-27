@@ -178,20 +178,13 @@ class User extends Authenticatable
         $this->latestAcademics()->updateStanding();
     }
 
-    public function checkAcademicRecords($id = null)                  //Finds any entry in the database where it has the same name and organization as the new user and assigns the user id to it
+    public function checkAcademicRecords()                  //Finds any entry in the database where it has the same name and organization as the new user and assigns the user id to it
     {
-        if (isset($id)) {
-            $match = [
-                'id' => $id,
-                'name' => $this->name,
-                'organization_id' => $this->organization_id
-            ];
-        } else {
-            $match = [
-                'name' => $this->name,
-                'organization_id' => $this->organization_id
-            ];
-        }
+        $match = [
+            'name' => $this->name,
+            'organization_id' => $this->organization_id
+        ];
+
 
         $logs = Academics::where($match)->get();
         if ($logs->isNotEmpty()) {
@@ -199,11 +192,10 @@ class User extends Authenticatable
                 $prevGPA = $this->getPreviousAcademicData($this)['prevGPA'];
                 $prevStanding = $this->getPreviousAcademicData($this)['prevStanding'];
 
-                if (!isset($id)) {
-                    $log->update([
-                        'user_id' => $this->id,
-                    ]);
-                }
+                $log->update([
+                    'user_id' => $this->id,
+                ]);
+
                 $this->setPreviousData($prevGPA, $prevStanding);
                 $log->updateStanding();
             }

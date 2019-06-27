@@ -103,7 +103,6 @@ class InviteController extends Controller
      */
     public function destroy(Invite $invite)
     {
-        $event = $invite->event;
         $invite->delete();
         return back();
     }

@@ -18,25 +18,68 @@
                     <p>{{ $user->email }}</p>
                     <p>{{ $user->phone }}</p>
 
+                    <div class="row justify-content-center">
+                        <div class="btn-toolbar">
+                            <button type="button" class="btn btn-inline btn-warning" data-toggle="modal" data-target="#MakeAlumModal">Mark as Alumni</button>
 
-                    @if ($user->role->name !=='admin'&& $user->id !== $user->organization->owner->id && auth()->user()->canManageMembers())
-                        <div class="row">
-                        <form action="/user/{{$user->id}}/organization/remove" method="POST">
-                                @csrf
-                                <div>
-                                    <button class="btn btn-warning offset-4" onclick="return confirm('Are you sure?')" type="submit">Remove From Organization</button>
-                                </div>
-                            </form>
+                            @if ($user->role->name !=='admin'&& $user->id !== $user->organization->owner->id && auth()->user()->canManageMembers())
+                                <button type="button" class="btn btn-inline btn-danger" data-toggle="modal" data-target="#RemoveFromOrgModal">Remove From Organization</button>
+
+                                <!--.modal for confirming deletion-->
+                                <div class="modal fade" id="RemoveFromOrgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                                                    <i class="font-icon-close-2"></i>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">Remove Member from Organization</h4>
+                                            </div>
+                                            <form action="/user/{{$user->id}}/organization/remove" method="POST" class="box" >
+                                                <div class="modal-body">
+                                                    @csrf
+                                                    <div class="col-md-12">
+                                                    <p>Are you sure you want to remove {{ $user->name }} from {{ $user->organization->name }}?</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-inline btn-primary">Delete</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div><!--.modal-->
+                            @endif
                         </div>
-                    @endif
 
-                    <div class="row">
-                        <form action="/user/{{$user->id}}/alumni" method="POST">
-                            @csrf
-                            <div>
-                                <button class="btn btn-warning offset-4" onclick="return confirm('Are you sure?')" type="submit">Mark as Alumni</button>
+                        <!--.modal for confirming deletion-->
+                        <div class="modal fade" id="MakeAlumModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                                            <i class="font-icon-close-2"></i>
+                                        </button>
+                                        <h4 class="modal-title" id="myModalLabel">Make Alumni</h4>
+                                    </div>
+                                    <form action="/user/{{$user->id}}/alumni" method="POST" class="box" >
+                                        <div class="modal-body">
+                                            @csrf
+                                            <div class="col-md-12">
+                                                <p>Are you sure you want to make {{ $user->name }} an Alumni of {{ $user->organization->name }}?</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-inline btn-primary">Delete</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                        </form>
+                        </div><!--.modal-->
                     </div>
                 </div>
             </div>
