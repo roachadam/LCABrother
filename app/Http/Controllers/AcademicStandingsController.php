@@ -85,7 +85,7 @@ class AcademicStandingsController extends Controller
         ];
 
         $academicStanding = AcademicStandings::where('id', $academicStandingId)->get()->first();
-        return view('academics.academicStandings.override', compact('academicStanding'));
+        return view('academics.academicStandings.edit', compact('academicStanding'));
     }
 
     /**

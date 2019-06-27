@@ -2,7 +2,7 @@
 
 @section('content')
 
-{{dd(Session()->all())}}
+{{-- {{dd(Session()->all())}} --}}
 <form method="POST" action="/role/{{$role->id}}" class="box" >
         @csrf
         @method('PATCH')
