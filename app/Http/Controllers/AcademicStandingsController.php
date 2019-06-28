@@ -46,11 +46,14 @@ class AcademicStandingsController extends Controller
     public function store(Request $request)
     {
         $attributes = $request->validate([
-            'name' => ['required', 'alpha', 'unique:academic_standings,organization_id'],
-            'Cumulative_GPA_Min' => ['required', 'numeric', 'between:0,4.0', 'unique:academic_standings'],
-            'Term_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
+            'name' => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/', 'unique:academic_standings,organization_id'],
+            'Cumulative_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
+            'Term_GPA_Min' => ['required', 'numeric', 'between:0,4.0', 'unique:academic_standings'],
             'SubmitAndFinishCheck' => ['required', 'boolean'],
         ]);
+
+        $attributes['nameWithSpace'] = $attributes['name'];
+        $attributes['name'] = str_replace(' ', '_', $attributes['name']);
 
         $SubmitAndFinishCheck = $attributes['SubmitAndFinishCheck'];
         unset($attributes['SubmitAndFinishCheck']);
@@ -58,17 +61,6 @@ class AcademicStandingsController extends Controller
         Auth()->user()->organization->addAcademicStandings($attributes);
 
         return ($SubmitAndFinishCheck) ? redirect('/forum/create/categories') : back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\AcademicStandings  $academicStandings
-     * @return \Illuminate\Http\Response
-     */
-    public function show(AcademicStandings $academicStandings)
-    {
-        //
     }
 
     /**
@@ -98,7 +90,7 @@ class AcademicStandingsController extends Controller
     public function update(Request $request, AcademicStandings $academicStandings)
     {
         $attributes = $request->validate([
-            'name' => ['required', 'alpha'],
+            'name' => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
             'Cumulative_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
             'Term_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
         ]);

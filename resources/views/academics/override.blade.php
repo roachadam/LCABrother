@@ -44,14 +44,14 @@
                         </div>
 
                         <?php
-                            $default_Previous_Academic_Standing = $academics->Previous_Academic_Standing == null ? " " : $academics->Previous_Academic_Standing;
-                            $default_Current_Academic_Standing = $academics->Current_Academic_Standing == null ? " " : $academics->Current_Academic_Standing;
+                            $Previous_Academic_Standing = $academics->Previous_Academic_Standing == null ? " " : $academics->Previous_Academic_Standing;
+                            $Current_Academic_Standing = $academics->Current_Academic_Standing == null ? " " : $academics->Current_Academic_Standing;
                          ?>
                         @section('js')
-                        <script>
+                            <script>
                                 $(document).ready(() => {
-                                    $("#Previous_Academic_Standing option:contains(" + '<?php echo $default_Previous_Academic_Standing?>' + ")").attr('selected', 'selected');
-                                    $("#Current_Academic_Standing option:contains(" + '<?php echo $default_Current_Academic_Standing?>' + ")").attr('selected', 'selected');
+                                    $("#Previous_Academic_Standing").find("option[value=" + '<?php echo $Previous_Academic_Standing?>' + "]").attr('selected', 'selected');
+                                    $("#Current_Academic_Standing").find("option[value=" + '<?php echo $Current_Academic_Standing?>' + "]").attr('selected', 'selected');
                                 });
                             </script>
                         @endsection
@@ -62,9 +62,9 @@
 
                             <select name="Previous_Academic_Standing" id="Previous_Academic_Standing" class="col-md-4 form-control" value="{{ $academics->Previous_Academic_Standing }}">
                                 <option value=" "> </option>
-                                <option value="Good">Good</option>
-                                <option value="Probation">Probation</option>
-                                <option value="Suspension">Suspension</option>
+                                @foreach ($academicStandings as $academicStanding)
+                                    <option value="{{$academicStanding->name}}">{{$academicStanding->nameWithSpace}}</option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -73,9 +73,9 @@
 
                             <select name="Current_Academic_Standing" id="Current_Academic_Standing" class="col-md-4 form-control" value="{{ $academics->Current_Academic_Standing }}">
                                 <option value=" "> </option>
-                                <option value="Good">Good</option>
-                                <option value="Probation">Probation</option>
-                                <option value="Suspension">Suspension</option>
+                                @foreach ($academicStandings as $academicStanding)
+                                    <option value="{{$academicStanding->name}}">{{$academicStanding->nameWithSpace}}</option>
+                                @endforeach
                             </select>
                         </div>
 

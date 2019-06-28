@@ -44,7 +44,7 @@
                         <tr>
                             <td>{{ $invite->user->name }}</td>
                             <td> {{$invite->guest_name}} </td>
-                            <td><button type="button" class="btn btn-inline btn-danger" data-toggle="modal" data-target="#{{$invite->id}}">Delete</button></td>
+                            <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$invite->id}}">Delete</button></td>
                         </tr>
 
                         <!--.modal for confirming deletion-->
@@ -68,7 +68,7 @@
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-inline btn-primary">Delete</button>
+                                            <button type="submit" class="btn btn-inline btn-danger">Delete</button>
                                         </div>
                                     </form>
                                 </div>
@@ -85,7 +85,7 @@
         <div class="row">
             <a href="/event" class="btn btn-inline ">Return</a>
             <a href="/event/{{ $event->id }}/edit" class="btn btn-inline ">Edit</a>
-            <button type="button" class="btn btn-inline btn-danger" data-toggle="modal" data-target="#deleteEventModal">Delete Event</button>
+            <button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#deleteEventModal">Delete Event</button>
 
             <!--.modal for confirming deletion-->
             <div class="modal fade" id="deleteEventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -108,7 +108,7 @@
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-inline btn-primary">Delete</button>
+                                <button type="submit" class="btn btn-inline btn-danger">Delete</button>
                             </div>
                         </form>
                     </div>

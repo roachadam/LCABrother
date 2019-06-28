@@ -33,7 +33,7 @@
                             <td>{{ $alum->email  }}</td>
                             <td>{{ $alum->updated_at  }}</td>
                             @if (auth()->user()->canManageMembers())
-                                <td><button type="button" class="btn btn-inline btn-danger" data-toggle="modal" data-target="#{{$alum->id}}">Delete</button></td>
+                                <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$alum->id}}">Delete</button></td>
 
                                 <!--.modal for confirming deletion-->
                                 <div class="modal fade" id="{{$alum->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -55,7 +55,7 @@
 
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-inline btn-primary">Delete</button>
+                                                    <button type="submit" class="btn btn-inline btn-danger">Delete</button>
                                                 </div>
                                             </form>
                                         </div>

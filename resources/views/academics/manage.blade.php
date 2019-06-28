@@ -109,12 +109,12 @@
                                 <fieldset>
                                     {{-- edit member details --}}
                                     @foreach (auth()->user()->organization->users as $user)
-                                    <div class="checkbox-toggle form-group">
-                                            <input type="checkbox" value="{{$user->id}}" name="users[]" id="subscribers{{$user->id}}">
-                                            <label for="subscribers{{$user->id}}">
-                                                {{$user->name}}
-                                            </label>
-                                        </div>
+                                        @if($user->academics->isNotEmpty())
+                                            <div class="checkbox-toggle form-group">
+                                                <input type="checkbox" value="{{$user->id}}" name="users[]" id="{{$user->id}}">
+                                                <label for="{{$user->id}}">{{$user->name}}</label>
+                                            </div>
+                                        @endif
                                     @endforeach
 
                                 </fieldset>

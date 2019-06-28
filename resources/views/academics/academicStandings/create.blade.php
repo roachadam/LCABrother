@@ -7,17 +7,29 @@
     <div class="auth__auth">
         <h1 class="auth__title">Set Rules for Academic Standings</h1>
 
-        @forelse ($academicStandings as $academicStanding)
-            <div class="row offset-1">
-                <ol>
-                {{ $academicStanding->name}}
-                </ol>
-            </div>
-        @empty
-        @endforelse
+        @if ($academicStandings->isNotEmpty())
+            <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Term GPA Min</th>
+                    <th>Cumulative GPA Min</th>
+                </tr>
+                </thead>
+                <tbody>
+                    @foreach ($academicStandings as $academicStanding)
+                        <tr>
+                            <td>{{ $academicStanding->nameWithSpace }}</td>
+                            <td>{{ $academicStanding->Term_GPA_Min }}</td>
+                            <td>{{ $academicStanding->Cumulative_GPA_Min }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
 
         @include('partials.errors')
-        <label><b><u>Want to have an example they can look at in a modal or something but the style sheets and scripts arent inported and when I try to import them it doesn't work</u></b></label>
+        {{-- <label><b><u>Want to have an example they can look at in a modal or something but the style sheets and scripts arent inported and when I try to import them it doesn't work</u></b></label> --}}
         <form method="POST" action="/academicStandings" name="setAcademicStadningsForm" id="setAcademicStadningsForm">
             @csrf
 

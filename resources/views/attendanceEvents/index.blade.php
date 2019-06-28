@@ -31,7 +31,7 @@
                                 <td>{{ $attendanceEvent->calendarItem->start_date }}</td>
                                 <td><a href="/attendance/attendanceEvent/{{$attendanceEvent->id}}" class="btn btn-primary">View</a></td>
                                 <td><a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-primary">Take Attendance</a></td>
-                                <td><button type="button" class="btn btn-inline btn-danger" data-toggle="modal" data-target="#{{$attendanceEvent->id}}">Delete</button></td>
+                                <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$attendanceEvent->id}}">Delete</button></td>
                             </tr>
 
                             <!--.modal for confirming deletion-->
@@ -55,7 +55,7 @@
 
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-inline btn-primary">Delete</button>
+                                                <button type="submit" class="btn btn-inline btn-danger">Delete</button>
                                             </div>
                                         </form>
                                     </div>

@@ -142,11 +142,13 @@ class NotifyController extends Controller
         $users = auth()->user()->organization->users;
 
         foreach ($users as $user) {
-            Mail::to($user->email)->queue(
-                new AcademicsNotify($user->latestAcademics())
-            );
-            if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
-                sleep(5); //use usleep(500000) for half a second or less
+            if ($user->academics->isNotEmpty()) {
+                Mail::to($user->email)->queue(
+                    new AcademicsNotify($user->latestAcademics())
+                );
+                if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
+                    sleep(5); //use usleep(500000) for half a second or less
+                }
             }
         }
         return back();
@@ -160,11 +162,13 @@ class NotifyController extends Controller
 
         foreach ($attributes['users'] as $userID) {
             $user = User::find($userID);
-            Mail::to($user->email)->queue(
-                new AcademicsNotify($user->latestAcademics())
-            );
-            if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
-                sleep(5); //use usleep(500000) for half a second or less
+            if ($user->academics->isNotEmpty()) {
+                Mail::to($user->email)->queue(
+                    new AcademicsNotify($user->latestAcademics())
+                );
+                if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
+                    sleep(5); //use usleep(500000) for half a second or less
+                }
             }
         }
         return back();

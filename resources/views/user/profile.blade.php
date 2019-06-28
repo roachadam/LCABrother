@@ -21,7 +21,7 @@
                     <div class="row justify-content-center">
                         <div class="btn-toolbar">
                             <a href="/users/edit" class="btn btn-inline">Edit Account</a>
-                            <button type="button" class="btn btn-inline btn-danger" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</button>
+                            <button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</button>
                         </div>
                     </div>
 
@@ -46,7 +46,7 @@
 
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-inline btn-primary">Delete</button>
+                                        <button type="submit" class="btn btn-inline btn-danger">Delete</button>
                                     </div>
                                 </form>
                             </div>
