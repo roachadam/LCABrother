@@ -28,7 +28,7 @@
                 <tbody>
                     @foreach ($academicStandings as $academicStanding)
                         <tr>
-                            <td>{{ $academicStanding->name }}</td>
+                            <td>{{ $academicStanding->nameWithSpace }}</td>
                             <td>{{ $academicStanding->Term_GPA_Min }}</td>
                             <td>{{ $academicStanding->Cumulative_GPA_Min }}</td>
                             <td><a href="/academicStandings/{{$academicStanding->id}}/edit" class="btn btn-inline">Edit</a></td>

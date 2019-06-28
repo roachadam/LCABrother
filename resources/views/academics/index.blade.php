@@ -35,15 +35,14 @@
                             <td>{{ $user->academics->last()->Cumulative_GPA }}</td>
                             <td>{{ $user->academics->last()->Previous_Term_GPA }}</td>
                             <td>{{ $user->academics->last()->Current_Term_GPA }}</td>
-                            <td>{{ $user->academics->last()->Previous_Academic_Standing }}</td>
-                            <td>{{ $user->academics->last()->Current_Academic_Standing }}</td>
+                            <td>{{ str_replace('_', ' ', $user->academics->last()->Previous_Academic_Standing) }}</td>
+                            <td>{{ str_replace('_', ' ', $user->academics->last()->Current_Academic_Standing) }}</td>
                             <td><a href="/academics/user_id/{{ $user->academics->last()->id }}/edit" class="btn btn-inline btn-primary">Override</a></td>
                         </tr>
 
                         @endif
 
                     @endforeach
-
                 </tbody>
             </table>
             <div class="btn-toolbar">

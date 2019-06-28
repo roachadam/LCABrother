@@ -47,10 +47,13 @@ class AcademicStandingsController extends Controller
     {
         $attributes = $request->validate([
             'name' => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/', 'unique:academic_standings,organization_id'],
-            'Cumulative_GPA_Min' => ['required', 'numeric', 'between:0,4.0', 'unique:academic_standings'],
-            'Term_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
+            'Cumulative_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
+            'Term_GPA_Min' => ['required', 'numeric', 'between:0,4.0', 'unique:academic_standings'],
             'SubmitAndFinishCheck' => ['required', 'boolean'],
         ]);
+
+        $attributes['nameWithSpace'] = $attributes['name'];
+        $attributes['name'] = str_replace(' ', '_', $attributes['name']);
 
         $SubmitAndFinishCheck = $attributes['SubmitAndFinishCheck'];
         unset($attributes['SubmitAndFinishCheck']);
@@ -87,7 +90,7 @@ class AcademicStandingsController extends Controller
     public function update(Request $request, AcademicStandings $academicStandings)
     {
         $attributes = $request->validate([
-            'name' => ['required', 'alpha'],
+            'name' => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
             'Cumulative_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
             'Term_GPA_Min' => ['required', 'numeric', 'between:0,4.0'],
         ]);

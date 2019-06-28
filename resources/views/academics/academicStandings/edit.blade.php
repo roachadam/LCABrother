@@ -16,7 +16,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Standing') }}</label>
 
                             <div class="col-md-4">
-                            <input id="name" type="text" class="form-control" name="name" value="{{$academicStanding->name}}" autofocus>
+                            <input id="name" type="text" class="form-control" name="name" value="{{$academicStanding->nameWithSpace}}" readonly="readonly" autofocus>
                             </div>
                         </div>
 
@@ -24,7 +24,7 @@
                             <label for="Term_GPA_Min" class="col-md-4 col-form-label text-md-right">{{ __('Term GPA Minimum') }}</label>
 
                             <div class="col-md-4">
-                                <input id="Term_GPA_Min" type="text" class="form-control " name="Term_GPA_Min" value="{{$academicStanding->Term_GPA_Min}}" autofocus>
+                                <input id="Term_GPA_Min" type="text" class="form-control " name="Term_GPA_Min" value="{{$academicStanding->Term_GPA_Min}}">
                             </div>
                         </div>
 
@@ -32,7 +32,7 @@
                             <label for="Cumulative_GPA_Min" class="col-md-4 col-form-label text-md-right">{{ __('Cumulative GPA Minimum') }}</label>
 
                             <div class="col-md-4">
-                                <input id="Cumulative_GPA_Min" type="text" class="form-control " name="Cumulative_GPA_Min" value="{{$academicStanding->Cumulative_GPA_Min}}" autofocus>
+                                <input id="Cumulative_GPA_Min" type="text" class="form-control " name="Cumulative_GPA_Min" value="{{$academicStanding->Cumulative_GPA_Min}}">
                             </div>
                         </div>
 
