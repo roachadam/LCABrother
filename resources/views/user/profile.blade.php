@@ -21,7 +21,7 @@
                     <div class="row justify-content-center">
                         <div class="btn-toolbar">
                             <a href="/users/edit" class="btn btn-inline">Edit Account</a>
-                            <button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</button>
+                            <button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</button>
                         </div>
                     </div>
 

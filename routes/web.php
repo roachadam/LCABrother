@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\AcademicsController;
 use App\Http\Controllers\ServiceEventController;
 
@@ -51,7 +52,6 @@ Route::resource('calendarItem', 'CalendarController');
 Route::resource('subscribers', 'SubscribersController');
 Route::resource('attendance', 'AttendanceController');
 Route::resource('attendanceEvent', 'AttendanceEventController');
-Route::resource('academicStandings', 'AcademicStandingsController');
 
 Route::get('/serviceEvents/indexByUser', 'ServiceEventController@indexByUser');
 Route::get('/users/{user}/service', 'UserController@serviceBreakdown');

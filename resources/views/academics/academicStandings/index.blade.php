@@ -32,7 +32,7 @@
                             <td>{{ $academicStanding->Term_GPA_Min }}</td>
                             <td>{{ $academicStanding->Cumulative_GPA_Min }}</td>
                             <td><a href="/academicStandings/{{$academicStanding->id}}/edit" class="btn btn-inline">Edit</a></td>
-                            <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$academicStanding->name}}">Delete</button></td>
+                            <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$academicStanding->name}}">Delete</button></td>
                         </tr>
 
                         <!--.modal for confirming deletion-->

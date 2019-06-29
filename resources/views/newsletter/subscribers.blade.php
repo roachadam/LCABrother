@@ -27,7 +27,7 @@
                         @foreach ($subscribersz as $subscribers)
                             <tr>
                                 <td>{{ $subscribers->user->name }}</td>
-                                <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$subscribers->id}}">Delete</button></td>
+                                <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$subscribers->id}}">Delete</button></td>
                             </tr>
 
                             <!--.modal for confirming deletion-->
