@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\AcademicsController;
+use App\Http\Controllers\ServiceEventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,7 @@ Route::post('/user/{user}/join', 'UserController@joinOrg');
 Route::post('/users/update', 'UserController@update');
 Route::get('/users/{user}/adminView', 'UserController@adminView');
 Route::post('/user/{user}/organization/remove', 'UserController@orgRemove');
+Route::get('user/{user}/serviceBreakdown', 'UserController@serviceBreakdown');
 
 Route::resource('role', 'RoleController');
 Route::resource('serviceEvent', 'ServiceEventController');
@@ -49,6 +51,10 @@ Route::resource('calendarItem', 'CalendarController');
 Route::resource('subscribers', 'SubscribersController');
 Route::resource('attendance', 'AttendanceController');
 Route::resource('attendanceEvent', 'AttendanceEventController');
+Route::resource('academicStandings', 'AcademicStandingsController');
+
+Route::get('/serviceEvents/indexByUser', 'ServiceEventController@indexByUser');
+Route::get('/users/{user}/service', 'UserController@serviceBreakdown');
 
 Route::get('/attendance/attendanceEvent/{attendanceEvent}', 'AttendanceController@index');
 Route::post('/attendanceEvent/calendarItem/{calendarItem}', 'AttendanceEventController@store');

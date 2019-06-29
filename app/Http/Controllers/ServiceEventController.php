@@ -33,36 +33,35 @@ class ServiceEventController extends Controller
     public function store(Request $request)
     {
         $attributes = $this->validateServiceEvent();
+        $serviceEvent = ServiceEvent::where('name', $attributes['name'])->first();
 
 
-        //persist
-        if (isset($attributes['service_event_id'])) {
-            $event = ServiceEvent::find($attributes['service_event_id']);
+        if ($serviceEvent!==null) {
             $attributes['organization_id'] = auth()->user()->organization_id;
             $attributes['user_id'] = auth()->id();
-            unset($attributes['date_of_event']);
+            unset($attributes['eventDate']);
 
             unset($attributes['name']);
 
-            $event->setLog($attributes);
+            $serviceEvent->setLog($attributes);
         } else {
             $eventAtrributes = [
                 'organization_id' => auth()->user()->organization_id,
                 'name' => $attributes['name'],
-                'date_of_event' => $attributes['date_of_event']
+                'eventDate' => $attributes['eventDate']
             ];
 
             $event = ServiceEvent::Create($eventAtrributes);
 
             $attributes['organization_id'] = auth()->user()->organization_id;
             $attributes['user_id'] = auth()->id();
-            unset($attributes['date_of_event']);
+            unset($attributes['eventDate']);
             unset($attributes['name']);
             $event->setLog($attributes);
         }
 
         //redirect
-        return redirect('/dash');
+        return back();
     }
 
 
@@ -91,11 +90,15 @@ class ServiceEventController extends Controller
     {
         //todo: fix later, https://stackoverflow.com/questions/41805597/laravel-validation-rules-if-field-empty-another-field-required
         return request()->validate([
-            'service_event_id' => ['required_without:name', 'numeric'],
-            'name' => 'required_without:service_event_id',
+            'name' => 'required',
             'money_donated' =>  'required_without:hours_served',
             'hours_served' =>  'required_without:money_donated',
-            'date_of_event' => 'required'
+            'eventDate' => 'required'
         ]);
+    }
+
+    public function indexByUser(Request $request){
+        $users = auth()->user()->organization->getVerifiedMembers();
+        return view('service.indexByUser', compact('users'));
     }
 }
