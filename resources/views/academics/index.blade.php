@@ -11,6 +11,7 @@
             </div>
         </div>
     </header>
+    @include('partials.errors')
 
     <section class="card">
         <div class="card-block">
