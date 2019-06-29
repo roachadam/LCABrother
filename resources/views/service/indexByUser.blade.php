@@ -8,7 +8,7 @@
     <div class="tbl">
         <div class="tbl-row">
             <div class="tbl-cell">
-                <h2>Service Breakdown</h2>
+                <h2>Service Logs</h2>
                 {{-- <div class="subtitle">Welcome to Ultimate Dashboard</div> --}}
             </div>
         </div>
