@@ -22,8 +22,9 @@
                 <th>Name</th>
                 <th>Service Hours</th>
                 <th>Money Donated</th>
+                <th>Date Logged</th>
                 @if (auth()->user()->canManageService())
-                    <th>Edit</th>
+                    <th>Manage</th>
                 @endif
             </tr>
         @endif
@@ -36,9 +37,11 @@
                     <td>{{ $serviceLog->serviceEvent->name }}</td>
                     <td> {{ $serviceLog->hours_served !== null ? $serviceLog->hours_served : "N/A" }} </td>
                     <td> {{ $serviceLog->money_donated !== null ? $serviceLog->money_donated : "N/A"}} </td>
-                    @if (auth()->user()->canManageService())
+                    <td>{{ date('m-d-y', strtotime($serviceLog->created_at)) }}</td>
+                    @if (auth()->user()->canManageService() || auth()->id() === $serviceLog->user_id)
                         <td> <a href="/serviceLog/{{$serviceLog->id}}/edit" class="btn btn-primary">Edit</a> </td>
                     @endif
+
                 </tr>
             @empty
                 This User has no service logs!
@@ -48,5 +51,14 @@
     </table>
 </div>
 </section>
-
+@section('js')
+<script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
+<script>
+$(function() {
+    $('#table').DataTable({
+        responsive: true
+    });
+});
+</script>
+@endsection
 @endsection

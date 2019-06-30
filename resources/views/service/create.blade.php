@@ -21,50 +21,47 @@
 
 <section class="card">
         <div class="card-block">
-            <div class="row">
-                <div class="col-lg-12">
-                        <form method="POST" action="/serviceEvent">
-                            @csrf
-                            @include('partials.errors')
+            <div class="col-lg-12">
+                <form method="POST" action="/serviceEvent">
+                    @csrf
+                    @include('partials.errors')
 
+                    <div class="row ">
+                        <div class="col-md-12">
+                                <label for="eventName">Event Name</label>
 
-
-                            <div class="row ">
-                                <div class="col-md-12">
-                                        <label for="name">Event Name</label>
-
-                                    <div class='input-group'>
-                                        <select class="combobox form-control" name="name" id="EventName" >
-                                            @foreach ($serviceEvents as $serviceEvent)
-                                                <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+                            <div class='input-group'>
+                                <select class="combobox form-control" name="name" id="EventName" >
+                                    @foreach ($serviceEvents as $serviceEvent)
+                                        <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
+                        </div>
+                    </div>
 
 
-                            <div class="row m-t-md">
-                                <div class="col-md-6">
-                                    <label for='date_of_event'>Date of Event</label>
+                    <div class="row m-t-md">
+                        <div class="col-md-6">
+                            <label for='date_of_event'>Date of Event</label>
 
-                                    <div class='input-group date'>
-
-                                        <input id="date_of_event" type="text" class="form-control" name="date_of_event">
-                                        <span class="input-group-append">
-                                            <span class="input-group-text"><i class="font-icon font-icon-calend"></i></span>
-                                        </span>
-                                    </div>
+                            <div class='input-group date'>
+                                <div class="form-control-wrapper form-control-icon-left">
+                                    <input id="date_of_event" type="text" class="form-control" name="date_of_event">
+                                    <i class="fa fa-calendar "></i>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+
                     <div class="row m-t-md">
                         <div class="col-md-6">
-                            <label for="hours_served">Hours Served</label>
-                            <div class='input-group'>
+                            <label for="hours_served">Hours Served (Optional)</label>
+                            {{-- <div class='input-group'> --}}
+                            <div class="form-control-wrapper form-control-icon-left">
                                 <input id="hours_served" type="text" class="form-control" name="hours_served" value="{{ old('hours_served') }}"  autofocus>
+                                <i class="fa fa-hourglass-start"></i>
                             </div>
                         </div>
                     </div>
@@ -72,8 +69,9 @@
                     <div class="row m-t-md">
                         <div class="col-md-6">
                             <label for="money_donated">Money Donated (Optional)</label>
-                            <div class='input-group'>
+                            <div class="form-control-wrapper form-control-icon-left">
                                 <input id="money_donated" type="text" class="form-control"  name="money_donated" value="{{ old('money_donated') }}"  autofocus>
+                                <i class="fa fa-usd"></i>
                             </div>
                         </div>
                     </div>
@@ -89,13 +87,13 @@
 <script src="{{ asset('js/lib/daterangepicker/daterangepicker.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $('#eventName').combobox({
+        $('#EventName').combobox({
             freeInput:{
                 name:'name',
                 value:''
             }
         });
-        $('#eventDate').daterangepicker({
+        $('#date_of_event').daterangepicker({
 				singleDatePicker: true,
 				showDropdowns: true
 		});

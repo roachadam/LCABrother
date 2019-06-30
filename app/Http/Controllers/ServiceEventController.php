@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use DB;
 use App\ServiceLog;
 use App\ServiceEvent;
+use App\Commons\NotificationFunctions;
+
 use Illuminate\Http\Request;
 
 class ServiceEventController extends Controller
@@ -35,26 +37,37 @@ class ServiceEventController extends Controller
         $attributes = $this->validateServiceEvent();
         $serviceEvent = ServiceEvent::where('name', $attributes['name'])->first();
         $attributes['date_of_event'] = date('Y-m-d', strtotime($attributes['date_of_event']));
-        if ($serviceEvent!==null) {
-            $attributes['organization_id'] = auth()->user()->organization_id;
-            $attributes['user_id'] = auth()->id();
-            unset($attributes['eventDate']);
 
-            unset($attributes['name']);
+        if ($serviceEvent!==null)
+        {
+            if(!$serviceEvent->userAttended(auth()->user()))
+            {
+                $attributes['organization_id'] = auth()->user()->organization_id;
+                $attributes['user_id'] = auth()->id();
+                unset($attributes['date_of_event']);
 
-            $serviceEvent->setLog($attributes);
-        } else {
+                unset($attributes['name']);
+
+                $serviceEvent->setLog($attributes);
+            }
+            else
+            {
+                NotificationFunctions::alert('danger', 'Already Logged for event!');
+            }
+        }
+        else
+        {
             $eventAtrributes = [
                 'organization_id' => auth()->user()->organization_id,
                 'name' => $attributes['name'],
-                'eventDate' => $attributes['eventDate']
+                'date_of_event' => $attributes['date_of_event']
             ];
 
             $event = ServiceEvent::Create($eventAtrributes);
 
             $attributes['organization_id'] = auth()->user()->organization_id;
             $attributes['user_id'] = auth()->id();
-            unset($attributes['eventDate']);
+            unset($attributes['date_of_event']);
             unset($attributes['name']);
             $event->setLog($attributes);
         }
@@ -92,7 +105,7 @@ class ServiceEventController extends Controller
             'name' => 'required',
             'money_donated' =>  'required_without:hours_served',
             'hours_served' =>  'required_without:money_donated',
-            'eventDate' => 'required'
+            'date_of_event' => 'required'
         ]);
     }
 
