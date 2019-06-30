@@ -31,7 +31,7 @@
                                 <td>{{ $attendanceEvent->calendarItem->start_date }}</td>
                                 <td><a href="/attendance/attendanceEvent/{{$attendanceEvent->id}}" class="btn btn-primary">View</a></td>
                                 <td><a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-primary">Take Attendance</a></td>
-                                <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$attendanceEvent->id}}">Delete</button></td>
+                                <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$attendanceEvent->id}}">Delete</button></td>
                             </tr>
 
                             <!--.modal for confirming deletion-->

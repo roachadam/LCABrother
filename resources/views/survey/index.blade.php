@@ -42,7 +42,7 @@
                                 @csrf
                                <td><button type="submit" class="btn btn-primary">Notify</button></td>
                             </form>
-                            <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$survey->id}}">Delete</button></td>
+                            <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$survey->id}}">Delete</button></td>
 
                             <!--.modal for confirming deletion-->
                             <div class="modal fade" id="{{$survey->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

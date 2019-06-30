@@ -26,7 +26,7 @@
                         @foreach ($attendances as $attendance)
                             <tr>
                                 <td>{{ $attendance->user->name }}</td>
-                                <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$attendance->id}}">Delete</button></td>
+                                <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$attendance->id}}">Delete</button></td>
                             </tr>
 
                             <!--.modal for confirming deletion-->
@@ -61,7 +61,7 @@
 
                 </tbody>
             </table>
-            <a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-inline btn-outline-primary">Take Attendance</a>
+            <a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-inline btn-primary-outline">Take Attendance</a>
         </div>
     </section>
 

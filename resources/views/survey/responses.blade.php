@@ -34,7 +34,7 @@
                             <th>{{$answer}}</th>
                         @endforeach
                         <td>{{$surveyAnswers->created_at}}</td>
-                        <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$surveyAnswers->id}}">Delete</button></td>
+                        <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$surveyAnswers->id}}">Delete</button></td>
                     </tr>
 
 

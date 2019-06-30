@@ -30,7 +30,7 @@
                         <td>{{ $newsletter->name }}</td>
                         <td>{{ $newsletter->last_email_sent  }}</td>
                         <td><a href="/newsletter/{{$newsletter->id}}/subscribers" class="btn btn-inline">View</a></td>
-                        <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$newsletter->id}}">Delete</button></td>
+                        <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$newsletter->id}}">Delete</button></td>
                     </tr>
                     <!--.modal for confirming deletion-->
                     <div class="modal fade" id="{{$newsletter->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

@@ -33,7 +33,7 @@
                                 <td> {{ $log->involvement->points  }} </td>
                                 <td> {{ $log->date_of_event  }} </td>
                                 @if (auth()->user()->canManageInvolvment())
-                                    <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$log->id}}">Remove</button></td>
+                                    <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$log->id}}">Remove</button></td>
                                 @endif
                             </tr>
 

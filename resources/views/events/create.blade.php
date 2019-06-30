@@ -39,7 +39,7 @@
                         <div class="form-group row">
                             <div class="col-lg-3">
                                 <div class="form-control-wrapper form-control-icon-left">
-                                    <input id="date_of_event" type="text" class="form-control" name="date_of_event" value="{{ isset($calendarItem) ? $calendarItem->start_date : old('name') }}" required autocomplete="date_of_event" autofocus>
+                                    <input id="date_of_event" type="date" class="form-control" name="date_of_event" value="{{ isset($calendarItem) ? $calendarItem->start_date : old('name') }}" required autocomplete="date_of_event" autofocus>
                                     <i class="fa fa-calendar"></i>
                                 </div>
                             </div>

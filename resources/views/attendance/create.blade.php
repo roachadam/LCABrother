@@ -24,12 +24,12 @@
 
                     <div class="row">
                         <button type="submit" class="btn btn-inline btn-primary">Submit Attendance</button>
-                        <a href="/attendance/attendanceEvent/{{$attendanceEvent->id}}" class="btn btn-inline btn-outline-primary">View Attendance</a>
+                        <a href="/attendance/attendanceEvent/{{$attendanceEvent->id}}" class="btn btn-inline btn-primary-outline">View Attendance</a>
                     </div>
                 </form>
                 @else
                     <p>All your members are in attendance!</p>
-                    <a href="/attendance/attendanceEvent/{{$attendanceEvent->id}}" class="btn btn-inline btn-outline-primary">View Attendance</a>
+                    <a href="/attendance/attendanceEvent/{{$attendanceEvent->id}}" class="btn btn-inline btn-primary-outline">View Attendance</a>
 
                 @endif
 
