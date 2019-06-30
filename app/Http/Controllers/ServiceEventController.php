@@ -34,8 +34,7 @@ class ServiceEventController extends Controller
     {
         $attributes = $this->validateServiceEvent();
         $serviceEvent = ServiceEvent::where('name', $attributes['name'])->first();
-
-
+        $attributes['date_of_event'] = date('Y-m-d', strtotime($attributes['date_of_event']));
         if ($serviceEvent!==null) {
             $attributes['organization_id'] = auth()->user()->organization_id;
             $attributes['user_id'] = auth()->id();

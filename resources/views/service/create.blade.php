@@ -29,7 +29,7 @@
 
 
                             <div class="row ">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                         <label for="name">Event Name</label>
 
                                     <div class='input-group'>
@@ -49,7 +49,7 @@
 
                                     <div class='input-group date'>
 
-                                        <input id="date_of_event" type="text" value="10/24/2019" class="form-control" name="date_of_event">
+                                        <input id="date_of_event" type="text" class="form-control" name="date_of_event">
                                         <span class="input-group-append">
                                             <span class="input-group-text"><i class="font-icon font-icon-calend"></i></span>
                                         </span>
