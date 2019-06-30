@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\ServiceEvent;
 class ServiceLog extends Model
 {
 
@@ -11,5 +11,8 @@ class ServiceLog extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+    public function serviceEvent(){
+        return $this->belongsTo(ServiceEvent::class);
     }
 }
