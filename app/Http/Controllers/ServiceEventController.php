@@ -34,6 +34,7 @@ class ServiceEventController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $attributes = $this->validateServiceEvent();
         $serviceEvent = ServiceEvent::where('name', $attributes['name'])->first();
         $attributes['date_of_event'] = date('Y-m-d', strtotime($attributes['date_of_event']));
@@ -103,8 +104,8 @@ class ServiceEventController extends Controller
         //todo: fix later, https://stackoverflow.com/questions/41805597/laravel-validation-rules-if-field-empty-another-field-required
         return request()->validate([
             'name' => 'required',
-            'money_donated' =>  'required_without:hours_served',
-            'hours_served' =>  'required_without:money_donated',
+            'money_donated' =>  ['required_without:hours_served', 'numeric', 'nullable'],
+            'hours_served' =>  ['required_without:money_donated', 'numeric', 'nullable'],
             'date_of_event' => 'required'
         ]);
     }
