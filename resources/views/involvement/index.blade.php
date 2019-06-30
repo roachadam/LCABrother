@@ -68,7 +68,7 @@
                 <form action="/involvement/create">
                     <button type="submit" class="btn btn-inline btn-primary">Create New</button>
                 </form>
-                <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#uploadInvolvementData">Upload Involvement Data</button>
+                <button type="button" class="btn btn-inline btn-secondary-outline" data-toggle="modal" data-target="#uploadInvolvementData">Upload Involvement Data</button>
             </div>
         </div>
     </div>
