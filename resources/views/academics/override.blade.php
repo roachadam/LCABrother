@@ -8,7 +8,8 @@
             <div class="card">
                 <div class="card-header">{{ __('Override Academics') }}</div>
                 <div class="card-body">
-                    <form method="POST" action="/user/{{$user->id}}/academics/{{$academics->id}}/update">
+                    <form method="post" action="/user/{{$user->id}}/academics/{{$academics->id}}/update">
+                        @method('PATCH')
                         @csrf
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('User Name') }}</label>
@@ -43,24 +44,27 @@
                         </div>
 
                         <?php
-                            $default_Previous_Academic_Standing = $academics->Previous_Academic_Standing == null ? " " : $academics->Previous_Academic_Standing;
-                            $default_Current_Academic_Standing = $academics->Current_Academic_Standing == null ? " " : $academics->Current_Academic_Standing;
+                            $Previous_Academic_Standing = $academics->Previous_Academic_Standing == null ? " " : $academics->Previous_Academic_Standing;
+                            $Current_Academic_Standing = $academics->Current_Academic_Standing == null ? " " : $academics->Current_Academic_Standing;
                          ?>
-                        <script>
-                            $(document).ready(() => {
-                                $("#Previous_Academic_Standing option:contains(" + '<?php echo $default_Previous_Academic_Standing?>' + ")").attr('selected', 'selected');
-                                $("#Current_Academic_Standing option:contains(" + '<?php echo $default_Current_Academic_Standing?>' + ")").attr('selected', 'selected');
-                            });
-                        </script>
+                        @section('js')
+                            <script>
+                                $(document).ready(() => {
+                                    $("#Previous_Academic_Standing").find("option[value=" + '<?php echo $Previous_Academic_Standing?>' + "]").attr('selected', 'selected');
+                                    $("#Current_Academic_Standing").find("option[value=" + '<?php echo $Current_Academic_Standing?>' + "]").attr('selected', 'selected');
+                                });
+                            </script>
+                        @endsection
+
 
                         <div class="form-group row">
                             <label for="Previous_Academic_Standing" class="col-md-4 col-form-label text-md-right">{{ __('Previous Academic Standing') }}</label>
 
                             <select name="Previous_Academic_Standing" id="Previous_Academic_Standing" class="col-md-4 form-control" value="{{ $academics->Previous_Academic_Standing }}">
                                 <option value=" "> </option>
-                                <option value="Good">Good</option>
-                                <option value="Probation">Probation</option>
-                                <option value="Suspension">Suspension</option>
+                                @foreach ($academicStandings as $academicStanding)
+                                    <option value="{{$academicStanding->name}}">{{$academicStanding->nameWithSpace}}</option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -69,9 +73,9 @@
 
                             <select name="Current_Academic_Standing" id="Current_Academic_Standing" class="col-md-4 form-control" value="{{ $academics->Current_Academic_Standing }}">
                                 <option value=" "> </option>
-                                <option value="Good">Good</option>
-                                <option value="Probation">Probation</option>
-                                <option value="Suspension">Suspension</option>
+                                @foreach ($academicStandings as $academicStanding)
+                                    <option value="{{$academicStanding->name}}">{{$academicStanding->nameWithSpace}}</option>
+                                @endforeach
                             </select>
                         </div>
 

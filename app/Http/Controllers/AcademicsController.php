@@ -8,16 +8,17 @@ use App\Imports\GradesImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
 use App\User;
-use Illuminate\Support\Facades\Session;
 use App\Commons\NotificationFunctions;
 use App\Events\OverrideAcademics;
+use App\AcademicStandings;
 
 class AcademicsController extends Controller
 {
 
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->middleware('auth');
+        $this->middleware('orgverified');
         $this->middleware('ManageAcademics');
     }
 
@@ -111,7 +112,8 @@ class AcademicsController extends Controller
     {
         $academics = auth()->user()->organization->users->firstWhere('id', $academics->user_id)->latestAcademics();
         $user = User::find($academics->user_id);
-        return view('academics.override', compact('academics', 'user'));
+        $academicStandings = AcademicStandings::where('organization_id', auth()->user()->organization->id)->get()->sortByDesc('Term_GPA_Min');
+        return view('academics.override', compact('academics', 'user', 'academicStandings'));
     }
 
     /**
@@ -151,11 +153,11 @@ class AcademicsController extends Controller
     public function update(Request $request, User $user, Academics $academics)
     {
         $attributes = request()->all();
+        //dd($attributes);
         if ($attributes['Previous_Academic_Standing'] === $academics->Previous_Academic_Standing && $attributes['Current_Academic_Standing'] === $academics->Current_Academic_Standing) {
             $academics->update($attributes);
             $academics->updateStanding();
         } else {
-            //$user->latestAcademics()->update($attributes);
             $academics->update($attributes);
         }
 

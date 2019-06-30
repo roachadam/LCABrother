@@ -41,19 +41,41 @@
             <tbody>
                 @if ($invites->count())
                     @foreach ($invites as $invite)
-                    <tr>
-                        <td>{{ $invite->user->name }}</td>
-                        <td> {{$invite->guest_name}} </td>
-                        <td>
-                            <form action="/invite/{{ $invite->id }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                                <div>
-                                    <button class="btn btn-inline" type="submit">Delete</button>
+                        <tr>
+                            <td>{{ $invite->user->name }}</td>
+                            <td> {{$invite->guest_name}} </td>
+                            <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$invite->id}}">Delete</button></td>
+                        </tr>
+
+                        <!--.modal for confirming deletion-->
+                        <div class="modal fade" id="{{$invite->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                                            <i class="font-icon-close-2"></i>
+                                        </button>
+                                        <h4 class="modal-title" id="myModalLabel">Delete</h4>
+                                    </div>
+                                    <form action="/invite/{{ $invite->id }}" method="POST" class="box" >
+                                        <div class="modal-body">
+                                            @csrf
+                                            @method('DELETE')
+                                            <div class="col-md-12">
+                                                <p>Are you sure you want to delete this guest?</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
-                        </td>
-                    </tr>
+                            </div>
+                        </div><!--.modal-->
+
+
                     @endforeach
                 @endif
 
@@ -63,11 +85,36 @@
         <div class="row">
             <a href="/event" class="btn btn-inline ">Return</a>
             <a href="/event/{{ $event->id }}/edit" class="btn btn-inline ">Edit</a>
-            <form method="POST" action="/event/{{ $event->id }}">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-warning">Delete</button>
-            </form>
+            <button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#deleteEventModal">Delete Event</button>
+
+            <!--.modal for confirming deletion-->
+            <div class="modal fade" id="deleteEventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                                <i class="font-icon-close-2"></i>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">Delete</h4>
+                        </div>
+                        <form action="/event/{{ $event->id }}" method="POST" class="box" >
+                            <div class="modal-body">
+                                @csrf
+                                @method('DELETE')
+                                <div class="col-md-12">
+                                    <p>Are you sure you want to delete this event?</p>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div><!--.modal-->
+
         </div>
     </div>
 </section>

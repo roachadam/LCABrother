@@ -21,7 +21,7 @@ return [
         'login'      => 'login',
     ],
 
-    /*
+   /*
     |--------------------------------------------------------------------------
     | Headline logo
     |--------------------------------------------------------------------------
@@ -147,8 +147,8 @@ return [
     */
 
     'security' => [
-        'limit_time_between_posts' => false, //
-        'time_between_posts'       => 10000000, // In minutes
+        'limit_time_between_posts' => true, //
+        'time_between_posts'       => 1, // In minutes
     ],
 
     /*
@@ -253,7 +253,7 @@ return [
     'paginate' => [
         'num_of_results' => 10,
     ],
-
+    
     /*
     |--------------------------------------------------------------------------
     | Show missing fields to users in forms

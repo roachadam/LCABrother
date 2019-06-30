@@ -3,7 +3,7 @@
     @if(Session::has('success'))
 
         @foreach (Session::get('success') as $msg)
-        <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert[]">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{$msg}}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -11,12 +11,12 @@
           </div>
         @endforeach
 
-       {{Session::forget('success')}}
+        {{Session::forget('success')}}
 
     @endif
     @if(Session::has('primary'))
         @foreach (Session::get('primary') as $msg)
-        <div class="alert alert-primary alert-dismissible fade show" role="alert" id="alert[]">
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
                 {{$msg}}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -29,7 +29,7 @@
     @endif
     @if(Session::has('danger'))
         @foreach (Session::get('danger') as $msg)
-        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert[]">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{$msg}}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>

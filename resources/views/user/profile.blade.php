@@ -18,18 +18,40 @@
                     <p>{{ $user->email }}</p>
                     <p>{{ $user->phone }}</p>
 
-                    <div class="row">
-                        <a href="/users/edit" class="btn btn-inline col-md-2 offset-4 ">Edit</a>
+                    <div class="row justify-content-center">
+                        <div class="btn-toolbar">
+                            <a href="/users/edit" class="btn btn-inline">Edit Account</a>
+                            <button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</button>
+                        </div>
                     </div>
-                    <div class="row">
-                        <form action="/user/{{ auth()->user()->id }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <div>
-                                <button class="btn btn-warning offset-4" onclick="return confirm('Are you sure?')" type="submit">Delete Account</button>
+
+                    <!--.modal for confirming deletion-->
+                    <div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                                        <i class="font-icon-close-2"></i>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">Delete Account</h4>
+                                </div>
+                                <form action="/user/{{ auth()->user()->id }}" method="POST" class="box" >
+                                    <div class="modal-body">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="col-md-12">
+                                            <p>Are you sure you want to delete your account?</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </div><!--.modal-->
                 </div>
             </div>
         </div>

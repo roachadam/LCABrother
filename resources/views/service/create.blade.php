@@ -1,6 +1,5 @@
 @extends('layouts.main')
 
-
 @section('css')
 <link href="{{ asset('css/bootstrap-combobox.css') }}" rel="stylesheet">
 <link href="{{ asset('css/separate/vendor/bootstrap-daterangepicker.min.css') }}" rel="stylesheet" >

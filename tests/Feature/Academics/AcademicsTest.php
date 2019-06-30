@@ -92,7 +92,7 @@ class AcademicsTest extends TestCase
             'user_id' => $user->id
         ]);
 
-        $response = $this->post('academics/user_id/' . $user->latestAcademics()->id . '/edit');
+        $response = $this->get('academics/user_id/' . $user->latestAcademics()->id . '/edit');
         $response->assertStatus(200);
     }
 
@@ -114,7 +114,7 @@ class AcademicsTest extends TestCase
             'Current_Academic_Standing' => 'test',
         ];
 
-        $response = $this->patch('academics/' . $user->latestAcademics()->id . '/update', $updated_academics);
+        $response = $this->patch('/user/' . $user->id . '/academics/' . $user->latestAcademics()->id . '/update', $updated_academics);
         $this->assertDatabaseHas('academics', $updated_academics);
     }
 

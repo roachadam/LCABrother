@@ -13,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Commons\NotificationFunctions;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -34,7 +35,7 @@ class User extends Authenticatable
         parent::boot();
 
         static::updated(function ($User) {
-            NotificationFunctions::alert('success','Updated your details!');
+            NotificationFunctions::alert('success', 'Updated your details!');
             return back();
         });
     }
@@ -184,6 +185,7 @@ class User extends Authenticatable
             'organization_id' => $this->organization_id
         ];
 
+
         $logs = Academics::where($match)->get();
         if ($logs->isNotEmpty()) {
             foreach ($logs as $log) {
@@ -193,6 +195,7 @@ class User extends Authenticatable
                 $log->update([
                     'user_id' => $this->id,
                 ]);
+
                 $this->setPreviousData($prevGPA, $prevStanding);
                 $log->updateStanding();
             }

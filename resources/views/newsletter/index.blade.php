@@ -30,12 +30,35 @@
                         <td>{{ $newsletter->name }}</td>
                         <td>{{ $newsletter->last_email_sent  }}</td>
                         <td><a href="/newsletter/{{$newsletter->id}}/subscribers" class="btn btn-inline">View</a></td>
-                        <form action="/newsletter/{{$newsletter->id}}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                        <td><button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure?')">Delete</button></td>
-                        </form>
+                        <td><button type="button" class="btn btn-inline btn-outline-danger" data-toggle="modal" data-target="#{{$newsletter->id}}">Delete</button></td>
                     </tr>
+                    <!--.modal for confirming deletion-->
+                    <div class="modal fade" id="{{$newsletter->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                                        <i class="font-icon-close-2"></i>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">Delete New Letter</h4>
+                                </div>
+                                <form action="/newsletter/{{$newsletter->id}}" method="POST" class="box" >
+                                    <div class="modal-body">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="col-md-12">
+                                            <p>Are you sure you want to delete this news letter?</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div><!--.modal-->
                     @endforeach
                 @endif
 

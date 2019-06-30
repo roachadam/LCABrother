@@ -9,6 +9,13 @@ use App\AttendanceEvent;
 
 class CalendarController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -57,7 +64,7 @@ class CalendarController extends Controller
         unset($attributes['attendance']);
         unset($attributes['involvement']);
 
-        if(!isset($attributes['end_date'])){
+        if (!isset($attributes['end_date'])) {
             $attributes['end_date'] = $attributes['start_date'];
         }
 
@@ -65,26 +72,22 @@ class CalendarController extends Controller
         $calendarItem = $org->addCalendarItem($attributes);
 
 
-        if($allowAttendance){
-            if($involvementId != 0){
+        if ($allowAttendance) {
+            if ($involvementId != 0) {
                 $attendanceEvent = auth()->user()->organization->addAttendanceEvent([
                     'calendar_item_id' => $calendarItem->id,
                     'involvement_id' => $involvementId,
                 ]);
-            }
-            else{
+            } else {
                 $attendanceEvent = auth()->user()->organization->addAttendanceEvent([
                     'calendar_item_id' => $calendarItem->id,
                 ]);
             }
-
         }
-        if($makeGuest)
-        {
-            return view('calendar.guestList',compact('calendarItem'));
+        if ($makeGuest) {
+            return view('calendar.guestList', compact('calendarItem'));
         }
         return back();
-
     }
 
     /**
@@ -95,10 +98,10 @@ class CalendarController extends Controller
      */
     public function show(CalendarItem $calendarItem)
     {
-        if($calendarItem->hasEvent()){
+        if ($calendarItem->hasEvent()) {
             $event = $calendarItem->event;
             $invites = $event->invites;
-        }else{
+        } else {
             $event = null;
             $invites = null;
         }
@@ -137,14 +140,15 @@ class CalendarController extends Controller
      */
     public function destroy(CalendarItem $calendarItem)
     {
-        if($calendarItem->hasEvent()){
+        if ($calendarItem->hasEvent()) {
             $event = $calendarItem->event;
             $event->delete();
         }
         $calendarItem->delete();
         return redirect('/calendarItem');
     }
-    public function addEvent(Request $request, CalendarItem $calendarItem){
+    public function addEvent(Request $request, CalendarItem $calendarItem)
+    {
         $attributes = request()->validate([
             'name' => 'required',
             'date_of_event' => 'required',

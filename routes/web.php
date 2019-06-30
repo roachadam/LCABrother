@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\AcademicsController;
 use App\Http\Controllers\ServiceEventController;
 
@@ -51,7 +52,6 @@ Route::resource('calendarItem', 'CalendarController');
 Route::resource('subscribers', 'SubscribersController');
 Route::resource('attendance', 'AttendanceController');
 Route::resource('attendanceEvent', 'AttendanceEventController');
-Route::resource('academicStandings', 'AcademicStandingsController');
 
 Route::get('/serviceEvents/indexByUser', 'ServiceEventController@indexByUser');
 Route::get('/users/{user}/service', 'UserController@serviceBreakdown');
@@ -64,14 +64,15 @@ Route::get('/attendanceEvents', 'AttendanceEventController@index');
 
 Route::post('newsletter/send/preview', 'NewsLetterController@preview');
 Route::get('newsletter/send/show', 'NewsLetterController@showSend');
-Route::get('newsletter/create', 'NewsLetterController@create');
-Route::post('newsletter', 'NewsLetterController@store');
-Route::delete('/newsletter/{newsletter}', 'NewsLetterController@destroy');
 
-Route::get('newsletter', 'NewsLetterController@index');
-Route::get('newsletter/{newsletter}/edit', 'NewsLetterController@edit');
-Route::get('newsletter/{newsletter}/subscribers', 'NewsLetterController@subscribers');
-Route::post('newsletter/send', 'NewsLetterController@send');
+Route::resource('newsletter', 'NewsLetterController')->except(['show', 'update']);
+// Route::get('newsletter/create', 'NewsLetterController@create');
+// Route::post('/newsletter', 'NewsLetterController@store');
+// Route::delete('/newsletter/{newsletter}', 'NewsLetterController@destroy');
+// Route::get('newsletter', 'NewsLetterController@index');
+// Route::get('newsletter/{newsletter}/edit', 'NewsLetterController@edit');
+Route::get('/newsletter/{newsletter}/subscribers', 'NewsLetterController@subscribers');
+Route::post('/newsletter/send', 'NewsLetterController@send');
 
 Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
 
@@ -80,12 +81,18 @@ Route::get('survey/{survey}/responses', 'SurveyController@viewResponses');
 Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store');
 Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown');
 
-Route::get('/academics', 'AcademicsController@index');
-Route::post('/academics/user_id/{academics}/edit', 'AcademicsController@edit');
-Route::post('/academics/store', 'AcademicsController@store');
+
+Route::resource('academics', 'AcademicsController')->only(['index', 'store']);
+Route::get('/academics/user_id/{academics}/edit', 'AcademicsController@edit');
+Route::patch('/user/{user}/academics/{academics}/update', 'AcademicsController@update');
 Route::get('/academics/manage', 'AcademicsController@manage');
-Route::post('/user/{user}/academics/{academics}/update', 'AcademicsController@update');
 Route::get('/academics/downloadExampleFile', 'AcademicsController@getExampleFile');
+
+
+Route::resource('academicStandings', 'AcademicStandingsController')->except(['update', 'destroy']);
+Route::patch('/academicStandings/{academicStandings}', 'AcademicStandingsController@update');
+Route::delete('/academicStandings/{academicStandings}', 'AcademicStandingsController@destroy');
+
 Route::post('/academics/notifyAll', 'NotifyController@academicsNotifyAll');
 Route::post('/academics/notify/selected', 'NotifyController@academicsNotifySelected');
 Route::post('/academics/notify/specificStanding', 'NotifyController@academicsNotifySpecificStanding');

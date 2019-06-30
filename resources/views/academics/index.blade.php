@@ -1,8 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-@extends('partials.notifications')
-
     <header class="section-header">
         <div class="tbl">
             <div class="tbl-row">
@@ -31,32 +29,26 @@
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
-
-                        {{-- <td>{{ $user->name }}</td> --}}
-
                         @if ($user->academics->last() !== null)
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->academics->last()->Cumulative_GPA }}</td>
                             <td>{{ $user->academics->last()->Previous_Term_GPA }}</td>
                             <td>{{ $user->academics->last()->Current_Term_GPA }}</td>
-                            <td>{{ $user->academics->last()->Previous_Academic_Standing }}</td>
-                            <td>{{ $user->academics->last()->Current_Academic_Standing }}</td>
-                            <form action="/academics/user_id/{{ $user->academics->last()->id }}/edit" method="POST">
-                                @csrf
-                                <td><button type="submit" class="btn btn-inline">Override</button></td>
-                            </form>
+                            <td>{{ str_replace('_', ' ', $user->academics->last()->Previous_Academic_Standing) }}</td>
+                            <td>{{ str_replace('_', ' ', $user->academics->last()->Current_Academic_Standing) }}</td>
+                            <td><a href="/academics/user_id/{{ $user->academics->last()->id }}/edit" class="btn btn-inline btn-primary">Override</a></td>
                         </tr>
 
                         @endif
 
                     @endforeach
-
                 </tbody>
             </table>
-            <form action="/academics/manage" method="GET">
-                <button type="submit" class="btn btn-primary align-right">Manage</button>
-            </form>
+            <div class="btn-toolbar">
+                <a href="/academics/manage" class="btn btn-inline btn-primary">Manage</a>
+                <a href="/academicStandings" class="btn btn-inline btn-outline-secondary">Override Academic Rules</a>
+            </div>
         </div>
     </section>
 
