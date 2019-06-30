@@ -36,7 +36,7 @@ class ServiceEventController extends Controller
         $serviceEvent = ServiceEvent::where('name', $attributes['name'])->first();
 
 
-        if ($serviceEvent!==null) {
+        if ($serviceEvent !== null) {
             $attributes['organization_id'] = auth()->user()->organization_id;
             $attributes['user_id'] = auth()->id();
             unset($attributes['eventDate']);
@@ -45,13 +45,13 @@ class ServiceEventController extends Controller
 
             $serviceEvent->setLog($attributes);
         } else {
-            $eventAtrributes = [
+            $eventAttributes = [
                 'organization_id' => auth()->user()->organization_id,
                 'name' => $attributes['name'],
-                'eventDate' => $attributes['eventDate']
+                'date_of_event' => $attributes['eventDate']
             ];
 
-            $event = ServiceEvent::Create($eventAtrributes);
+            $event = ServiceEvent::Create($eventAttributes);
 
             $attributes['organization_id'] = auth()->user()->organization_id;
             $attributes['user_id'] = auth()->id();
@@ -97,7 +97,8 @@ class ServiceEventController extends Controller
         ]);
     }
 
-    public function indexByUser(Request $request){
+    public function indexByUser(Request $request)
+    {
         $users = auth()->user()->organization->getVerifiedMembers();
         return view('service.indexByUser', compact('users'));
     }
