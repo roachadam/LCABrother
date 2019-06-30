@@ -65,7 +65,6 @@
         {{-- <script type="text/javascript" src="{{ asset('js/lib/lobipanel/lobipanel.min.js') }}"></script> --}}
         {{-- <script type="text/javascript" src="{{ asset('js/lib/match-height/jquery.matchHeight.min.js') }}"></script> --}}
         {{-- <script type="text/javascript" src="{{ asset('https://www.gstatic.com/charts/loader.js') }}"></script> --}}
-
         {{-- <script type="text/javascript" src="{{ asset('js/lib/flatpickr/flatpickr.min.js') }}"></script> --}}
 
         {{-- <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script> --}}
