@@ -20,38 +20,42 @@
 </header>
 
 <section class="card">
-    <div class="card-block">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card-header">Service Details</div>
-                <form method="POST" action="/serviceEvent">
-                    @csrf
-                    @include('partials.errors')
+        <div class="card-block">
+            <div class="row">
+                <div class="col-lg-12">
+                        <form method="POST" action="/serviceEvent">
+                            @csrf
+                            @include('partials.errors')
 
-                    <div class="row ">
-                        <div class="col-md-6">
-                            <label for="name">Event Name</label>
-                            <div class='input-group'>
-                                <select class="combobox form-control" name="eventName" id="eventName">
-                                    <option value="0">Choose Existing Event</option>
-                                    @if ($serviceEvents->count())
-                                        @foreach ($serviceEvents as $serviceEvent)
-                                            <option value="{{ $serviceEvent->id++ }}">{{ $serviceEvent->name }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
+
+
+                            <div class="row ">
+                                <div class="col-md-12">
+                                        <label for="name">Event Name</label>
+
+                                    <div class='input-group'>
+                                        <select class="combobox form-control" name="name" id="EventName" >
+                                            @foreach ($serviceEvents as $serviceEvent)
+                                                <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="row m-t-md">
-                        <div class="col-md-6">
-                            <label for='eventDate'>Date of Event</label>
-                            <div class='input-group date'>
-                                <input id="eventDate" type="text" value="10/24/2019" class="form-control" name="eventDate">
-                                <span class="input-group-append">
-                                    <span class="input-group-text"><i class="font-icon font-icon-calend"></i></span>
-                                </span>
+
+                            <div class="row m-t-md">
+                                <div class="col-md-6">
+                                    <label for='date_of_event'>Date of Event</label>
+
+                                    <div class='input-group date'>
+
+                                        <input id="date_of_event" type="text" class="form-control" name="date_of_event">
+                                        <span class="input-group-append">
+                                            <span class="input-group-text"><i class="font-icon font-icon-calend"></i></span>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
