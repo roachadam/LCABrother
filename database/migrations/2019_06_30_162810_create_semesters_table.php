@@ -18,7 +18,8 @@ class CreateSemestersTable extends Migration
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->string('semester_name');
             $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->dateTime('end_date')->nullable();
+            $table->boolean('active');
             $table->timestamps();
         });
     }

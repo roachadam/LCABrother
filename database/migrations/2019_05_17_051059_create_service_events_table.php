@@ -16,6 +16,7 @@ class CreateServiceEventsTable extends Migration
         Schema::create('service_events', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('organization_id')->nullable();
+            // $table->unsignedBigInteger('semester_id')->nullable();
             $table->string('name');
             $table->date('date_of_event');
             $table->timestamps();

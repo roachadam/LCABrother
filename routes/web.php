@@ -52,6 +52,9 @@ Route::resource('calendarItem', 'CalendarController');
 Route::resource('subscribers', 'SubscribersController');
 Route::resource('attendance', 'AttendanceController');
 Route::resource('attendanceEvent', 'AttendanceEventController');
+Route::resource('semester', 'SemesterController');
+
+Route::post('semester/initial', 'SemesterController@initial');
 
 Route::get('/serviceEvents/indexByUser', 'ServiceEventController@indexByUser');
 Route::get('/users/{user}/service', 'UserController@serviceBreakdown');
@@ -65,14 +68,9 @@ Route::get('/attendanceEvents', 'AttendanceEventController@index');
 Route::post('newsletter/send/preview', 'NewsLetterController@preview');
 Route::get('newsletter/send/show', 'NewsLetterController@showSend');
 
-Route::resource('newsletter', 'NewsLetterController')->except(['show', 'update']);
-// Route::get('newsletter/create', 'NewsLetterController@create');
-// Route::post('/newsletter', 'NewsLetterController@store');
-// Route::delete('/newsletter/{newsletter}', 'NewsLetterController@destroy');
-// Route::get('newsletter', 'NewsLetterController@index');
-// Route::get('newsletter/{newsletter}/edit', 'NewsLetterController@edit');
-Route::get('/newsletter/{newsletter}/subscribers', 'NewsLetterController@subscribers');
-Route::post('/newsletter/send', 'NewsLetterController@send');
+// Route::resource('newsletter', 'NewsLetterController')->except(['show', 'update']);
+// Route::get('/newsletter/{newsletter}/subscribers', 'NewsLetterController@subscribers');
+// Route::post('/newsletter/send', 'NewsLetterController@send');
 
 Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
 

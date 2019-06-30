@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use App\ServiceLog;
 use App\ServiceEvent;
+use App\Organization;
 use App\Commons\NotificationFunctions;
 
 use Illuminate\Http\Request;
@@ -21,13 +22,13 @@ class ServiceEventController extends Controller
 
     public function index()
     {
-        $serviceEvents = auth()->user()->organization->serviceEvents;
+        $serviceEvents = auth()->user()->organization->getActiveServiceEvents();
         return view('service.index', compact('serviceEvents'));
     }
 
     public function create()
     {
-        $serviceEvents = auth()->user()->organization->serviceEvents;
+        $serviceEvents = auth()->user()->organization->getActiveServiceEvents();
         return view('service.create', compact('serviceEvents'));
     }
 
