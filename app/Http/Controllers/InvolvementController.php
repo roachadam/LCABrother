@@ -51,13 +51,7 @@ class InvolvementController extends Controller
         ]);
 
         //Check if that event already exists
-        $involvements = auth()->user()->organization->involvement;
-
-        $alreadyCreated = $involvements->filter(function ($involvement) use ($attributes) {
-            return $involvement['name'] === $attributes['name'] && $involvement['organization_id'] === auth()->user()->organization->id;
-        });
-
-        if ($alreadyCreated->isNotEmpty()) {
+        if ($this->checkIfInvolvementEventExists($attributes)) {
             NotificationFunctions::alert('danger', 'An Involvement event for ' . $attributes['name'] . 's already exits');
             return back();
         } else {
@@ -109,5 +103,15 @@ class InvolvementController extends Controller
             NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
             return back();
         }
+    }
+
+
+    private function checkIfInvolvementEventExists($attributes)
+    {
+        $involvements = auth()->user()->organization->involvement;
+
+        return $involvements->filter(function ($involvement) use ($attributes) {
+            return $involvement['name'] === $attributes['name'] && $involvement['organization_id'] === auth()->user()->organization->id;
+        })->isNotEmpty();
     }
 }
