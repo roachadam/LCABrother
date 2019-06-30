@@ -27,22 +27,21 @@
                             @include('partials.errors')
 
 
-                            @if ($serviceEvents->count())
-                                <div class="row ">
-                                    <div class="col-md-6">
-                                            <label for="name">Event Name</label>
 
-                                        <div class='input-group'>
-                                            <select class="combobox form-control" name="name" id="EventName" >
-                                                <option value="-1" >Choose Existing Event</option>
-                                                @foreach ($serviceEvents as $serviceEvent)
-                                                    <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                            <div class="row ">
+                                <div class="col-md-6">
+                                        <label for="name">Event Name</label>
+
+                                    <div class='input-group'>
+                                        <select class="combobox form-control" name="name" id="EventName" >
+                                            @foreach ($serviceEvents as $serviceEvent)
+                                                <option value="{{ $serviceEvent->id }}">{{ $serviceEvent->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
-                            @endif
+                            </div>
+
 
                             <div class="row m-t-md">
                                 <div class="col-md-6">
