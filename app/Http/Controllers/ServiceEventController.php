@@ -52,7 +52,7 @@ class ServiceEventController extends Controller
                 NotificationFunctions::alert('danger', 'Already Logged for event!');
             }
         } else {
-            $eventAtrributes = [
+            $eventAttributes = [
                 'organization_id' => auth()->user()->organization_id,
                 'name' => $attributes['name'],
                 'date_of_event' => $attributes['date_of_event']
