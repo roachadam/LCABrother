@@ -178,9 +178,9 @@ class UserController extends Controller
 
         return back();
     }
-    public function serviceBreakdown(){
-        $serviceLogs = auth()->user()->serviceLogs;
-        return view('service.userBreakdown', compact('serviceLogs'));
+    public function serviceBreakdown(User $user){
+        $serviceLogs = $user->serviceLogs;
+        return view('service.userBreakdown', compact('serviceLogs', 'user'));
     }
 
 }

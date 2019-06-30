@@ -7,7 +7,7 @@
     <div class="tbl">
         <div class="tbl-row">
             <div class="tbl-cell">
-                <h2>Service Breakdown</h2>
+            <h2>{{$user->name}} Service Breakdown</h2>
                 {{-- <div class="subtitle">Welcome to Ultimate Dashboard</div> --}}
             </div>
         </div>
@@ -22,8 +22,9 @@
                 <th>Name</th>
                 <th>Service Hours</th>
                 <th>Money Donated</th>
+                <th>Date Logged</th>
                 @if (auth()->user()->canManageService())
-                <th>View BreakDown</th>
+                    <th>Manage</th>
                 @endif
             </tr>
         @endif
@@ -34,17 +35,13 @@
             @forelse ($serviceLogs as $serviceLog)
                 <tr>
                     <td>{{ $serviceLog->serviceEvent->name }}</td>
-                    <td> {{ $serviceLog->hours_served }} </td>
-                    <td> {{ $serviceLog->money_donated }} </td>
-                    @if (auth()->user()->canManageService())
-                    <td>
-                        <form action="/serviceLog/{{$serviceLog->id}}"  method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
-                    </td>
+                    <td> {{ $serviceLog->hours_served !== null ? $serviceLog->hours_served : "N/A" }} </td>
+                    <td> {{ $serviceLog->money_donated !== null ? $serviceLog->money_donated : "N/A"}} </td>
+                    <td>{{ date('m-d-y', strtotime($serviceLog->created_at)) }}</td>
+                    @if (auth()->user()->canManageService() || auth()->id() === $serviceLog->user_id)
+                        <td> <a href="/serviceLog/{{$serviceLog->id}}/edit" class="btn btn-primary">Edit</a> </td>
                     @endif
+
                 </tr>
             @empty
                 This User has no service logs!
@@ -54,5 +51,14 @@
     </table>
 </div>
 </section>
-
+@section('js')
+<script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
+<script>
+$(function() {
+    $('#table').DataTable({
+        responsive: true
+    });
+});
+</script>
+@endsection
 @endsection

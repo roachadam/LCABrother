@@ -11,55 +11,75 @@
         </div>
     </header>
     <section class="card">
-    <div class="card-block">
-        <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Logged At</th>
-                    <th>Hours Served</th>
-                    <th>Money Donated</th>
-                    @if (auth()->user()->canManageInvolvment())
-                    <th>Manage</th>
-                    @endif
-                </tr>
-            </thead>
+        <div class="card-block">
+            @if ($serviceEvent->ServiceLogs->count())
 
-            <tbody>
-                @if ($serviceEvent->ServiceLogs->count())
-                    @foreach ($serviceEvent->ServiceLogs as $log)
-                        <tr>
-                            <td>{{ $log->user->name }}</td>
-                            <td> {{ $log->created_at  }} </td>
-                            <td> {{ $log->hours_served  }} </td>
-                            <td> {{ $log->money_donated  }} </td>
-                            @if (auth()->user()->canManageInvolvment())
-                                <form action="/serviceLog/{{$log->id}}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <td><button type="submit" class="btn btn-inline">Remove</button>    </td>
-                                </form>
-                            @endif
-                        </tr>
-                    @endforeach
-                @endif
-            </tbody>
-        </table>
-    </div>
-</section>
+                <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Logged At</th>
+                                <th>Hours Served</th>
+                                <th>Money Donated</th>
+                                @if (auth()->user()->canManageInvolvment())
+                                <th>Manage</th>
+                                @endif
+                            </tr>
 
-@if (auth()->user()->canManageService())
-    <div class="card">
-        <div class="card-header">Edit Details</div>
-        <div class="card-body">
-            <form action="/serviceEvent/{{$serviceEvent->id}}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-warning">Delete</button>
-            </form>
+                    </thead>
 
+                    <tbody>
+                            @foreach ($serviceEvent->ServiceLogs as $log)
+                                <tr>
+                                    <td>{{ $log->user->name }}</td>
+                                    <td> {{ $log->created_at  }} </td>
+                                    <td> {{ $log->hours_served  }} </td>
+                                    <td> {{ $log->money_donated  }} </td>
+                                    @if (auth()->user()->canManageInvolvment())
+                                        <form action="/serviceLog/{{$log->id}}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <td><button type="submit" class="btn btn-inline">Remove</button>    </td>
+                                        </form>
+                                    @endif
+                                </tr>
+                            @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p>There are no logs for {{$serviceEvent->name}}!</p>
+            @endif
         </div>
-    </div>
+    </section>
+
+    @if (auth()->user()->canManageService())
+        <button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#deleteModal">Delete Event</button>
     @endif
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                            <i class="font-icon-close-2"></i>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Delete</h4>
+                    </div>
+                    <form action="/serviceEvent/{{$serviceEvent->id}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <div class="modal-body">
+                            <div class="col-md-12">
+                                <p>Are you sure you want to delete {{$serviceEvent->name}} and all logs associated?</p>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 @endsection
 
