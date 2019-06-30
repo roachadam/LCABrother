@@ -5,6 +5,7 @@ namespace App;
 use App\ServiceLog;
 use Illuminate\Database\Eloquent\Model;
 use App\Commons\NotificationFunctions;
+use App\User;
 
 class ServiceEvent extends Model
 {
@@ -13,12 +14,6 @@ class ServiceEvent extends Model
     protected static function boot()
     {
         parent::boot();
-
-        static::created(function ($ServiceEvent)
-        {
-            NotificationFunctions::alert('success', 'Logged Service Event!');
-            return back();
-        });
 
         static::updated(function ($ServiceEvent)
         {
@@ -36,5 +31,9 @@ class ServiceEvent extends Model
     public function getAttendance(){
         $attendance = $this->ServiceLogs->count();
         return $attendance;
+    }
+    public function userAttended(User $user){
+        $serviceLogs = $this->serviceLogs;
+        return $serviceLogs->contains('user_id', $user->id);
     }
 }

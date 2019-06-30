@@ -16,6 +16,7 @@ class GoalsNotifSent
 
 
     public $sent;
+    
     public function __construct($sent)
     {
         $this->sent = $sent;

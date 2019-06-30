@@ -7,8 +7,10 @@
             <div class="tbl">
                 <div class="tbl-row">
                     <div class="tbl-cell">
-                        <h2>Service Events</h2>
-                        {{-- <div class="subtitle">Welcome to Ultimate Dashboard</div> --}}
+                        <div class="row">
+                            <h2>Service Events</h2>
+                            <a href="/serviceEvents/indexByUser" class="btn btn-primary offset-8">View By Log</a>
+                        </div>
                     </div>
                 </div>
             </div>

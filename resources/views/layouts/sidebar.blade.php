@@ -63,7 +63,7 @@
         <li class="blue {{ request()->is('attendanceEvents') ? 'opened' : '' }}">
             <a href="/attendanceEvents">
                 <i class="glyphicon glyphicon-calendar"></i>
-                <span class="lbl">Attendace</span>
+                <span class="lbl">Attendance</span>
             </a>
         </li>
 
