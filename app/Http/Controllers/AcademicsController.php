@@ -83,12 +83,6 @@ class AcademicsController extends Controller
         }
     }
 
-    private function validateHeadingRow($headings): bool
-    {
-
-        return count(array_intersect($keys, $headings)) === count($keys) ? true : false;
-    }
-
     /**
      * Display the specified resource.
      *
