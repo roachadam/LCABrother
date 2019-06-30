@@ -34,7 +34,8 @@ class GradesImport implements ToModel, WithHeadingRow
                     'Current_Term_GPA' => $row['term_gpa'],
                 ]);
                 if (isset($user)) {
-                    $this->saveAndUpdateData($user, $academics);
+                    $this->saveData($user, $academics);
+                    $user->updateStanding();                                                //Re-Calculates the Standings of all members
                 } else {
                     NotificationFunctions::alert('error', 'Could not find user' . $row['student_name']);
                 }
@@ -48,14 +49,13 @@ class GradesImport implements ToModel, WithHeadingRow
         }
     }
 
-    private function saveAndUpdateData(User $user, Academics $academics)
+    private function saveData(User $user, Academics $academics)
     {
         $prevGPA = $user->getPreviousAcademicData()['prevGPA'];                    //Get and store the current gpa from database
         $prevStanding = $user->getPreviousAcademicData()['prevStanding'];          //Get and store the current academic standing from database
 
         $user->academics()->save($academics);                                   //Saves the excel data to the user
         $user->setPreviousData($prevGPA, $prevStanding);                        //Sets the previous standings based on the variables above
-        $user->updateStanding();                                                //Re-Calculates the Standings of all members
     }
 
     private function splitName($string)
