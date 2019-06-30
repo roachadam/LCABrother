@@ -28,7 +28,7 @@ class GoalsEmailWasSent
     public function handle(GoalsNotifSent $event)
     {
         if($event->sent){
-            NotificationFunctions::alert('success', $event->invite->guest_name.' has already been invited.');
+            NotificationFunctions::alert('success','Members Notified!');
         }
         else
             NotificationFunctions::alert('success', 'No members below threshhold');

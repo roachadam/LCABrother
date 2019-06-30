@@ -1,15 +1,15 @@
 @extends('layouts.main')
 
-
-
 @section('content')
 
 <header class="section-header">
     <div class="tbl">
         <div class="tbl-row">
             <div class="tbl-cell">
-                <h2>Service Logs</h2>
-                {{-- <div class="subtitle">Welcome to Ultimate Dashboard</div> --}}
+                <div class="row">
+                    <h2>Service Logs</h2>
+                    <a href="/serviceEvent" class="btn btn-primary offset-8">View By Event</a>
+                </div>
             </div>
         </div>
     </div>
