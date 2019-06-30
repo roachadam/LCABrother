@@ -44,8 +44,8 @@
                         @foreach (auth()->user()->organization->getVerifiedMembers() as $user)
                             <div class="row offset-1">
                                 <div class="checkbox-toggle form-group">
-                                        <input type="checkbox" id="usersInvolved{{$user->id}}" name="usersInvolved[]" value="{{$user->id}}">
-                                        <label for="attendance">{{ $user->name }}
+                                    <input type="checkbox" id="usersInvolved{{$user->id}}" name="usersInvolved[]" value="{{$user->id}}">
+                                    <label for="usersInvolved{{$user->id}}">{{ $user->name }}
                                 </div>
                             </div>
                         @endforeach
@@ -64,11 +64,43 @@
     <div class="col-md-5">
         <div class="card">
             <div class="card-header">{{ __('Create New Involvement Item') }}</div>
-            <form action="/involvement/create">
-                <button type="submit" class="btn btn-inline btn-primary offset-1">Create New</button>
-            </form>
+            <div class="btn-toolbar offset-1">
+                <form action="/involvement/create">
+                    <button type="submit" class="btn btn-inline btn-primary">Create New</button>
+                </form>
+                <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#uploadInvolvementData">Upload Involvement Data</button>
+            </div>
         </div>
     </div>
+
+
+    <!--.modal for notifying selected memebrs-->
+    <div class="modal fade" id="uploadInvolvementData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                        <i class="font-icon-close-2"></i>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Upload Involvement Data</h4>
+                </div>
+                <form method="POST" action="/involvement/import" enctype="multipart/form-data" class="box" >
+                    @csrf
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <input type="file" class="offset-1 form-control-file" name="InvolvementData" id="InvolvementData" aria-describedby="fileHelp">
+                            <small id="fileHelp" class="offset-1 form-text text-muted">**Please be sure to check the Format Rules**</small>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-inline btn-primary">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div><!--.modal-->
 </div>
 
 @endsection
