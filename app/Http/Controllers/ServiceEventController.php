@@ -35,10 +35,14 @@ class ServiceEventController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
+        $activeSemester = auth()->user()->organization->getActiveSemester();
         $attributes = $this->validateServiceEvent();
-        $serviceEvent = ServiceEvent::where('name', $attributes['name'])->first();
+
+        $serviceEvent = ServiceEvent::where('name',$attributes['name'], 'AND')
+        ->where('created_at', '>', $activeSemester->start_date)
+        ->first();
         $attributes['date_of_event'] = date('Y-m-d', strtotime($attributes['date_of_event']));
+
 
         if ($serviceEvent!==null)
         {

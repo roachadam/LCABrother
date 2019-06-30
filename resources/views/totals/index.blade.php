@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
+    <h3>{{ auth()->user()->organization->getActiveSemester()->semester_name }}</h3>
     <div class="card">
         <div class="card-header">Averages</div>
         <div class="card-body">
