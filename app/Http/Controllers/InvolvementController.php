@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Involvement;
 use Illuminate\Http\Request;
+use App\Imports\InvolvementsImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Commons\NotificationFunctions;
+use App\Commons\ImportHelperFunctions;
+use App\Commons\InvolvementHelperFunctions;
 use DB;
 
 class InvolvementController extends Controller
@@ -39,29 +44,25 @@ class InvolvementController extends Controller
      */
     public function store(Request $request)
     {
-         //validate
-         $attributes = request()->validate([
+        //validate
+        $attributes = request()->validate([
             'name' => 'required',
             'points' => ['required', 'numeric', 'min:0', 'max:999'],
         ]);
 
-       //persist
-       $org = auth()->user()->organization;
-       $org->addInvolvementEvent($attributes);
+        //Check if that event already exists
+        if (InvolvementHelperFunctions::checkIfInvolvementEventExists($attributes)->isNotEmpty()) {
+            NotificationFunctions::alert('danger', 'An Involvement event for ' . $attributes['name'] . 's already exits');
+            return back();
+        } else {
+            //persist
+            $org = auth()->user()->organization;
+            $org->addInvolvementEvent($attributes);
 
-       //redirect
-       return redirect('/involvement');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Involvement  $involvement
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Involvement $involvement)
-    {
-        //
+            NotificationFunctions::alert('success', 'Successfully created and involvement event for ' . $attributes['name'] . 's');
+            //redirect
+            return redirect('/involvement');
+        }
     }
 
     /**
@@ -75,26 +76,31 @@ class InvolvementController extends Controller
         return view('involvement.edit', compact('involvement'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Involvement  $involvement
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Involvement $involvement)
+    public function import(Request $request)
     {
-        //
-    }
+        $request->validate(
+            [
+                'InvolvementData' => 'required|file|max:2048|mimes:xlsx',
+            ],
+            //Error messages
+            ['InvolvementData.mimes' => 'You must upload a spread sheet']
+        );
+        $file = request()->file('InvolvementData');
+        $requiredHeadings = [
+            'name',
+            'members_involved',
+            'date'
+        ];
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Involvement  $involvement
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Involvement $involvement)
-    {
-        //
+        if (ImportHelperFunctions::validateHeadingRow($file, $requiredHeadings)) {
+            ImportHelperFunctions::storeFileLocally($file, '/involvement');
+            Excel::import(new InvolvementsImport, $file);
+
+            NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');
+            return redirect('/involvementLog');
+        } else {
+            NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
+            return back();
+        }
     }
 }

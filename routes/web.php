@@ -44,8 +44,6 @@ Route::resource('role', 'RoleController');
 Route::resource('serviceEvent', 'ServiceEventController');
 Route::resource('serviceLog', 'ServiceLogController');
 Route::resource('event', 'EventController');
-Route::resource('involvement', 'InvolvementController');
-Route::resource('involvementLog', 'InvolvementLogController');
 Route::resource('survey', 'SurveyController');
 Route::resource('surveyAnswers', 'SurveyAnswersController');
 Route::resource('calendarItem', 'CalendarController');
@@ -68,15 +66,19 @@ Route::get('/attendanceEvents', 'AttendanceEventController@index');
 Route::post('newsletter/send/preview', 'NewsLetterController@preview');
 Route::get('newsletter/send/show', 'NewsLetterController@showSend');
 
-// Route::resource('newsletter', 'NewsLetterController')->except(['show', 'update']);
-// Route::get('/newsletter/{newsletter}/subscribers', 'NewsLetterController@subscribers');
-// Route::post('/newsletter/send', 'NewsLetterController@send');
+Route::resource('newsletter', 'NewsLetterController')->except(['show', 'update']);
+Route::get('/newsletter/{newsletter}/subscribers', 'NewsLetterController@subscribers');
+Route::post('/newsletter/send', 'NewsLetterController@send');
 
 Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
 
 Route::post('survey/{survey}/notify', 'SurveyController@notify');
 Route::get('survey/{survey}/responses', 'SurveyController@viewResponses');
 Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store');
+
+Route::resource('involvement', 'InvolvementController')->except(['destroy', 'update', 'show']);
+Route::resource('involvementLog', 'InvolvementLogController')->only(['index', 'store', 'destroy']);
+Route::post('/involvement/import', 'InvolvementController@import');
 Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown');
 
 

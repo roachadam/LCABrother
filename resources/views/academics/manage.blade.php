@@ -4,25 +4,14 @@
     <div class="card-columns d-flex justify-content-center">
         <div class="card m-t-md">
             <div class="card-header">Add More Grades</div>
+            @include('partials.errors')
 
             <div class="row card-body justify-content-center m-t-md">
                 <form action="/academics" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
-
-                        @if ($errors->any())
-                        <div class="offset-1 alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        @endif
                         <input type="file" class="offset-1 form-control-file" name="grades" id="gradeFile" aria-describedby="fileHelp">
-
                         <small id="fileHelp" class="offset-1 form-text text-muted">**Please be sure to check the Format Rules**</small>
-
                     </div>
 
                     <div >

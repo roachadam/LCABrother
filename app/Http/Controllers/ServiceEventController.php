@@ -42,12 +42,12 @@ class ServiceEventController extends Controller
         ->where('created_at', '>', $activeSemester->start_date)
         ->first();
         $attributes['date_of_event'] = date('Y-m-d', strtotime($attributes['date_of_event']));
-
-
+      
         if ($serviceEvent!==null)
         {
             if(!$serviceEvent->userAttended(auth()->user()))
             {
+
                 $attributes['organization_id'] = auth()->user()->organization_id;
                 $attributes['user_id'] = auth()->id();
                 unset($attributes['date_of_event']);
@@ -55,21 +55,17 @@ class ServiceEventController extends Controller
                 unset($attributes['name']);
 
                 $serviceEvent->setLog($attributes);
-            }
-            else
-            {
+            } else {
                 NotificationFunctions::alert('danger', 'Already Logged for event!');
             }
-        }
-        else
-        {
-            $eventAtrributes = [
+        } else {
+            $eventAttributes = [
                 'organization_id' => auth()->user()->organization_id,
                 'name' => $attributes['name'],
                 'date_of_event' => $attributes['date_of_event']
             ];
 
-            $event = ServiceEvent::Create($eventAtrributes);
+            $event = ServiceEvent::Create($eventAttributes);
 
             $attributes['organization_id'] = auth()->user()->organization_id;
             $attributes['user_id'] = auth()->id();
@@ -115,7 +111,8 @@ class ServiceEventController extends Controller
         ]);
     }
 
-    public function indexByUser(Request $request){
+    public function indexByUser(Request $request)
+    {
         $users = auth()->user()->organization->getVerifiedMembers();
         return view('service.indexByUser', compact('users'));
     }

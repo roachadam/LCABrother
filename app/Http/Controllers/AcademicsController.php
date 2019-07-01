@@ -6,9 +6,9 @@ use App\Academics;
 use Illuminate\Http\Request;
 use App\Imports\GradesImport;
 use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\HeadingRowImport;
 use App\User;
 use App\Commons\NotificationFunctions;
+use App\Commons\ImportHelperFunctions;
 use App\Events\OverrideAcademics;
 use App\AcademicStandings;
 
@@ -63,10 +63,14 @@ class AcademicsController extends Controller
         );
 
         $file = request()->file('grades');
-        $headings = (new HeadingRowImport)->toArray($file);
+        $requiredHeadings = [
+            'student_name',
+            'cumulative_gpa',
+            'term_gpa'
+        ];
 
-        if ($this->validateHeadingRow($headings[0][0])) {
-            $this->storeFileLocally($request);
+        if (ImportHelperFunctions::validateHeadingRow($file, $requiredHeadings)) {
+            ImportHelperFunctions::storeFileLocally($file, '/grades');
             Excel::import(new GradesImport, $file);
 
             NotificationFunctions::alert('success', 'Successfully imported new academic records!');
@@ -75,26 +79,6 @@ class AcademicsController extends Controller
             NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
             return back();
         }
-    }
-
-    //Helper function for store()
-    private function storeFileLocally(Request $request)
-    {
-        $filenameWithExt = $request->file('grades')->getClientOriginalName();
-        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);                      // Get just filename
-        $extension = $request->file('grades')->getClientOriginalExtension();            // Get just ext
-        $fileNameToStore = $filename . '_' . time() . '.' . $extension;                 // Filename to store TODO Figure out how to name
-        $request->file('grades')->storeAs('/grades', $fileNameToStore);                 // Save Image
-    }
-
-    private function validateHeadingRow($headings): bool
-    {
-        $keys = [
-            'student_name',
-            'cumulative_gpa',
-            'term_gpa'
-        ];
-        return count(array_intersect($keys, $headings)) === count($keys) ? true : false;
     }
 
     /**
