@@ -6,10 +6,9 @@ use App\Academics;
 use Illuminate\Http\Request;
 use App\Imports\GradesImport;
 use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\HeadingRowImport;
 use App\User;
 use App\Commons\NotificationFunctions;
-use App\Commons\HelperFunctions;
+use App\Commons\ImportHelperFunctions;
 use App\Events\OverrideAcademics;
 use App\AcademicStandings;
 
@@ -64,15 +63,14 @@ class AcademicsController extends Controller
         );
 
         $file = request()->file('grades');
-        $headings = (new HeadingRowImport)->toArray($file);
         $requiredHeadings = [
             'student_name',
             'cumulative_gpa',
             'term_gpa'
         ];
 
-        if (HelperFunctions::validateHeadingRow($requiredHeadings, $headings[0][0])) {
-            HelperFunctions::storeFileLocally($file, '/grades');
+        if (ImportHelperFunctions::validateHeadingRow($file, $requiredHeadings)) {
+            ImportHelperFunctions::storeFileLocally($file, '/grades');
             Excel::import(new GradesImport, $file);
 
             NotificationFunctions::alert('success', 'Successfully imported new academic records!');

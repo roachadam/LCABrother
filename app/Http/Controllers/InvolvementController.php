@@ -6,9 +6,9 @@ use App\Involvement;
 use Illuminate\Http\Request;
 use App\Imports\InvolvementsImport;
 use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\HeadingRowImport;
 use App\Commons\NotificationFunctions;
-use App\Commons\HelperFunctions;
+use App\Commons\ImportHelperFunctions;
+use App\Commons\InvolvementHelperFunctions;
 use DB;
 
 class InvolvementController extends Controller
@@ -51,7 +51,7 @@ class InvolvementController extends Controller
         ]);
 
         //Check if that event already exists
-        if ($this->checkIfInvolvementEventExists($attributes)) {
+        if (InvolvementHelperFunctions::checkIfInvolvementEventExists($attributes)->isNotEmpty()) {
             NotificationFunctions::alert('danger', 'An Involvement event for ' . $attributes['name'] . 's already exits');
             return back();
         } else {
@@ -86,32 +86,20 @@ class InvolvementController extends Controller
             ['InvolvementData.mimes' => 'You must upload a spread sheet']
         );
         $file = request()->file('InvolvementData');
-        $headings = (new HeadingRowImport)->toArray($file);
         $requiredHeadings = [
-            'event_type',
-            'brothers_involved',
+            'name',
+            'members_involved',
             'date'
         ];
 
-        if (HelperFunctions::validateHeadingRow($requiredHeadings, $headings[0][0])) {
-            HelperFunctions::storeFileLocally($file, '/involvement');
+        if (ImportHelperFunctions::validateHeadingRow($file, $requiredHeadings)) {
+            ImportHelperFunctions::storeFileLocally($file, '/involvement');
             Excel::import(new InvolvementsImport, $file);
-
             NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');
             return redirect('/involvementLog');
         } else {
             NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
             return back();
         }
-    }
-
-
-    private function checkIfInvolvementEventExists($attributes)
-    {
-        $involvements = auth()->user()->organization->involvement;
-
-        return $involvements->filter(function ($involvement) use ($attributes) {
-            return $involvement['name'] === $attributes['name'] && $involvement['organization_id'] === auth()->user()->organization->id;
-        })->isNotEmpty();
     }
 }

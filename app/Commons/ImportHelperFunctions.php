@@ -3,12 +3,13 @@
 namespace App\Commons;
 
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\HeadingRowImport;
 
-class HelperFunctions
+class ImportHelperFunctions
 {
-    public static function validateHeadingRow($keys, $headings): bool
+    public static function validateHeadingRow($file, $keys): bool
     {
-        return count(array_intersect($keys, $headings)) === count($keys) ? true : false;
+        return count(array_intersect($keys, (new HeadingRowImport)->toArray($file)[0][0])) === count($keys) ? true : false;
     }
 
     public static function storeFileLocally($file, $path)

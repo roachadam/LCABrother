@@ -126,7 +126,9 @@ class Organization extends Model
     }
     public function addInvolvementEvent($attributes)
     {
-        return $this->involvement()->create($attributes);
+        if (empty(Involvement::where('name', $attributes['name'])->get()->first())) {
+            return $this->involvement()->create($attributes);
+        }
     }
     public function involvement()
     {
