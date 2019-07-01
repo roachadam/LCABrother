@@ -35,7 +35,7 @@
 						<label>Phone Number</label>
                         <input type="tel" name="phone" id='frmPhoneNumA' placeholder="(337) 999-0909" required autocomplete="tel">
 
-						<label>Password (must include letters,numbers, symbols and be 10 characters min)</label>
+						<label>Password (must include letters, numbers, symbols and be 10 characters min)</label>
                         <input type="password" name="password" id='password' placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
 
                         <label>Confirm Password</label>
