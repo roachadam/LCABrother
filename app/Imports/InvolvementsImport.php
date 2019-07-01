@@ -7,7 +7,6 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use App\Commons\InvolvementHelperFunctions;
-use App\Involvement;
 use App\User;
 
 class InvolvementsImport implements ToCollection, WithHeadingRow
