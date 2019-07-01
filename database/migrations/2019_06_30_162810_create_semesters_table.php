@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServiceEventsTable extends Migration
+class CreateSemestersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,14 @@ class CreateServiceEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('service_events', function (Blueprint $table) {
+        Schema::create('semesters', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('organization_id')->nullable();
-            // $table->unsignedBigInteger('semester_id')->nullable();
-            $table->string('name');
-            $table->date('date_of_event');
+            $table->string('semester_name');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date')->nullable();
+            $table->boolean('active');
             $table->timestamps();
-        });
-
-        Schema::table('service_events', function($table) {
-            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
         });
     }
 
@@ -34,6 +31,6 @@ class CreateServiceEventsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_events');
+        Schema::dropIfExists('semesters');
     }
 }

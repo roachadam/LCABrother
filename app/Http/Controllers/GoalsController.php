@@ -41,7 +41,7 @@ class GoalsController extends Controller
         $org->setGoals($attributes);
 
         //redirect
-        return redirect('/academicStandings/create');
+        return view('semester.create');
     }
     public function edit()
     {

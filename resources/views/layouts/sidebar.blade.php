@@ -112,16 +112,6 @@
                 </li>
             @endif
             @if (auth()->user()->canManageMembers())
-                <li class="blue {{ request()->is('goals') ? 'opened' : '' }}">
-                    <a href="/goals">
-                    <span>
-                        <i class="font-icon font-icon-users"></i>
-                        <span class="lbl">Organization Goals</span>
-                    </span>
-                    </a>
-                </li>
-            @endif
-            @if (auth()->user()->canManageMembers())
                 <li class="red {{ request()->is('totals') ? 'opened' : '' }}">
                     <a href="/totals">
                     <span>
