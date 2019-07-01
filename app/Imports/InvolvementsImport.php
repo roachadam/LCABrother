@@ -34,7 +34,7 @@ class InvolvementsImport implements ToCollection, WithHeadingRow
                     ];
 
                     $involvementEvent = $organization->addInvolvementEvent($attributes);
-                    //If it is set add the user logs
+                    //If the event is added just add the user logs
                     if (isset($involvementEvent)) {
                         $this->addUserLogs($involvementEvent, $event, $organization);
                     } else {
