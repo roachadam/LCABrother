@@ -23,7 +23,10 @@
             Involvement Points: {{$totals['points']}} / {{$sumTotals['points']}}
         </div>
     </div>
+    @if (auth()->user()->isAdmin())
     <button type="button" class="btn btn-warning-outline" data-toggle="modal" data-target="#modal">New Semester</button>
+
+    @endif
 
 
 
@@ -41,6 +44,11 @@
                     @csrf
                     <div class="row m-t-md offset-1">
                         <div class="col-md-6">
+                            <p>
+                                <strong>Warning.</strong>
+                                <br>
+                                This will reset your members goal information.
+                            </p>
                             <label for="money_donated">Semester Name</label>
                             <div class="form-control-wrapper form-control-icon-left">
                                 <input id="semester_name" type="text" class="form-control" name="semester_name" value="{{ old('semester_name') }}" placeholder="Fall 2019"  autofocus>

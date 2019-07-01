@@ -41,6 +41,8 @@ class SemesterController extends Controller
         NotificationFunctions::alert('success', 'Successfully created new semester');
         auth()->user()->organization->addSemester($attributes);
 
+        return back();
+
     }
 
     public function show(Semester $semester)

@@ -331,4 +331,7 @@ class User extends Authenticatable
         $Can = $this->role->permission->manage_calendar;
         return $Can;
     }
+    public function isAdmin(){
+        return $this->role->name == 'Admin';
+    }
 }
