@@ -13,6 +13,7 @@ use App\Academics;
 use App\CalendarItem;
 use App\NewsLetter;
 use App\AttendanceEvent;
+use App\Semester;
 use DevDojo\Chatter\Models\Discussion;
 use DevDojo\Chatter\Models\Category;
 use Illuminate\Database\Eloquent\Model;
@@ -124,6 +125,13 @@ class Organization extends Model
     {
         return $this->hasMany(ServiceEvent::Class);
     }
+    public function getActiveServiceEvents()
+    {
+        $activeSemester = $this->getActiveSemester();
+        $activeServiceEvents = $this->serviceEvents()->where('created_at', '>', $activeSemester->start_date)->get();
+        return $activeServiceEvents;
+    }
+
     public function addInvolvementEvent($attributes)
     {
         if (empty(Involvement::where('name', $attributes['name'])->get()->first())) {
@@ -133,6 +141,21 @@ class Organization extends Model
     public function involvement()
     {
         return $this->hasMany(Involvement::Class);
+    }
+
+    public function semester(){
+        return $this->hasMany(Semester::class);
+    }
+    public function getActiveSemester(){
+        $match = [
+            'organization_id' => $this->id,
+            'active' => '1'
+        ];
+        $activeSemester = Semester::where($match)->first();
+        return $activeSemester;
+    }
+    public function addSemester($attributes){
+        return $this->semester()->create($attributes);
     }
 
     public function addEvent($attributes)

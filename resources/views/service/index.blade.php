@@ -8,8 +8,8 @@
                 <div class="tbl-row">
                     <div class="tbl-cell">
                         <div class="row">
-                            <h2>Service Events</h2>
-                            <a href="/serviceEvents/indexByUser" class="btn btn-primary offset-8">View By Log</a>
+                            <h2>{{ auth()->user()->organization->getActiveSemester()->semester_name }}: Service Events</h2>
+                            <a href="/serviceEvents/indexByUser" class="btn btn-primary ml-auto">View By Log</a>
                         </div>
                     </div>
                 </div>

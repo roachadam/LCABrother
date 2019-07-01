@@ -29,11 +29,12 @@
                         </div>
                     </div>
                 </div>
-            <div class="row m-t-md offset-1">
                 <a href="{{ action('UserController@serviceBreakdown', ['user'=> $serviceLog->user]) }}" class="btn btn-secondary mr-2">Cancel</a>
                 <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                <button type="button" class="btn btn-danger-outline" data-toggle="modal" data-target="#deleteModal">Delete Event</button>
+            </form>
+            <div class="row m-t-md offset-1">
 
+                <button type="button" class="btn btn-danger-outline" data-toggle="modal" data-target="#deleteModal">Delete Event</button>
                 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -60,9 +61,7 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-        </form>
-    </div>
+        </div>
 </section>
 @endsection

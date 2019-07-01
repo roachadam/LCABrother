@@ -70,7 +70,6 @@ class ServiceLogController extends Controller
     public function update(Request $request, ServiceLog $serviceLog)
     {
         $attributes = $request->all();
-
         $serviceLog->update($attributes);
 
         return redirect()->action('UserController@serviceBreakdown', ['user'=> $serviceLog->user]);

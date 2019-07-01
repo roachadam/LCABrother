@@ -50,6 +50,9 @@ Route::resource('calendarItem', 'CalendarController');
 Route::resource('subscribers', 'SubscribersController');
 Route::resource('attendance', 'AttendanceController');
 Route::resource('attendanceEvent', 'AttendanceEventController');
+Route::resource('semester', 'SemesterController');
+
+Route::post('semester/initial', 'SemesterController@initial');
 
 Route::get('/serviceEvents/indexByUser', 'ServiceEventController@indexByUser');
 Route::get('/users/{user}/service', 'UserController@serviceBreakdown');
