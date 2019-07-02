@@ -5,6 +5,7 @@ namespace App\Imports;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use App\Commons\InvolvementHelperFunctions;
 use App\User;
@@ -90,5 +91,10 @@ class InvolvementsImport implements ToCollection, WithHeadingRow
             case 'Attend other organizations events':
                 return 10;
         }
+    }
+
+    public function chunkSize(): int
+    {
+        return 1000;
     }
 }

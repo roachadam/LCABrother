@@ -76,11 +76,6 @@ class InvolvementController extends Controller
         return view('involvement.edit', compact('involvement'));
     }
 
-    public function update(Request $request)
-    {
-        dd($request->all());
-    }
-
     public function import(Request $request)
     {
         $request->validate(
@@ -101,19 +96,41 @@ class InvolvementController extends Controller
             ImportHelperFunctions::storeFileLocally($file, '/involvement');
             Excel::import(new InvolvementsImport, $file);
 
-            $nullEvents = auth()->user()->organization->involvement->filter(function ($event) {
-                return $event['points'] === null && $event['organization_id'] === auth()->user()->organization->id;
-            });
-
-            if ($nullEvents->isNotEmpty()) {
-                return view('/involvement/edit', compact('nullEvents'));
-            } else {
-                NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');
-                return redirect('/involvementLogs');
-            }
+            $this->checkNullEvents();
         } else {
             NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
             return back();
         }
+    }
+
+
+
+    private function checkNullEvents()
+    {
+        $nullEvents = auth()->user()->organization->involvement->filter(function ($event) {
+            return $event['points'] === null && $event['organization_id'] === auth()->user()->organization->id;
+        });
+        sleep(1);
+        dump(auth()->user()->organization->involvement);
+        dd($nullEvents);
+        if ($nullEvents->isNotEmpty()) {
+            return view('/involvement/edit', compact('nullEvents'));
+        } else {
+            NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');
+            return redirect('/involvementLog');
+        }
+    }
+
+    public function setPoints(Request $request)
+    {
+        $attributes = $request->all();
+        $pointData = array_combine($attributes['name'], $attributes['point_value']);
+        foreach ($pointData as $eventName => $points) {
+            $event = auth()->user()->organization->involvement->filter(function ($event) use ($eventName, $points) {
+                return $event['name'] === $eventName && $event['organization_id'] === auth()->user()->organization->id;
+            })->first();
+            $event->update(['points' => $points]);
+        }
+        return redirect('/involvementLog');
     }
 }

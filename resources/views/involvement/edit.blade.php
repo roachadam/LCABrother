@@ -1,16 +1,16 @@
 @extends('layouts.main')
 
 @section('content')
-    <form action="" method="POST">
+    <form action="/involvement/setPoints" method="POST">
         @csrf
-        @method('PATCH')
-
         @foreach ($nullEvents as $event)
             <div class="form-group row">
-                <label for="point_value" class="col-md-4 col-form-label text-md-right">{{ __($event->name) }}</label>
+                <label for="point_value[]" class="col-md-4 col-form-label text-md-right">{{ __($event->name) }}</label>
+
+                <input id="name[]" type="hidden" class="form-control" name="name[]" value="{{ $event->name }}">
 
                 <div class="col-md-4">
-                    <input id="point_value" type="text" class="form-control" name="point_value" value="{{ $event->points }}" autofocus>
+                    <input id="point_value[]" type="text" class="form-control" name="point_value[]" value="{{ $event->points }}" autofocus>
                 </div>
             </div>
         @endforeach

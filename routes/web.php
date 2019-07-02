@@ -80,7 +80,7 @@ Route::resource('involvement', 'InvolvementController')->except(['destroy', 'upd
 Route::resource('involvementLog', 'InvolvementLogController')->only(['index', 'store', 'destroy']);
 Route::get('/involvement/edit', 'InvolvementController@edit');
 Route::post('/involvement/import', 'InvolvementController@import');
-Route::patch('/involvement/{involvement}/update', 'InvolvementController@update');
+Route::post('/involvement/setPoints', 'InvolvementController@setPoints');
 Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown');
 
 
