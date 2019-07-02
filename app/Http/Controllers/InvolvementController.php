@@ -95,9 +95,19 @@ class InvolvementController extends Controller
         if (ImportHelperFunctions::validateHeadingRow($file, $requiredHeadings)) {
             ImportHelperFunctions::storeFileLocally($file, '/involvement');
             Excel::import(new InvolvementsImport, $file);
+            $match = [
+                'points' => null,
+                'organization_id' => auth()->user()->organization->id,
+            ];
 
+            $nullEvents = auth()->user()->organization->involvement->where('points', null);
+            foreach ($nullEvents as $event) {
+                dump($event);
+            }
+            dd();
+            dd($nullEvents);
             NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');
-            return redirect('/involvementLog');
+            return redirect('/involvementLog', compact('nullEvents'));
         } else {
             NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
             return back();

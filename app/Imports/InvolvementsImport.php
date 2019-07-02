@@ -30,7 +30,7 @@ class InvolvementsImport implements ToCollection, WithHeadingRow
                     //Create service event
                     $attributes = [
                         'name' => $event['name'],
-                        'points' => $this->getPointTotal($event['name']),
+                        'points' => null //$this->getPointTotal($event['name']),
                     ];
 
                     $involvementEvent = $organization->addInvolvementEvent($attributes);
