@@ -76,6 +76,11 @@ class InvolvementController extends Controller
         return view('involvement.edit', compact('involvement'));
     }
 
+    public function update(Request $request)
+    {
+        dd($request->all());
+    }
+
     public function import(Request $request)
     {
         $request->validate(
@@ -95,19 +100,17 @@ class InvolvementController extends Controller
         if (ImportHelperFunctions::validateHeadingRow($file, $requiredHeadings)) {
             ImportHelperFunctions::storeFileLocally($file, '/involvement');
             Excel::import(new InvolvementsImport, $file);
-            $match = [
-                'points' => null,
-                'organization_id' => auth()->user()->organization->id,
-            ];
 
-            $nullEvents = auth()->user()->organization->involvement->where('points', null);
-            foreach ($nullEvents as $event) {
-                dump($event);
+            $nullEvents = auth()->user()->organization->involvement->filter(function ($event) {
+                return $event['points'] === null && $event['organization_id'] === auth()->user()->organization->id;
+            });
+
+            if ($nullEvents->isNotEmpty()) {
+                return view('/involvement/edit', compact('nullEvents'));
+            } else {
+                NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');
+                return redirect('/involvementLogs');
             }
-            dd();
-            dd($nullEvents);
-            NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');
-            return redirect('/involvementLog', compact('nullEvents'));
         } else {
             NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
             return back();
