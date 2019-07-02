@@ -94,7 +94,7 @@ class InvolvementController extends Controller
 
         if (ImportHelperFunctions::validateHeadingRow($file, $requiredHeadings)) {
             ImportHelperFunctions::storeFileLocally($file, '/involvement');
-            $import = new InvolvementsImport;
+            $import = new InvolvementsImport(InvolvementHelperFunctions::getExistingLogs());
             Excel::import($import, $file);
             return $this->checkNullEvents($import->getNewServiceEvents());
         } else {

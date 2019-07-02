@@ -14,6 +14,12 @@ class InvolvementsImport implements ToCollection, WithHeadingRow
 {
     private $newServiceEvents = array();
     private $size;
+    private $existingData;
+
+    public function __construct($existingData = null)
+    {
+        $this->existingData = $existingData;
+    }
 
     public function collection(Collection $involvementData)
     {
@@ -22,12 +28,12 @@ class InvolvementsImport implements ToCollection, WithHeadingRow
 
         foreach ($involvementData as $event) {
             if (!empty($event['name'])) {
-                $existingData = InvolvementHelperFunctions::checkIfInvolvementEventExists($event);
+                $existingData = $this->existingData->where('name', $event['name']);
 
                 //If the event already exists add the user logs
                 if ($existingData->isNotEmpty()) {
-                    $existingData = $existingData->first();
-                    $this->addUserLogs($existingData, $event, $organization);
+                    $existingLog = $existingData->first();
+                    $this->addUserLogs($existingLog, $event, $organization);
                 } else {
                     //Create service event
                     $attributes = [
