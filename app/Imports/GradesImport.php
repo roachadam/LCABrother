@@ -22,7 +22,7 @@ class GradesImport implements ToModel, WithHeadingRow, WithBatchInserts
     {
         if ($row['student_name'] !== null) {
             $alumni = auth()->user()->organization->alumni;                                                 //Gets all alumni in database
-            $row['student_name'] = $this->splitName($row['student_name']);
+            //$row['student_name'] = $this->splitName($row['student_name']);                                  //Converts the Last, First to First Last
 
             if (!$alumni->contains('name', $row['student_name'])) {        //Prevents white space and alumni from getting entered into the database
                 $user = User::where('name', $row['student_name'])->first();                                 //Finds the user with a matching name
