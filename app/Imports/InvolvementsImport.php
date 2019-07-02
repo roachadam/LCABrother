@@ -12,11 +12,12 @@ use App\User;
 
 class InvolvementsImport implements ToCollection, WithHeadingRow
 {
-    /**
-     * @param Collection $collection
-     */
+    private $newServiceEvents = array();
+    private $size;
+
     public function collection(Collection $involvementData)
     {
+        $this->size = count($involvementData);
         $organization = auth()->user()->organization;
 
         foreach ($involvementData as $event) {
@@ -38,8 +39,9 @@ class InvolvementsImport implements ToCollection, WithHeadingRow
                     //If the event is added just add the user logs
                     if (isset($involvementEvent)) {
                         $this->addUserLogs($involvementEvent, $event, $organization);
+                        array_push($this->newServiceEvents, $involvementEvent);
                     } else {
-                        //Grab the event from the database and add the user logs to it
+                        //if the event has already been created and added just add on to it
                         $match = [
                             'name' => $event['name'],
                             'organization_id' => $organization->id,
@@ -53,48 +55,23 @@ class InvolvementsImport implements ToCollection, WithHeadingRow
     }
 
 
-    private function addUserLogs($InvolvementEvent, $currentEvent, $organization)
+    private function addUserLogs($involvementEvent, $currentEvent, $organization)
     {
         foreach (explode(', ', $currentEvent['members_involved']) as $user) {
             $user = User::where(['name' => $user, 'organization_id' => $organization->id])->get()->first();
             if (isset($user)) {
-                $user->addInvolvementLog($InvolvementEvent, Date::excelToDateTimeObject($currentEvent['date']));
+                $user->addInvolvementLog($involvementEvent, Date::excelToDateTimeObject($currentEvent['date']));
             }
-        }
-    }
-
-
-    // Change this when we make it dynamic
-    private function getPointTotal($eventName)
-    {
-        switch ($eventName) {
-            case 'Socials':
-                return 15;
-            case 'Recruitment events':
-                return 15;
-            case 'Brotherhood events':
-                return 10;
-            case 'Alumni events':
-                return 10;
-            case 'Philanthropy events':
-                return 10;
-            case 'PI':
-                return 5;
-            case 'Intramurals':
-                return 5;
-            case 'Pay dues in full':
-                return 10;
-            case 'Move into the house':
-                return 70;
-            case 'Leadership role in another organization':
-                return 15;
-            case 'Attend other organizations events':
-                return 10;
         }
     }
 
     public function chunkSize(): int
     {
-        return 1000;
+        return $this->size;
+    }
+
+    public function getNewServiceEvents(): array
+    {
+        return $this->newServiceEvents;
     }
 }
