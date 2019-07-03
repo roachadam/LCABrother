@@ -122,24 +122,20 @@ class User extends Authenticatable
         return $hours;
     }
 
-    public function getActiveServiceLogs(){
+    public function getActiveServiceLogs()
+    {
         $activeSemester = $this->organization->getActiveSemester();
         $activeServiceLogs = $this->serviceLogs()->where('created_at', '>', $activeSemester->start_date)->get();
         return $activeServiceLogs;
     }
 
     // Involvement Logs
-    public function InvolvementLogs(){
+    public function InvolvementLogs()
+    {
         return $this->hasMany(InvolvementLog::Class);
     }
-    public function addInvolvementLog(Involvement $involvement, $date){
-        return $this->InvolvementLogs()->create([
-            'organization_id' => auth()->user()->organization->id,
-            'involvement_id' => $involvement->id,
-            'date_of_event' => $date,
-        ]);
-    }
-    public function getInvolvementPoints(){
+    public function getInvolvementPoints()
+    {
         $InvolvementLogs = $this->getActiveInvolvementLogs();
         $points = 0;
         foreach ($InvolvementLogs as $log) {
@@ -147,37 +143,44 @@ class User extends Authenticatable
         }
         return $points;
     }
-    public function getActiveInvolvementLogs(){
+    public function getActiveInvolvementLogs()
+    {
         $activeSemester = $this->organization->getActiveSemester();
         $activeInvolvementLogs = $this->InvolvementLogs()->where('created_at', '>', $activeSemester->start_date)->get();
         return $activeInvolvementLogs;
     }
 
     //Academics stuff
-    public function academics(){
+    public function academics()
+    {
         return $this->hasMany(Academics::Class);
     }
-    public function addAcademics(Academics $academics){
+    public function addAcademics(Academics $academics)
+    {
         return $this->Academics()->create([
             'organization_id' => auth()->user()->organization->id,
         ]);
     }
-    public function latestAcademics(){
+    public function latestAcademics()
+    {
         return $this->hasMany(Academics::Class)->latest()->first();
     }
 
-    public function setPreviousData($prevGPA, $prevStanding){        //Takes data on previous gpa and previous academic standing and saves it to the user
+    public function setPreviousData($prevGPA, $prevStanding)
+    {        //Takes data on previous gpa and previous academic standing and saves it to the user
         $this->latestAcademics()->update([
             'Previous_Term_GPA' => $prevGPA,
             'Previous_Academic_Standing' => $prevStanding
         ]);
     }
 
-    public function updateStanding(){
+    public function updateStanding()
+    {
         $this->latestAcademics()->updateStanding();
     }
 
-    public function checkAcademicRecords(){                  //Finds any entry in the database where it has the same name and organization as the new user and assigns the user id to it
+    public function checkAcademicRecords()
+    {                  //Finds any entry in the database where it has the same name and organization as the new user and assigns the user id to it
         $match = [
             'name' => $this->name,
             'organization_id' => $this->organization_id
@@ -200,7 +203,8 @@ class User extends Authenticatable
         }
     }
 
-    public function getPreviousAcademicData(){
+    public function getPreviousAcademicData()
+    {
         /*
             If this is the very first entry an error will be thrown because the are no instances of academics.
             Then the method will return null and empty strings in order to allow the program to continue as expected
@@ -220,14 +224,16 @@ class User extends Authenticatable
     }
 
     //When a user user an invite link
-    public function handleInvite(Organization $organization){
+    public function handleInvite(Organization $organization)
+    {
         $this->join($organization);
         $this->setVerification(true);
         $this->setBasicUser();
     }
 
     //Invites for events
-    public function hasInvitesRemaining(Event $event){
+    public function hasInvitesRemaining(Event $event)
+    {
         if ($this->getInvitesRemaining($event) > 0) {
             return true;
         } else {
@@ -235,7 +241,8 @@ class User extends Authenticatable
         }
     }
 
-    public function getInvitesRemaining(Event $event){
+    public function getInvitesRemaining(Event $event)
+    {
         $invitesPer = $event->num_invites;
         $match = [
             'user_id' => $this->id,
@@ -245,7 +252,8 @@ class User extends Authenticatable
         return $invitesPer - $invitesSent;
     }
 
-    public function getInvites(Event $event){
+    public function getInvites(Event $event)
+    {
         $match = [
             'user_id' => $this->id,
             'event_id' => $event->id,
@@ -255,7 +263,8 @@ class User extends Authenticatable
     }
 
     //Survey
-    public function hasResponded(Survey $survey){
+    public function hasResponded(Survey $survey)
+    {
         $answers = SurveyAnswers::where('survey_id', '=', $survey->id)->get();
         $answers->load('user');
 
@@ -279,59 +288,73 @@ class User extends Authenticatable
     }
 
     //Permissions getters
-    public function canManageMembers(){
+    public function canManageMembers()
+    {
         $Can = $this->role->permission->manage_member_details;
         return $Can;
     }
-    public function canManageInvolvment(){
+    public function canManageInvolvment()
+    {
         $Can = $this->role->permission->manage_all_involvement;
         return $Can;
     }
-    public function canManageService(){
+    public function canManageService()
+    {
         $Can = $this->role->permission->manage_all_service;
         return $Can;
     }
-    public function canViewMemberDetails(){
+    public function canViewMemberDetails()
+    {
         $Can = $this->role->permission->view_member_details;
         return $Can;
     }
-    public function canViewAllService(){
+    public function canViewAllService()
+    {
         $Can = $this->role->permission->view_all_service;
         return $Can;
     }
-    public function canViewAllInvolvement(){
+    public function canViewAllInvolvement()
+    {
         $Can = $this->role->permission->view_all_involvement;
         return $Can;
     }
-    public function canLogServiceEvent(){
+    public function canLogServiceEvent()
+    {
         $Can = $this->role->permission->log_service_event;
         return $Can;
     }
-    public function canManageEvents(){
+    public function canManageEvents()
+    {
         $Can = $this->role->permission->manage_events;
         return $Can;
     }
-    public function canManageForum(){
+    public function canManageForum()
+    {
         $Can = $this->role->permission->manage_forum;
         return $Can;
     }
-    public function canManageSurveys(){
+    public function canManageSurveys()
+    {
         $Can = $this->role->permission->manage_surveys;
         return $Can;
     }
-    public function canViewAllStudy(){
+    public function canViewAllStudy()
+    {
         $Can = $this->role->permission->view_all_study;
         return $Can;
     }
-    public function canManageAllStudy(){
+    public function canManageAllStudy()
+    {
         $Can = $this->role->permission->manage_all_study;
         return $Can;
     }
-    public function canManageCalendar(){
+    public function canManageCalendar()
+    {
         $Can = $this->role->permission->manage_calendar;
         return $Can;
     }
-    public function isAdmin(){
+    public function isAdmin()
+    {
         return $this->role->name == 'Admin';
     }
 }

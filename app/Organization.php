@@ -143,10 +143,12 @@ class Organization extends Model
         return $this->hasMany(Involvement::Class);
     }
 
-    public function semester(){
+    public function semester()
+    {
         return $this->hasMany(Semester::class);
     }
-    public function getActiveSemester(){
+    public function getActiveSemester()
+    {
         $match = [
             'organization_id' => $this->id,
             'active' => '1'
@@ -154,7 +156,8 @@ class Organization extends Model
         $activeSemester = Semester::where($match)->first();
         return $activeSemester;
     }
-    public function addSemester($attributes){
+    public function addSemester($attributes)
+    {
         return $this->semester()->create($attributes);
     }
 
