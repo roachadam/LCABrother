@@ -132,9 +132,11 @@ class Organization extends Model
         return $activeServiceEvents;
     }
 
-    public function addInvolvementEvent($attributes)
+    public function addInvolvementEvent($attributes, $newServiceEvents = null)
     {
-        if (empty(Involvement::where('name', $attributes['name'])->get()->first())) {
+        if ($newServiceEvents === null && empty(Involvement::where('name', $attributes['name'])->get()->first())) {
+            return $this->involvement()->create($attributes);
+        } else if ($newServiceEvents->where('name', $attributes['name'])->isEmpty()) {
             return $this->involvement()->create($attributes);
         }
     }
@@ -143,10 +145,12 @@ class Organization extends Model
         return $this->hasMany(Involvement::Class);
     }
 
-    public function semester(){
+    public function semester()
+    {
         return $this->hasMany(Semester::class);
     }
-    public function getActiveSemester(){
+    public function getActiveSemester()
+    {
         $match = [
             'organization_id' => $this->id,
             'active' => '1'
@@ -154,7 +158,8 @@ class Organization extends Model
         $activeSemester = Semester::where($match)->first();
         return $activeSemester;
     }
-    public function addSemester($attributes){
+    public function addSemester($attributes)
+    {
         return $this->semester()->create($attributes);
     }
 

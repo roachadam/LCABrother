@@ -6,89 +6,84 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
-use App\Commons\InvolvementHelperFunctions;
-use App\User;
+use Carbon\Carbon;
+use App\InvolvementLog;
 
 class InvolvementsImport implements ToCollection, WithHeadingRow
 {
-    /**
-     * @param Collection $collection
-     */
+    private $newServiceEvents;
+    private $existingData;
+    private $organization;
+    private $users;
+    private $eventLogs;
+
+    public function __construct($existingData = null, $organization, $users)
+    {
+        $this->existingData = $existingData;
+        $this->organization = $organization;
+        $this->users = $users;
+        $this->newServiceEvents = collect();
+        $this->eventLogs = array();
+    }
+
     public function collection(Collection $involvementData)
     {
-        $organization = auth()->user()->organization;
 
         foreach ($involvementData as $event) {
             if (!empty($event['name'])) {
-                $existingData = InvolvementHelperFunctions::checkIfInvolvementEventExists($event);
-
+                $existingData = $this->existingData->where('name', $event['name']);
                 //If the event already exists add the user logs
                 if ($existingData->isNotEmpty()) {
-                    $existingData = $existingData->first();
-                    $this->addUserLogs($existingData, $event, $organization);
+                    $existingLog = $existingData->first();
+                    $this->addUserLogs($existingLog, $event, $this->organization);
                 } else {
                     //Create service event
                     $attributes = [
                         'name' => $event['name'],
-                        'points' => $this->getPointTotal($event['name']),
+                        'points' => null //$this->getPointTotal($event['name']),
                     ];
 
-                    $involvementEvent = $organization->addInvolvementEvent($attributes);
-                    //If it is set add the user logs
+                    $involvementEvent = $this->organization->addInvolvementEvent($attributes, $this->newServiceEvents);
+                    //If the event is added just add the user logs
                     if (isset($involvementEvent)) {
-                        $this->addUserLogs($involvementEvent, $event, $organization);
+                        $this->addUserLogs($involvementEvent, $event, $this->organization);
+                        $this->newServiceEvents->push($involvementEvent);
                     } else {
                         //Grab the event from the database and add the user logs to it
-                        $match = [
-                            'name' => $event['name'],
-                            'organization_id' => $organization->id,
-                        ];
-                        $involvementEvent = $organization->involvement()->where($match)->get()->first();
-                        $this->addUserLogs($involvementEvent, $event, $organization);
+                        $involvementEvent = $this->newServiceEvents->where('name', $event['name'])->first();
+                        $this->addUserLogs($involvementEvent, $event, $this->organization);
                     }
                 }
             }
         }
+        InvolvementLog::insert($this->eventLogs);
     }
 
 
-    private function addUserLogs($InvolvementEvent, $currentEvent, $organization)
+    private function addUserLogs($involvementEvent, $currentEvent)
     {
-        foreach (explode(', ', $currentEvent['members_involved']) as $user) {
-            $user = User::where(['name' => $user, 'organization_id' => $organization->id])->get()->first();
-            if (isset($user)) {
-                $user->addInvolvementLog($InvolvementEvent, Date::excelToDateTimeObject($currentEvent['date']));
+        $now = Carbon::now()->toDateTimeString();
+        foreach ($this->users as $user) {
+            if (in_array($user['name'], explode(', ', $currentEvent['members_involved']))) {
+                array_push($this->eventLogs, [
+                    'organization_id' => $this->organization->id,
+                    'involvement_id' => $involvementEvent->id,
+                    'user_id' => $user->id,
+                    'date_of_event' => Date::excelToDateTimeObject($currentEvent['date']),
+                    'created_at' => $now,
+                    'updated_at' => $now
+                ]);
             }
         }
     }
 
-
-    // Change this when we make it dynamic
-    private function getPointTotal($eventName)
+    public function getNewServiceEvents(): collection
     {
-        switch ($eventName) {
-            case 'Socials':
-                return 15;
-            case 'Recruitment events':
-                return 15;
-            case 'Brotherhood events':
-                return 10;
-            case 'Alumni events':
-                return 10;
-            case 'Philanthropy events':
-                return 10;
-            case 'PI':
-                return 5;
-            case 'Intramurals':
-                return 5;
-            case 'Pay dues in full':
-                return 10;
-            case 'Move into the house':
-                return 70;
-            case 'Leadership role in another organization':
-                return 15;
-            case 'Attend other organizations events':
-                return 10;
-        }
+        return $this->newServiceEvents;
+    }
+
+    public function getImportData(): array
+    {
+        return $this->eventLogs;
     }
 }

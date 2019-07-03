@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Involvement;
 use Illuminate\Http\Request;
 use App\Imports\InvolvementsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Commons\NotificationFunctions;
 use App\Commons\ImportHelperFunctions;
 use App\Commons\InvolvementHelperFunctions;
-use DB;
 
 class InvolvementController extends Controller
 {
@@ -22,8 +20,12 @@ class InvolvementController extends Controller
 
     public function index()
     {
-        $involvements = auth()->user()->organization->involvement;
-        return view('involvement.index', compact('involvements'));
+        $organization = auth()->user()->organization;
+        $involvements = $organization->involvement;
+        $verifiedMembers = $organization->getVerifiedMembers();
+        $verifiedMembers = null;
+
+        return view('involvement.index', compact('involvements', 'verifiedMembers'));
     }
 
     /**
@@ -65,17 +67,6 @@ class InvolvementController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Involvement  $involvement
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Involvement $involvement)
-    {
-        return view('involvement.edit', compact('involvement'));
-    }
-
     public function import(Request $request)
     {
         $request->validate(
@@ -86,6 +77,7 @@ class InvolvementController extends Controller
             ['InvolvementData.mimes' => 'You must upload a spread sheet']
         );
         $file = request()->file('InvolvementData');
+
         $requiredHeadings = [
             'name',
             'members_involved',
@@ -94,13 +86,40 @@ class InvolvementController extends Controller
 
         if (ImportHelperFunctions::validateHeadingRow($file, $requiredHeadings)) {
             ImportHelperFunctions::storeFileLocally($file, '/involvement');
-            Excel::import(new InvolvementsImport, $file);
 
-            NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');
-            return redirect('/involvementLog');
+            $organization = auth()->user()->organization;
+            $import = new InvolvementsImport(InvolvementHelperFunctions::getExistingLogs(), $organization, $organization->users);
+            Excel::import($import, $file);
+
+            return $this->checkNullEvents($import->getNewServiceEvents());
         } else {
             NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
             return back();
         }
+    }
+
+    private function checkNullEvents($nullEvents)
+    {
+        if ($nullEvents->isNotEmpty()) {
+            return view('/involvement/edit', compact('nullEvents'));
+        } else {
+            NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');
+            return redirect('/involvementLog');
+        }
+    }
+
+    public function setPoints(Request $request)
+    {
+        $attributes = $request->all();
+        $pointData = array_combine($attributes['name'], $attributes['point_value']);
+        $involvements = auth()->user()->organization->involvement;
+
+        foreach ($pointData as $eventName => $points) {
+            $event = $involvements->filter(function ($event) use ($eventName, $points) {
+                return $event['name'] === $eventName && $event['organization_id'] === auth()->user()->organization->id;
+            })->first();
+            $event->update(['points' => $points]);
+        }
+        return redirect('/involvementLog');
     }
 }

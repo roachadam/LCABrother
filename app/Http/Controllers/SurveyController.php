@@ -44,7 +44,7 @@ class SurveyController extends Controller
         $serializedFieldNames = serialize($attributes['field_name']);
         $serializedFieldTypes = serialize($attributes['field_type']);
 
-        //Strips out field if they just hit the add field button but don't insert a name
+        //Strips out field if they just hit the add field button but don't insert a name 
         foreach($attributes['field_name'] as $key =>$fieldName){
             if($fieldName == null)
             {

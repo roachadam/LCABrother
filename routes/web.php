@@ -76,9 +76,11 @@ Route::post('survey/{survey}/notify', 'SurveyController@notify');
 Route::get('survey/{survey}/responses', 'SurveyController@viewResponses');
 Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store');
 
-Route::resource('involvement', 'InvolvementController')->except(['destroy', 'update', 'show']);
+Route::resource('involvement', 'InvolvementController')->except(['destroy', 'update', 'show', 'edit']);
 Route::resource('involvementLog', 'InvolvementLogController')->only(['index', 'store', 'destroy']);
+Route::get('/involvement/edit', 'InvolvementController@edit');
 Route::post('/involvement/import', 'InvolvementController@import');
+Route::post('/involvement/setPoints', 'InvolvementController@setPoints');
 Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown');
 
 
