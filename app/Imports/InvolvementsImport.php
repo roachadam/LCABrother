@@ -48,18 +48,15 @@ class InvolvementsImport implements ToCollection, WithHeadingRow
                         'points' => null //$this->getPointTotal($event['name']),
                     ];
 
-                    $involvementEvent = $this->organization->addInvolvementEvent($attributes);
+                    $involvementEvent = $this->organization->addInvolvementEvent($attributes, $this->newServiceEvents);
+                    $involvementEvent;
                     //If the event is added just add the user logs
                     if (isset($involvementEvent)) {
                         $this->addUserLogs($involvementEvent, $event, $this->organization);
                         array_push($this->newServiceEvents, $involvementEvent);
                     } else {
                         //Grab the event from the database and add the user logs to it
-                        $match = [
-                            'name' => $event['name'],
-                            'organization_id' => $this->organization->id,
-                        ];
-                        $involvementEvent = $this->organization->involvement()->where($match)->get()->first();
+                        $involvementEvent = collect($this->newServiceEvents)->where('name', $event['name'])->first();
                         $this->addUserLogs($involvementEvent, $event, $this->organization);
                     }
                 }

@@ -8,9 +8,8 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use DB;
 use App\Commons\NotificationFunctions;
-use Maatwebsite\Excel\Concerns\WithBatchInserts;
 
-class GradesImport implements ToModel, WithHeadingRow, WithBatchInserts
+class GradesImport implements ToModel, WithHeadingRow
 {
     //use Importable;
     /**
@@ -60,10 +59,5 @@ class GradesImport implements ToModel, WithHeadingRow, WithBatchInserts
     {
         $array = str_replace(',', '', explode(' ', $string));
         return $array[1] . ' ' . $array[0];
-    }
-
-    public function batchSize(): int
-    {
-        return 1000;
     }
 }

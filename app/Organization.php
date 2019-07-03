@@ -132,9 +132,9 @@ class Organization extends Model
         return $activeServiceEvents;
     }
 
-    public function addInvolvementEvent($attributes)
+    public function addInvolvementEvent($attributes, $newServiceEvents)
     {
-        if (empty(Involvement::where('name', $attributes['name'])->get()->first())) {
+        if (collect($newServiceEvents)->where('name', $attributes['name'])->isEmpty()) {
             return $this->involvement()->create($attributes);
         }
     }
