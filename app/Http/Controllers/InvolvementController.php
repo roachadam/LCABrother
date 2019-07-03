@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Involvement;
 use Illuminate\Http\Request;
 use App\Imports\InvolvementsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Commons\NotificationFunctions;
 use App\Commons\ImportHelperFunctions;
 use App\Commons\InvolvementHelperFunctions;
-use DB;
-use App\Organization;
 
 class InvolvementController extends Controller
 {
@@ -23,17 +20,6 @@ class InvolvementController extends Controller
 
     public function index()
     {
-        // $organization = Organization::load(
-        //     [
-        //         'involvement' => function ($query) {
-        //             $query->where('organization_id', 1);
-        //         },
-        //         'users' => function ($query) {
-        //             $query->where('organization_verified', 1);
-        //         }
-        //     ]
-        // )->get()->first();
-
         $organization = auth()->user()->organization;
         $involvements = $organization->involvement;
         $verifiedMembers = $organization->getVerifiedMembers();
@@ -114,7 +100,7 @@ class InvolvementController extends Controller
 
     private function checkNullEvents($nullEvents)
     {
-        if (count($nullEvents) > 0) {
+        if ($nullEvents->isNotEmpty()) {
             return view('/involvement/edit', compact('nullEvents'));
         } else {
             NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');

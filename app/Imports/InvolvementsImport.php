@@ -5,30 +5,25 @@ namespace App\Imports;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
-use App\Commons\InvolvementHelperFunctions;
-use App\User;
-use App\Organization;
 use Carbon\Carbon;
 use App\InvolvementLog;
 
 class InvolvementsImport implements ToCollection, WithHeadingRow
 {
-    private $newServiceEvents = array();
+    private $newServiceEvents;
     private $existingData;
     private $organization;
     private $users;
     private $eventLogs;
-    private $events;
 
     public function __construct($existingData = null, $organization, $users)
     {
         $this->existingData = $existingData;
         $this->organization = $organization;
         $this->users = $users;
+        $this->newServiceEvents = collect();
         $this->eventLogs = array();
-        $this->events = array();
     }
 
     public function collection(Collection $involvementData)
@@ -49,20 +44,18 @@ class InvolvementsImport implements ToCollection, WithHeadingRow
                     ];
 
                     $involvementEvent = $this->organization->addInvolvementEvent($attributes, $this->newServiceEvents);
-                    $involvementEvent;
                     //If the event is added just add the user logs
                     if (isset($involvementEvent)) {
                         $this->addUserLogs($involvementEvent, $event, $this->organization);
-                        array_push($this->newServiceEvents, $involvementEvent);
+                        $this->newServiceEvents->push($involvementEvent);
                     } else {
                         //Grab the event from the database and add the user logs to it
-                        $involvementEvent = collect($this->newServiceEvents)->where('name', $event['name'])->first();
+                        $involvementEvent = $this->newServiceEvents->where('name', $event['name'])->first();
                         $this->addUserLogs($involvementEvent, $event, $this->organization);
                     }
                 }
             }
         }
-        //Organization::insert($this->events);
         InvolvementLog::insert($this->eventLogs);
     }
 
@@ -84,13 +77,12 @@ class InvolvementsImport implements ToCollection, WithHeadingRow
         }
     }
 
-
-    public function getNewServiceEvents(): array
+    public function getNewServiceEvents(): collection
     {
         return $this->newServiceEvents;
     }
 
-    public function getImportData()
+    public function getImportData(): array
     {
         return $this->eventLogs;
     }

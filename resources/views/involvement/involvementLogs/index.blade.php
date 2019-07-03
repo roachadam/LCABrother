@@ -12,7 +12,7 @@
             </div>
         </div>
     </div>
-    </header>
+</header>
     <section class="card">
     <div class="card-block">
         <table id="table" class="display table table-bordered" cellspacing="0" width="100%">

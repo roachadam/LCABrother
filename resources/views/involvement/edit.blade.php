@@ -1,6 +1,15 @@
 @extends('layouts.main')
 
 @section('content')
+    <header class="section-header">
+        <div class="tbl">
+            <div class="tbl-row">
+                <div class="tbl-cell">
+                    <h2>Set Generated Involvement Event Points</h2>
+                </div>
+            </div>
+        </div>
+    </header>
     <form action="/involvement/setPoints" method="POST">
         @csrf
         @foreach ($nullEvents as $event)
