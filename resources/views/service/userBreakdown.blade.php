@@ -38,7 +38,7 @@
                     <td> {{ $serviceLog->money_donated !== null ? $serviceLog->money_donated : "N/A"}} </td>
                     <td>{{ date('m-d-y', strtotime($serviceLog->created_at)) }}</td>
                     @if (auth()->user()->canManageService())
-                        <td> <a href="/serviceLog/{{$serviceLog->id}}/edit" class="btn btn-primary">Edit</a> </td>
+                        <td><a href="/serviceLog/{{$serviceLog->id}}/edit" class="btn btn-primary">Edit</a></td>
                     @endif
 
                 </tr>

@@ -33,7 +33,8 @@ class AcademicsController extends Controller
         $users->load(['Academics' => function ($query) {
             $query->orderBy('created_at', 'desc');
         }]);
-        return view('academics.index', compact('users'));
+
+        return view('academics.index', compact('users', 'academicStandings'));
     }
 
     /**
@@ -94,9 +95,11 @@ class AcademicsController extends Controller
 
     public function edit(Academics $academics)
     {
-        $academics = auth()->user()->organization->users->firstWhere('id', $academics->user_id)->latestAcademics();
+        $organization = auth()->user()->organization;
+
+        $academics = $organization->users->firstWhere('id', $academics->user_id)->latestAcademics();
         $user = User::find($academics->user_id);
-        $academicStandings = AcademicStandings::where('organization_id', auth()->user()->organization->id)->get()->sortByDesc('Term_GPA_Min');
+        $academicStandings = AcademicStandings::where('organization_id', $organization->id)->get()->sortByDesc('Term_GPA_Min');
         return view('academics.override', compact('academics', 'user', 'academicStandings'));
     }
 
