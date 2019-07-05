@@ -5,7 +5,14 @@
         <div class="tbl">
             <div class="tbl-row">
                 <div class="tbl-cell">
-                <h2>{{$serviceEvent->name}} Attendance</h2>
+                    <div class="row">
+                        <h2 class="card-title">{{$serviceEvent->name}} Attendance</h2>
+                        <div class="ml-auto">
+                            @if (auth()->user()->canManageService())
+                                <button type="button" class="btn btn-inline btn-danger" data-toggle="modal" data-target="#deleteModal">Delete Event</button>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,7 +46,7 @@
                                         <form action="/serviceLog/{{$log->id}}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <td><button type="submit" class="btn btn-inline">Remove</button>    </td>
+                                            <td><button type="submit" class="btn btn-inline btn-danger-outline">Remove</button>    </td>
                                         </form>
                                     @endif
                                 </tr>
@@ -51,10 +58,6 @@
             @endif
         </div>
     </section>
-
-    @if (auth()->user()->canManageService())
-        <button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#deleteModal">Delete Event</button>
-    @endif
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

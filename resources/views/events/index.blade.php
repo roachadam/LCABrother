@@ -8,7 +8,6 @@
         <div class="tbl-row">
             <div class="tbl-cell">
                 <h2>Events</h2>
-                {{-- <div class="subtitle">Welcome to Ultimate Dashboard</div> --}}
             </div>
         </div>
     </div>

@@ -7,8 +7,7 @@
     <div class="tbl">
         <div class="tbl-row">
             <div class="tbl-cell">
-            <h2>{{$user->name}} Service Breakdown</h2>
-                {{-- <div class="subtitle">Welcome to Ultimate Dashboard</div> --}}
+            <h2>{{$user->name}}'s Service Breakdown</h2>
             </div>
         </div>
     </div>
@@ -38,7 +37,7 @@
                     <td> {{ $serviceLog->hours_served !== null ? $serviceLog->hours_served : "N/A" }} </td>
                     <td> {{ $serviceLog->money_donated !== null ? $serviceLog->money_donated : "N/A"}} </td>
                     <td>{{ date('m-d-y', strtotime($serviceLog->created_at)) }}</td>
-                    @if (auth()->user()->canManageService() || auth()->id() === $serviceLog->user_id)
+                    @if (auth()->user()->canManageService())
                         <td> <a href="/serviceLog/{{$serviceLog->id}}/edit" class="btn btn-primary">Edit</a> </td>
                     @endif
 

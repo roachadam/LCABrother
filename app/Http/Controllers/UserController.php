@@ -17,7 +17,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('MemberView', ['only' => ['index', 'contact']]);
+        $this->middleware('MemberView', ['only' => ['index']]);
         $this->middleware('orgverified', ['only' => ['index', 'contact']]);
     }
 
@@ -30,8 +30,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        //$organization = auth()->user()->organization()->get();
-        //$users = $organization->users();
         $org = Auth::user()->organization;
         $members = $org->users()->where('organization_verified', 1)->get();
         return view('highzeta.members', compact('members'));
@@ -178,9 +176,9 @@ class UserController extends Controller
 
         return back();
     }
-    public function serviceBreakdown(User $user){
+    public function serviceBreakdown(User $user)
+    {
         $serviceLogs = $user->getActiveServiceLogs();
         return view('service.userBreakdown', compact('serviceLogs', 'user'));
     }
-
 }
