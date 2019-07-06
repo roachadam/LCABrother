@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
 @section('css')
-<link href="{{ asset('css/bootstrap-combobox.css') }}" rel="stylesheet">
-<link href="{{ asset('css/separate/vendor/bootstrap-daterangepicker.min.css') }}" rel="stylesheet" >
+    <link href="{{ asset('css/bootstrap-combobox.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/separate/vendor/bootstrap-daterangepicker.min.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -14,8 +14,7 @@
                             <h2>{{ auth()->user()->organization->getActiveSemester()->semester_name }}: Service Events</h2>
                             <div class="ml-auto">
                                 <button type="button" class="btn btn-inline btn-secondary-outline" data-toggle="modal" data-target="#submitServiceHours">Submit Service Hours</button>
-                                <a href="/users/{{auth()->user()->id}}/service" class="btn btn-inline btn-primary-outline">View My Service Hours</a>
-                                <a href="/serviceEvents/indexByUser" class="btn btn-inline btn-primary-outline">View By Log</a>
+                                <a href="/serviceEvents/indexByUser" class="btn btn-inline btn-primary">View By Log</a>
                             </div>
                         </div>
                     </div>

@@ -11,7 +11,7 @@ class ServiceLogController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('orgverified');
-        $this->middleware('ManageService');
+        //$this->middleware('ManageService', ['only' => '']);
     }
 
     /**

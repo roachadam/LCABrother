@@ -17,7 +17,7 @@ class ServiceEventController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('orgverified');
-        $this->middleware('ManageService', ['only' => ['indexByUser']]);
+        $this->middleware('ManageService', ['only' => ['delete', 'edit', 'update']]);
     }
 
     public function index()

@@ -8,7 +8,10 @@
                 <div class="tbl-cell">
                     <div class="row">
                         <h2>{{ auth()->user()->organization->getActiveSemester()->semester_name }}: Service Logs</h2>
-                        <a href="/serviceEvent" class="btn btn-primary ml-auto">View By Event</a>
+                        <div class="ml-auto">
+                            <a href="/users/{{auth()->user()->id}}/service" class="btn btn-inline btn-secondary-outline">View My Service Breakdown</a>
+                            <a href="/serviceEvent" class="btn btn-inline btn-primary">View By Event</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -22,7 +25,9 @@
                     <th>Name</th>
                     <th>Service Hours</th>
                     <th>Money Donated</th>
-                    <th>View</th>
+                    @if(auth()->user()->canManageService())
+                        <th>View</th>
+                    @endif
                 </tr>
                 </thead>
                 <tbody>
@@ -31,7 +36,9 @@
                             <td>{{ $user->name }}</td>
                             <td> {{ $user->getserviceHours() }} </td>
                             <td>${{ $user->getMoneyDonated() }} </td>
-                            <td><a href="/users/{{$user->id}}/service" class="btn btn-inline btn-primary">View</a></td>
+                            @if(auth()->user()->canManageService())
+                                <td><a href="/users/{{$user->id}}/service" class="btn btn-inline btn-primary">View</a></td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>

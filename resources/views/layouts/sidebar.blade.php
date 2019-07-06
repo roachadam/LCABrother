@@ -12,6 +12,12 @@
                     <span class="lbl">Service Events</span>
                 </a>
         </li>
+        <li class="blue {{ request()->is('serviceEvents/indexByUser') ? 'opened' : '' }}">
+            <a href="/serviceEvents/indexByUser">
+                <i class="glyphicon glyphicon-calendar"></i>
+                <span class="lbl">Service Logs</span>
+            </a>
+        </li>
         <li class="pink {{ request()->is('involvementLog') ? 'opened' : '' }}">
             <a href="/involvementLog">
                 <i class="glyphicon glyphicon-equalizer"></i>
@@ -68,14 +74,6 @@
                     </span>
                     </a>
                 </li>
-            @endif
-            @if (auth()->user()->canManageService())
-            <li class="blue {{ request()->is('serviceEvents/indexByUser') ? 'opened' : '' }}">
-                <a href="/serviceEvents/indexByUser">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                    <span class="lbl">Service Logs</span>
-                </a>
-            </li>
             @endif
             @if (auth()->user()->canManageInvolvment())
                 <li class="red {{ request()->is('involvement') ? 'opened' : '' }}">
