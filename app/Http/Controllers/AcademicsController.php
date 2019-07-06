@@ -34,7 +34,7 @@ class AcademicsController extends Controller
             $query->orderBy('created_at', 'desc');
         }]);
 
-        return view('academics.index', compact('users', 'academicStandings'));
+        return view('academics.index', compact('users'));
     }
 
     /**
