@@ -110,7 +110,11 @@ class InvolvementController extends Controller
 
     public function setPoints(Request $request)
     {
-        $attributes = $request->all();
+        $attributes = $request->validate([
+            'name' => ['required'],
+            'point_value' => ['required', 'numeric'],
+        ]);
+
         $pointData = array_combine($attributes['name'], $attributes['point_value']);
         $involvements = auth()->user()->organization->involvement;
 
