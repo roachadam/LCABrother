@@ -6,22 +6,16 @@
                 <span class="lbl ">Dashboard</span>
             </a>
         </li>
-        <li class="red {{ request()->is('serviceEvent/create') ? 'opened' : '' }}">
-            <a href="/serviceEvent/create">
-                <i class="font-icon glyphicon glyphicon-send"></i>
-                <span class="lbl">Submit Service Hours</span>
-            </a>
-        </li>
         <li class="green {{ request()->is('serviceEvent') ? 'opened' : '' }}">
                 <a href="/serviceEvent">
                     <i class="font-icon glyphicon glyphicon-leaf"></i>
-                    <span class="lbl">View Service Events</span>
+                    <span class="lbl">Service Events</span>
                 </a>
         </li>
         <li class="blue {{ request()->is('serviceEvents/indexByUser') ? 'opened' : '' }}">
             <a href="/serviceEvents/indexByUser">
                 <i class="glyphicon glyphicon-calendar"></i>
-                <span class="lbl">View Service Logs</span>
+                <span class="lbl">Service Logs</span>
             </a>
         </li>
         <li class="pink {{ request()->is('involvementLog') ? 'opened' : '' }}">
@@ -86,7 +80,7 @@
                     <a href="/involvement">
                     <span>
                         <i class="glyphicon glyphicon-signal"></i>
-                        <span class="lbl">Submit Involvement Data</span>
+                        <span class="lbl">Involvement</span>
                     </span>
                     </a>
                 </li>
@@ -96,7 +90,7 @@
                     <a href="/academics">
                     <span>
                         <i class="fa fa-book"></i>
-                        <span class="lbl">Manage Academics</span>
+                        <span class="lbl">Academics</span>
                     </span>
                     </a>
                 </li>

@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h2 >Involvement</h2>
+<h2>Involvement</h2>
 
 <div class="container">
     <div class="container">
@@ -64,7 +64,7 @@
 
     <div class="col-md-5">
         <div class="card">
-            <div class="card-header">{{ __('Create New Involvement Item') }}</div>
+            <div class="card-header">{{ __('Manage Involvement Data') }}</div>
             <div class="btn-toolbar offset-1">
                 <form action="/involvement/create">
                     <button type="submit" class="btn btn-inline btn-primary">Create New</button>
@@ -75,7 +75,7 @@
     </div>
 
 
-    <!--.modal for notifying selected memebrs-->
+    <!--.modal for Uploading Involvement Data<-->
     <div class="modal fade" id="uploadInvolvementData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

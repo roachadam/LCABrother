@@ -21,6 +21,22 @@
 
         @yield('css')
 
+        <style>
+            @media (max-width: 560px) {
+                #headerButtons .btn {
+                    width:100%;
+                }
+            }
+
+            @media (min-width: 540px) and (max-width: 768px) {
+                #headerButtons {
+                    margin-top: 10px;
+                    margin-left:auto;
+                    margin-right:auto;
+                }
+            }
+        </style>
+
         <link href="{{ asset('css/main.css') }}" rel="stylesheet">
         <!-- End Global Styles -->
 

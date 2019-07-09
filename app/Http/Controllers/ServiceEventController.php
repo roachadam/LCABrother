@@ -17,7 +17,7 @@ class ServiceEventController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('orgverified');
-        $this->middleware('ManageService');
+        $this->middleware('ManageService', ['only' => ['delete', 'edit', 'update']]);
     }
 
     public function index()
@@ -38,15 +38,13 @@ class ServiceEventController extends Controller
         $activeSemester = auth()->user()->organization->getActiveSemester();
         $attributes = $this->validateServiceEvent();
 
-        $serviceEvent = ServiceEvent::where('name',$attributes['name'], 'AND')
-        ->where('created_at', '>', $activeSemester->start_date)
-        ->first();
+        $serviceEvent = ServiceEvent::where('name', $attributes['name'], 'AND')
+            ->where('created_at', '>', $activeSemester->start_date)
+            ->first();
         $attributes['date_of_event'] = date('Y-m-d', strtotime($attributes['date_of_event']));
-      
-        if ($serviceEvent!==null)
-        {
-            if(!$serviceEvent->userAttended(auth()->user()))
-            {
+
+        if ($serviceEvent !== null) {
+            if (!$serviceEvent->userAttended(auth()->user())) {
 
                 $attributes['organization_id'] = auth()->user()->organization_id;
                 $attributes['user_id'] = auth()->id();
