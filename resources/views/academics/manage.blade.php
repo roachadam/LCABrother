@@ -1,5 +1,40 @@
 @extends('layouts.main')
 
+@section('css')
+<style>
+    /* Float four columns side by side */
+    .column {
+        float: left;
+        width: 50%;
+        padding: 0 10px;
+    }
+
+    /* Remove extra left and right margins, due to padding in columns */
+    .row {margin: 0 -5px;}
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    /* Style the counter cards */
+    .card {
+        padding: 16px;
+    }
+
+    /* Responsive columns - one column layout (vertical) on small screens */
+    @media screen and (max-width: 700px) {
+        .column {
+            width: 100%;
+            display: block;
+            margin-bottom: 20px;
+        }
+    }
+</style>
+@endsection
+
 @section('content')
     <div class="row">
         <section class="card column m-t-md">
@@ -168,39 +203,4 @@
         </div><!--.modal-->
     @endif
     <a href="/academics" class="btn btn btn-secondary">Back</a>
-
-    @section('css')
-        <style>
-            /* Float four columns side by side */
-            .column {
-                float: left;
-                width: 50%;
-                padding: 0 10px;
-            }
-
-            /* Remove extra left and right margins, due to padding in columns */
-            .row {margin: 0 -5px;}
-
-            /* Clear floats after the columns */
-            .row:after {
-                content: "";
-                display: table;
-                clear: both;
-            }
-
-            /* Style the counter cards */
-            .card {
-                padding: 16px;
-            }
-
-            /* Responsive columns - one column layout (vertical) on small screens */
-            @media screen and (max-width: 700px) {
-                .column {
-                    width: 100%;
-                    display: block;
-                    margin-bottom: 20px;
-                }
-            }
-        </style>
-    @endsection
 @endsection
