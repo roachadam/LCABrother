@@ -11,11 +11,6 @@ use App\Events\DuplicateGuestInvited;
 
 class InviteController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('orgverified');
-    }
     public function index(Event $event)
     {
         $invites = auth()->user()->getInvites($event);

@@ -12,8 +12,7 @@ class InvolvementLogController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('orgverified');
+        $this->middleware('ManageInvolvement')->except('index');
     }
 
     public function index()
@@ -30,7 +29,6 @@ class InvolvementLogController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
         $attributes = request()->validate([
             'involvement_id' => 'required',
             'usersInvolved' => ['required', 'array'],

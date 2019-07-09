@@ -9,13 +9,6 @@ use App\Events\MemberAnsweredSurvey;
 
 class SurveyAnswersController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('orgverified');
-    }
-
     public function index()
     {
         //

@@ -14,12 +14,11 @@ use DB;
 class UserController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('MemberView', ['only' => ['index']]);
-        $this->middleware('orgverified', ['only' => ['index', 'contact']]);
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('MemberView', ['only' => ['index']]);
+    //     $this->middleware('orgverified', ['only' => ['index', 'contact']]);
+    // }
 
     /**
      * Display a listing of the resource.

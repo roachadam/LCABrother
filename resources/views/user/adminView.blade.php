@@ -54,7 +54,7 @@
                             @endif
                         </div>
 
-                        <!--.modal for confirming deletion-->
+                        <!--.modal for confirming move to alumni-->
                         <div class="modal fade" id="MakeAlumModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">

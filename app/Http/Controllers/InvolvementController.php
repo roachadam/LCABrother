@@ -13,9 +13,7 @@ class InvolvementController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('orgverified');
-        $this->middleware('ManageInvolvement');
+        $this->middleware('ManageInvolvement')->except('index');
     }
 
     public function index()
@@ -23,7 +21,6 @@ class InvolvementController extends Controller
         $organization = auth()->user()->organization;
         $involvements = $organization->involvement;
         $verifiedMembers = $organization->getVerifiedMembers();
-        $verifiedMembers = null;
 
         return view('involvement.index', compact('involvements', 'verifiedMembers'));
     }

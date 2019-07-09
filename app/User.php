@@ -14,7 +14,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Commons\NotificationFunctions;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -154,6 +154,7 @@ class User extends Authenticatable
         }
         return $points;
     }
+
     public function getActiveInvolvementLogs()
     {
         $activeSemester = $this->organization->getActiveSemester();

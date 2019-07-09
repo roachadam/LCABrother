@@ -11,20 +11,12 @@ use DB;
 
 class RoleController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('orgverified');
-        $this->middleware('ManageMembers');
-    }
-
     public function index()
     {
         $permissionNames = Schema::getColumnListing('permissions');
 
         foreach ($permissionNames as $key => $value) {
-            if($value == 'id' || $value == 'created_at' || $value == 'updated_at'){
+            if ($value == 'id' || $value == 'created_at' || $value == 'updated_at') {
                 unset($permissionNames[$key]);
             }
         }
@@ -59,10 +51,10 @@ class RoleController extends Controller
 
         unset($attributes['name']);
 
-        foreach($attributes as $key => $att){
-            if($att == 'on'){
+        foreach ($attributes as $key => $att) {
+            if ($att == 'on') {
                 $attributes[$key] = 1;
-             }
+            }
         }
         $role->setPermissions($attributes);
 
@@ -76,9 +68,7 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Role $role)
-    {
-
-    }
+    { }
 
     /**
      * Show the form for editing the specified resource.
@@ -91,7 +81,7 @@ class RoleController extends Controller
         $permissionNames = Schema::getColumnListing('permissions');
 
         foreach ($permissionNames as $key => $value) {
-            if($value == 'id' || $value == 'created_at' || $value == 'updated_at'){
+            if ($value == 'id' || $value == 'created_at' || $value == 'updated_at') {
                 unset($permissionNames[$key]);
             }
         }
@@ -112,14 +102,12 @@ class RoleController extends Controller
 
         $permission = $role->permission;
         foreach ($permissionNames as $key => $value) {
-            if($value == 'id' || $value == 'created_at' || $value == 'updated_at'){
+            if ($value == 'id' || $value == 'created_at' || $value == 'updated_at') {
                 unset($permissionNames[$key]);
-            }
-            else{
-                if(isset($attributes[$value])){
+            } else {
+                if (isset($attributes[$value])) {
                     $permission->$value = 1;
-                }
-                else{
+                } else {
                     $permission->$value = 0;
                 }
             }
@@ -137,35 +125,35 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         abort_if(!auth()->user()->canManageMembers(), 403);
-        $match = ['name' => 'Basic', 'organization_id' =>auth()->user()->organization->id];
+        $match = ['name' => 'Basic', 'organization_id' => auth()->user()->organization->id];
         $users = User::where('role_id', '=', $role->id)->get();
-        $basicRole = Role::where(['name' => 'Basic','organization_id'=> auth()->user()->organization->id ])->first();
-        foreach($users as $user){
+        $basicRole = Role::where(['name' => 'Basic', 'organization_id' => auth()->user()->organization->id])->first();
+        foreach ($users as $user) {
             $user->setRole($basicRole);
         }
 
         $role->delete();
         return redirect('/role');
     }
-    public function users(Role $role){
-        $users = User::where(['role_id'=> $role->id, 'organization_id' => auth()->user()->organization->id])->get();
-        $others = User::where([['role_id', '!=' , $role->id], ['organization_id','=', auth()->user()->organization->id]])->get();
-        return view('roles.userRoles', compact('role', 'users','others'));
+    public function users(Role $role)
+    {
+        $users = User::where(['role_id' => $role->id, 'organization_id' => auth()->user()->organization->id])->get();
+        $others = User::where([['role_id', '!=', $role->id], ['organization_id', '=', auth()->user()->organization->id]])->get();
+        return view('roles.userRoles', compact('role', 'users', 'others'));
     }
-    public function massSet(Request $request, $role){
+    public function massSet(Request $request, $role)
+    {
         $attributes = $request->all();
-        if(isset($attributes['users'])){
-            foreach($attributes['users'] as $user_id){
+        if (isset($attributes['users'])) {
+            foreach ($attributes['users'] as $user_id) {
                 $user = User::find($user_id);
-                if($user->role->name == 'Admin'){
-                    if($user->id != auth()->user()->organization->owner->id){
+                if ($user->role->name == 'Admin') {
+                    if ($user->id != auth()->user()->organization->owner->id) {
                         $user->setRole($role);
                     }
-                }
-                else{
+                } else {
                     $user->setRole($role);
                 }
-
             }
         }
         return back();

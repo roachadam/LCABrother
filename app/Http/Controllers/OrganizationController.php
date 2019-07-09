@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use App\Organization;
 use App\User;
@@ -8,11 +9,6 @@ use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
 {
-
-    public function __construct(){
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         $orgs =  Organization::all();
@@ -21,14 +17,13 @@ class OrganizationController extends Controller
 
     public function create()
     {
-
         return view('organizations.create');
     }
 
     public function store(Request $request)
     {
         $attributes = request()->validate([
-            'name' => ['required','min: 3', 'max:255'],
+            'name' => ['required', 'min: 3', 'max:255'],
         ]);
         $user = Auth::user();
         $org = Organization::create($attributes);
@@ -42,25 +37,4 @@ class OrganizationController extends Controller
         $user->setVerification(true);
         return redirect('/goals/create');
     }
-
-    public function show(Organization $organization)
-    {
-        //
-    }
-
-    public function edit(Organization $organization)
-    {
-        //
-    }
-
-    public function update(Request $request, Organization $organization)
-    {
-        //
-    }
-
-    public function destroy(Organization $organization)
-    {
-        //
-    }
-
 }
