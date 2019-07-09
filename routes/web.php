@@ -37,6 +37,7 @@ Route::post('/organization/{organization}/register', 'InvitedRegisterController@
 Auth::routes(['verify' => true]);
 
 
+//Can only access if user is logged in
 Route::middleware('auth')->group(function () {
     //Registration Routes
     Route::resource('user', 'UserController');
@@ -55,8 +56,6 @@ Route::middleware('auth')->group(function () {
     Route::post('semester/initial', 'SemesterController@initial');
 
     Route::resource('academicStandings', 'AcademicStandingsController')->except(['update', 'destroy']);
-    Route::patch('/academicStandings/{academicStandings}', 'AcademicStandingsController@update');
-    Route::delete('/academicStandings/{academicStandings}', 'AcademicStandingsController@destroy');
 
     Route::post('/user/{user}/join', 'UserController@joinOrg');
 
@@ -159,6 +158,8 @@ Route::middleware('auth')->group(function () {
                 Route::post('/academics/notifyAll', 'NotifyController@academicsNotifyAll');
                 Route::post('/academics/notify/selected', 'NotifyController@academicsNotifySelected');
                 Route::post('/academics/notify/specificStanding', 'NotifyController@academicsNotifySpecificStanding');
+                Route::patch('/academicStandings/{academicStandings}', 'AcademicStandingsController@update');
+                Route::delete('/academicStandings/{academicStandings}', 'AcademicStandingsController@destroy');
             });
         });
     });

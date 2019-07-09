@@ -7,14 +7,6 @@ use Illuminate\Http\Request;
 
 class AcademicStandingsController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('orgverified');
-        $this->middleware('ManageAcademics');
-    }
-
     /**
      * Display a listing of the resource.
      *
