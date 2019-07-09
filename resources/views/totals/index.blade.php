@@ -3,7 +3,7 @@
 @section('content')
     <h3>{{ auth()->user()->organization->getActiveSemester()->semester_name }}</h3>
 
-    <div class="card">
+    <section class="card">
         <div class="card-header">{{ __('Organization Goals') }}</div>
         <div class="card-body">
             <div class="row">
@@ -26,7 +26,7 @@
                 @endif
             </div>
         </div>
-    </div>
+    </section>
 
     <div class="row">
         <div class="card col-md-5 offset-1 ml-5 mr-5">
@@ -69,8 +69,7 @@
                     <div class="row m-t-md offset-1">
                         <div class="col-md-6">
                             <p>
-                                <strong>Warning.</strong>
-                                <br>
+                                <strong style="color:red;">Warning</strong><br>
                                 This will reset your members goal information.
                             </p>
                             <label for="money_donated">Semester Name</label>

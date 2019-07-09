@@ -21,8 +21,6 @@ class UserController extends Controller
         $this->middleware('orgverified', ['only' => ['index', 'contact']]);
     }
 
-
-
     /**
      * Display a listing of the resource.
      *
@@ -32,39 +30,7 @@ class UserController extends Controller
     {
         $org = Auth::user()->organization;
         $members = $org->users()->where('organization_verified', 1)->get();
-        return view('highzeta.members', compact('members'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        //
+        return view('user.userInfo.members', compact('members'));
     }
 
     /**
@@ -107,7 +73,7 @@ class UserController extends Controller
     {
         $org = auth()->user()->organization;
         $members = $org->getVerifiedMembers();
-        return view('highzeta.contact', compact('members'));
+        return view('user.userInfo.contact', compact('members'));
     }
 
     public function joinOrg(Request $request, User $user)
@@ -133,11 +99,13 @@ class UserController extends Controller
         $user = auth()->user();
         return view('user.profile', compact('user'));
     }
+
     public function create_avatar()
     {
         $user = Auth::user();
         return view('user.avatar', compact('user', $user));
     }
+
     public function update_avatar(Request $request)
     {
 
@@ -169,6 +137,7 @@ class UserController extends Controller
     {
         return View('user.adminView', compact('user'));
     }
+
     public function orgRemove(Request $request, User $user)
     {
         $user->organization_verified = 0;
@@ -176,6 +145,7 @@ class UserController extends Controller
 
         return back();
     }
+
     public function serviceBreakdown(User $user)
     {
         $serviceLogs = $user->getActiveServiceLogs();

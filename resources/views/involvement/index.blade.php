@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h2 >Involvement</h2>
+<h2>Involvement</h2>
 
 <div class="container">
     <div class="container">

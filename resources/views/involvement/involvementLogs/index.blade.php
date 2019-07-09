@@ -1,20 +1,16 @@
 @extends('layouts.main')
 
 @section('content')
-
-
-<header class="section-header">
-    <div class="tbl">
-        <div class="tbl-row">
-            <div class="tbl-cell">
-                <h2>Involvement Points</h2>
-                {{-- <div class="subtitle">View members involvement points</div> --}}
-            </div>
-        </div>
-    </div>
-</header>
-    <section class="card">
+<section class="card">
     <div class="card-block">
+        <header class="card-header" style="border-bottom: 0">
+            <div class="row">
+                <h2 class="card-title">Involvement Points</h2>
+                {{-- <div class="ml-auto" id="headerButtons">
+                    This is where buttons should go if we need them
+                </div> --}}
+            </div>
+        </header>
         <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
             <thead>
             <tr>

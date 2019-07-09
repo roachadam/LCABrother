@@ -8,7 +8,7 @@
     }
 </style>
 @section('content')
- 
+
 <div class="card">
     <div class="card-header">Create Survey</div>
     <div class="card-body">

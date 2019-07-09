@@ -22,7 +22,7 @@
                         <div class="btn-toolbar">
                             <button type="button" class="btn btn-inline btn-warning" data-toggle="modal" data-target="#MakeAlumModal">Mark as Alumni</button>
 
-                            @if ($user->role->name !=='admin'&& $user->id !== $user->organization->owner->id && auth()->user()->canManageMembers())
+                            @if ($user->role->name !=='admin' && $user->id !== $user->organization->owner->id && auth()->user()->canManageMembers())
                                 <button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#RemoveFromOrgModal">Remove From Organization</button>
 
                                 <!--.modal for confirming deletion-->
@@ -74,7 +74,7 @@
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                                            <button type="submit" class="btn btn-inline btn-primary">Yes</button>
                                         </div>
                                     </form>
                                 </div>
@@ -112,5 +112,8 @@
     </div>
 </div>
 
+@section('js')
+    <script src="js/lib/bootstrap-sweetalert/sweetalert.min.js"></script>
+@endsection
 
 @endsection

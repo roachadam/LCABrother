@@ -3,17 +3,17 @@
 
 @section('content')
 <section class="card">
-        <div class="card-block">
-            <header class="card-header" style="border-bottom: 0">
-                <div class="row">
-                    <h2 class="card-title">Academics</h2>
-                    <div class="ml-auto">
-                        <a href="/academicStandings" class="btn btn-inline btn-secondary-outline">Override Academic Rules</a>
-                        <a href="/academics/manage" class="btn btn-inline btn-primar">Manage</a>
-                    </div>
+    <div class="card-block">
+        <header class="card-header" style="border-bottom: 0">
+            <div class="row">
+                <h2 class="card-title">Academics</h2>
+                <div class="ml-auto" id="headerButtons">
+                    <a href="/academicStandings" class="btn btn-inline btn-secondary-outline">Override Academic Rules</a>
+                    <a href="/academics/manage" class="btn btn-inline btn-primary">Manage</a>
                 </div>
-            </header>
-            @include('partials.errors')
+            </div>
+        </header>
+        @include('partials.errors')
 
 
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">

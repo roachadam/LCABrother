@@ -1,17 +1,16 @@
 @extends('layouts.main')
 
 @section('content')
-    <header class="section-header">
-            <div class="tbl">
-                <div class="tbl-row">
-                    <div class="tbl-cell">
-                        <h2>Attendance Record Events</h2>
-                    </div>
-                </div>
-            </div>
-    </header>
     <section class="card">
         <div class="card-block">
+            <header class="card-header" style="border-bottom: 0">
+                <div class="row">
+                    <h2 class="card-title">Attendance Record Events</h2>
+                    <div class="ml-auto" id="headerButtons">
+                        <a href="/calendarItem/create" class="btn btn-inline btn-primary">Create New Event</a>
+                    </div>
+                </div>
+            </header>
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
                 <thead>
                 <tr>
@@ -20,7 +19,6 @@
                     <th>View Members Attended</th>
                     <th>Take Attendance</th>
                     <th>Manage</th>
-
                 </tr>
                 </thead>
                 <tbody>
@@ -65,20 +63,17 @@
                     @endif
                 </tbody>
             </table>
-            <div class="col-12">
-                <a href="/calendarItem/create" class="btn btn-primary">Create New Event</a>
-            </div>
         </div>
     </section>
 
-@section('js')
-<script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
-<script>
-		$(function() {
-			$('#table').DataTable({
-				responsive: true
-			});
-		});
-    </script>
-@endsection
+    @section('js')
+        <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
+        <script>
+            $(function() {
+                $('#table').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+    @endsection
 @endsection
