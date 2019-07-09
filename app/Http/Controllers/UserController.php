@@ -56,7 +56,15 @@ class UserController extends Controller
         ]);
         $user = auth()->user();
 
-        $user->update($attributes);
+        if ($user['email'] !== $attributes['email']) {
+            $user['email'] = $attributes['email'];
+            $user['phone'] = $attributes['phone'];
+            $user['email_verified_at'] = null;
+            $user->save();
+            Auth::user()->sendEmailVerificationNotification();
+        } else {
+            $user->update($attributes);
+        }
 
         return redirect('/users/profile');
     }
