@@ -134,6 +134,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(InvolvementLog::Class);
     }
+
+    public function addInvolvementLog($involvement, $date_of_event)
+    {
+        return $this->InvolvementLogs()->create([
+            'organization_id' => $this->organization->id,
+            'involvement_id' => $involvement['id'],
+            'user_id' => $this->id,
+            'date_of_event' => $date_of_event
+        ]);
+    }
+
     public function getInvolvementPoints()
     {
         $InvolvementLogs = $this->getActiveInvolvementLogs();
