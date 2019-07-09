@@ -7,7 +7,9 @@
                 <div class="row">
                     <h2 class="card-title">Attendance Record Events</h2>
                     <div class="ml-auto" id="headerButtons">
-                        <a href="/calendarItem/create" class="btn btn-inline btn-primary">Create New Event</a>
+                        @if($user->canManageEvents())
+                            <a href="/calendarItem/create" class="btn btn-inline btn-primary">Create New Event</a>
+                        @endif
                     </div>
                 </div>
             </header>
@@ -17,8 +19,13 @@
                     <th>Event Name</th>
                     <th>Date</th>
                     <th>View Members Attended</th>
-                    <th>Take Attendance</th>
-                    <th>Manage</th>
+                    @if ($user->canTakeAttendance())
+                        <th>Take Attendance</th>
+                    @endif
+
+                    @if($user->canManageEvents())
+                        <th>Manage</th>
+                    @endif
                 </tr>
                 </thead>
                 <tbody>
@@ -28,8 +35,13 @@
                                 <td>{{ $attendanceEvent->calendarItem->name }}</td>
                                 <td>{{ $attendanceEvent->calendarItem->start_date }}</td>
                                 <td><a href="/attendance/attendanceEvent/{{$attendanceEvent->id}}" class="btn btn-primary">View</a></td>
-                                <td><a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-primary">Take Attendance</a></td>
-                                <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$attendanceEvent->id}}">Delete</button></td>
+                                @if ($user->canTakeAttendance())
+                                    <td><a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-primary">Take Attendance</a></td>
+                                @endif
+
+                                @if($user->canManageEvents())
+                                    <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$attendanceEvent->id}}">Delete</button></td>
+                                @endif
                             </tr>
 
                             <!--.modal for confirming deletion-->

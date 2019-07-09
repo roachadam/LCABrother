@@ -16,8 +16,9 @@ class AttendanceEventController extends Controller
     public function index()
     {
         $attendanceEvents = auth()->user()->organization->attendanceEvent;
+        $user = auth()->user();
 
-        return view('attendanceEvents.index', compact('attendanceEvents'));
+        return view('attendanceEvents.index', compact('attendanceEvents', 'user'));
     }
 
     /**
@@ -37,9 +38,7 @@ class AttendanceEventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-
-    }
+    { }
 
     /**
      * Display the specified resource.
@@ -48,9 +47,7 @@ class AttendanceEventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(AttendanceEvent $attendanceEvent)
-    {
-
-    }
+    { }
 
     /**
      * Show the form for editing the specified resource.

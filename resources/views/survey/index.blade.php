@@ -18,7 +18,7 @@
                     <th>Description</th>
                     <th>Date Posted</th>
                     <th>Answer</th>
-                    @if (auth()->user()->canManageSurveys())
+                    @if ($user->canManageSurveys())
                         <th>View Responses</th>
                         <th>Notify Members Who Havent Answered</th>
                         <th>Manage</th>
@@ -31,8 +31,8 @@
                         <td>{{$survey->name}}</td>
                         <td>{{$survey->desc}}</td>
                         <td>{{$survey->created_at}}</td>
-                        <td><a href="/survey/{{$survey->id}}" class="btn btn-inline {{auth()->user()->hasResponded($survey) ? 'disabled' : ''}}" >Submit Response</a></td>
-                        @if (auth()->user()->canManageSurveys())
+                        <td><a href="/survey/{{$survey->id}}" class="btn btn-inline {{$user->hasResponded($survey) ? 'disabled' : ''}}" >Submit Response</a></td>
+                        @if ($user->canManageSurveys())
                             <td><a href="/survey/{{$survey->id}}/responses" class="btn btn-inline">View Responses</a></td>
 
                             <form action="/survey/{{$survey->id}}/notify" method="POST">

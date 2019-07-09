@@ -10,10 +10,16 @@ use Mail;
 
 class SurveyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('ManageSurvey')->only('create', 'store');
+    }
+
     public function index()
     {
         $surveys = Survey::where('organization_id', auth()->user()->organization->id)->get();
-        return view('survey.index', compact('surveys'));
+        $user = auth()->user();
+        return view('survey.index', compact('surveys', 'user'));
     }
 
     /**

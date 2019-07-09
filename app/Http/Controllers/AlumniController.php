@@ -11,8 +11,7 @@ class AlumniController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('orgverified');
+        $this->middleware('ManageAlumni');
     }
 
     public function index()

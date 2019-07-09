@@ -9,6 +9,11 @@ use App\AttendanceEvent;
 
 class CalendarController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('ManageCalendar')->except('index', 'show');
+    }
+
     /**
      * Display a listing of the resource.
      *

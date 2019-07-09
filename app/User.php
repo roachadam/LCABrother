@@ -345,6 +345,16 @@ class User extends Authenticatable implements MustVerifyEmail
         $Can = $this->role->permission->manage_forum;
         return $Can;
     }
+    public function canManageAlumni()
+    {
+        $Can = $this->role->permission->manage_alumni;
+        return $Can;
+    }
+    public function canTakeAttendance()
+    {
+        $Can = $this->role->permission->take_attendance;
+        return $Can;
+    }
     public function canManageSurveys()
     {
         $Can = $this->role->permission->manage_surveys;

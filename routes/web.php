@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Controllers\AcademicsController;
-use App\Http\Controllers\ServiceEventController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +11,7 @@ use App\Http\Controllers\ServiceEventController;
 |
 */
 
+//No middleware needed
 Route::get('/', function () {
     return view('home.home');
 });
@@ -33,17 +31,23 @@ Route::get('/contact/thanks', function () {
     return view('home.contact.thanks');
 });
 
+Route::get('/organizations/{organization}/join', 'InvitedRegisterController@showRegistrationForm');
+Route::post('/organization/{organization}/register', 'InvitedRegisterController@register');
+
 Auth::routes(['verify' => true]);
-
-Route::resource('user', 'UserController')
-    ->middleware('MemberView', ['only' => ['index']])
-    ->middleware('orgverified', ['only' => ['index', 'contact']]);
-
 
 
 Route::middleware('auth')->group(function () {
-
     //Registration Routes
+    Route::resource('user', 'UserController');
+    Route::get('/avatar/create', 'UserController@create_avatar');
+    Route::post('/avatar/create', 'UserController@update_avatar');
+
+    Route::get('/forum/create/categories', 'ForumController@create');
+    Route::post('/forum/create/categories', 'ForumController@store');
+    Route::get('/massInvite', 'MassInvite@index');
+    Route::post('/massInvite/send', 'MassInvite@inviteAll');
+
     Route::resource('organization', 'OrganizationController')->only(['index', 'create', 'store']);
 
     Route::get('/goals/create', 'GoalsController@create');
@@ -56,14 +60,13 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/user/{user}/join', 'UserController@joinOrg');
 
-
+    //Can only access if email is verified
     Route::middleware('verified')->group(function () {
         Route::get('/orgpending/waiting', 'OrgVerificationController@waiting');
         Route::get('/orgpending/rejected', 'OrgVerificationController@rejected');
         Route::get('/orgpending/alumni', 'OrgVerificationController@alumni');
-        // Route::post('/organizations/{organization}/roles', 'OrganizationRolesController@store'); Don't think we use this
 
-
+        //Can only access if you're apart of the organization
         Route::middleware('orgverified')->group(function () {
             Route::resource('role', 'RoleController')->middleware('ManageMembers');
 
@@ -94,6 +97,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/users/edit', 'UserController@edit');
             Route::get('/users/contact', 'UserController@contact');
 
+
+            Route::post('/avatar/default', 'UserController@default_avatar');
+
             Route::get('/attendance/attendanceEvent/{attendanceEvent}', 'AttendanceController@index');
             Route::post('/attendanceEvent/calendarItem/{calendarItem}', 'AttendanceEventController@store');
             Route::post('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@store');
@@ -114,7 +120,6 @@ Route::middleware('auth')->group(function () {
             Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store');
 
             Route::get('/orgpending/{user}', 'OrgVerificationController@show');
-            // Route::post('/orgpending/{user}/update', 'OrgVerificationController@update');    Don't Think we use this
 
             Route::get('/role/{role}/users', 'RoleController@users');
             Route::post('/role/{role}/massSet', 'RoleController@massSet');
@@ -130,10 +135,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/event/{event}/invite', 'InviteController@create');
             Route::post('/event/{event}/invite', 'InviteController@store');
             Route::delete('/invite/{invite}', 'InviteController@destroy');
-
-
-            Route::get('/forum/create/categories', 'ForumController@create');
-            Route::post('/forum/create/categories', 'ForumController@store');
 
             Route::get('/serviceEvents/indexByUser', 'ServiceEventController@indexByUser');
             Route::get('/users/{user}/service', 'UserController@serviceBreakdown');
@@ -162,14 +163,3 @@ Route::middleware('auth')->group(function () {
         });
     });
 });
-
-Route::resource('subscribers', 'SubscribersController');        //What is this for?
-
-Route::get('/massInvite', 'MassInvite@index');
-Route::post('/massInvite/send', 'MassInvite@inviteAll');
-Route::get('/organizations/{organization}/join', 'InvitedRegisterController@showRegistrationForm');
-Route::post('/organization/{organization}/register', 'InvitedRegisterController@register');
-
-Route::get('/avatar/create', 'UserController@create_avatar');
-Route::post('/avatar/create', 'UserController@update_avatar');
-Route::post('/avatar/default', 'UserController@default_avatar');
