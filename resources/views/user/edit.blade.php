@@ -6,7 +6,10 @@
     <div class="row ">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Edit Your Details') }}</div>
+                <div class="card-header">
+                    {{ __('Edit Your Details') }}
+                    
+                </div>
                 <div class="card-body">
                 <form method="POST" action="/users/update">
                         @csrf
