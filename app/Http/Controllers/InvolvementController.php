@@ -18,11 +18,21 @@ class InvolvementController extends Controller
 
     public function index()
     {
-        $organization = auth()->user()->organization;
+        $user = auth()->user();
+        $organization = $user->organization;
+
+        $canManageInvolvement = $user->canManageInvolvement();
         $involvements = $organization->involvement;
         $verifiedMembers = $organization->getVerifiedMembers();
+        $users = $organization->getVerifiedMembers();
 
-        return view('involvement.index', compact('involvements', 'verifiedMembers'));
+        return view('involvement.index', compact('users', 'canManageInvolvement', 'involvements', 'verifiedMembers'));
+    }
+
+    public function edit()
+    {
+        $events = auth()->user()->organization->involvement;
+        return view('/involvement/edit', compact('events'));
     }
 
     /**
@@ -95,13 +105,13 @@ class InvolvementController extends Controller
         }
     }
 
-    private function checkNullEvents($nullEvents)
+    private function checkNullEvents($events)
     {
-        if ($nullEvents->isNotEmpty()) {
-            return view('/involvement/edit', compact('nullEvents'));
+        if ($events->isNotEmpty()) {
+            return redirect('/involvement/edit');
         } else {
             NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');
-            return redirect('/involvementLog');
+            return redirect('/involvement');
         }
     }
 
@@ -109,7 +119,7 @@ class InvolvementController extends Controller
     {
         $attributes = $request->validate([
             'name' => ['required'],
-            'point_value' => ['required', 'numeric'],
+            'point_value' => ['required'],
         ]);
 
         $pointData = array_combine($attributes['name'], $attributes['point_value']);
@@ -121,6 +131,6 @@ class InvolvementController extends Controller
             })->first();
             $event->update(['points' => $points]);
         }
-        return redirect('/involvementLog');
+        return redirect('/involvement');
     }
 }

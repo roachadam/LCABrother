@@ -16,7 +16,7 @@ class ManageInvolvement
      */
     public function handle($request, Closure $next)
     {
-        if($request->user() && ! $request->user()->canManageInvolvment()){
+        if ($request->user() && !$request->user()->canManageInvolvement()) {
             return redirect()->action('DashController@index');
         }
         return $next($request);

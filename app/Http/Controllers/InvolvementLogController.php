@@ -15,12 +15,6 @@ class InvolvementLogController extends Controller
         $this->middleware('ManageInvolvement')->except('index');
     }
 
-    public function index()
-    {
-        $users = auth()->user()->organization->getVerifiedMembers();
-        return view('involvement.involvementLogs.index', compact('users'));
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -42,7 +36,7 @@ class InvolvementLogController extends Controller
             $user->addInvolvementLog($involvement, $attributes['date_of_event']);
         }
 
-        return redirect('/involvementLog');
+        return redirect('/involvement');
     }
 
     /**

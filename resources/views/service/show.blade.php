@@ -28,7 +28,7 @@
                                 <th>Logged At</th>
                                 <th>Hours Served</th>
                                 <th>Money Donated</th>
-                                @if (auth()->user()->canManageInvolvment())
+                                @if (auth()->user()->canManageInvolvement())
                                 <th>Manage</th>
                                 @endif
                             </tr>
@@ -42,7 +42,7 @@
                                     <td> {{ $log->created_at  }} </td>
                                     <td> {{ $log->hours_served  }} </td>
                                     <td> {{ $log->money_donated  }} </td>
-                                    @if (auth()->user()->canManageInvolvment())
+                                    @if (auth()->user()->canManageInvolvement())
                                         <form action="/serviceLog/{{$log->id}}" method="POST">
                                             @csrf
                                             @method('DELETE')

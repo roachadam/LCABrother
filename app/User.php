@@ -302,7 +302,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->role->permission->manage_member_details;
     }
 
-    public function canManageInvolvment()
+    public function canManageInvolvement()
     {
         return $this->role->permission->manage_all_involvement;
     }
