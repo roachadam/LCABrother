@@ -125,7 +125,7 @@
                     </a>
                 </li>
             @endif
-            @if (auth()->user()->canManageMembers())
+            @if (auth()->user()->canManageAlumni())
                 <li class="pink {{ request()->is('alumni') ? 'opened' : '' }}">
                     <a href="/alumni">
                     <span>

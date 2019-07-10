@@ -18,10 +18,7 @@ class OrgVerificationController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
         $this->middleware('orgverified', ['only' => 'show']);
-        //$this->middleware('ManageMembers', ['only' =>'show']);
-
     }
 
     // hits from rout /orgpending

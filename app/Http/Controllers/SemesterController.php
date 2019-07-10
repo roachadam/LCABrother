@@ -10,16 +10,6 @@ use App\Commons\NotificationFunctions;
 
 class SemesterController extends Controller
 {
-    public function index()
-    {
-        //
-    }
-
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $attributes = $request->validate([
@@ -28,7 +18,7 @@ class SemesterController extends Controller
         $organization = auth()->user()->organization;
 
         $activeSemester = $organization->getActiveSemester();
-        if($activeSemester !== null){
+        if ($activeSemester !== null) {
             $activeSemester->update([
                 'end_date' => Carbon::now(),
                 'active' => false
@@ -42,28 +32,6 @@ class SemesterController extends Controller
         auth()->user()->organization->addSemester($attributes);
 
         return back();
-
-    }
-
-    public function show(Semester $semester)
-    {
-        //
-    }
-
-    public function edit(Semester $semester)
-    {
-        //
-    }
-
-
-    public function update(Request $request, Semester $semester)
-    {
-        //
-    }
-
-    public function destroy(Semester $semester)
-    {
-        //
     }
 
     public function initial(Request $request)

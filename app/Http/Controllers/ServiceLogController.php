@@ -7,13 +7,6 @@ use Illuminate\Http\Request;
 
 class ServiceLogController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('orgverified');
-        //$this->middleware('ManageService', ['only' => '']);
-    }
-
     /**
      * Show the form for editing the specified resource.
      *

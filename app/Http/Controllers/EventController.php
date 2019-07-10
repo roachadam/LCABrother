@@ -11,9 +11,7 @@ class EventController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('ManageEvents', ['only' => ['destroy']]);
-        $this->middleware('orgverified');
+        $this->middleware('ManageEvents')->only('destroy');
     }
 
     public function index()
@@ -29,7 +27,7 @@ class EventController extends Controller
      */
     public function create(CalendarItem $calendarItem = null)
     {
-            return view('events.create', compact('calendarItem'));
+        return view('events.create', compact('calendarItem'));
     }
 
     /**

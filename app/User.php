@@ -14,7 +14,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Commons\NotificationFunctions;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -43,7 +43,6 @@ class User extends Authenticatable
     public function setBasicUser()
     {
         $role = $this->organization->roles[1];
-
         $this->setRole($role);
     }
 
@@ -70,11 +69,9 @@ class User extends Authenticatable
 
     public function setVerification($verified)
     {
-
         if ($verified) {
             $attributes = ['organization_verified' => $verified];
         } else {
-
             $attributes = [
                 'organization_verified' => $verified,
                 'organization_id' => null
@@ -90,17 +87,20 @@ class User extends Authenticatable
 
     public function isVerified()
     {
-        if ($this->organization_verified === 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->organization_verified === 1;
     }
+
+    public function emailVerified()
+    {
+        return $this->email_verified_at !== null;
+    }
+
     // Service Logs
     public function serviceLogs()
     {
         return $this->hasMany(ServiceLog::Class);
     }
+
     public function getMoneyDonated()
     {
         $logs = $this->getActiveServiceLogs();
@@ -108,7 +108,6 @@ class User extends Authenticatable
         foreach ($logs as $log) {
             $cash += $log->money_donated;
         }
-
         return $cash;
     }
 
@@ -154,6 +153,7 @@ class User extends Authenticatable
         }
         return $points;
     }
+
     public function getActiveInvolvementLogs()
     {
         $activeSemester = $this->organization->getActiveSemester();
@@ -166,12 +166,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Academics::Class);
     }
+
     public function addAcademics(Academics $academics)
     {
         return $this->Academics()->create([
             'organization_id' => auth()->user()->organization->id,
         ]);
     }
+
     public function latestAcademics()
     {
         return $this->hasMany(Academics::Class)->latest()->first();
@@ -245,11 +247,7 @@ class User extends Authenticatable
     //Invites for events
     public function hasInvitesRemaining(Event $event)
     {
-        if ($this->getInvitesRemaining($event) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->getInvitesRemaining($event) > 0;
     }
 
     public function getInvitesRemaining(Event $event)
@@ -301,69 +299,79 @@ class User extends Authenticatable
     //Permissions getters
     public function canManageMembers()
     {
-        $Can = $this->role->permission->manage_member_details;
-        return $Can;
+        return $this->role->permission->manage_member_details;
     }
+
     public function canManageInvolvment()
     {
-        $Can = $this->role->permission->manage_all_involvement;
-        return $Can;
+        return $this->role->permission->manage_all_involvement;
     }
+
     public function canManageService()
     {
-        $Can = $this->role->permission->manage_all_service;
-        return $Can;
+        return $this->role->permission->manage_all_service;
     }
+
     public function canViewMemberDetails()
     {
-        $Can = $this->role->permission->view_member_details;
-        return $Can;
+        return $this->role->permission->view_member_details;
     }
+
     public function canViewAllService()
     {
-        $Can = $this->role->permission->view_all_service;
-        return $Can;
+        return $this->role->permission->view_all_service;
     }
+
     public function canViewAllInvolvement()
     {
-        $Can = $this->role->permission->view_all_involvement;
-        return $Can;
+        return $this->role->permission->view_all_involvement;
     }
+
     public function canLogServiceEvent()
     {
-        $Can = $this->role->permission->log_service_event;
-        return $Can;
+        return $this->role->permission->log_service_event;
     }
+
     public function canManageEvents()
     {
-        $Can = $this->role->permission->manage_events;
-        return $Can;
+        return $this->role->permission->manage_events;
     }
+
     public function canManageForum()
     {
-        $Can = $this->role->permission->manage_forum;
-        return $Can;
+        return $this->role->permission->manage_forum;
     }
+
+    public function canManageAlumni()
+    {
+        return $this->role->permission->manage_alumni;
+    }
+
+    public function canTakeAttendance()
+    {
+        return $this->role->permission->take_attendance;
+    }
+
     public function canManageSurveys()
     {
-        $Can = $this->role->permission->manage_surveys;
-        return $Can;
+        return $this->role->permission->manage_surveys;
     }
+
     public function canViewAllStudy()
     {
-        $Can = $this->role->permission->view_all_study;
-        return $Can;
+        return $this->role->permission->view_all_study;
     }
+
     public function canManageAllStudy()
     {
-        $Can = $this->role->permission->manage_all_study;
-        return $Can;
+        return $this->role->permission->manage_all_study;
     }
+
     public function canManageCalendar()
     {
-        $Can = $this->role->permission->manage_calendar;
-        return $Can;
+        return $this->role->permission->manage_calendar;
     }
+
     public function isAdmin()
     {
         return $this->role->name == 'Admin';

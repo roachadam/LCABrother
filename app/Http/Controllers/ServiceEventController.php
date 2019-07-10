@@ -12,12 +12,9 @@ use Illuminate\Http\Request;
 
 class ServiceEventController extends Controller
 {
-
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('orgverified');
-        $this->middleware('ManageService', ['only' => ['delete', 'edit', 'update']]);
+        $this->middleware('ManageService')->only(['delete', 'edit', 'update']);
     }
 
     public function index()
