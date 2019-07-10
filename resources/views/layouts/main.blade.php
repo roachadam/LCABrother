@@ -56,7 +56,7 @@
         @include('layouts.headbar')
 
         <div class="mobile-menu-left-overlay"></div>
-        @if (auth()->user()->isVerified())
+        @if (auth()->user()->isVerified() && auth()->user()->emailVerified())
             @include('layouts.sidebar')
         @endif
         @include('partials.notifications')

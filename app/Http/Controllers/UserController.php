@@ -47,7 +47,6 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-
         $attributes = request()->validate([
             'name' => ['string', 'max:255'],
             'email' => ['string', 'email', 'max:255',],
