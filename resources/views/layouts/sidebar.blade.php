@@ -18,10 +18,10 @@
                 <span class="lbl">Service Logs</span>
             </a>
         </li>
-        <li class="pink {{ request()->is('involvementLog') ? 'opened' : '' }}">
-            <a href="/involvementLog">
+        <li class="pink {{ request()->is('involvement') ? 'opened' : '' }}">
+            <a href="/involvement">
                 <i class="glyphicon glyphicon-equalizer"></i>
-                <span class="lbl">Involvment Points</span>
+                <span class="lbl">Involvment</span>
             </a>
         </li>
         <li class="blue {{ request()->is('users/contact') ? 'opened' : '' }}">
@@ -75,12 +75,12 @@
                     </a>
                 </li>
             @endif
-            @if (auth()->user()->canManageInvolvment())
-                <li class="red {{ request()->is('involvement') ? 'opened' : '' }}">
-                    <a href="/involvement">
+            @if (auth()->user()->canManageInvolvement())
+                <li class="red {{ request()->is('involvement/edit') ? 'opened' : '' }}">
+                    <a href="/involvement/adminView">
                     <span>
                         <i class="glyphicon glyphicon-signal"></i>
-                        <span class="lbl">Involvement</span>
+                        <span class="lbl">Involvement Events</span>
                     </span>
                     </a>
                 </li>

@@ -19,7 +19,7 @@
                         <th>Event Name</th>
                         <th>Points</th>
                         <th>Date</th>
-                        @if (auth()->user()->canManageInvolvment())
+                        @if (auth()->user()->canManageInvolvement())
                         <th>View BreakDown</th>
                         @endif
                     </tr>
@@ -32,7 +32,7 @@
                                 <td>{{ $log->involvement->name }}</td>
                                 <td> {{ $log->involvement->points  }} </td>
                                 <td> {{ $log->date_of_event  }} </td>
-                                @if (auth()->user()->canManageInvolvment())
+                                @if (auth()->user()->canManageInvolvement())
                                     <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$log->id}}">Remove</button></td>
                                 @endif
                             </tr>
