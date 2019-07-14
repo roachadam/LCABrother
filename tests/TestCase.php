@@ -5,6 +5,8 @@ namespace Tests;
 use App\Role;
 use App\User;
 use DB;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Notification;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use App\Organization;
 
@@ -12,26 +14,42 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    use DatabaseTransactions;
+
+    /**
+     * Set up the test case.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Notification::fake();
+    }
+
     protected function getAdminRole()
     {
         $adminRole = factory(Role::class)->states('admin')->create();;
         return $adminRole;
     }
+
     protected function getBasicRole()
     {
         $role = factory(Role::class)->states('basic_user')->create();;
         return $role;
     }
+
     protected function getMemberManagerRole()
     {
         $role = factory(Role::class)->states('manage_members')->create();;
         return $role;
     }
+
     protected function getServiceManagerRole()
     {
         $role = factory(Role::class)->states('manage_service')->create();;
         return $role;
     }
+
     protected function getInvolvementManagerRole()
     {
         $role = factory(Role::class)->states('manage_involvement')->create();;
@@ -43,16 +61,19 @@ abstract class TestCase extends BaseTestCase
         $role = factory(Role::class)->states('view_members')->create();;
         return $role;
     }
+
     protected function getViewServiceRole()
     {
         $role = factory(Role::class)->states('view_service')->create();;
         return $role;
     }
+
     protected function getViewInvolvementRole()
     {
         $role = factory(Role::class)->states('view_involvement')->create();;
         return $role;
     }
+
     protected function getLogServiceRole()
     {
         $role = factory(Role::class)->states('log_service')->create();;
@@ -84,6 +105,7 @@ abstract class TestCase extends BaseTestCase
         $user->setAdmin();
         return $user;
     }
+
     protected function createBasic($organization = null)
     {
         //$adminRole = $this->getAdminRole();
@@ -99,6 +121,7 @@ abstract class TestCase extends BaseTestCase
         $user->setBasicUser();
         return $user;
     }
+
     protected function createMemManager(array $attributes = [])
     {
         $role = $this->getMemberManagerRole();
@@ -110,6 +133,7 @@ abstract class TestCase extends BaseTestCase
         $user->setRole($role);
         return $user;
     }
+
     protected function createInvolvementManager(array $attributes = [])
     {
         $role = $this->getInvolvementManagerRole();
@@ -121,6 +145,7 @@ abstract class TestCase extends BaseTestCase
         $user->setRole($role);
         return $user;
     }
+
     protected function createServiceManager(array $attributes = [])
     {
         $role = $this->getServiceManagerRole();
@@ -132,6 +157,7 @@ abstract class TestCase extends BaseTestCase
         $user->setRole($role);
         return $user;
     }
+
     protected function createMemberViewer(array $attributes = [])
     {
         $role = $this->getViewMemberRole();
@@ -143,6 +169,7 @@ abstract class TestCase extends BaseTestCase
         $user->setRole($role);
         return $user;
     }
+
     protected function createServiceViewer(array $attributes = [])
     {
         $role = $this->getViewServiceRole();
@@ -154,6 +181,7 @@ abstract class TestCase extends BaseTestCase
         $user->setRole($role);
         return $user;
     }
+
     protected function createInvolvementViewer(array $attributes = [])
     {
         $role = $this->getViewInvolvementRole();
@@ -165,6 +193,7 @@ abstract class TestCase extends BaseTestCase
         $user->setRole($role);
         return $user;
     }
+
     protected function createServiceLogger(array $attributes = [])
     {
         $role = $this->getLogServiceRole();
@@ -186,12 +215,14 @@ abstract class TestCase extends BaseTestCase
         $this->actingAs($admin);
         return $admin;
     }
+
     protected function loginAsBasic($organization = null)
     {
         $basic = $this->createBasic($organization);
         $this->actingAs($basic);
         return $basic;
     }
+
     protected function loginAsMemberManager($basic = false)
     {
         if (!$basic) {
@@ -200,6 +231,7 @@ abstract class TestCase extends BaseTestCase
         $this->actingAs($basic);
         return $basic;
     }
+
     protected function loginAsInvolvementManager($basic = false)
     {
         if (!$basic) {
@@ -208,6 +240,7 @@ abstract class TestCase extends BaseTestCase
         $this->actingAs($basic);
         return $basic;
     }
+
     protected function loginAsServiceManager($basic = false)
     {
         if (!$basic) {
@@ -216,6 +249,7 @@ abstract class TestCase extends BaseTestCase
         $this->actingAs($basic);
         return $basic;
     }
+
     protected function loginAsMemberViewer($basic = false)
     {
         if (!$basic) {
@@ -224,6 +258,7 @@ abstract class TestCase extends BaseTestCase
         $this->actingAs($basic);
         return $basic;
     }
+
     protected function loginAsServiceViewer($basic = false)
     {
         if (!$basic) {
@@ -232,6 +267,7 @@ abstract class TestCase extends BaseTestCase
         $this->actingAs($basic);
         return $basic;
     }
+
     protected function loginAsInvolvementViewer($basic = false)
     {
         if (!$basic) {
@@ -240,6 +276,7 @@ abstract class TestCase extends BaseTestCase
         $this->actingAs($basic);
         return $basic;
     }
+
     protected function loginAsServiceLogger($basic = false)
     {
         if (!$basic) {
@@ -248,6 +285,7 @@ abstract class TestCase extends BaseTestCase
         $this->actingAs($basic);
         return $basic;
     }
+
     protected function registerNewUser()
     {
         $user = factory(User::class)->make();

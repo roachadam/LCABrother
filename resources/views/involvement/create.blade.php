@@ -5,9 +5,6 @@
 <h2 >Involvement</h2>
 
 <div class="container">
-
-
-
     <div class="col-md-10">
         @include('partials.errors')
 
