@@ -102,7 +102,7 @@ class AcademicsTest extends TestCase
             return $academic['name'] !== null && $academic['Cumulative_GPA'] !== null && $academic['Current_Term_GPA'] !== null;
         })->values();
 
-        $this->assertTrue($academics->isNotEmpty() && $academics->count() === 3) asdsadadaad
+        $this->assertTrue($academics->isNotEmpty() && $academics->count() === 3);
     }
 
     /**
