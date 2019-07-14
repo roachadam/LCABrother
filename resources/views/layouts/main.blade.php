@@ -55,9 +55,11 @@
     <body class="with-side-menu dark-theme mozilla-browser">
         @include('layouts.headbar')
 
-        <div class="mobile-menu-left-overlay"></div>
-        @if (auth()->user()->isVerified() && auth()->user()->emailVerified())
-            @include('layouts.sidebar')
+        @if (isset(Auth::user()->organization))
+            <div class="mobile-menu-left-overlay"></div>
+            @if (auth()->user()->isVerified() && auth()->user()->emailVerified())
+                @include('layouts.sidebar')
+            @endif
         @endif
         @include('partials.notifications')
 

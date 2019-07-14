@@ -101,7 +101,7 @@ class InvolvementController extends Controller
             NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
             return back();
         }
-    }
+    } 
 
     private function checkNullEvents($events)
     {
