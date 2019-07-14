@@ -50,6 +50,7 @@ class AcademicsController extends Controller
         $request->validate(
             [
                 'grades' => 'required|file|max:2048|mimes:xlsx',
+                'test' => 'boolean'
             ],
             //Error messages
             ['grades.mimes' => 'You must upload a spread sheet']
@@ -63,14 +64,16 @@ class AcademicsController extends Controller
         ];
 
         if (ImportHelperFunctions::validateHeadingRow($file, $requiredHeadings)) {
-            ImportHelperFunctions::storeFileLocally($file, '/grades');
+            if (!$request['test']) {
+                ImportHelperFunctions::storeFileLocally($file, '/grades');
+            }
             Excel::import(new GradesImport, $file);
 
             NotificationFunctions::alert('success', 'Successfully imported new academic records!');
             return redirect('/academics');
         } else {
             NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
-            return back();
+            return redirect('/academics/manage');
         }
     }
 
