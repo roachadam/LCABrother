@@ -50,6 +50,7 @@ class AcademicsController extends Controller
         $request->validate(
             [
                 'grades' => 'required|file|max:2048|mimes:xlsx',
+                'test' => 'boolean'
             ],
             //Error messages
             ['grades.mimes' => 'You must upload a spread sheet']
@@ -63,14 +64,16 @@ class AcademicsController extends Controller
         ];
 
         if (ImportHelperFunctions::validateHeadingRow($file, $requiredHeadings)) {
-            ImportHelperFunctions::storeFileLocally($file, '/grades');
+            if (!$request['test']) {
+                ImportHelperFunctions::storeFileLocally($file, '/grades');
+            }
             Excel::import(new GradesImport, $file);
 
             NotificationFunctions::alert('success', 'Successfully imported new academic records!');
             return redirect('/academics');
         } else {
             NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
-            return back();
+            return redirect('/academics/manage');
         }
     }
 
@@ -133,9 +136,14 @@ class AcademicsController extends Controller
     {
         $attributes = request()->validate($this->rules());
 
-        if ($attributes['Previous_Academic_Standing'] === $academics->Previous_Academic_Standing && $attributes['Current_Academic_Standing'] === $academics->Current_Academic_Standing) {
-            $academics->update($attributes);
-            $academics->updateStanding();
+        if (isset($attributes['Previous_Academic_Standing']) && isset($attributes['Current_Academic_Standing'])) {
+
+            if ($attributes['Previous_Academic_Standing'] === $academics->Previous_Academic_Standing && $attributes['Current_Academic_Standing'] === $academics->Current_Academic_Standing) {
+                $academics->update($attributes);
+                $academics->updateStanding();
+            } else {
+                $academics->update($attributes);
+            }
         } else {
             $academics->update($attributes);
         }
@@ -147,7 +155,7 @@ class AcademicsController extends Controller
     private function rules()
     {
         return [
-            'name' => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'name' => ['regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
             'Cumulative_GPA' => ['min:0', 'max:5.0'],
             'Previous_Term_GPA' => ['min:0', 'max:5.0'],
             'Current_Term_GPA' => ['min:0', 'max:5.0'],
