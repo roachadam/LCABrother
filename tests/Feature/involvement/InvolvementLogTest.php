@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Involvement;
+use App\InvolvementLog;
 
 class InvolvementLogTest extends TestCase
 {
@@ -42,5 +43,28 @@ class InvolvementLogTest extends TestCase
             'involvement_id' => $event->id,
             'date_of_event' => $dateOfEvent,
         ]);
+    }
+
+    /**
+     * Testing ability to delete involvement logs
+     */
+    public function test_can_delete_involvementLog()
+    {
+        $user = $this->loginAsAdmin();
+
+        $involvementLog = factory(InvolvementLog::class)->create([
+            'organization_id' => $user->organization->id,
+            'user_id' => $user->id,
+        ]);
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->delete('/involvementLog/' . $involvementLog->id)
+            ->assertSuccessful()
+            ->assertSee('Involvement log deleted!')
+            ->assertDontSee(dd($involvementLog->date_of_event));
+
+        $this->assertDatabaseMissing('involvement_logs', $involvementLog->toArray());
     }
 }

@@ -16,7 +16,7 @@
                         <th>Points</th>
                         <th>Date</th>
                         @if (auth()->user()->canManageInvolvement())
-                            <th>View BreakDown</th>
+                            <th>Delete</th>
                         @endif
                     </tr>
                 </thead>
@@ -27,9 +27,9 @@
                             <tr>
                                 <td>{{ $log->involvement->name }}</td>
                                 <td> {{ $log->involvement->points  }} </td>
-                                <td> {{ $log->date_of_event  }} </td>
+                                <td> {{ $log->date_of_event }} </td>
                                 @if (auth()->user()->canManageInvolvement())
-                                    <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$log->id}}">Remove</button></td>
+                                    <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$log->id}}">Delete</button></td>
                                 @endif
                             </tr>
 

@@ -29,6 +29,7 @@ class InvolvementLogController extends Controller
             'usersInvolved' => ['required', 'array'],
             'date_of_event' => 'required'
         ]);
+
         $involvement = Involvement::find($attributes['involvement_id']);
 
         foreach ($attributes['usersInvolved'] as $user_id) {
@@ -50,14 +51,14 @@ class InvolvementLogController extends Controller
     public function destroy(InvolvementLog $involvementLog)
     {
         $involvementLog->delete();
-        NotificationFunctions::alert('danger', 'Involvement log(s) deleted!');
-        return back();
+        NotificationFunctions::alert('success', 'Involvement log deleted!');
+
+        return redirect('/user/' . $involvementLog->user_id . '/involvementLogs');
     }
 
     public function breakdown(Request $request, User $user)
     {
         $logs = $user->InvolvementLogs;
-
         return view('involvement.involvementLogs.breakdown', compact('logs'));
     }
 }
