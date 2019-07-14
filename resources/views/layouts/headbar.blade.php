@@ -12,7 +12,7 @@
 	        <div class="site-header-content">
 	            <div class="site-header-content-in">
 	                <div class="site-header-shown">
-                        @if(Auth::user() !== null)
+                        @if(!Auth::guest() && Auth::user()->organization)
                             <div class="dropdown dropdown-notification notif">
                                 <a href="#"
                                 class="header{{ Auth::user()->organization->users()->where('organization_verified',null)->get()->count() > 0 ? '-alarm' : '' }} dropdown-toggle active"
