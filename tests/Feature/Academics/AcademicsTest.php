@@ -9,116 +9,181 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\GradesImport;
+use Illuminate\Http\UploadedFile;
 
 class AcademicsTest extends TestCase
 {
-
     use RefreshDatabase;
+
+    /**
+     * Testing getting the academics page
+     */
     public function test_can_view_Academics()
     {
-        $this->withoutExceptionHandling();
         $this->loginAsAdmin();
-        $response = $this->get('/academics');
-        $response->assertStatus(200);
+
+        $this
+            ->withoutExceptionHandling()
+            ->get(route('academics.index'))
+            ->assertSuccessful()
+            ->assertSee('Academics')
+            ->assertSee('Override Academic Rules')
+            ->assertSee('Manage');
     }
 
+    /**
+     * Testing prevention of basic users from accessing the page
+     */
     public function test_basic_cannot_view_Academics()
     {
-        $this->withoutExceptionHandling();
         $this->loginAsBasic();
-        $response = $this->get('/academics');
 
-        $response->assertRedirect('/dash');
-        $response->assertStatus(302);
+        $this
+            ->withoutExceptionHandling()
+            ->get(route('academics.index'))
+            ->assertRedirect('/dash');
     }
 
-    public function test_can_manage()
+    /**
+     * Testing showing the manage view from the academics page
+     */
+    public function test_can_view_manage()
     {
-        $this->withoutExceptionHandling();
         $this->loginAsAdmin();
 
-        $response = $this->get('/academics/manage');
-        $response->assertStatus(200);
+        $this
+            ->withoutExceptionHandling()
+            ->get(route('academics.manage'))
+            ->assertSuccessful()
+            ->assertSee('Add More Grades')
+            ->assertSee('Format Rules');
     }
 
-    //Does not use the store route directly tries to import the file
-    // public function test_can_import_file()
-    // {
-    //     $this->withoutExceptionHandling();
-    //     $this->loginAsAdmin();
-
-    //     try {
-    //         Excel::import(new GradesImport, 'grades/testFile/gradesTestWorking.xlsx');
-    //         $this->assertTrue(true);
-    //     } catch (\ErrorException $e) {
-    //         $this->assertFalse($e->getMessage());
-    //     }
-    // }
-
-    public function test_can_import_file()
+    /**
+     * Testing uploading an invalid file (in this case its empty)
+     */
+    public function test_upload_invalid_file()
     {
-        $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
-
-        try {
-            Excel::import(new GradesImport, 'grades/testFile/gradesTestWorking.xlsx');
-            $this->assertTrue(true);
-        } catch (\ErrorException $e) {
-            $this->assertFalse($e->getMessage());
-        }
-    }
-
-
-    public function test_cannot_import_improper_formated_file()
-    {
-        $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
-        try {
-            Excel::import(new GradesImport, 'grades/testFile/gradesTestFail.xlsx');
-            $this->assertFalse('Something is wrong here. This should have failed');
-        } catch (\ErrorException $e) {
-            $this->assertTrue(true);
-        }
-    }
-
-    public function test_can_get_override_view()
-    {
-        $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
         $user = $this->loginAsAdmin();
 
-        factory(Academics::class)->create([
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->post(route('academics.store'), [
+                'grades' => new UploadedFile('storage\app\public\grades\testFile\gradesTestFail.xlsx', 'gradesTestFail.xlsx', 'xlsx', null, true),
+                'test' => true,
+            ])
+            ->assertSuccessful()
+            ->assertSee('Failed to import new Records: Invalid format');
+
+        $this->assertTrue($user->organization->academics->filter(function ($academic) {
+            return $academic['name'] !== null && $academic['Cumulative_GPA'] !== null && $academic['Current_Term_GPA'] !== null;
+        })->values()->isEmpty());
+    }
+
+    /**
+     * Testing uploading a valid file
+     */
+    public function test_upload_file()
+    {
+        $user = $this->loginAsAdmin();
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->post(route('academics.store'), [
+                'grades' => new UploadedFile('storage\app\public\grades\testFile\gradesTestWorking.xlsx', 'gradesTestWorking.xlsx', 'xlsx', null, true),
+                'test' => true,
+            ])
+            ->assertSuccessful()
+            ->assertSee('Successfully imported new academic records!');
+
+        $academics = $user->organization->academics->filter(function ($academic) {
+            return $academic['name'] !== null && $academic['Cumulative_GPA'] !== null && $academic['Current_Term_GPA'] !== null;
+        })->values();
+
+        $this->assertTrue($academics->isNotEmpty());
+        $this->assertTrue($academics->count() === 3);
+    }
+
+    /**
+     * Testing showing the override view from the academics page
+     */
+    public function test_can_get_override_view()
+    {
+        $user = $this->loginAsAdmin();
+
+        $createdAcademics = factory(Academics::class)->create([
             'name' => $user->name,
             'user_id' => $user->id
         ]);
 
-        $response = $this->get('academics/user_id/' . $user->latestAcademics()->id . '/edit');
-        $response->assertStatus(200);
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->get('academics/user_id/' . $createdAcademics->id . '/edit')
+            ->assertSuccessful()
+            ->assertSee('Override Academics')
+            ->assertSee($createdAcademics['name'])
+            ->assertSee($createdAcademics['Cumulative_GPA'])
+            ->assertSee($createdAcademics['Previous_Term_GPA'])
+            ->assertSee($createdAcademics['Current_Term_GPA'])
+            ->assertSee($createdAcademics['Previous_Academic_Standing'])
+            ->assertSee($createdAcademics['Current_Academic_Standing']);
     }
 
+    /**
+     * Testing ability to override a user's academic data
+     */
     public function test_can_override_user()
     {
-        $this->withoutExceptionHandling();
-        $user = $this->loginAsAdmin();
+        $user = $this->withoutExceptionHandling()->loginAsAdmin();
+        $user->update(['name' => 'Billy Bob']);
+        $user->refresh();
 
-        factory(Academics::class)->create([
+        $createdAcademics = factory(Academics::class)->create([
             'name' => $user->name,
             'user_id' => $user->id
         ]);
 
         $updated_academics = [
-            'Cumulative_GPA' => $user->latestAcademics()->Cumulative_GPA + 1,
-            'Previous_Term_GPA' => $user->latestAcademics()->Previous_Term_GPA + 1,
-            'Current_Term_GPA' => $user->latestAcademics()->Current_Term_GPA + 1,
+            'name' => $user->name,
+            'Cumulative_GPA' => $user->latestAcademics()->Cumulative_GPA - 0.5,
+            'Previous_Term_GPA' => $user->latestAcademics()->Previous_Term_GPA - 0.5,
+            'Current_Term_GPA' => $user->latestAcademics()->Current_Term_GPA - 0.5,
             'Previous_Academic_Standing' => 'test',
             'Current_Academic_Standing' => 'test',
         ];
 
-        $response = $this->patch('/user/' . $user->id . '/academics/' . $user->latestAcademics()->id . '/update', $updated_academics);
+        $this
+            ->followingRedirects()
+            ->patch('/user/' . $user->id . '/academics/' . $user->latestAcademics()->id . '/update', $updated_academics)
+            ->assertSuccessful()
+            ->assertSee(e('Successfully overrode ' . $user->name . '\'s academic records!'));
+
+        $this->assertFalse($this->checkIfAcademicsAreEqual($createdAcademics, $user->latestAcademics()->toArray()));
+
         $this->assertDatabaseHas('academics', $updated_academics);
     }
 
+    /**
+     * Helper function for test_can_override_user() that checks if the academics that the
+     * factory created are the same as the updated academics in the database
+     *
+     * @param array $createdAcademics
+     * @param array $updated_academics
+     * @return bool
+     */
+    private function checkIfAcademicsAreEqual($createdAcademics, $latestAcademics): bool
+    {
+        unset($createdAcademics['id']);
+        unset($createdAcademics['organization_id']);
+        unset($createdAcademics['user_id']);
+        unset($createdAcademics['created_at']);
+        unset($createdAcademics['updated_at']);
 
+        return serialize($createdAcademics) === serialize($latestAcademics);
+    }
 
     public function test_basic_update_standing()        //"Basic" is when you upload a new excel file with data that gets updated
     {

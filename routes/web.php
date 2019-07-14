@@ -152,15 +152,15 @@ Route::middleware('auth')->group(function () {
 
             Route::middleware('ManageAcademics')->group(function () {
                 Route::resource('academics', 'AcademicsController')->only(['index', 'store']);
-                Route::get('/academics/user_id/{academics}/edit', 'AcademicsController@edit');
-                Route::patch('/user/{user}/academics/{academics}/update', 'AcademicsController@update');
-                Route::get('/academics/manage', 'AcademicsController@manage');
-                Route::get('/academics/downloadExampleFile', 'AcademicsController@getExampleFile');
-                Route::post('/academics/notifyAll', 'NotifyController@academicsNotifyAll');
-                Route::post('/academics/notify/selected', 'NotifyController@academicsNotifySelected');
-                Route::post('/academics/notify/specificStanding', 'NotifyController@academicsNotifySpecificStanding');
-                Route::patch('/academicStandings/{academicStandings}', 'AcademicStandingsController@update');
-                Route::delete('/academicStandings/{academicStandings}', 'AcademicStandingsController@destroy');
+                Route::get('/academics/user_id/{academics}/edit', 'AcademicsController@edit')->name('academics.edit');
+                Route::patch('/user/{user}/academics/{academics}/update', 'AcademicsController@update')->name('academics.update');
+                Route::get('/academics/manage', 'AcademicsController@manage')->name('academics.manage');
+                Route::get('/academics/downloadExampleFile', 'AcademicsController@getExampleFile')->name('academics.getExampleFile');
+                Route::post('/academics/notifyAll', 'NotifyController@academicsNotifyAll')->name('academics.notifyAll');
+                Route::post('/academics/notify/selected', 'NotifyController@academicsNotifySelected')->name('academics.notifySelected');
+                Route::post('/academics/notify/specificStanding', 'NotifyController@academicsNotifySpecificStanding')->name('academics.notifySpecificStanding');
+                Route::patch('/academicStandings/{academicStandings}', 'AcademicStandingsController@update')->name('academicStandings.update');
+                Route::delete('/academicStandings/{academicStandings}', 'AcademicStandingsController@destroy')->name('academicStandings.destroy');
             });
         });
     });
