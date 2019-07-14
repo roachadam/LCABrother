@@ -16,7 +16,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Standing') }}</label>
 
                             <div class="col-md-4">
-                            <input id="name" type="text" class="form-control" name="name" value="{{$academicStanding->nameWithSpace}}" readonly="readonly" autofocus>
+                            <input id="name" type="text" class="form-control" name="name" value="{{$academicStanding->name}}" readonly="readonly" autofocus>
                             </div>
                         </div>
 

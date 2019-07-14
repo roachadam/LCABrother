@@ -121,10 +121,12 @@ class Organization extends Model
     {
         return $this->hasOne(Goals::class);
     }
+
     public function serviceEvents()
     {
         return $this->hasMany(ServiceEvent::Class);
     }
+
     public function getActiveServiceEvents()
     {
         $activeSemester = $this->getActiveSemester();
@@ -192,16 +194,15 @@ class Organization extends Model
 
         return $attributes;
     }
+
     public function getTotals()
     {
         $users = $this->users;
         $attributes = [];
-        $count = 0;
         $tempService = 0;
         $tempMoney = 0;
         $tempPoints = 0;
         foreach ($users  as $user) {
-            $count++;
             $tempService += $user->getServiceHours();
             $tempMoney += $user->getMoneyDonated();
             $tempPoints += $user->getInvolvementPoints();

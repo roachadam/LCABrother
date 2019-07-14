@@ -11,25 +11,26 @@ use DB;
 
 class OrganizationTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     use RefreshDatabase;
-    public function registerUser()
+
+    public function test_can_register_user()
     {
         $user = factory(User::class)->make();
-        $response = $this->post('/register', [
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'password' => 'secret123!=-',
-            'password_confirmation' => 'secret123!=-'
-        ]);
-        return $response;
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->post('/register', [
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => $user->phone,
+                'password' => 'secret123!=-',
+                'password_confirmation' => 'secret123!=-'
+            ])
+            ->assertSuccessful()
+            ->assertSee('Add Avatar');
     }
-    public function test_get_createOrganization_page()
+
+    public function test_get_create_organization_page()
     {
         $user = factory(User::class)->make();
         $response = $this->post('/register', [

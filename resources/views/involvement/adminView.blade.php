@@ -18,6 +18,7 @@
                         <th>Event</th>
                         <th>Point Value</th>
                         <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,6 +27,7 @@
                             <td>{{$event->name}}</td>
                             <td>{{$event->points}}</td>
                             <td><button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#editEvent{{$event->id}}">Edit</button></td>
+                            <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#deleteEvent{{$event->id}}">Delete</button></td>
                         </tr>
 
                         <!--.modal for Editing Event-->
@@ -62,6 +64,34 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
                                                 <button type="submit" class="btn btn-inline btn-primary">Update</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div><!--.modal-->
+
+                            <!--.modal for confirming deletion-->
+                            <div class="modal fade" id="deleteEvent{{$event->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                                                <i class="font-icon-close-2"></i>
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel">Delete Involvement Event</h4>
+                                        </div>
+                                        <form action="/involvement/{{$event->id}}" method="POST" class="box" >
+                                            <div class="modal-body">
+                                                @csrf
+                                                @method('DELETE')
+                                                <div class="col-md-12">
+                                                    <p>Are you sure you want to remove this involvement event?</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-inline btn-danger">Delete</button>
                                             </div>
                                         </form>
                                     </div>

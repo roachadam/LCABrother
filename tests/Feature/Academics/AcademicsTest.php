@@ -4,16 +4,15 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Academics;
-use App\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\GradesImport;
 use Illuminate\Http\UploadedFile;
+use App\AcademicStandings;
 
 class AcademicsTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
     /**
      * Testing getting the academics page
@@ -102,8 +101,7 @@ class AcademicsTest extends TestCase
             return $academic['name'] !== null && $academic['Cumulative_GPA'] !== null && $academic['Current_Term_GPA'] !== null;
         })->values();
 
-        $this->assertTrue($academics->isNotEmpty());
-        $this->assertTrue($academics->count() === 3);
+        $this->assertTrue($academics->isNotEmpty() && $academics->count() === 3);
     }
 
     /**
@@ -161,34 +159,56 @@ class AcademicsTest extends TestCase
             ->assertSuccessful()
             ->assertSee(e('Successfully overrode ' . $user->name . '\'s academic records!'));
 
-        $this->assertFalse($this->checkIfAcademicsAreEqual($createdAcademics, $user->latestAcademics()->toArray()));
+        $this->assertFalse($this->checkIfAcademicsAreEqual($createdAcademics->toArray(), $user->latestAcademics()->toArray()));
+
+        $this->assertTrue($this->checkIfAcademicsAreEqual($updated_academics, $user->latestAcademics()->toArray()));
 
         $this->assertDatabaseHas('academics', $updated_academics);
     }
 
     /**
-     * Helper function for test_can_override_user() that checks if the academics that the
-     * factory created are the same as the updated academics in the database
+     * Helper function for test_can_override_user() that checks if the arrays passed
+     * are equal
      *
      * @param array $createdAcademics
      * @param array $updated_academics
      * @return bool
      */
-    private function checkIfAcademicsAreEqual($createdAcademics, $latestAcademics): bool
+    private function checkIfAcademicsAreEqual($academics, $latestAcademics): bool
     {
-        unset($createdAcademics['id']);
-        unset($createdAcademics['organization_id']);
-        unset($createdAcademics['user_id']);
-        unset($createdAcademics['created_at']);
-        unset($createdAcademics['updated_at']);
+        $academicsSize = count($academics);
+        $latestAcademicsSize = count($latestAcademics);
 
-        return serialize($createdAcademics) === serialize($latestAcademics);
+        $size = ($academicsSize <= $latestAcademicsSize) ? $academicsSize : $latestAcademicsSize;
+
+        return count(array_intersect($academics, $latestAcademics)) === $size;
     }
 
     public function test_basic_update_standing()        //"Basic" is when you upload a new excel file with data that gets updated
     {
         $this->withoutExceptionHandling();
         $user = $this->loginAsAdmin();
+
+        //Good 2.5
+        factory(AcademicStandings::class)->create([
+            'id' => 1,
+        ]);
+
+        //Probation 1.0
+        factory(AcademicStandings::class)->create([
+            'id' => 2,
+            'name' => 'Probation',
+            'Term_GPA_Min' => 1.0,
+            'Cumulative_GPA_Min' => 1.0,
+        ]);
+
+        //Suspension 0
+        factory(AcademicStandings::class)->create([
+            'id' => 3,
+            'name' => 'Suspension',
+            'Term_GPA_Min' => 0,
+            'Cumulative_GPA_Min' => 0,
+        ]);
 
         factory(Academics::class)->create([
             'name' => $user->name,
@@ -209,8 +229,8 @@ class AcademicsTest extends TestCase
         ]);
 
         //Standing: Good -> Probation
-        $this->patch('academics/' . $user->latestAcademics()->id . '/update', [
-            'Current_Term_GPA' => 2.2
+        $this->patch('user/' . $user->id . '/academics/' . $user->latestAcademics()->id . '/update', [
+            'Current_Term_GPA' => 2.5
         ]);
         $user->updateStanding();
         $this->assertDatabaseHas('academics', [
@@ -218,9 +238,8 @@ class AcademicsTest extends TestCase
             'Current_Academic_Standing' => 'Probation',
         ]);
 
-
         //Standing: Probation -> Suspension
-        $this->patch('academics/' . $user->latestAcademics()->id . '/update', [
+        $this->patch('user/' . $user->id . '/academics/' . $user->latestAcademics()->id . '/update', [
             'Current_Term_GPA' => 1.0
         ]);
         $user->updateStanding();
@@ -229,9 +248,8 @@ class AcademicsTest extends TestCase
             'Current_Academic_Standing' => 'Suspension',
         ]);
 
-
         //Standing: Suspension -> Probation
-        $this->patch('academics/' . $user->latestAcademics()->id . '/update', [
+        $this->patch('user/' . $user->id . '/academics/' . $user->latestAcademics()->id . '/update', [
             'id' => $user->latestAcademics()->id,
             'Current_Term_GPA' => 4.0,
             'Previous_Academic_Standing' => $user->latestAcademics()->Current_Academic_Standing,
@@ -242,9 +260,8 @@ class AcademicsTest extends TestCase
             'Current_Academic_Standing' => 'Probation',
         ]);
 
-
         //Standing: Probation -> Good
-        $this->patch('academics/' . $user->latestAcademics()->id . '/update', [
+        $this->patch('user/' . $user->id . '/academics/' . $user->latestAcademics()->id . '/update', [
             'id' => $user->latestAcademics()->id,
             'Current_Term_GPA' => '3.1',
             'Previous_Academic_Standing' => $user->latestAcademics()->Current_Academic_Standing,
@@ -255,9 +272,8 @@ class AcademicsTest extends TestCase
             'Current_Academic_Standing' => 'Good',
         ]);
 
-
         //Standing: Good -> Suspension
-        $this->patch('academics/' . $user->latestAcademics()->id . '/update', [
+        $this->patch('user/' . $user->id . '/academics/' . $user->latestAcademics()->id . '/update', [
             'id' => $user->latestAcademics()->id,
             'Current_Term_GPA' => 0.5,
             'Previous_Academic_Standing' => $user->latestAcademics()->Current_Academic_Standing,
@@ -269,8 +285,8 @@ class AcademicsTest extends TestCase
         ]);
     }
 
-    public function test_advanced_update_standing()         //"Advanced" is when you override a user and it has to figure out what you changed and update from there
-    {
-        //TODO
-    }
+    // public function test_advanced_update_standing()         //"Advanced" is when you override a user and it has to figure out what you changed and update from there
+    // {
+    //     //TODO
+    // }
 }

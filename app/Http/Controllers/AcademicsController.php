@@ -21,7 +21,8 @@ class AcademicsController extends Controller
      */
     public function index()
     {
-        $users = User::where('organization_id', auth()->user()->organization->id)->get();
+        $users = User::findAll(auth()->user()->organization->id);
+
         $users->load(['Academics' => function ($query) {
             $query->orderBy('created_at', 'desc');
         }]);
@@ -92,8 +93,9 @@ class AcademicsController extends Controller
     {
         $organization = auth()->user()->organization;
 
-        $academics = $organization->users->firstWhere('id', $academics->user_id)->latestAcademics();
-        $user = User::find($academics->user_id);
+        $user = User::findById($academics->user_id, $organization->id);
+        $academics = $user->latestAcademics();
+
         $academicStandings = AcademicStandings::where('organization_id', $organization->id)->get()->sortByDesc('Term_GPA_Min');
         return view('academics.override', compact('academics', 'user', 'academicStandings'));
     }
@@ -136,9 +138,14 @@ class AcademicsController extends Controller
     {
         $attributes = request()->validate($this->rules());
 
-        if ($attributes['Previous_Academic_Standing'] === $academics->Previous_Academic_Standing && $attributes['Current_Academic_Standing'] === $academics->Current_Academic_Standing) {
-            $academics->update($attributes);
-            $academics->updateStanding();
+        if (isset($attributes['Previous_Academic_Standing']) && isset($attributes['Current_Academic_Standing'])) {
+
+            if ($attributes['Previous_Academic_Standing'] === $academics->Previous_Academic_Standing && $attributes['Current_Academic_Standing'] === $academics->Current_Academic_Standing) {
+                $academics->update($attributes);
+                $academics->updateStanding();
+            } else {
+                $academics->update($attributes);
+            }
         } else {
             $academics->update($attributes);
         }
@@ -150,7 +157,7 @@ class AcademicsController extends Controller
     private function rules()
     {
         return [
-            'name' => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'name' => ['regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
             'Cumulative_GPA' => ['min:0', 'max:5.0'],
             'Previous_Term_GPA' => ['min:0', 'max:5.0'],
             'Current_Term_GPA' => ['min:0', 'max:5.0'],

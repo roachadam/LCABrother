@@ -14,6 +14,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Commons\NotificationFunctions;
 use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Database\Eloquent\Collection;
 
 class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
@@ -39,6 +40,42 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
             NotificationFunctions::alert('success', 'Updated your details!');
             return back();
         });
+    }
+
+    //Static helper functions
+    public static function findByName($name, $organizationId = null): ?User
+    {
+        if (isset($organizationId)) {
+            return self::where([
+                'organization_id' => $organizationId,
+                'name' => $name,
+            ])->first();
+        } else {
+            return self::where('name', $name)->first();
+        }
+    }
+
+    public static function findById($id, $organizationId = null): ?User
+    {
+        if (isset($organizationId)) {
+            return self::where([
+                'organization_id' => $organizationId,
+                'id' => $id,
+            ])->first();
+        } else {
+            return self::where('id', $id)->first();
+        }
+    }
+
+    public static function findAll($organizationId = null): ?Collection
+    {
+        if (isset($organizationId)) {
+            return self::where([
+                'organization_id' => $organizationId
+            ])->get();
+        } else {
+            return self::all();
+        }
     }
 
     public function setBasicUser()
@@ -124,9 +161,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function getActiveServiceLogs()
     {
-        $activeSemester = $this->organization->getActiveSemester();
-        $activeServiceLogs = $this->serviceLogs()->where('created_at', '>', $activeSemester->start_date)->get();
-        return $activeServiceLogs;
+        return $this->serviceLogs()->where('created_at', '>', $this->organization->getActiveSemester()->start_date)->get();
     }
 
     // Involvement Logs
@@ -147,9 +182,8 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function getInvolvementPoints()
     {
-        $InvolvementLogs = $this->getActiveInvolvementLogs();
         $points = 0;
-        foreach ($InvolvementLogs as $log) {
+        foreach ($this->getActiveInvolvementLogs() as $log) {
             $points += $log->involvement->points;
         }
         return $points;
@@ -157,9 +191,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function getActiveInvolvementLogs()
     {
-        $activeSemester = $this->organization->getActiveSemester();
-        $activeInvolvementLogs = $this->InvolvementLogs()->where('created_at', '>', $activeSemester->start_date)->get();
-        return $activeInvolvementLogs;
+        return $this->InvolvementLogs()->where('created_at', '>', $this->organization->getActiveSemester()->start_date)->get();
     }
 
     //Academics stuff

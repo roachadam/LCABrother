@@ -128,26 +128,26 @@ Route::middleware('auth')->group(function () {
             Route::get('/alumni/contact', 'AlumniController@contact');
             Route::post('/alumni/contact/send', 'AlumniController@send');
 
-            Route::get('/totals', 'TotalsController@index');
+            Route::get('/totals', 'TotalsController@index')->name('totals.index');
 
             Route::get('/event/{event}/invites', 'InviteController@index');
-            Route::get('/event/{event}/invite', 'InviteController@create');
-            Route::post('/event/{event}/invite', 'InviteController@store');
+            Route::get('/event/{event}/invite', 'InviteController@create')->name('invite.create');
+            Route::post('/event/{event}/invite', 'InviteController@store')->name('invite.store');
             Route::delete('/invite/{invite}', 'InviteController@destroy');
 
             Route::get('/serviceEvents/indexByUser', 'ServiceEventController@indexByUser');
             Route::get('/users/{user}/service', 'UserController@serviceBreakdown');
 
-            Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown');
-
             Route::resource('involvement', 'InvolvementController')->only(['index', 'store']); //except(['destroy', 'update', 'show', 'edit', 'create']);
             Route::resource('involvementLog', 'InvolvementLogController')->only(['store', 'destroy']);
+            Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown')->name('involvementLog.breakdown');
 
             Route::middleware('ManageInvolvement')->group(function () {
-                Route::get('/involvement/adminView', 'InvolvementController@adminView');
-                Route::post('/involvement/import', 'InvolvementController@import');
-                Route::patch('/involvement/{involvement}/update', 'InvolvementController@update');
-                Route::post('/involvement/setPoints', 'InvolvementController@setPoints');
+                Route::get('/involvement/adminView', 'InvolvementController@adminView')->name('involvement.adminView');
+                Route::post('/involvement/import', 'InvolvementController@import')->name('involvement.import');
+                Route::patch('/involvement/{involvement}/update', 'InvolvementController@update')->name('involvement.update');
+                Route::post('/involvement/setPoints', 'InvolvementController@setPoints')->name('involvement.setPoints');
+                Route::delete('involvement/{involvement}', 'InvolvementController@destroy')->name('involvement.delete');
             });
 
             Route::middleware('ManageAcademics')->group(function () {
