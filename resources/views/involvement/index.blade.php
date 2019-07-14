@@ -8,9 +8,8 @@
                 <h2 class="card-title">Involvement Points</h2>
                 @if ($canManageInvolvement)
                     <div class="ml-auto" id="headerButtons">
-                        <a href="/involvement/create" class="btn btn-inline btn-primary">Create New</a>
                         <button type="button" class="btn btn-inline btn-secondary-outline" data-toggle="modal" data-target="#addInvolvementScores">Add Involvement Scores</button>
-                        <button type="button" class="btn btn-inline btn-secondary-outline" data-toggle="modal" data-target="#uploadInvolvementData">Upload Involvement Data</button>
+                        <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#uploadInvolvementData">Upload Involvement Data</button>
                     </div>
                 @endif
             </div>

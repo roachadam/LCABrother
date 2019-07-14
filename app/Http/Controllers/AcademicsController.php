@@ -131,8 +131,8 @@ class AcademicsController extends Controller
      */
     public function update(Request $request, User $user, Academics $academics)
     {
-        $attributes = request()->all();
-        //dd($attributes);
+        $attributes = request()->validate($this->rules());
+
         if ($attributes['Previous_Academic_Standing'] === $academics->Previous_Academic_Standing && $attributes['Current_Academic_Standing'] === $academics->Current_Academic_Standing) {
             $academics->update($attributes);
             $academics->updateStanding();
@@ -142,6 +142,18 @@ class AcademicsController extends Controller
 
         Event(new OverrideAcademics($user, $academics));
         return redirect('/academics');
+    }
+
+    private function rules()
+    {
+        return [
+            'name' => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'Cumulative_GPA' => ['min:0', 'max:5.0'],
+            'Previous_Term_GPA' => ['min:0', 'max:5.0'],
+            'Current_Term_GPA' => ['min:0', 'max:5.0'],
+            'Previous_Academic_Standing' => [],
+            'Current_Academic_Standing' => [],
+        ];
     }
 
     /**

@@ -144,9 +144,9 @@ Route::middleware('auth')->group(function () {
             Route::resource('involvementLog', 'InvolvementLogController')->only(['store', 'destroy']);
 
             Route::middleware('ManageInvolvement')->group(function () {
-                Route::get('/involvement/create', 'InvolvementController@create');
-                Route::get('/involvement/edit', 'InvolvementController@edit');
+                Route::get('/involvement/adminView', 'InvolvementController@adminView');
                 Route::post('/involvement/import', 'InvolvementController@import');
+                Route::patch('/involvement/{involvement}/update', 'InvolvementController@update');
                 Route::post('/involvement/setPoints', 'InvolvementController@setPoints');
             });
 

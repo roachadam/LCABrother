@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Commons\NotificationFunctions;
 use App\Commons\ImportHelperFunctions;
 use App\Commons\InvolvementHelperFunctions;
+use App\Involvement;
 
 class InvolvementController extends Controller
 {
@@ -27,22 +28,6 @@ class InvolvementController extends Controller
         $users = $organization->getVerifiedMembers();
 
         return view('involvement.index', compact('users', 'canManageInvolvement', 'involvements', 'verifiedMembers'));
-    }
-
-    public function edit()
-    {
-        $events = auth()->user()->organization->involvement;
-        return view('/involvement/edit', compact('events'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('involvement.create');
     }
 
     /**
@@ -70,8 +55,21 @@ class InvolvementController extends Controller
 
             NotificationFunctions::alert('success', 'Successfully created and involvement event for ' . $attributes['name'] . 's');
             //redirect
-            return redirect('/involvement');
+            return back();
         }
+    }
+
+    public function update(Request $request, Involvement $involvement)
+    {
+        $attributes = request()->validate([
+            'name' => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'points' => ['required', 'numeric', 'min:0', 'max:999']
+        ]);
+
+        $involvement->update($attributes);
+
+        NotificationFunctions::alert('success', 'Successfully updated event!');
+        return back();
     }
 
     public function import(Request $request)
@@ -108,7 +106,7 @@ class InvolvementController extends Controller
     private function checkNullEvents($events)
     {
         if ($events->isNotEmpty()) {
-            return redirect('/involvement/edit');
+            return view('/involvement/edit', compact('events'));
         } else {
             NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');
             return redirect('/involvement');
@@ -132,5 +130,11 @@ class InvolvementController extends Controller
             $event->update(['points' => $points]);
         }
         return redirect('/involvement');
+    }
+
+    public function adminView()
+    {
+        $events = auth()->user()->organization->involvement;
+        return view('/involvement/adminView', compact('events'));
     }
 }

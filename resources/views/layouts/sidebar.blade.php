@@ -21,7 +21,7 @@
         <li class="pink {{ request()->is('involvement') ? 'opened' : '' }}">
             <a href="/involvement">
                 <i class="glyphicon glyphicon-equalizer"></i>
-                <span class="lbl">Involvment Points</span>
+                <span class="lbl">Involvment</span>
             </a>
         </li>
         <li class="blue {{ request()->is('users/contact') ? 'opened' : '' }}">
@@ -77,10 +77,10 @@
             @endif
             @if (auth()->user()->canManageInvolvement())
                 <li class="red {{ request()->is('involvement/edit') ? 'opened' : '' }}">
-                    <a href="/involvement/edit">
+                    <a href="/involvement/adminView">
                     <span>
                         <i class="glyphicon glyphicon-signal"></i>
-                        <span class="lbl">Edit Point Values</span>
+                        <span class="lbl">Involvement Events</span>
                     </span>
                     </a>
                 </li>
