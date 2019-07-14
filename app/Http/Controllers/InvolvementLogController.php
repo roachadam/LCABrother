@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\InvolvementLog;
 use Illuminate\Http\Request;
+use App\Commons\NotificationFunctions;
 use DB;
 use App\Involvement;
 use App\User;
@@ -12,7 +13,7 @@ class InvolvementLogController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('ManageInvolvement')->except('index');
+        $this->middleware('ManageInvolvement')->except(['index', 'breakdown']);
     }
 
     /**
@@ -29,14 +30,15 @@ class InvolvementLogController extends Controller
             'date_of_event' => 'required'
         ]);
         $involvement = Involvement::find($attributes['involvement_id']);
-        //$date = '2019-05-31 14:05:39';
 
         foreach ($attributes['usersInvolved'] as $user_id) {
             $user = User::find($user_id);
             $user->addInvolvementLog($involvement, $attributes['date_of_event']);
         }
 
-        return redirect('/involvement');
+        NotificationFunctions::alert('success', 'Involvement points were logged!');
+
+        return redirect(route('involvement.index'));
     }
 
     /**
@@ -48,6 +50,7 @@ class InvolvementLogController extends Controller
     public function destroy(InvolvementLog $involvementLog)
     {
         $involvementLog->delete();
+        NotificationFunctions::alert('danger', 'Involvement log(s) deleted!');
         return back();
     }
 

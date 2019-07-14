@@ -1,18 +1,14 @@
 @extends('layouts.main')
 
 @section('content')
-    <header class="section-header">
-            <div class="tbl">
-                <div class="tbl-row">
-                    <div class="tbl-cell">
-                        <h2>Involvement Logs</h2>
-                        {{-- <div class="subtitle">Welcome to Ultimate Dashboard</div> --}}
-                    </div>
+
+<section class="card">
+        <div class="card-block">
+            <header class="card-header" style="border-bottom: 0">
+                <div class="row">
+                    <h2 class="card-title">{{auth()->user()->name}}'s Involvement Logs</h2>
                 </div>
-            </div>
-        </header>
-        <section class="card">
-		<div class="card-block">
+            </header>
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
                 <thead>
                     <tr>
@@ -20,7 +16,7 @@
                         <th>Points</th>
                         <th>Date</th>
                         @if (auth()->user()->canManageInvolvement())
-                        <th>View BreakDown</th>
+                            <th>View BreakDown</th>
                         @endif
                     </tr>
                 </thead>

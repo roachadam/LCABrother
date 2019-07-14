@@ -5,35 +5,42 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-//use Faker\Generator as Faker;
 use App\Involvement;
+
 class InvolvementLogTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
-    public function test_can_create_logs()
+
+    /**
+     * Testing ability to add a new Involvement Log
+     */
+    public function test_can_add_involvementLog()
     {
-        $this->withoutExceptionHandling();
+        $user = $this->loginAsAdmin();
 
-        $this->loginAsAdmin();
         $event = factory(Involvement::class)->create(['organization_id' => auth()->user()->organization->id]);
-        $dt = $this->faker->dateTimeAD();
-        //dd($dt);
-        $response = $this->post('/involvementLog',[
-            'involvement_id' => $event->id,
-            'date_of_event' => '2001-10-26 21:32:52',
-            'usersInvolved' => [auth()->user()->id]
-        ]);
+        $dateOfEvent = now()->format('m/d/Y');
 
-        $this->assertDatabaseHas('involvement_logs',[
-            'organization_id' => auth()->user()->organization->id,
-            'user_id' => auth()->id(),
-            'involvement_id' => $event->id,
-            'date_of_event' => '2001-10-26 21:32:52',
-        ]);
-        $response = $this->get('/involvementLog');
-        $response->assertSee(auth()->user()->name);
-        $response->assertSee(auth()->user()->getInvolvementPoints());
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->from(route('involvement.index'))
+            ->post(route('involvementLog.store'), [
+                'involvement_id' => $event->id,
+                'usersInvolved' => [$user->id],
+                'date_of_event' => $dateOfEvent,
+            ])
+            ->assertSuccessful()
+            ->assertSee('Involvement points were logged!')
+            ->assertSee($user->name)
+            ->assertSee($user->getInvolvementPoints());
 
+        $this->assertDatabaseHas('involvement_logs', [
+            'organization_id' => $user->organization->id,
+            'user_id' => $user->id,
+            'involvement_id' => $event->id,
+            'date_of_event' => $dateOfEvent,
+        ]);
     }
 }
