@@ -43,7 +43,7 @@
                                             @method('PATCH')
                                             <div class="modal-body">
                                                     <div class="form-group row">
-                                                        <label for="name" class="col-md-3 col-form-label text-md-right">{{ __('Name') }}</label>
+                                                        <label for="name" class="col-md-3 col-form-label text-md-right">{{ __('Name:') }}</label>
 
                                                         <div class="col-md-9">
                                                             <input id="name" type="text" class="form-control " name="name" value="{{ $event->name }}" required autofocus>
@@ -51,7 +51,7 @@
                                                     </div>
 
                                                     <div class="form-group row">
-                                                        <label for="points" class="col-md-3 col-form-label text-md-right">{{ __('Point Value') }}</label>
+                                                        <label for="points" class="col-md-3 col-form-label text-md-right">{{ __('Point Value:') }}</label>
 
                                                         <div class="col-md-9">
                                                             <input id="points" type="text" class="form-control " name="points" value="{{ $event->points }}" required autofocus>
@@ -61,7 +61,7 @@
 
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-inline btn-primary">Create</button>
+                                                <button type="submit" class="btn btn-inline btn-primary">Update</button>
                                             </div>
                                         </form>
                                     </div>

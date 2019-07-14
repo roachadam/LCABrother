@@ -12,7 +12,7 @@
                         @method('PATCH')
                         @csrf
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('User Name') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('User Name:') }}</label>
 
                             <div class="col-md-4">
                                 <input id="name" type="text" class="form-control " name="name" value="{{ $academics->name }}" required  readonly="readonly" autofocus>
@@ -20,7 +20,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="Cumulative_GPA" class="col-md-4 col-form-label text-md-right">{{ __('Cumulative GPA') }}</label>
+                            <label for="Cumulative_GPA" class="col-md-4 col-form-label text-md-right">{{ __('Cumulative GPA:') }}</label>
 
                             <div class="col-md-4">
                                 <input id="Cumulative_GPA" type="text" class="form-control" name="Cumulative_GPA" value="{{ $academics->Cumulative_GPA }}" autofocus>
@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="Previous_Term_GPA" class="col-md-4 col-form-label text-md-right">{{ __('Previous Term GPA') }}</label>
+                            <label for="Previous_Term_GPA" class="col-md-4 col-form-label text-md-right">{{ __('Previous Term GPA:') }}</label>
 
                             <div class="col-md-4">
                                 <input id="Previous_Term_GPA" type="text" class="form-control " name="Previous_Term_GPA" value="{{ $academics->Previous_Term_GPA }}" autofocus>
@@ -36,7 +36,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="Current_Term_GPA" class="col-md-4 col-form-label text-md-right">{{ __('Current Term GPA') }}</label>
+                            <label for="Current_Term_GPA" class="col-md-4 col-form-label text-md-right">{{ __('Current Term GPA:') }}</label>
 
                             <div class="col-md-4">
                                 <input id="Current_Term_GPA" type="text" class="form-control " name="Current_Term_GPA" value="{{ $academics->Current_Term_GPA }}" autofocus>
@@ -58,7 +58,7 @@
 
 
                         <div class="form-group row">
-                            <label for="Previous_Academic_Standing" class="col-md-4 col-form-label text-md-right">{{ __('Previous Academic Standing') }}</label>
+                            <label for="Previous_Academic_Standing" class="col-md-4 col-form-label text-md-right">{{ __('Previous Academic Standing:') }}</label>
 
                             <select name="Previous_Academic_Standing" id="Previous_Academic_Standing" class="col-md-4 form-control" value="{{ $academics->Previous_Academic_Standing }}">
                                 <option value=" "> </option>
@@ -69,7 +69,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="Current_Academic_Standing" class="col-md-4 col-form-label text-md-right">{{ __('Current Academic Standing') }}</label>
+                            <label for="Current_Academic_Standing" class="col-md-4 col-form-label text-md-right">{{ __('Current Academic Standing:') }}</label>
 
                             <select name="Current_Academic_Standing" id="Current_Academic_Standing" class="col-md-4 form-control" value="{{ $academics->Current_Academic_Standing }}">
                                 <option value=" "> </option>
