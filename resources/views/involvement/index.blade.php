@@ -21,7 +21,7 @@
                 <th>Name</th>
                 <th>Points</th>
                 @if ($canManageInvolvement)
-                <th>View BreakDown</th>
+                    <th>View BreakDown</th>
                 @endif
             </tr>
             </thead>

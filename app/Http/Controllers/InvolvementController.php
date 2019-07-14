@@ -137,4 +137,12 @@ class InvolvementController extends Controller
         $events = auth()->user()->organization->involvement;
         return view('/involvement/adminView', compact('events'));
     }
+
+    public function destroy(Involvement $involvement)
+    {
+        $involvement->delete();
+        NotificationFunctions::alert('success', 'Event has been deleted!');
+
+        return redirect(route('involvement.adminView'));
+    }
 }

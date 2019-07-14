@@ -55,9 +55,9 @@ class InvolvementTest extends TestCase
      */
     public function test_cannot_add_involvement_without_points()
     {
-        $this->loginAsAdmin();
+        $user = $this->loginAsAdmin();
         $event = factory(Involvement::class)->raw([
-            'organization_id' => auth()->user()->organization->id,
+            'organization_id' => $user->organization->id,
             'points' => ''
         ]);
 
@@ -87,8 +87,8 @@ class InvolvementTest extends TestCase
      */
     public function test_can_add_involvement()
     {
-        $this->loginAsAdmin();
-        $event = factory(Involvement::class)->raw(['organization_id' => auth()->user()->organization->id]);
+        $user = $this->loginAsAdmin();
+        $event = factory(Involvement::class)->raw(['organization_id' => $user->organization->id]);
 
         $this
             ->withoutExceptionHandling()
@@ -106,23 +106,151 @@ class InvolvementTest extends TestCase
     }
 
     /**
-     * Testing ability to edit involvement event point value
+     * Testing editing involvement event point value with invalid data
+     */
+    public function test_edit_involvement_event_invalid_point_value()
+    {
+        $user = $this->loginAsAdmin();
+        $event = factory(Involvement::class)->create([
+            'organization_id' => $user->organization->id,
+            'name' => 'Social'
+        ]);
+
+        $newPoints = 'test';
+
+        $this
+            ->followingRedirects()
+            ->from(route('involvement.adminView'))
+            ->patch('involvement/' . $event->id . '/update', [
+                'name' => $event->name,
+                'points' => $newPoints,
+            ])
+            ->assertSuccessful()
+            ->assertSee('The points must be a number.');
+
+        $this->assertFalse($newPoints === $user->organization->involvement->where('id', $event->id)->first()->points);
+
+        $this->assertDatabaseHas('involvements', $event->toArray());
+    }
+
+    /**
+     * Testing ability to edit involvement event point value with valid data
      */
     public function test_edit_involvement_event_point_value()
     {
-        $this->loginAsAdmin();
-        $event = factory(Involvement::class)->create(['organization_id' => auth()->user()->organization->id]);
+        $user = $this->loginAsAdmin();
+        $event = factory(Involvement::class)->create([
+            'organization_id' => $user->organization->id,
+            'name' => 'Social'
+        ]);
+
+        $originalPoints = $event->points;
+        $newPoints = $event->points + 10;
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->from(route('involvement.adminView'))
+            ->patch('involvement/' . $event->id . '/update', [
+                'name' => $event->name,
+                'points' => $newPoints,
+            ])
+            ->assertSuccessful()
+            ->assertSee('Successfully updated event!')
+            ->assertSee($event->name)
+            ->assertSee($newPoints);
+
+        $this->assertFalse($originalPoints === $user->organization->involvement->where('id', $event->id)->first()->points);
+
+        $this->assertDatabaseHas('involvements', [
+            'name' => $event->name,
+            'points' => $newPoints,
+        ]);
+    }
+
+    /**
+     * Testing editing involvement event name with invalid data
+     */
+    public function test_edit_involvement_event_invalid_name()
+    {
+        $user = $this->loginAsAdmin();
+        $event = factory(Involvement::class)->create([
+            'organization_id' => $user->organization->id,
+            'name' => 'Social'
+        ]);
+
+        $newName = '';
+
+        $this
+            ->followingRedirects()
+            ->from(route('involvement.adminView'))
+            ->patch('involvement/' . $event->id . '/update', [
+                'name' => $newName,
+                'points' => $event->points,
+            ])
+            ->assertSuccessful()
+            ->assertSee('The name field is required.');
+
+        $this->assertFalse($newName === $user->organization->involvement->where('id', $event->id)->first()->name);
+
+        $this->assertDatabaseHas('involvements', $event->toArray());
     }
 
     /**
      * Testing ability to edit involvement event name
      */
-    public function test_edit_involvement_event_name()
-    { }
+    public function test_edit_involvement_event_valid_name()
+    {
+        $user = $this->loginAsAdmin();
+        $event = factory(Involvement::class)->create([
+            'organization_id' => $user->organization->id,
+            'name' => 'Recruitment'
+        ]);
+
+        $originalName = $event->name;
+        $newName = 'Social';
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->from(route('involvement.adminView'))
+            ->patch('involvement/' . $event->id . '/update', [
+                'name' => $newName,
+                'points' => $event->points,
+            ])
+            ->assertSuccessful()
+            ->assertSee('Successfully updated event!')
+            ->assertSee($newName)
+            ->assertSee($event->points);
+
+        $this->assertFalse($originalName === $user->organization->involvement->where('id', $event->id)->first()->name);
+
+        $this->assertDatabaseHas('involvements', [
+            'name' => $newName,
+            'points' => $event->points,
+        ]);
+    }
 
     /**
      * Testing ability to delete Involvement Events
      */
     public function test_can_delete_involvement_event()
-    { }
+    {
+        $user = $this->loginAsAdmin();
+        $event = factory(Involvement::class)->create([
+            'organization_id' => $user->organization->id,
+            'name' => 'Social'
+        ]);
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->from(route('involvement.adminView'))
+            ->delete('/involvement/' . $event->id)
+            ->assertSuccessful()
+            ->assertSee('Event has been deleted!')
+            ->assertDontSee($event->name);
+
+        $this->assertDatabaseMissing('involvements', $event->toArray());
+    }
 }
