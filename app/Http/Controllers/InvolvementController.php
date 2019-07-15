@@ -47,7 +47,7 @@ class InvolvementController extends Controller
         //Check if that event already exists
         if (InvolvementHelperFunctions::checkIfInvolvementEventExists($attributes)->isNotEmpty()) {
             NotificationFunctions::alert('danger', 'An Involvement event for ' . $attributes['name'] . 's already exits');
-            return back();
+            return redirect(route('involvement.adminView'));
         } else {
             //persist
             $org = auth()->user()->organization;
@@ -55,7 +55,7 @@ class InvolvementController extends Controller
 
             NotificationFunctions::alert('success', 'Successfully created and involvement event for ' . $attributes['name'] . 's');
             //redirect
-            return back();
+            return redirect(route('involvement.adminView'));
         }
     }
 
@@ -69,7 +69,7 @@ class InvolvementController extends Controller
         $involvement->update($attributes);
 
         NotificationFunctions::alert('success', 'Successfully updated event!');
-        return back();
+        return redirect(route('involvement.adminView'));
     }
 
     public function import(Request $request)
@@ -99,9 +99,9 @@ class InvolvementController extends Controller
             return $this->checkNullEvents($import->getNewServiceEvents());
         } else {
             NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
-            return back();
+            return redirect(route('involvement.index'));
         }
-    } 
+    }
 
     private function checkNullEvents($events)
     {
@@ -136,5 +136,13 @@ class InvolvementController extends Controller
     {
         $events = auth()->user()->organization->involvement;
         return view('/involvement/adminView', compact('events'));
+    }
+
+    public function destroy(Involvement $involvement)
+    {
+        $involvement->delete();
+        NotificationFunctions::alert('success', 'Event has been deleted!');
+
+        return redirect(route('involvement.adminView'));
     }
 }

@@ -10,7 +10,6 @@ $factory->define(AcademicStandings::class, function (Faker $faker) {
         'id' => rand(1, 10),
         'organization_id' => 1,
         'name' => 'Good',
-        'nameWithSpace' => 'Good',
         'Term_GPA_Min' => 2.5,
         'Cumulative_GPA_Min' => 2.5,
         'lowest' => 0,

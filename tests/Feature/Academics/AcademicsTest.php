@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Academics;
 // use App\User;
-// use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use App\AcademicStandings;
@@ -13,6 +13,7 @@ use App\AcademicStandings;
 class AcademicsTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
     /**
      * Testing getting the academics page
@@ -285,8 +286,8 @@ class AcademicsTest extends TestCase
         ]);
     }
 
-    public function test_advanced_update_standing()         //"Advanced" is when you override a user and it has to figure out what you changed and update from there
-    {
-        //TODO
-    }
+    // public function test_advanced_update_standing()         //"Advanced" is when you override a user and it has to figure out what you changed and update from there
+    // {
+    //     //TODO
+    // }
 }
