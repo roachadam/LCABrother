@@ -44,9 +44,6 @@ class AcademicStandingsController extends Controller
             'SubmitAndFinishCheck' => ['required', 'boolean'],
         ]);
 
-        $attributes['nameWithSpace'] = $attributes['name'];
-        $attributes['name'] = str_replace(' ', '_', $attributes['name']);
-
         $SubmitAndFinishCheck = $attributes['SubmitAndFinishCheck'];
         unset($attributes['SubmitAndFinishCheck']);
 

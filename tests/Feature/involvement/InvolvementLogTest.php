@@ -63,7 +63,7 @@ class InvolvementLogTest extends TestCase
             ->delete('/involvementLog/' . $involvementLog->id)
             ->assertSuccessful()
             ->assertSee('Involvement log deleted!')
-            ->assertDontSee(dd($involvementLog->date_of_event));
+            ->assertDontSee($involvementLog->date_of_event);
 
         $this->assertDatabaseMissing('involvement_logs', $involvementLog->toArray());
     }

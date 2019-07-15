@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Organization;
+
 class OrganizationsTableSeeder extends Seeder
 {
     /**
@@ -11,6 +12,10 @@ class OrganizationsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Organization::class, 10)->create();
+        factory(Organization::class)->create([
+            'id' => 1,
+            'name' => 'Lambda Chi Alpha',
+            'owner_id' => 1
+        ]);
     }
 }
