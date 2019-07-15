@@ -77,6 +77,7 @@ class InvolvementController extends Controller
         $request->validate(
             [
                 'InvolvementData' => 'required|file|max:2048|mimes:xlsx',
+                'test' => 'boolean',
             ],
             //Error messages
             ['InvolvementData.mimes' => 'You must upload a spread sheet']
@@ -90,7 +91,9 @@ class InvolvementController extends Controller
         ];
 
         if (ImportHelperFunctions::validateHeadingRow($file, $requiredHeadings)) {
-            ImportHelperFunctions::storeFileLocally($file, '/involvement');
+            if (!$request['test']) {
+                ImportHelperFunctions::storeFileLocally($file, '/involvement');
+            }
 
             $organization = auth()->user()->organization;
             $import = new InvolvementsImport(InvolvementHelperFunctions::getExistingLogs(), $organization, $organization->users);

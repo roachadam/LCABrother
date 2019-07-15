@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use App\Involvement;
 
 class InvolvementTest extends TestCase
@@ -104,6 +105,54 @@ class InvolvementTest extends TestCase
             "name" => $event['name'],
         ]);
     }
+
+    // /**
+    //  * Testing uploading an invalid file (in this case its empty)
+    //  */
+    // public function test_upload_invalid_file()
+    // {
+    //     $user = $this->loginAsAdmin();
+
+    //     $this
+    //         ->withoutExceptionHandling()
+    //         ->followingRedirects()
+    //         ->post(route('involvement.import'), [
+    //             'InvolvementData' => new UploadedFile('storage\app\public\grades\testFile\gradesTestFail.xlsx', 'gradesTestFail.xlsx', 'xlsx', null, true),
+    //             'test' => true,
+    //         ])
+    //         ->assertSuccessful()
+    //         ->assertSee('Failed to import new Records: Invalid format');
+
+    //     $this->assertTrue($user->organization->academics->filter(function ($academic) {
+    //         return $academic['name'] !== null && $academic['Cumulative_GPA'] !== null && $academic['Current_Term_GPA'] !== null;
+    //     })->values()->isEmpty());
+    // }
+
+    // /**
+    //  * Testing uploading a valid file
+    //  */
+    // public function test_upload_file()
+    // {
+    //     $user = $this->loginAsAdmin();
+    //     $user->update(['name' => 'Jacob Drury']);
+
+    //     $this
+    //         ->withoutExceptionHandling()
+    //         ->followingRedirects()
+    //         ->post(route('involvement.import'), [
+    //             'grades' => new UploadedFile('storage\app\public\involvement\testFiles\pointsTestWorking.xlsx', 'pointsTestWorking.xlsx', 'xlsx', null, true),
+    //             'test' => true,
+    //         ])
+    //         ->assertSuccessful();
+    //     //->assertSee('Successfully imported new academic records!');
+
+    //     $involvements = $user->organization->involvement->filter(function ($involvement) {
+    //         return $involvement['name'] !== null && $involvement['points'] !== null;
+    //     })->values();
+
+    //     dd($involvements);
+    //     //$this->assertTrue($involvements->isNotEmpty() && $involvements->count() === 3);
+    // }
 
     /**
      * Testing editing involvement event point value with invalid data

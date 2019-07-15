@@ -43,27 +43,39 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     }
 
     //Static helper functions
-    public static function findByName($name, $organizationId): User
+    public static function findByName($name, $organizationId = null): ?User
     {
-        return self::where([
-            'organization_id' => $organizationId,
-            'name' => $name,
-        ])->first();
+        if (isset($organizationId)) {
+            return self::where([
+                'organization_id' => $organizationId,
+                'name' => $name,
+            ])->first();
+        } else {
+            return self::where('name', $name)->first();
+        }
     }
 
-    public static function findById($id, $organizationId): User
+    public static function findById($id, $organizationId = null): ?User
     {
-        return self::where([
-            'organization_id' => $organizationId,
-            'id' => $id,
-        ])->first();
+        if (isset($organizationId)) {
+            return self::where([
+                'organization_id' => $organizationId,
+                'id' => $id,
+            ])->first();
+        } else {
+            return self::where('id', $id)->first();
+        }
     }
 
-    public static function findAll($organizationId): Collection
+    public static function findAll($organizationId = null): ?Collection
     {
-        return self::where([
-            'organization_id' => $organizationId
-        ])->get();
+        if (isset($organizationId)) {
+            return self::where([
+                'organization_id' => $organizationId
+            ])->get();
+        } else {
+            return self::all();
+        }
     }
 
     public function setBasicUser()
