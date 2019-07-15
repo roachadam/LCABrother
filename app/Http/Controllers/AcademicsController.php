@@ -21,7 +21,8 @@ class AcademicsController extends Controller
      */
     public function index()
     {
-        $users = User::where('organization_id', auth()->user()->organization->id)->get();
+        $users = User::findAll(auth()->user()->organization->id);
+
         $users->load(['Academics' => function ($query) {
             $query->orderBy('created_at', 'desc');
         }]);
@@ -92,8 +93,9 @@ class AcademicsController extends Controller
     {
         $organization = auth()->user()->organization;
 
-        $academics = $organization->users->firstWhere('id', $academics->user_id)->latestAcademics();
-        $user = User::find($academics->user_id);
+        $user = User::findById($academics->user_id, $organization->id);
+        $academics = $user->latestAcademics();
+
         $academicStandings = AcademicStandings::where('organization_id', $organization->id)->get()->sortByDesc('Term_GPA_Min');
         return view('academics.override', compact('academics', 'user', 'academicStandings'));
     }

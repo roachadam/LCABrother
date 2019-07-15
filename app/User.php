@@ -14,6 +14,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Commons\NotificationFunctions;
 use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Database\Eloquent\Collection;
 
 class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
@@ -39,6 +40,30 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
             NotificationFunctions::alert('success', 'Updated your details!');
             return back();
         });
+    }
+
+    //Static helper functions
+    public static function findByName($name, $organizationId): User
+    {
+        return self::where([
+            'organization_id' => $organizationId,
+            'name' => $name,
+        ])->first();
+    }
+
+    public static function findById($id, $organizationId): User
+    {
+        return self::where([
+            'organization_id' => $organizationId,
+            'id' => $id,
+        ])->first();
+    }
+
+    public static function findAll($organizationId): Collection
+    {
+        return self::where([
+            'organization_id' => $organizationId
+        ])->get();
     }
 
     public function setBasicUser()
