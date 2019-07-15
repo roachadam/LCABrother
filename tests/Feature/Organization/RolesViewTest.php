@@ -13,27 +13,28 @@ class RolesViewTest extends TestCase
 
     public function test_can_view_roles_of_org()
     {
-        $this->loginAsAdmin();
-        $org = auth()->user()->organization;
-        $roles = $org->roles;
-        foreach($roles as $role){
-            $this->get('/role')->assertSee($role->name);
+        $user = $this->loginAsAdmin();
+        $roles = $user->organization->roles;
+
+        foreach ($roles as $role) {
+            $this
+                ->get('/role')
+                ->assertSee($role->name);
         }
-
-
     }
-    public function test_can_add_role(){
+    public function test_can_add_role()
+    {
         $this->loginAsAdmin();
         $role = factory(Role::class)->raw();
 
-        $this->post('/organizations/'.auth()->user()->organization->id.'/roles',[
+        $this->post('/organizations/' . auth()->user()->organization->id . '/roles', [
             "name" => $role['name'],
             "manage_member_details" => "on",
             "manage_all_involvement" => "on",
         ]);
 
 
-        $this->assertDatabaseHas('roles',[
+        $this->assertDatabaseHas('roles', [
             "name" => $role['name'],
         ]);
 
