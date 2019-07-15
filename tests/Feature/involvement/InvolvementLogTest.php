@@ -13,6 +13,25 @@ class InvolvementLogTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    public function test_can_view_breakdown()
+    {
+        $user = $this->loginAsAdmin();
+
+        $involvementLog = factory(InvolvementLog::class)->create([
+            'organization_id' => $user->organization->id,
+            'user_id' => $user->id,
+        ]);
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->from(route('involvement.index'))
+            ->get('user/' . $user->id . '/involvementLogs')
+            ->assertSuccessful()
+            ->assertSee($user->name . '\'s Involvement Logs')
+            ->assertSee($involvementLog->date_of_event);
+    }
+
     /**
      * Testing ability to add a new Involvement Log
      */
