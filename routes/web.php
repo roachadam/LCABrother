@@ -147,7 +147,7 @@ Route::middleware('auth')->group(function () {
                 Route::post('/involvement/import', 'InvolvementController@import')->name('involvement.import');
                 Route::patch('/involvement/{involvement}/update', 'InvolvementController@update')->name('involvement.update');
                 Route::post('/involvement/setPoints', 'InvolvementController@setPoints')->name('involvement.setPoints');
-                Route::delete('involvement/{involvement}', 'InvolvementController@destroy');
+                Route::delete('involvement/{involvement}', 'InvolvementController@destroy')->name('involvement.delete');
             });
 
             Route::middleware('ManageAcademics')->group(function () {

@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
+use DB;
+use App\ServiceLog;
 use Tests\TestCase;
-use App\Academics;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-
-class AcademicsTest extends TestCase
+class ServiceLogsTest extends TestCase
 {
     use RefreshDatabase;
 }

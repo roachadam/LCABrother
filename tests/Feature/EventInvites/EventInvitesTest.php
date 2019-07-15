@@ -24,6 +24,7 @@ class EventInvitesTest extends TestCase
 
         $response->assertOk();
     }
+
     public function test_get_create_view()
     {
         $this->withoutExceptionHandling();
@@ -32,6 +33,7 @@ class EventInvitesTest extends TestCase
 
         $response->assertStatus(200);
     }
+
     public function test_get_edit_view()
     {
         $this->withoutExceptionHandling();
@@ -107,6 +109,7 @@ class EventInvitesTest extends TestCase
         $response->assertSee($inviteAttributes2['guest_name']);
         //$response->assertDontSee($inviteAttributes3['guest_name']);
     }
+
     public function test_get_entire_guest_list()
     {
         $this->withoutExceptionHandling();
@@ -129,6 +132,7 @@ class EventInvitesTest extends TestCase
         $response->assertSee($inviteAttributes2['guest_name']);
         $response->assertSee($inviteAttributes3['guest_name']);
     }
+
     public function test_delete_invite()
     {
         $this->withoutExceptionHandling();
@@ -139,6 +143,7 @@ class EventInvitesTest extends TestCase
         $response = $this->delete('invite/' . $invite->id);
         $this->assertDatabaseMissing('invites', $inviteArray);
     }
+
     public function test_cannot_insert_duplicates()
     {
         $this->withoutExceptionHandling();
@@ -154,6 +159,7 @@ class EventInvitesTest extends TestCase
         $response = $this->post('event/' . $event->id . '/invite', $invite);
         $response->assertSessionHas('error', $invite['guest_name'] . ' has already been invited.');
     }
+
     public function test_delete_event()
     {
         $this->withoutExceptionHandling();
@@ -166,6 +172,7 @@ class EventInvitesTest extends TestCase
             'id' => $event->id
         ]);
     }
+
     public function test_not_admin_cant_delete_event()
     {
         $this->withoutExceptionHandling();

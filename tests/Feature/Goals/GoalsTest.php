@@ -30,6 +30,7 @@ class GoalsTest extends TestCase
         $response->assertSee($goals['service_money_goal']);
         $response->assertSee($goals['study_goal']);
     }
+
     public function test_can_create_goals()
     {
         $this->withoutExceptionHandling();
@@ -98,8 +99,9 @@ class GoalsTest extends TestCase
         $response = $this->post('/goals/store', $goals);
 
         $response = $this->get('/goals/edit');
-        $response->assertstatus(200);
+        $response->assertStatus(200);
     }
+
     public function test_edit_goals()
     {
         $this->withoutExceptionHandling();

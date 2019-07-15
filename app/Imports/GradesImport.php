@@ -20,11 +20,12 @@ class GradesImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         if ($row['student_name'] !== null) {
-            $alumni = auth()->user()->organization->alumni;                                                 //Gets all alumni in database
+            $organization = auth()->user()->organization;
+            $alumni = $organization->alumni;                                                 //Gets all alumni in database
             //$row['student_name'] = $this->splitName($row['student_name']);                                  //Converts the Last, First to First Last
 
-            if (!$alumni->contains('name', $row['student_name'])) {        //Prevents white space and alumni from getting entered into the database
-                $user = User::where('name', $row['student_name'])->first();                                 //Finds the user with a matching name
+            if (!$alumni->contains('name', $row['student_name'])) {                                         //Prevents white space and alumni from getting entered into the database
+                $user = User::findByName($row['student_name']);                                             //Finds the user with a matching name
                 $academics = new Academics([                                                                //Reads the information from the file
                     'name' => $row['student_name'],
                     'Cumulative_GPA' => $row['cumulative_gpa'],
