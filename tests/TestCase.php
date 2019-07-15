@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Notification;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use App\Organization;
+use App\Semester;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -98,6 +99,7 @@ abstract class TestCase extends BaseTestCase
             $user = factory(User::class)->create();
             $organization = $this->getOrganization($user);
         }
+        factory(Semester::class)->create(['organization_id' => $organization->id]);
         $organization->createAdmin();
         $user->join($organization);
 
@@ -114,6 +116,7 @@ abstract class TestCase extends BaseTestCase
             $user = factory(User::class)->create();
             $organization = $this->getOrganization($user);
         }
+        factory(Semester::class)->create(['organization_id' => $organization->id]);
         $organization->createBasicUser();
         $user->join($organization);
 
@@ -208,7 +211,6 @@ abstract class TestCase extends BaseTestCase
     //logs in as the selected users
     protected function loginAsAdmin($organization = null)
     {
-
         $admin = $this->createAdmin($organization);
 
         $this->actingAs($admin);

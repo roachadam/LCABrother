@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Goals;
 
 class totalsTest extends TestCase
 {
@@ -13,11 +14,12 @@ class totalsTest extends TestCase
     /** @test **/
     public function get_index()
     {
-        $this->withoutExceptionHandling();
         $this->loginAsAdmin();
-        $response = $this->get('/totals');
+        factory(Goals::class)->create(['organization_id' => auth()->user()->organization->id]);
 
-        $response->assertStatus(200);
+        $this
+            ->withoutExceptionHandling()
+            ->get('/totals')
+            ->assertStatus(200);
     }
-
 }

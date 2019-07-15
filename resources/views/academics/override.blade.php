@@ -63,7 +63,7 @@
                             <select name="Previous_Academic_Standing" id="Previous_Academic_Standing" class="col-md-4 form-control" value="{{ $academics->Previous_Academic_Standing }}">
                                 <option value=" "> </option>
                                 @foreach ($academicStandings as $academicStanding)
-                                    <option value="{{$academicStanding->name}}">{{$academicStanding->nameWithSpace}}</option>
+                                    <option value="{{$academicStanding->name}}">{{$academicStanding->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -74,7 +74,7 @@
                             <select name="Current_Academic_Standing" id="Current_Academic_Standing" class="col-md-4 form-control" value="{{ $academics->Current_Academic_Standing }}">
                                 <option value=" "> </option>
                                 @foreach ($academicStandings as $academicStanding)
-                                    <option value="{{$academicStanding->name}}">{{$academicStanding->nameWithSpace}}</option>
+                                    <option value="{{$academicStanding->name}}">{{$academicStanding->name}}</option>
                                 @endforeach
                             </select>
                         </div>
