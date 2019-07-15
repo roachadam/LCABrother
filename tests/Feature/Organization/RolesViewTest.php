@@ -16,7 +16,6 @@ class RolesViewTest extends TestCase
         $this->loginAsAdmin();
         $org = auth()->user()->organization;
         $roles = $org->roles;
-        //dd($roles);
         foreach($roles as $role){
             $this->get('/role')->assertSee($role->name);
         }

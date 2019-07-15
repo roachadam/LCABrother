@@ -72,7 +72,6 @@ class UserUnitTest extends TestCase
         $this->assertEquals($fakeId, $foundUser->id);
     }
 
-
     /**
      * Tests if the method User::findAll($organizationId) correctly returns
      * all users in the organization
@@ -92,11 +91,9 @@ class UserUnitTest extends TestCase
      */
     public function test_can_find_all_users()
     {
-        $organizationId = 50;
         $createdUsers = factory(User::class, 5)->create();
 
         $foundUsers = User::findAll();
-        dd($foundUsers);
 
         $this->assertTrue(count($foundUsers->diff($createdUsers)) === 0);
     }
