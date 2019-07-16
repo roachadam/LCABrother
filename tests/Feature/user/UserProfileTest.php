@@ -55,7 +55,7 @@ class UserProfileTest extends TestCase
                 'phone' => '12224567890',
             ])
             ->assertSuccessful()
-            ->assertSee('Successfully Updated User Info!')
+            ->assertSee('Updated your details!')
             ->assertSee('Verify Your Email Address');
 
         $this->assertNotEquals($originalEmail, $user->email);

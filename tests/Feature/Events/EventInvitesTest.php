@@ -189,12 +189,11 @@ class EventInvitesTest extends TestCase
     public function test_not_admin_cant_delete_event()
     {
         $this->withoutExceptionHandling();
-        $organization = factory(Organization::class)->create();
-        $this->loginAsAdmin($organization);
-        $event = factory(Event::class)->create(['organization_id' => auth()->user()->organization->id]);
+        $user = $this->loginAsAdmin();
+        $event = factory(Event::class)->create(['organization_id' => $user->organization_id]);
         auth()->logout();
 
-        $this->loginAsBasic($organization);
+        $this->loginAsBasic($user->organization);
         $response = $this->delete('event/' . $event->id);
 
         $this->assertDatabaseHas('events', [

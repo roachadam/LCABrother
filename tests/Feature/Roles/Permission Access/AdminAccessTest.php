@@ -51,12 +51,4 @@ class AdminAccessTest extends TestCase
         $response = $this->get('/serviceEvent');
         $response->assertStatus(200);
     }
-
-    public function test_admin_can_visit_serviceEventCreate()
-    {
-        $this->loginAsAdmin();
-
-        $response = $this->get('/serviceEvent/create');
-        $response->assertStatus(200);
-    }
 }
