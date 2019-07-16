@@ -128,7 +128,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/alumni/contact', 'AlumniController@contact');
             Route::post('/alumni/contact/send', 'AlumniController@send');
 
-            Route::get('/totals', 'TotalsController@index');
+            Route::get('/totals', 'TotalsController@index')->name('totals.index');
 
             Route::get('/event/{event}/invites', 'InviteController@index');
             Route::get('/event/{event}/invite', 'InviteController@create')->name('invite.create');

@@ -184,9 +184,8 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function getInvolvementPoints()
     {
-        $InvolvementLogs = $this->getActiveInvolvementLogs();
         $points = 0;
-        foreach ($InvolvementLogs as $log) {
+        foreach ($this->getActiveInvolvementLogs() as $log) {
             $points += $log->involvement->points;
         }
         return $points;

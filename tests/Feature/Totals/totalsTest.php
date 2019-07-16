@@ -14,12 +14,27 @@ class totalsTest extends TestCase
     /** @test **/
     public function get_index()
     {
-        $this->loginAsAdmin();
-        factory(Goals::class)->create(['organization_id' => auth()->user()->organization->id]);
+        $user = $this->loginAsAdmin();
+
+        $goals = factory(Goals::class)->create([
+            'organization_id' => $user->organization_id,
+            'points_goal' => 1,
+            'study_goal' => 2,
+            'service_hours_goal' => 3,
+            'service_money_goal' => 4
+        ]);
 
         $this
             ->withoutExceptionHandling()
-            ->get('/totals')
-            ->assertStatus(200);
+            ->get(route('totals.index'))
+            ->assertSuccessful()
+            ->assertSee('Involvement Points Goal')
+            ->assertSee($goals->points_goal)
+            ->assertSee('Study Hours Goal')
+            ->assertSee($goals->study_goal)
+            ->assertSee('Service Hours Goal')
+            ->assertSee($goals->service_hours_goal)
+            ->assertSee('Money Donated Goal')
+            ->assertSee($goals->service_money_goal);
     }
 }

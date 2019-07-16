@@ -92,15 +92,24 @@ class EventInvitesTest extends TestCase
     public function test_get_user_guest_list()
     {
         //$this->withoutExceptionHandling();
-        $this->loginAsAdmin();
-        $user2 = factory(User::class)->create(['organization_id' => auth()->user()->organization->id]);
+        $user = $this->loginAsAdmin();
+        $user2 = factory(User::class)->create(['organization_id' => $user->organization_id]);
 
-        $event = factory(Event::class)->create(['organization_id' => auth()->user()->organization->id]);
-        $inviteAttributes1 = factory(Invite::class)->raw(['user_id' => auth()->id()]);
+        $event = factory(Event::class)->create(['organization_id' => $user->organization_id]);
+        $inviteAttributes1 = factory(Invite::class)->raw([
+            'guest_name' => 'Bobby',
+            'user_id' => $user->id,
+        ]);
         $event->addInvite($inviteAttributes1);
-        $inviteAttributes2 = factory(Invite::class)->raw(['user_id' => auth()->id()]);
+        $inviteAttributes2 = factory(Invite::class)->raw([
+            'guest_name' => 'Jane',
+            'user_id' => $user->id,
+        ]);
         $event->addInvite($inviteAttributes2);
-        $inviteAttributes3 = factory(Invite::class)->raw(['user_id' => $user2->id]);
+        $inviteAttributes3 = factory(Invite::class)->raw([
+            'guest_name' => 'John',
+            'user_id' => $user->id,
+        ]);
         $event->addInvite($inviteAttributes3);
 
         $response = $this->get('event/' . $event->id . '/invites');
