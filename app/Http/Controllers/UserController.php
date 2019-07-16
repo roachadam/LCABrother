@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use CheckHasRole;
-use App\User;
-use App\Organization;
 use Illuminate\Http\Request;
 use App\Mail\MemberJoined;
+use App\Organization;
+use App\User;
+use Auth;
 use Mail;
-use DB;
 
 class UserController extends Controller
 {

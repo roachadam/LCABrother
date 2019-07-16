@@ -47,7 +47,7 @@ class EventController extends Controller
         $org = auth()->user()->organization;
         $org->addEvent($attributes);
 
-        return redirect('/event');
+        return redirect(route('event.index'));
     }
 
     /**
@@ -97,7 +97,6 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-
         $event->delete();
         return redirect('/event');
     }

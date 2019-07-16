@@ -40,20 +40,60 @@ class UserProfileTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_can_user_edit_details()
+    public function test_user_can_edit_email()
     {
-        $this->withoutExceptionHandling();
         $user = $this->loginAsAdmin();
-        $phone = $user->phone;
-        $response = $this->post('users/update', [
-            'phone' => '12224567890',
-        ]);
-        $this->assertDatabaseMissing('users', [
-            'phone' => $phone,
+
+        $originalEmail = $user->email;
+        $newEmail = 'johndoe@gmail.com';
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->post('users/update', [
+                'email' => $newEmail,
+                'phone' => '12224567890',
+            ])
+            ->assertSuccessful()
+            ->assertSee('Successfully Updated User Info!')
+            ->assertSee('Verify Your Email Address');
+
+        $this->assertNotEquals($originalEmail, $user->email);
+        $this->assertEquals($newEmail, $user->email);
+
+        $this->assertDatabaseHas('users', [
+            'email' => $newEmail,
+            'phone' => $user->phone,
             'id' => $user->id,
         ]);
+    }
+
+    public function test_user_can_edit_phone()
+    {
+        $user = $this->loginAsAdmin();
+
+        $originalPhone = $user->phone;
+        $newPhone = '12224567890';
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->post('users/update', [
+                'email' => $user->email,
+                'phone' => $newPhone,
+            ])
+            ->assertSuccessful()
+            ->assertSee('Updated your details!')
+            ->assertSee($user->name)
+            ->assertSee($user->email)
+            ->assertSee($user->phone);
+
+        $this->assertNotEquals($originalPhone, $user->phone);
+        $this->assertEquals($newPhone, $user->phone);
+
         $this->assertDatabaseHas('users', [
-            'phone' => '12224567890',
+            'email' => $user->email,
+            'phone' => $newPhone,
             'id' => $user->id,
         ]);
     }
