@@ -131,8 +131,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/totals', 'TotalsController@index');
 
             Route::get('/event/{event}/invites', 'InviteController@index');
-            Route::get('/event/{event}/invite', 'InviteController@create');
-            Route::post('/event/{event}/invite', 'InviteController@store');
+            Route::get('/event/{event}/invite', 'InviteController@create')->name('invite.create');
+            Route::post('/event/{event}/invite', 'InviteController@store')->name('invite.store');
             Route::delete('/invite/{invite}', 'InviteController@destroy');
 
             Route::get('/serviceEvents/indexByUser', 'ServiceEventController@indexByUser');

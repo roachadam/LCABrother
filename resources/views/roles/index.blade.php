@@ -7,7 +7,7 @@
             <div class="row">
                 <h2 class="card-title">Roles</h2>
                 <div class="ml-auto" id="headerButtons">
-                    <button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#addRole">Add Role</button>
+                    <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#addRole">Add Role</button>
                 </div>
             </div>
         </header>

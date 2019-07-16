@@ -19,6 +19,7 @@ class AdminAccessTest extends TestCase
         $response = $this->get('/dash');
         $response->assertStatus(200);
     }
+
     public function test_admin_can_visit_user()
     {
         $this->loginAsAdmin();
@@ -26,6 +27,7 @@ class AdminAccessTest extends TestCase
         $response = $this->get('/user');
         $response->assertStatus(200);
     }
+
     public function test_admin_can_visit_role()
     {
         $this->loginAsAdmin();
@@ -33,6 +35,7 @@ class AdminAccessTest extends TestCase
         $response = $this->get('/role');
         $response->assertStatus(200);
     }
+
     public function test_admin_can_visit_user_contact()
     {
         $this->loginAsAdmin();
@@ -40,18 +43,12 @@ class AdminAccessTest extends TestCase
         $response = $this->get('/users/contact');
         $response->assertStatus(200);
     }
+
     public function test_admin_can_visit_serviceEvent()
     {
         $this->loginAsAdmin();
 
         $response = $this->get('/serviceEvent');
-        $response->assertStatus(200);
-    }
-    public function test_admin_can_visit_serviceEventCreate()
-    {
-        $this->loginAsAdmin();
-
-        $response = $this->get('/serviceEvent/create');
         $response->assertStatus(200);
     }
 }

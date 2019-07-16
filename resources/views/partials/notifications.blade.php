@@ -40,4 +40,17 @@
        {{Session::forget('danger')}}
 
     @endif
+    @if(Session::has('warning'))
+        @foreach (Session::get('warning') as $msg)
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{$msg}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+          </div>
+        @endforeach
+
+       {{Session::forget('warning')}}
+
+    @endif
 </div>

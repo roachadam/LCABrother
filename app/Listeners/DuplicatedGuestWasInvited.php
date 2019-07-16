@@ -27,7 +27,7 @@ class DuplicatedGuestWasInvited
      */
     public function handle(DuplicateGuestInvited $event)
     {
-        NotificationFunctions::alert('success', $event->invite->guest_name.' has already been invited.');
+        NotificationFunctions::alert('primary', $event->invite->guest_name . ' has already been invited!');
         return back();
     }
 }

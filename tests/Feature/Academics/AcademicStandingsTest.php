@@ -12,4 +12,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class AcademicStandingsTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_placeholder()
+    {
+        $this->assertTrue(true);
+    }
 }

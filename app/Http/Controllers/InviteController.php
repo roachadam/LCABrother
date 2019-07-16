@@ -42,7 +42,7 @@ class InviteController extends Controller
         foreach ($invites as $invite) {
             if (strtolower($attributes['guest_name']) === strtolower($invite->guest_name)) {
                 event(new DuplicateGuestInvited($invite));
-                return redirect('/event');
+                return redirect('/event/' . $event->id . '/invite');
             }
         }
 
@@ -53,7 +53,7 @@ class InviteController extends Controller
             auth()->user()->getInvitesRemaining($event);
         }
 
-        return redirect('/event');
+        return redirect(route('event.index'));
     }
 
     /**
@@ -105,6 +105,6 @@ class InviteController extends Controller
     public function all(Event $event)
     {
         $invites = $event->invites;
-        return view('invites.all', compact('event', 'invites'));
+        return view(' invites . all ', compact(' event ', ' invites'));
     }
 }
