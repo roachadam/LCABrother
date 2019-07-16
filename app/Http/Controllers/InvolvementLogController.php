@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\InvolvementLog;
 use Illuminate\Http\Request;
+use App\Commons\NotificationFunctions;
 use DB;
 use App\Involvement;
 use App\User;
@@ -12,15 +13,7 @@ class InvolvementLogController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('ManageInvolvement');
-        $this->middleware('orgverified');
-    }
-
-    public function index()
-    {
-        $users = auth()->user()->organization->getVerifiedMembers();
-        return view('involvement.involvementLogs.index', compact('users'));
+        $this->middleware('ManageInvolvement')->except(['index', 'breakdown']);
     }
 
     /**
@@ -31,21 +24,22 @@ class InvolvementLogController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
         $attributes = request()->validate([
             'involvement_id' => 'required',
             'usersInvolved' => ['required', 'array'],
             'date_of_event' => 'required'
         ]);
+
         $involvement = Involvement::find($attributes['involvement_id']);
-        //$date = '2019-05-31 14:05:39';
 
         foreach ($attributes['usersInvolved'] as $user_id) {
             $user = User::find($user_id);
             $user->addInvolvementLog($involvement, $attributes['date_of_event']);
         }
 
-        return redirect('/involvementLog');
+        NotificationFunctions::alert('success', 'Involvement points were logged!');
+
+        return redirect(route('involvement.index'));
     }
 
     /**
@@ -57,13 +51,14 @@ class InvolvementLogController extends Controller
     public function destroy(InvolvementLog $involvementLog)
     {
         $involvementLog->delete();
-        return back();
+        NotificationFunctions::alert('success', 'Involvement log deleted!');
+
+        return redirect('/user/' . $involvementLog->user_id . '/involvementLogs');
     }
 
     public function breakdown(Request $request, User $user)
     {
         $logs = $user->InvolvementLogs;
-
         return view('involvement.involvementLogs.breakdown', compact('logs'));
     }
 }

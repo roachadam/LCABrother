@@ -1,20 +1,21 @@
+
 @extends('layouts.main')
 
 @section('content')
-    <header class="section-header">
-        <div class="tbl">
-            <div class="tbl-row">
-                <div class="tbl-cell">
-                    <h2>Academics</h2>
-                    {{-- <div class="subtitle">Welcome to Ultimate Dashboard</div> --}}
+<section class="card">
+    <div class="card-block">
+        <header class="card-header" style="border-bottom: 0">
+            <div class="row">
+                <h2 class="card-title">Academics</h2>
+                <div class="ml-auto" id="headerButtons">
+                    <a href="/academicStandings" class="btn btn-inline btn-secondary-outline">Override Academic Rules</a>
+                    <a href="/academics/manage" class="btn btn-inline btn-primary">Manage</a>
                 </div>
             </div>
-        </div>
-    </header>
-    @include('partials.errors')
+        </header>
+        @include('partials.errors')
 
-    <section class="card">
-        <div class="card-block">
+
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
                 <thead>
                 <tr>
@@ -46,10 +47,6 @@
                     @endforeach
                 </tbody>
             </table>
-            <div class="btn-toolbar">
-                <a href="/academics/manage" class="btn btn-inline btn-primary">Manage</a>
-                <a href="/academicStandings" class="btn btn-inline btn-secondary-outline">Override Academic Rules</a>
-            </div>
         </div>
     </section>
 

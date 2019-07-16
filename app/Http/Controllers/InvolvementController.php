@@ -8,34 +8,26 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Commons\NotificationFunctions;
 use App\Commons\ImportHelperFunctions;
 use App\Commons\InvolvementHelperFunctions;
+use App\Involvement;
 
 class InvolvementController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('ManageInvolvement');
-        $this->middleware('orgverified');
+        $this->middleware('ManageInvolvement')->except('index');
     }
 
     public function index()
     {
-        $organization = auth()->user()->organization;
+        $user = auth()->user();
+        $organization = $user->organization;
+
+        $canManageInvolvement = $user->canManageInvolvement();
         $involvements = $organization->involvement;
         $verifiedMembers = $organization->getVerifiedMembers();
-        $verifiedMembers = null;
+        $users = $organization->getVerifiedMembers();
 
-        return view('involvement.index', compact('involvements', 'verifiedMembers'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('involvement.create');
+        return view('involvement.index', compact('users', 'canManageInvolvement', 'involvements', 'verifiedMembers'));
     }
 
     /**
@@ -55,7 +47,7 @@ class InvolvementController extends Controller
         //Check if that event already exists
         if (InvolvementHelperFunctions::checkIfInvolvementEventExists($attributes)->isNotEmpty()) {
             NotificationFunctions::alert('danger', 'An Involvement event for ' . $attributes['name'] . 's already exits');
-            return back();
+            return redirect(route('involvement.adminView'));
         } else {
             //persist
             $org = auth()->user()->organization;
@@ -63,8 +55,21 @@ class InvolvementController extends Controller
 
             NotificationFunctions::alert('success', 'Successfully created and involvement event for ' . $attributes['name'] . 's');
             //redirect
-            return redirect('/involvement');
+            return redirect(route('involvement.adminView'));
         }
+    }
+
+    public function update(Request $request, Involvement $involvement)
+    {
+        $attributes = request()->validate([
+            'name' => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'points' => ['required', 'numeric', 'min:0', 'max:999']
+        ]);
+
+        $involvement->update($attributes);
+
+        NotificationFunctions::alert('success', 'Successfully updated event!');
+        return redirect(route('involvement.adminView'));
     }
 
     public function import(Request $request)
@@ -72,6 +77,7 @@ class InvolvementController extends Controller
         $request->validate(
             [
                 'InvolvementData' => 'required|file|max:2048|mimes:xlsx',
+                'test' => 'boolean',
             ],
             //Error messages
             ['InvolvementData.mimes' => 'You must upload a spread sheet']
@@ -85,7 +91,9 @@ class InvolvementController extends Controller
         ];
 
         if (ImportHelperFunctions::validateHeadingRow($file, $requiredHeadings)) {
-            ImportHelperFunctions::storeFileLocally($file, '/involvement');
+            if (!$request['test']) {
+                ImportHelperFunctions::storeFileLocally($file, '/involvement');
+            }
 
             $organization = auth()->user()->organization;
             $import = new InvolvementsImport(InvolvementHelperFunctions::getExistingLogs(), $organization, $organization->users);
@@ -94,17 +102,17 @@ class InvolvementController extends Controller
             return $this->checkNullEvents($import->getNewServiceEvents());
         } else {
             NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
-            return back();
+            return redirect(route('involvement.index'));
         }
     }
 
-    private function checkNullEvents($nullEvents)
+    private function checkNullEvents($events)
     {
-        if ($nullEvents->isNotEmpty()) {
-            return view('/involvement/edit', compact('nullEvents'));
+        if ($events->isNotEmpty()) {
+            return view('/involvement/edit', compact('events'));
         } else {
             NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');
-            return redirect('/involvementLog');
+            return redirect('/involvement');
         }
     }
 
@@ -112,7 +120,7 @@ class InvolvementController extends Controller
     {
         $attributes = $request->validate([
             'name' => ['required'],
-            'point_value' => ['required', 'numeric'],
+            'point_value' => ['required'],
         ]);
 
         $pointData = array_combine($attributes['name'], $attributes['point_value']);
@@ -124,6 +132,20 @@ class InvolvementController extends Controller
             })->first();
             $event->update(['points' => $points]);
         }
-        return redirect('/involvementLog');
+        return redirect('/involvement');
+    }
+
+    public function adminView()
+    {
+        $events = auth()->user()->organization->involvement;
+        return view('/involvement/adminView', compact('events'));
+    }
+
+    public function destroy(Involvement $involvement)
+    {
+        $involvement->delete();
+        NotificationFunctions::alert('success', 'Event has been deleted!');
+
+        return redirect(route('involvement.adminView'));
     }
 }

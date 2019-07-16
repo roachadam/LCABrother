@@ -1,12 +1,47 @@
 @extends('layouts.main')
 
+@section('css')
+<style>
+    /* Float four columns side by side */
+    .column {
+        float: left;
+        width: 50%;
+        padding: 0 10px;
+    }
+
+    /* Remove extra left and right margins, due to padding in columns */
+    .row {margin: 0 -5px;}
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    /* Style the counter cards */
+    .card {
+        padding: 16px;
+    }
+
+    /* Responsive columns - one column layout (vertical) on small screens */
+    @media screen and (max-width: 700px) {
+        .column {
+            width: 100%;
+            display: block;
+            margin-bottom: 20px;
+        }
+    }
+</style>
+@endsection
+
 @section('content')
-    <div class="card-columns d-flex justify-content-center">
-        <div class="card m-t-md">
+    <div class="row">
+        <section class="card column m-t-md">
             <div class="card-header">Add More Grades</div>
             @include('partials.errors')
 
-            <div class="row card-body justify-content-center m-t-md">
+            <div class="card-body justify-content-center m-t-md">
                 <form action="/academics" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
@@ -19,12 +54,12 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </section>
 
-        <div class="card m-t-md">
+        <section class="card column m-t-md">
             <div class="card-header">Format Rules</div>
 
-            <div class="row card-body justify-content-left m-t-md">
+            <div class="card-body justify-content-left m-t-md">
                 <p class="offset-1">
                     All files <b><u>must</u></b> have at least the listed headings (can have others) and<br/> Student names must use the same convention.<br/>
                     <small class="offset-4"><a href="/academics/downloadExampleFile" download="Example File.xlsx">Example file</a></small><br/>
@@ -37,11 +72,11 @@
                     <li>Term Gpa</li>
                 </ul>
             </div>
-        </div>
+        </section>
     </div>
 
     @if (count($newAcademicStandings) > 0)
-        <div class="card">
+        <section class="card m-t-md">
             <div class="card-header">Notify Members of Academic Standing</div>
                 <div class="card-body">
                     <div class="btn-toolbar">
@@ -51,7 +86,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
         <!--.modal for notifying all memebrs-->
         <div class="modal fade" id="notifyAll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

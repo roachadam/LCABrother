@@ -14,14 +14,6 @@ use App\AcademicStandings;
 
 class AcademicsController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('orgverified');
-        $this->middleware('ManageAcademics');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -29,10 +21,12 @@ class AcademicsController extends Controller
      */
     public function index()
     {
-        $users = User::where('organization_id', auth()->user()->organization->id)->get();
+        $users = User::findAll(auth()->user()->organization->id);
+
         $users->load(['Academics' => function ($query) {
             $query->orderBy('created_at', 'desc');
         }]);
+
         return view('academics.index', compact('users'));
     }
 
@@ -57,6 +51,7 @@ class AcademicsController extends Controller
         $request->validate(
             [
                 'grades' => 'required|file|max:2048|mimes:xlsx',
+                'test' => 'boolean'
             ],
             //Error messages
             ['grades.mimes' => 'You must upload a spread sheet']
@@ -70,14 +65,16 @@ class AcademicsController extends Controller
         ];
 
         if (ImportHelperFunctions::validateHeadingRow($file, $requiredHeadings)) {
-            ImportHelperFunctions::storeFileLocally($file, '/grades');
+            if (!$request['test']) {
+                ImportHelperFunctions::storeFileLocally($file, '/grades');
+            }
             Excel::import(new GradesImport, $file);
 
             NotificationFunctions::alert('success', 'Successfully imported new academic records!');
             return redirect('/academics');
         } else {
             NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
-            return back();
+            return redirect('/academics/manage');
         }
     }
 
@@ -94,9 +91,12 @@ class AcademicsController extends Controller
 
     public function edit(Academics $academics)
     {
-        $academics = auth()->user()->organization->users->firstWhere('id', $academics->user_id)->latestAcademics();
-        $user = User::find($academics->user_id);
-        $academicStandings = AcademicStandings::where('organization_id', auth()->user()->organization->id)->get()->sortByDesc('Term_GPA_Min');
+        $organization = auth()->user()->organization;
+
+        $user = User::findById($academics->user_id, $organization->id);
+        $academics = $user->latestAcademics();
+
+        $academicStandings = AcademicStandings::where('organization_id', $organization->id)->get()->sortByDesc('Term_GPA_Min');
         return view('academics.override', compact('academics', 'user', 'academicStandings'));
     }
 
@@ -136,17 +136,34 @@ class AcademicsController extends Controller
      */
     public function update(Request $request, User $user, Academics $academics)
     {
-        $attributes = request()->all();
-        //dd($attributes);
-        if ($attributes['Previous_Academic_Standing'] === $academics->Previous_Academic_Standing && $attributes['Current_Academic_Standing'] === $academics->Current_Academic_Standing) {
-            $academics->update($attributes);
-            $academics->updateStanding();
+        $attributes = request()->validate($this->rules());
+
+        if (isset($attributes['Previous_Academic_Standing']) && isset($attributes['Current_Academic_Standing'])) {
+
+            if ($attributes['Previous_Academic_Standing'] === $academics->Previous_Academic_Standing && $attributes['Current_Academic_Standing'] === $academics->Current_Academic_Standing) {
+                $academics->update($attributes);
+                $academics->updateStanding();
+            } else {
+                $academics->update($attributes);
+            }
         } else {
             $academics->update($attributes);
         }
 
         Event(new OverrideAcademics($user, $academics));
         return redirect('/academics');
+    }
+
+    private function rules()
+    {
+        return [
+            'name' => ['regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'Cumulative_GPA' => ['min:0', 'max:5.0'],
+            'Previous_Term_GPA' => ['min:0', 'max:5.0'],
+            'Current_Term_GPA' => ['min:0', 'max:5.0'],
+            'Previous_Academic_Standing' => [],
+            'Current_Academic_Standing' => [],
+        ];
     }
 
     /**

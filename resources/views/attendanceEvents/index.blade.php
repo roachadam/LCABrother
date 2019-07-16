@@ -1,26 +1,31 @@
 @extends('layouts.main')
 
 @section('content')
-    <header class="section-header">
-            <div class="tbl">
-                <div class="tbl-row">
-                    <div class="tbl-cell">
-                        <h2>Attendance Record Events</h2>
-                    </div>
-                </div>
-            </div>
-    </header>
     <section class="card">
         <div class="card-block">
+            <header class="card-header" style="border-bottom: 0">
+                <div class="row">
+                    <h2 class="card-title">Attendance Record Events</h2>
+                    <div class="ml-auto" id="headerButtons">
+                        @if($user->canManageEvents())
+                            <a href="/calendarItem/create" class="btn btn-inline btn-primary">Create New Event</a>
+                        @endif
+                    </div>
+                </div>
+            </header>
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
                 <thead>
                 <tr>
                     <th>Event Name</th>
                     <th>Date</th>
                     <th>View Members Attended</th>
-                    <th>Take Attendance</th>
-                    <th>Manage</th>
+                    @if ($user->canTakeAttendance())
+                        <th>Take Attendance</th>
+                    @endif
 
+                    @if($user->canManageEvents())
+                        <th>Manage</th>
+                    @endif
                 </tr>
                 </thead>
                 <tbody>
@@ -30,8 +35,13 @@
                                 <td>{{ $attendanceEvent->calendarItem->name }}</td>
                                 <td>{{ $attendanceEvent->calendarItem->start_date }}</td>
                                 <td><a href="/attendance/attendanceEvent/{{$attendanceEvent->id}}" class="btn btn-primary">View</a></td>
-                                <td><a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-primary">Take Attendance</a></td>
-                                <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$attendanceEvent->id}}">Delete</button></td>
+                                @if ($user->canTakeAttendance())
+                                    <td><a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-primary">Take Attendance</a></td>
+                                @endif
+
+                                @if($user->canManageEvents())
+                                    <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$attendanceEvent->id}}">Delete</button></td>
+                                @endif
                             </tr>
 
                             <!--.modal for confirming deletion-->
@@ -65,20 +75,17 @@
                     @endif
                 </tbody>
             </table>
-            <div class="col-12">
-                <a href="/calendarItem/create" class="btn btn-primary">Create New Event</a>
-            </div>
         </div>
     </section>
 
-@section('js')
-<script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
-<script>
-		$(function() {
-			$('#table').DataTable({
-				responsive: true
-			});
-		});
-    </script>
-@endsection
+    @section('js')
+        <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
+        <script>
+            $(function() {
+                $('#table').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+    @endsection
 @endsection

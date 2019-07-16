@@ -1,17 +1,19 @@
 @extends('layouts.main')
 
 @section('content')
-    <header class="section-header">
-        <div class="tbl">
-            <div class="tbl-row">
-                <div class="tbl-cell">
-                    <h2>Academic Standing Rules</h2>
+<section class="card">
+    <div class="card-block">
+        <header class="card-header" style="border-bottom: 0">
+            <div class="row">
+                <h2 class="card-title">Academic Standing Rules</h2>
+                <div class="ml-auto">
+                    <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#addMoreRules">Add More Standing Rules</button>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
 
     @include('partials.errors')
+
 
     <section class="card">
         <div class="card-block">
@@ -28,7 +30,7 @@
                 <tbody>
                     @foreach ($academicStandings as $academicStanding)
                         <tr>
-                            <td>{{ $academicStanding->nameWithSpace }}</td>
+                            <td>{{ $academicStanding->name }}</td>
                             <td>{{ $academicStanding->Term_GPA_Min }}</td>
                             <td>{{ $academicStanding->Cumulative_GPA_Min }}</td>
                             <td><a href="/academicStandings/{{$academicStanding->id}}/edit" class="btn btn-inline">Edit</a></td>
@@ -65,7 +67,6 @@
                     @endforeach
                 </tbody>
             </table>
-            <button type="button" class="btn btn-inline btn-primary align-right" data-toggle="modal" data-target="#addMoreRules">Add More Standing Rules</button>
 
             <!--.modal for adding standing rules-->
             <div class="modal fade" id="addMoreRules" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

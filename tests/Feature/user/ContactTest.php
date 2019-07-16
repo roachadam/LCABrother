@@ -17,7 +17,5 @@ class ContactTest extends TestCase
             ->assertSee(auth()->user()->name)
             ->assertSee(auth()->user()->email)
             ->assertSee(auth()->user()->phone);
-
-
     }
 }

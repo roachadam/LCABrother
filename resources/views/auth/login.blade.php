@@ -34,7 +34,7 @@
                             <label for="remember">Remember Me</label>
                         </p>
                         <button type='submit' class="button button__primary">Log in</button>
-						<a href=""><h6 class="left-align" >Forgot your password?</h6></a>
+						<a href="{{ route('password.request') }}"><h6 class="left-align" >Forgot your password?</h6></a>
 					</form>
 				</div>
 			</div>

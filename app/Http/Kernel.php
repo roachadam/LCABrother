@@ -57,6 +57,18 @@ class Kernel extends HttpKernel
         [
             \App\Http\Middleware\ManageService::class,
         ],
+        'ManageCalendar' =>
+        [
+            \App\Http\Middleware\ManageCalendar::class,
+        ],
+        'ManageSurvey' =>
+        [
+            \App\Http\Middleware\ManageSurvey::class,
+        ],
+        'ManageAlumni' =>
+        [
+            \App\Http\Middleware\ManageAlumni::class,
+        ],
         'MemberView' =>
         [
             \App\Http\Middleware\MemberView::class,

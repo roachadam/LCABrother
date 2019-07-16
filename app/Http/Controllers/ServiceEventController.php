@@ -12,12 +12,9 @@ use Illuminate\Http\Request;
 
 class ServiceEventController extends Controller
 {
-
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('orgverified');
-        $this->middleware('ManageService');
+        $this->middleware('ManageService')->only(['delete', 'edit', 'update']);
     }
 
     public function index()
@@ -37,21 +34,19 @@ class ServiceEventController extends Controller
     {
         $activeSemester = auth()->user()->organization->getActiveSemester();
         $attributes = $this->validateServiceEvent();
+        $serviceEvent = ServiceEvent::where([
+            'name' => $attributes['name'],
+            ['created_at', '>', $activeSemester->start_date]
+        ])->first();
 
-        $serviceEvent = ServiceEvent::where('name',$attributes['name'], 'AND')
-        ->where('created_at', '>', $activeSemester->start_date)
-        ->first();
         $attributes['date_of_event'] = date('Y-m-d', strtotime($attributes['date_of_event']));
-      
-        if ($serviceEvent!==null)
-        {
-            if(!$serviceEvent->userAttended(auth()->user()))
-            {
 
+        if ($serviceEvent !== null) {
+            if (!$serviceEvent->userAttended(auth()->user())) {
                 $attributes['organization_id'] = auth()->user()->organization_id;
                 $attributes['user_id'] = auth()->id();
-                unset($attributes['date_of_event']);
 
+                unset($attributes['date_of_event']);
                 unset($attributes['name']);
 
                 $serviceEvent->setLog($attributes);
@@ -75,7 +70,7 @@ class ServiceEventController extends Controller
         }
 
         //redirect
-        return back();
+        return redirect(route('serviceEvent.index'));
     }
 
 
@@ -100,9 +95,9 @@ class ServiceEventController extends Controller
         $serviceEvent->delete();
         return redirect('/serviceEvent');
     }
+
     protected function validateServiceEvent()
     {
-        //todo: fix later, https://stackoverflow.com/questions/41805597/laravel-validation-rules-if-field-empty-another-field-required
         return request()->validate([
             'name' => 'required',
             'money_donated' =>  ['required_without:hours_served', 'numeric', 'nullable'],

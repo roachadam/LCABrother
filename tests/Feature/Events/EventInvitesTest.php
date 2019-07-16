@@ -24,6 +24,7 @@ class EventInvitesTest extends TestCase
 
         $response->assertOk();
     }
+
     public function test_get_create_view()
     {
         $this->withoutExceptionHandling();
@@ -32,6 +33,7 @@ class EventInvitesTest extends TestCase
 
         $response->assertStatus(200);
     }
+
     public function test_get_edit_view()
     {
         $this->withoutExceptionHandling();
@@ -107,6 +109,7 @@ class EventInvitesTest extends TestCase
         $response->assertSee($inviteAttributes2['guest_name']);
         //$response->assertDontSee($inviteAttributes3['guest_name']);
     }
+
     public function test_get_entire_guest_list()
     {
         $this->withoutExceptionHandling();
@@ -129,6 +132,7 @@ class EventInvitesTest extends TestCase
         $response->assertSee($inviteAttributes2['guest_name']);
         $response->assertSee($inviteAttributes3['guest_name']);
     }
+
     public function test_delete_invite()
     {
         $this->withoutExceptionHandling();
@@ -139,21 +143,36 @@ class EventInvitesTest extends TestCase
         $response = $this->delete('invite/' . $invite->id);
         $this->assertDatabaseMissing('invites', $inviteArray);
     }
+
     public function test_cannot_insert_duplicates()
     {
-        $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $user = $this->loginAsAdmin();
 
-        $event = factory(Event::class)->create(['organization_id' => auth()->user()->organization->id]);
+        $event = factory(Event::class)->create(['organization_id' => $user->organization->id]);
         $invite = factory(Invite::class)->raw([
-            'user_id' => auth()->id(),
+            'user_id' => $user->id,
             'event_id' => $event->id,
+            'guest_name' => $user->name,
         ]);
 
-        $response = $this->post('event/' . $event->id . '/invite', $invite);
-        $response = $this->post('event/' . $event->id . '/invite', $invite);
-        $response->assertSessionHas('error', $invite['guest_name'] . ' has already been invited.');
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->post(route('invite.store', $event->id), $invite)
+            ->assertSuccessful()
+            ->assertSee('Events')
+            ->assertSee($event->name)
+            ->assertSee('1');
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->post(route('invite.store', $event->id), $invite)
+            ->assertSuccessful()
+            ->assertSee('primary', $user->name . ' has already been invited!')
+            ->assertSee($event->name . ': Add Invite');
     }
+
     public function test_delete_event()
     {
         $this->withoutExceptionHandling();
@@ -166,15 +185,15 @@ class EventInvitesTest extends TestCase
             'id' => $event->id
         ]);
     }
+
     public function test_not_admin_cant_delete_event()
     {
         $this->withoutExceptionHandling();
-        $organization = factory(Organization::class)->create();
-        $this->loginAsAdmin($organization);
-        $event = factory(Event::class)->create(['organization_id' => auth()->user()->organization->id]);
+        $user = $this->loginAsAdmin();
+        $event = factory(Event::class)->create(['organization_id' => $user->organization_id]);
         auth()->logout();
 
-        $this->loginAsBasic($organization);
+        $this->loginAsBasic($user->organization);
         $response = $this->delete('event/' . $event->id);
 
         $this->assertDatabaseHas('events', [

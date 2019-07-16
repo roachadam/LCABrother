@@ -5,7 +5,7 @@
         <div class="tbl">
             <div class="tbl-row">
                 <div class="tbl-cell">
-                    <h2>Set Generated Involvement Event Points</h2>
+                <h2>Edit Involvement Event Points</h2>
                 </div>
             </div>
         </div>
@@ -13,7 +13,7 @@
     <form action="/involvement/setPoints" method="POST">
         @csrf
         @include('partials.errors')
-        @foreach ($nullEvents as $event)
+        @foreach ($events as $event)
             <div class="form-group row">
                 <label for="point_value[]" class="col-md-4 col-form-label text-md-right">{{ __($event->name) }}</label>
 

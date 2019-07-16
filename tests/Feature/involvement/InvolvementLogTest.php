@@ -5,35 +5,85 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-//use Faker\Generator as Faker;
 use App\Involvement;
+use App\InvolvementLog;
+
 class InvolvementLogTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
-    public function test_can_create_logs()
+
+    public function test_can_view_breakdown()
     {
-        $this->withoutExceptionHandling();
+        $user = $this->loginAsAdmin();
 
-        $this->loginAsAdmin();
+        $involvementLog = factory(InvolvementLog::class)->create([
+            'organization_id' => $user->organization->id,
+            'user_id' => $user->id,
+        ]);
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->from(route('involvement.index'))
+            ->get('user/' . $user->id . '/involvementLogs')
+            ->assertSuccessful()
+            ->assertSee($user->name . '\'s Involvement Logs')
+            ->assertSee($involvementLog->date_of_event);
+    }
+
+    /**
+     * Testing ability to add a new Involvement Log
+     */
+    public function test_can_add_involvementLog()
+    {
+        $user = $this->loginAsAdmin();
+
         $event = factory(Involvement::class)->create(['organization_id' => auth()->user()->organization->id]);
-        $dt = $this->faker->dateTimeAD();
-        //dd($dt);
-        $response = $this->post('/involvementLog',[
+        $dateOfEvent = now()->format('m/d/Y');
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->from(route('involvement.index'))
+            ->post(route('involvementLog.store'), [
+                'involvement_id' => $event->id,
+                'usersInvolved' => [$user->id],
+                'date_of_event' => $dateOfEvent,
+            ])
+            ->assertSuccessful()
+            ->assertSee('Involvement points were logged!')
+            ->assertSee($user->name)
+            ->assertSee($user->getInvolvementPoints());
+
+        $this->assertDatabaseHas('involvement_logs', [
+            'organization_id' => $user->organization->id,
+            'user_id' => $user->id,
             'involvement_id' => $event->id,
-            'date_of_event' => '2001-10-26 21:32:52',
-            'usersInvolved' => [auth()->user()->id]
+            'date_of_event' => $dateOfEvent,
+        ]);
+    }
+
+    /**
+     * Testing ability to delete involvement logs
+     */
+    public function test_can_delete_involvementLog()
+    {
+        $user = $this->loginAsAdmin();
+
+        $involvementLog = factory(InvolvementLog::class)->create([
+            'organization_id' => $user->organization->id,
+            'user_id' => $user->id,
         ]);
 
-        $this->assertDatabaseHas('involvement_logs',[
-            'organization_id' => auth()->user()->organization->id,
-            'user_id' => auth()->id(),
-            'involvement_id' => $event->id,
-            'date_of_event' => '2001-10-26 21:32:52',
-        ]);
-        $response = $this->get('/involvementLog');
-        $response->assertSee(auth()->user()->name);
-        $response->assertSee(auth()->user()->getInvolvementPoints());
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->delete('/involvementLog/' . $involvementLog->id)
+            ->assertSuccessful()
+            ->assertSee('Involvement log deleted!')
+            ->assertDontSee($involvementLog->date_of_event);
 
+        $this->assertDatabaseMissing('involvement_logs', $involvementLog->toArray());
     }
 }

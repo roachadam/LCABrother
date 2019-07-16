@@ -14,7 +14,7 @@
         @if (auth()->user()->canManageMembers())
             <li><a href="/user" class="{{Request::is('user*') ? 'vMenu--active' : ''}}">Member Overviews</a> </li>
         @endif
-        @if (auth()->user()->canManageInvolvment())
+        @if (auth()->user()->canManageInvolvement())
             <li><a href="/involvement" class="{{Request::is('involvement*') ? 'vMenu--active' : ''}}">Submit Involvement Data</a> </li>
         @endif
         @if (auth()->user()->canManageMembers())

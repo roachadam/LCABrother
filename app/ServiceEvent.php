@@ -15,24 +15,30 @@ class ServiceEvent extends Model
     {
         parent::boot();
 
-        static::updated(function ($ServiceEvent)
-        {
+        static::updated(function ($ServiceEvent) {
             NotificationFunctions::alert('success', 'Updated service event details!');
             return back();
         });
     }
 
-    public function setLog($attributes){
+    public function setLog($attributes)
+    {
         return $this->ServiceLogs()->create($attributes);
     }
-    public function ServiceLogs(){
+
+    public function ServiceLogs()
+    {
         return $this->hasMany(Servicelog::class);
     }
-    public function getAttendance(){
+
+    public function getAttendance()
+    {
         $attendance = $this->ServiceLogs->count();
         return $attendance;
     }
-    public function userAttended(User $user){
+
+    public function userAttended(User $user)
+    {
         $serviceLogs = $this->serviceLogs;
         return $serviceLogs->contains('user_id', $user->id);
     }

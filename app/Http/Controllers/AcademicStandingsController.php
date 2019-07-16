@@ -7,14 +7,6 @@ use Illuminate\Http\Request;
 
 class AcademicStandingsController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('orgverified');
-        $this->middleware('ManageAcademics');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -51,9 +43,6 @@ class AcademicStandingsController extends Controller
             'Term_GPA_Min' => ['required', 'numeric', 'between:0,4.0', 'unique:academic_standings'],
             'SubmitAndFinishCheck' => ['required', 'boolean'],
         ]);
-
-        $attributes['nameWithSpace'] = $attributes['name'];
-        $attributes['name'] = str_replace(' ', '_', $attributes['name']);
 
         $SubmitAndFinishCheck = $attributes['SubmitAndFinishCheck'];
         unset($attributes['SubmitAndFinishCheck']);

@@ -21,6 +21,22 @@
 
         @yield('css')
 
+        <style>
+            @media (max-width: 560px) {
+                #headerButtons .btn {
+                    width:100%;
+                }
+            }
+
+            @media (min-width: 540px) and (max-width: 768px) {
+                #headerButtons {
+                    margin-top: 10px;
+                    margin-left:auto;
+                    margin-right:auto;
+                }
+            }
+        </style>
+
         <link href="{{ asset('css/main.css') }}" rel="stylesheet">
         <!-- End Global Styles -->
 
@@ -39,9 +55,11 @@
     <body class="with-side-menu dark-theme mozilla-browser">
         @include('layouts.headbar')
 
-        <div class="mobile-menu-left-overlay"></div>
-        @if (auth()->user()->isVerified())
-            @include('layouts.sidebar')
+        @if (isset(Auth::user()->organization))
+            <div class="mobile-menu-left-overlay"></div>
+            @if (auth()->user()->isVerified() && auth()->user()->emailVerified())
+                @include('layouts.sidebar')
+            @endif
         @endif
         @include('partials.notifications')
 

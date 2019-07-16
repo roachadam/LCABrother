@@ -1,18 +1,18 @@
 @extends('main.dash')
 
 @section('content')
-
-<header class="section-header">
-        <div class="tbl">
-            <div class="tbl-row">
-                <div class="tbl-cell">
-                    <h2>Roles</h2>
+<section class="card">
+    <div class="card-block">
+        <header class="card-header" style="border-bottom: 0">
+            <div class="row">
+                <h2 class="card-title">Roles</h2>
+                <div class="ml-auto" id="headerButtons">
+                    <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#addRole">Add Role</button>
                 </div>
             </div>
-        </div>
-    </header>
-    <section class="card">
-    <div class="card-block">
+        </header>
+        @include('partials.errors')
+
         <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
             <thead>
             <tr>
@@ -36,10 +36,6 @@
             </tbody>
 
         </table>
-        {{-- todo: fix alignment --}}
-        <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#addRole">
-                Add Role
-        </button>
     </div>
     <div class="modal fade"
         id="addRole"

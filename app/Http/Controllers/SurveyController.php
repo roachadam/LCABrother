@@ -7,18 +7,19 @@ use Illuminate\Http\Request;
 use App\Organization;
 use App\Mail\UserSurveyReminder;
 use Mail;
+
 class SurveyController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('orgverified');
+        $this->middleware('ManageSurvey')->only('create', 'store');
     }
 
     public function index()
     {
-        $surveys = Survey::where('organization_id' , auth()->user()->organization->id)->get();
-        return view('survey.index', compact('surveys'));
+        $surveys = Survey::where('organization_id', auth()->user()->organization->id)->get();
+        $user = auth()->user();
+        return view('survey.index', compact('surveys', 'user'));
     }
 
     /**
@@ -44,10 +45,9 @@ class SurveyController extends Controller
         $serializedFieldNames = serialize($attributes['field_name']);
         $serializedFieldTypes = serialize($attributes['field_type']);
 
-        //Strips out field if they just hit the add field button but don't insert a name 
-        foreach($attributes['field_name'] as $key =>$fieldName){
-            if($fieldName == null)
-            {
+        //Strips out field if they just hit the add field button but don't insert a name
+        foreach ($attributes['field_name'] as $key => $fieldName) {
+            if ($fieldName == null) {
                 unset($attributes['field_name'][$key]);
                 unset($attributes['field_type'][$key]);
             }
@@ -62,7 +62,6 @@ class SurveyController extends Controller
         auth()->user()->organization->addSurvey($att);
 
         return redirect('/survey');
-
     }
 
     /**
@@ -111,17 +110,19 @@ class SurveyController extends Controller
         return back();
     }
 
-    public function viewResponses(Request $request, Survey $survey){
+    public function viewResponses(Request $request, Survey $survey)
+    {
         return view('survey.responses', compact('survey'));
     }
-    public function notify(Request $request, Survey  $survey){
+    public function notify(Request $request, Survey  $survey)
+    {
         $users = $survey->getAllUnansweredMembers();
         dd('here');
-        foreach($users as $user){
+        foreach ($users as $user) {
             Mail::to($user->email)->send(
                 new UserSurveyReminder($survey)
             );
-            if(env('MAIL_HOST', false) == 'smtp.mailtrap.io'){
+            if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
                 sleep(5); //use usleep(500000) for half a second or less
             }
         }

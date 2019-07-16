@@ -8,48 +8,6 @@ use Illuminate\Http\Request;
 class ServiceLogController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\ServiceLog  $serviceLog
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ServiceLog $serviceLog)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\ServiceLog  $serviceLog
@@ -72,7 +30,7 @@ class ServiceLogController extends Controller
         $attributes = $request->all();
         $serviceLog->update($attributes);
 
-        return redirect()->action('UserController@serviceBreakdown', ['user'=> $serviceLog->user]);
+        return redirect()->action('UserController@serviceBreakdown', ['user' => $serviceLog->user]);
     }
 
     /**
@@ -84,6 +42,6 @@ class ServiceLogController extends Controller
     public function destroy(ServiceLog $serviceLog)
     {
         $serviceLog->delete();
-        return redirect()->action('UserController@serviceBreakdown', ['user'=> $serviceLog->user]);
+        return redirect()->action('UserController@serviceBreakdown', ['user' => $serviceLog->user]);
     }
 }

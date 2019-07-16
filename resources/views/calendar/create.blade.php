@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="row">
-                    <button type='submit' class="btn btn-primary">Send</button>
+                    <button type='submit' class="btn btn-primary">Create</button>
                 </div>
 
             </form>

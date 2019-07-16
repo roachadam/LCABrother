@@ -12,20 +12,23 @@ class LoginTest extends TestCase
     use RefreshDatabase;
 
 
-    public function test_user_can_view_a_login_view(){
+    public function test_user_can_view_a_login_view()
+    {
         $response = $this->get('/login');
 
         $response->assertSuccessful();
         $response->assertViewIs('auth.login');
     }
 
-    public function test_user_cannot_view_a_login_form_when_authenticated(){
+    public function test_user_cannot_view_a_login_form_when_authenticated()
+    {
         $user = factory(User::class)->make();
         $response = $this->actingAs($user)->get('/login');
         $response->assertRedirect('/dash');
     }
 
-    public function test_user_can_login_with_correct_credentials(){
+    public function test_user_can_login_with_correct_credentials()
+    {
         $user = factory(User::class)->create([
             'password' => bcrypt($password = 'i-love-laravel'),
         ]);
@@ -37,7 +40,8 @@ class LoginTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
-    public function test_user_cannot_login_with_incorrect_password(){
+    public function test_user_cannot_login_with_incorrect_password()
+    {
         $user = factory(User::class)->create([
             'password' => bcrypt('i-love-laravel'),
         ]);
@@ -54,7 +58,8 @@ class LoginTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_remember_me_functionality(){
+    public function test_remember_me_functionality()
+    {
         $user = factory(User::class)->create([
             'id' => random_int(1, 100),
             'password' => bcrypt($password = 'i-love-laravel'),
