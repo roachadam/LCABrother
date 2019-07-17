@@ -49,7 +49,7 @@ class totalsTest extends TestCase
     {
         $user = $this->loginAsAdmin();
 
-        $this->arrangeNeededData($user);
+        $this->arrange($user);
 
         $oldSemester = $user->organization->getActiveSemester();
 
@@ -90,9 +90,9 @@ class totalsTest extends TestCase
     }
 
     /**
-     * Helper method that seeds the database with need test data
+     * Helper method that seeds the database with needed test data
      */
-    private function arrangeNeededData($user)
+    private function arrange($user)
     {
         $serviceEventIds = factory(ServiceEvent::class, 10)->create([
             'organization_id' => $user->organization_id,

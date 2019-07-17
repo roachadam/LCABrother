@@ -24,26 +24,32 @@ class Role extends Model
         //     return back();
         // });
     }
+
     public function permission()
     {
         return $this->belongsTo(Permission::class);
     }
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);
     }
+
     public function user()
     {
         return $this->hasOne(User::class);
     }
-    public function setPermissions($attributes)
+
+    public function setPermissions($attributes): Permission
     {
         $permission = Permission::create($attributes);
 
         $this->permission()->associate($permission)->save();
+
+        return $this->permission;
     }
 
-    public function setAdminPermissions()
+    public function setAdminPermissions(): Permission
     {
         $attributes = [
             'view_member_details' => true,
@@ -65,9 +71,11 @@ class Role extends Model
 
         $this->permission()->associate($permission)->save();
 
+        return $this->permission;
         //return $this->permission()->create($attributes);
     }
-    public function setBasicPermissions()
+
+    public function setBasicPermissions(): Permission
     {
         $attributes = [
             'view_member_details' => false,
@@ -89,6 +97,7 @@ class Role extends Model
 
         $this->permission()->associate($permission)->save();
 
+        return $this->permission;
         //return $this->permission()->create($attributes);
     }
 }
