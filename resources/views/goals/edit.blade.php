@@ -48,7 +48,7 @@
                         <div class="form-group row">
 
                             <div class="col-md-3 offset-2">
-                                <a href="/goals/" id="cancel" name="cancel" class="btn btn-default">
+                                <a href={{ url()->previous() }} id="cancel" name="cancel" class="btn btn-default">
                                     Cancel
                                 </a>
                             </div>

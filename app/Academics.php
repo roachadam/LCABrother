@@ -17,8 +17,6 @@ class Academics extends Model
 
     public function updateStanding()
     {
-        $academics = $this;
-
         $org = auth()->user()->organization;
         $standingsOuter = $org->getStandingsAsc();
         $standingsInner = $org->getStandingsDsc();
@@ -32,13 +30,13 @@ class Academics extends Model
 
         for ($i = 0; $i < count($standingsOuter); $i++) {
             $outer = $standingsOuter[$i];
-            if ($outer->name == $academics->Previous_Academic_Standing) {
+            if ($outer->name == $this->Previous_Academic_Standing) {
                 $prevTermIndex = $i;
             }
 
             if ($this->check($outer)) {
-                if ($academics->Previous_Academic_Standing === null) {
-                    $this->setTo($outer->name, $academics);
+                if ($this->Previous_Academic_Standing === null) {
+                    $this->setTo($outer->name);
                     break;
                 }
                 foreach ($standingsInner as $inner) {
@@ -63,7 +61,7 @@ class Academics extends Model
                             $this->setTo($inner->name);
                             break;
                         }
-                        if ($inner->name == $academics->Previous_Academic_Standing) {
+                        if ($inner->name == $this->Previous_Academic_Standing) {
                             $readyToSet = true;
                         }
                     }

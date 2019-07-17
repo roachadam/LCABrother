@@ -121,10 +121,12 @@ class Organization extends Model
     {
         return $this->hasOne(Goals::class);
     }
+
     public function serviceEvents()
     {
         return $this->hasMany(ServiceEvent::Class);
     }
+
     public function getActiveServiceEvents()
     {
         $activeSemester = $this->getActiveSemester();
