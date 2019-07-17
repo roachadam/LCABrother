@@ -61,10 +61,13 @@ class Role extends Model
             'manage_all_involvement' => true,
             'manage_events' => true,
             'manage_forum' => true,
+            'manage_alumni' => true,
             'manage_surveys' => true,
+            'view_all_study' => true,
             'manage_all_study' => true,
             'view_all_study' => true,
             'manage_calendar' => true,
+            'take_attendance' => true,
         ];
 
         $permission = Permission::create($attributes);
@@ -87,10 +90,12 @@ class Role extends Model
             'manage_all_involvement' => false,
             'manage_events' => false,
             'manage_forum' => false,
+            'manage_alumni' => false,
             'manage_surveys' => false,
             'manage_all_study' => false,
             'view_all_study' => false,
             'manage_calendar' => false,
+            'take_attendance' => false,
         ];
 
         $permission = Permission::create($attributes);

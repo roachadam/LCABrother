@@ -11,18 +11,26 @@ use DB;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('ManageMembers');
+    }
+
     public function index()
     {
         $permissionNames = Schema::getColumnListing('permissions');
+
 
         foreach ($permissionNames as $key => $value) {
             if ($value == 'id' || $value == 'created_at' || $value == 'updated_at') {
                 unset($permissionNames[$key]);
             }
         }
-        $roles = Auth::user()->organization->roles;
-        $org = Auth::user()->organization;
-        return view('roles.index', compact('roles', 'org', 'permissionNames'));
+
+        $organization = Auth::user()->organization;
+        $roles = $organization->roles;
+
+        return view('roles.index', compact('roles', 'organization', 'permissionNames'));
     }
 
     /**
@@ -47,7 +55,7 @@ class RoleController extends Controller
         $attributes = $request->all();
         unset($attributes['_token']);
 
-        $role = auth()->user()->organization->addrole($attributes['name']);
+        $role = auth()->user()->organization->addRole($attributes['name']);
 
         unset($attributes['name']);
 

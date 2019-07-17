@@ -9,7 +9,7 @@ use Tests\TestCase;
 use App\ServiceLog;
 use App\Goals;
 
-class totalsTest extends TestCase
+class TotalsTest extends TestCase
 {
     use RefreshDatabase;
 
