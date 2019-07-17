@@ -25,11 +25,10 @@ class SemesterController extends Controller
             ]);
         }
 
-
         $attributes['active'] = true;
         $attributes['start_date'] = Carbon::now();
         NotificationFunctions::alert('success', 'Successfully created new semester');
-        auth()->user()->organization->addSemester($attributes);
+        $organization->addSemester($attributes);
 
         return back();
     }
@@ -39,7 +38,6 @@ class SemesterController extends Controller
         $attributes = $request->validate([
             'semester_name' => 'required'
         ]);
-        $organization = auth()->user()->organization;
 
         $attributes['active'] = true;
         $attributes['start_date'] = Carbon::today()->toDateString();

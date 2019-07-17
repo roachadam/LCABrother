@@ -10,6 +10,7 @@ use App\InvolvementLog;
 use App\ServiceLog;
 use App\Involvement;
 use App\User;
+use App\ServiceEvent;
 
 class TotalsUnitTest extends TestCase
 {
@@ -24,15 +25,9 @@ class TotalsUnitTest extends TestCase
         //Arrange
         $user = $this->loginAsAdmin();
 
-        $createdInvolvementPointsTotal = factory(InvolvementLog::class, 15)
-            ->create([
-                'organization_id' => $user->organization_id,
-                'user_id' => $user->id
-            ])
-            ->pluck('involvement')
-            ->sum('points');
+        $createdInvolvementPointsTotal = $this->getInvolvementPointsTotal(15, $user->id, $user->organization_id);
 
-        $serviceLogs = factory(ServiceLog::class, 3)->create([
+        $serviceLogs = factory(ServiceLog::class, 20)->create([
             'user_id' => $user->id,
             'organization_id' => $user->organization_id,
         ]);
@@ -56,27 +51,22 @@ class TotalsUnitTest extends TestCase
     {
         //Arrange
         $user = $this->loginAsAdmin();
-        $userId = factory(User::class, 5)
+
+        $userIds = factory(User::class, 5)
             ->create([
                 'organization_id' => $user->organization_id
             ])
             ->push($user)
             ->pluck('id');
 
-        $createdInvolvementPointsTotal = factory(InvolvementLog::class, 15)
-            ->create([
-                'organization_id' => $user->organization_id,
-                'user_id' => $userId->random()
-            ])
-            ->pluck('involvement')
-            ->sum('points');
+        $createdInvolvementPointsTotal = $this->getInvolvementPointsTotal(15, $userIds, $user->organization_id);
 
         $serviceLogs = factory(ServiceLog::class, 20)->create([
             'user_id' => $user->id,
             'organization_id' => $user->organization_id,
         ]);
 
-        $numUsers = $userId->count();
+        $numUsers = $userIds->count();
 
         $createdInvolvementAverage = $createdInvolvementPointsTotal / $numUsers;
         $createdMoneyAverage = $serviceLogs->sum('money_donated') / $numUsers;
@@ -89,5 +79,16 @@ class TotalsUnitTest extends TestCase
         $this->assertEquals($createdInvolvementAverage, $calculatedAverages['points']);
         $this->assertEquals($createdMoneyAverage, $calculatedAverages['money']);
         $this->assertEquals($createdHoursAverage, $calculatedAverages['service']);
+    }
+
+    private function getInvolvementPointsTotal($num, $userIds, $organizationId): int
+    {
+        return factory(InvolvementLog::class, $num)
+            ->create([
+                'organization_id' => $organizationId,
+                'user_id' => collect($userIds)->random()
+            ])
+            ->pluck('involvement')
+            ->sum('points');
     }
 }
