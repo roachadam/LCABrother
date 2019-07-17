@@ -92,7 +92,7 @@ class totalsTest extends TestCase
     /**
      * Helper method that seeds the database with needed test data
      */
-    private function arrange($user)
+    private function arrange($user): void
     {
         $serviceEventIds = factory(ServiceEvent::class, 10)->create([
             'organization_id' => $user->organization_id,

@@ -2,13 +2,13 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 use App\Permission;
 use App\Role;
 
-class RoleUnitTest extends TestCase
+class RolesUnitTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
@@ -18,13 +18,8 @@ class RoleUnitTest extends TestCase
      */
     public function test_set_permissions_of_role()
     {
-        //Arrange
         $role = $this->arrange();
-
-        //Act
         $permission = $role->setPermissions(factory(Permission::class)->states('manage_members')->raw())->getAttributes();
-
-        //Assert
         $this->assert($role, $permission);
     }
 
@@ -33,13 +28,8 @@ class RoleUnitTest extends TestCase
      */
     public function test_set_admin_permission()
     {
-        //Arrange
         $role = $this->arrange();
-
-        //Act
         $permission = $role->setAdminPermissions()->getAttributes();
-
-        //Assert
         $this->assert($role, $permission);
     }
 
@@ -48,20 +38,15 @@ class RoleUnitTest extends TestCase
      */
     public function test_set_basic_permission()
     {
-        //Arrange
         $role = $this->arrange();
-
-        //Act
         $permission = $role->setBasicPermissions()->getAttributes();
-
-        //Assert
         $this->assert($role, $permission);
     }
 
     /**
      * Helper method that seeds the database with needed test data
      */
-    private function arrange()
+    private function arrange(): Role
     {
         return factory(Role::class)->state('admin')->create([
             'organization_id' => $this->loginAsAdmin()->organization_id
@@ -71,7 +56,7 @@ class RoleUnitTest extends TestCase
     /**
      * Helper method that handles the assertion for the tests
      */
-    private function assert($role, $permission)
+    private function assert($role, $permission): void
     {
         $this->assertTrue($role->relationLoaded('permission'));
         $this->assertTrue(count(array_intersect($role->permission->getAttributes(), $permission)) === count($permission));
