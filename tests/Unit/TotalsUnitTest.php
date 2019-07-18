@@ -18,6 +18,7 @@ class TotalsUnitTest extends TestCase
     use WithFaker;
 
     /**
+     * * Organization->getTotals()
      * Tests if the method $organization->getTotals() correctly works
      */
     public function test_get_totals()
@@ -45,6 +46,7 @@ class TotalsUnitTest extends TestCase
     }
 
     /**
+     * * Organization->getAverages()
      * Tests if the method $organization->getAverages() correctly works
      */
     public function test_get_averages()

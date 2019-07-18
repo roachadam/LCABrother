@@ -14,6 +14,7 @@ class RolesUnitTest extends TestCase
     use WithFaker;
 
     /**
+     * * Role->setPermissions($attributes)
      * Testing ability to set permissions of a user role
      */
     public function test_set_permissions_of_role()
@@ -24,6 +25,7 @@ class RolesUnitTest extends TestCase
     }
 
     /**
+     * * Role->setAdminPermissions()
      * Testing ability to set admin permissions on a role
      */
     public function test_set_admin_permission()
@@ -34,6 +36,7 @@ class RolesUnitTest extends TestCase
     }
 
     /**
+     * * Role->setBasicPermissions()
      * Testing ability to set basic permissions on a role
      */
     public function test_set_basic_permission()
