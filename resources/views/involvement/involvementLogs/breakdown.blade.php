@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Involvement Points')
 @section('content')
 
 <section class="card">

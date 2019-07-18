@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Academic Standing Rules')
 @section('content')
 <section class="card">
     <div class="card-block">

@@ -1,5 +1,7 @@
+
 @extends(Config::get('chatter.master_file_extend'))
 
+@section('title', 'Forum') 
 @section(Config::get('chatter.yields.head'))
     @if(Config::get('chatter.sidebar_in_discussion_view'))
         <link href="{{ url('/vendor/devdojo/chatter/assets/vendor/spectrum/spectrum.css') }}" rel="stylesheet">

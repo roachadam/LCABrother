@@ -7,7 +7,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>@yield('title') - {{ config('app.name', 'Laravel') }}</title>
 
         <!-- Global Styles -->
         <link href="{{ asset('css/lib/datatables-net/datatables.min.css') }}" rel="stylesheet">

@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Add Invite')
 @section('content')
 
 <div class="container">

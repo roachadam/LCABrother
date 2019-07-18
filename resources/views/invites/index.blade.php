@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Your Invites')
 @section('content')
 <div class="card">
 <div class="card-header">{{$event->name}}: Your invites</div>

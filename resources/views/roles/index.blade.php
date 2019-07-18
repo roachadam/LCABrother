@@ -1,5 +1,5 @@
 @extends('main.dash')
-
+@section('title', 'Roles')
 @section('content')
 <section class="card">
     <div class="card-block">
