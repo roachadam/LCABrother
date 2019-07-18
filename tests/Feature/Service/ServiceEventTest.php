@@ -8,7 +8,6 @@ use App\ServiceEvent;
 use Tests\TestCase;
 use App\ServiceLog;
 
-
 class ServiceEventTest extends TestCase
 {
     use RefreshDatabase;

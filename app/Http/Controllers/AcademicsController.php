@@ -30,14 +30,25 @@ class AcademicsController extends Controller
         return view('academics.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
+    public function manage()
     {
-        //
+        $usedStandings = array();
+        $newAcademicStandings = array();
+
+        $academicStandings = auth()->user()->organization->academicStandings;
+        foreach (auth()->user()->organization->users as $user) {
+            if (isset($user->latestAcademics()->Current_Academic_Standing)) {
+                array_push($usedStandings, $user->latestAcademics()->Current_Academic_Standing);
+            }
+        }
+
+        foreach ($academicStandings->all() as $academicStanding) {
+            if (in_array($academicStanding->name, $usedStandings)) {
+                array_push($newAcademicStandings, $academicStanding->name);
+            }
+        }
+
+        return view('academics.manage', compact('academicStandings', 'newAcademicStandings'));
     }
 
     /**
@@ -78,16 +89,6 @@ class AcademicsController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Academics  $academics
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Academics $academics)
-    {
-        //
-    }
 
     public function edit(Academics $academics)
     {
@@ -98,33 +99,6 @@ class AcademicsController extends Controller
 
         $academicStandings = AcademicStandings::where('organization_id', $organization->id)->get()->sortByDesc('Term_GPA_Min');
         return view('academics.override', compact('academics', 'user', 'academicStandings'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Academics  $academics
-     * @return \Illuminate\Http\Response
-     */
-    public function manage()
-    {
-        $usedStandings = array();
-        $newAcademicStandings = array();
-
-        $academicStandings = auth()->user()->organization->academicStandings;
-        foreach (auth()->user()->organization->users as $user) {
-            if (isset($user->latestAcademics()->Current_Academic_Standing)) {
-                array_push($usedStandings, $user->latestAcademics()->Current_Academic_Standing);
-            }
-        }
-
-        foreach ($academicStandings->all() as $academicStanding) {
-            if (in_array($academicStanding->name, $usedStandings)) {
-                array_push($newAcademicStandings, $academicStanding->name);
-            }
-        }
-
-        return view('academics.manage', compact('academicStandings', 'newAcademicStandings'));
     }
 
     /**
@@ -164,17 +138,6 @@ class AcademicsController extends Controller
             'Previous_Academic_Standing' => [],
             'Current_Academic_Standing' => [],
         ];
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Academics  $academics
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Academics $academics)
-    {
-        //
     }
 
     public function getExampleFile()

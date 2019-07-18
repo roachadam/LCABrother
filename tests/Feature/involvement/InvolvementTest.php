@@ -14,6 +14,7 @@ class InvolvementTest extends TestCase
     use WithFaker;
 
     /**
+     * * InvolvementController@index
      * Testing ability to view Involvement Page as a basic user
      * Ensures basic users are only able to see view their breakdown button
      */
@@ -27,12 +28,14 @@ class InvolvementTest extends TestCase
             ->get(route('involvement.index'))
             ->assertSuccessful()
             ->assertSee('Involvement Points')
-            ->assertSee('View My Involvement Breakdown')
+            ->assertSee('My Involvement Breakdown')
             ->assertDontSee('Add Involvement Scores')
-            ->assertDontSee('Upload Involvement Data');
+            ->assertDontSee('Upload Involvement Data')
+            ->assertDontSee('View');
     }
 
     /**
+     * * InvolvementController@index
      * Testing ability to view Involvement Page as an admin
      * Ensures admins are able to see all the buttons available to them
      */
@@ -46,12 +49,14 @@ class InvolvementTest extends TestCase
             ->get(route('involvement.index'))
             ->assertSuccessful()
             ->assertSee('Involvement Points')
-            ->assertSee('View My Involvement Breakdown')
+            ->assertSee('My Involvement Breakdown')
             ->assertSee('Add Involvement Scores')
-            ->assertSee('Upload Involvement Data');
+            ->assertSee('Upload Involvement Data')
+            ->assertSee('View');
     }
 
     /**
+     * * InvolvementController@store
      * Testing adding an involvement event without any points
      */
     public function test_cannot_add_involvement_without_points()
@@ -68,6 +73,7 @@ class InvolvementTest extends TestCase
     }
 
     /**
+     * * InvolvementController@store
      * Testing adding an involvement event without a name
      */
     public function test_cannot_add_involvement_without_name()
@@ -84,6 +90,7 @@ class InvolvementTest extends TestCase
     }
 
     /**
+     * * InvolvementController@store
      * Testing ability to create new Involvement Event with valid data
      */
     public function test_can_add_involvement()
@@ -106,55 +113,8 @@ class InvolvementTest extends TestCase
         ]);
     }
 
-    // /**
-    //  * Testing uploading an invalid file (in this case its empty)
-    //  */
-    // public function test_upload_invalid_file()
-    // {
-    //     $user = $this->loginAsAdmin();
-
-    //     $this
-    //         ->withoutExceptionHandling()
-    //         ->followingRedirects()
-    //         ->post(route('involvement.import'), [
-    //             'InvolvementData' => new UploadedFile('storage\app\public\grades\testFile\gradesTestFail.xlsx', 'gradesTestFail.xlsx', 'xlsx', null, true),
-    //             'test' => true,
-    //         ])
-    //         ->assertSuccessful()
-    //         ->assertSee('Failed to import new Records: Invalid format');
-
-    //     $this->assertTrue($user->organization->academics->filter(function ($academic) {
-    //         return $academic['name'] !== null && $academic['Cumulative_GPA'] !== null && $academic['Current_Term_GPA'] !== null;
-    //     })->values()->isEmpty());
-    // }
-
-    // /**
-    //  * Testing uploading a valid file
-    //  */
-    // public function test_upload_file()
-    // {
-    //     $user = $this->loginAsAdmin();
-    //     $user->update(['name' => 'Jacob Drury']);
-
-    //     $this
-    //         ->withoutExceptionHandling()
-    //         ->followingRedirects()
-    //         ->post(route('involvement.import'), [
-    //             'grades' => new UploadedFile('storage\app\public\involvement\testFiles\pointsTestWorking.xlsx', 'pointsTestWorking.xlsx', 'xlsx', null, true),
-    //             'test' => true,
-    //         ])
-    //         ->assertSuccessful();
-    //     //->assertSee('Successfully imported new academic records!');
-
-    //     $involvements = $user->organization->involvement->filter(function ($involvement) {
-    //         return $involvement['name'] !== null && $involvement['points'] !== null;
-    //     })->values();
-
-    //     dd($involvements);
-    //     //$this->assertTrue($involvements->isNotEmpty() && $involvements->count() === 3);
-    // }
-
     /**
+     * * InvolvementController@update
      * Testing editing involvement event point value with invalid data
      */
     public function test_edit_involvement_event_invalid_point_value()
@@ -183,6 +143,7 @@ class InvolvementTest extends TestCase
     }
 
     /**
+     * * InvolvementController@update
      * Testing ability to edit involvement event point value with valid data
      */
     public function test_edit_involvement_event_point_value()
@@ -218,6 +179,7 @@ class InvolvementTest extends TestCase
     }
 
     /**
+     * * InvolvementController@update
      * Testing editing involvement event name with invalid data
      */
     public function test_edit_involvement_event_invalid_name()
@@ -246,6 +208,7 @@ class InvolvementTest extends TestCase
     }
 
     /**
+     * * InvolvementController@update
      * Testing ability to edit involvement event name
      */
     public function test_edit_involvement_event_valid_name()
@@ -281,6 +244,62 @@ class InvolvementTest extends TestCase
     }
 
     /**
+     * ! Import tests do not work
+     * TODO: Fix the involvement import
+     */
+
+    /**
+     * * InvolvementController@import
+     * Testing uploading an invalid file (in this case its empty)
+     */
+    public function _upload_invalid_file()
+    {
+        $user = $this->loginAsAdmin();
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->post(route('involvement.import'), [
+                'InvolvementData' => new UploadedFile('storage\app\public\grades\testFile\gradesTestFail.xlsx', 'gradesTestFail.xlsx', 'xlsx', null, true),
+                'test' => true,
+            ])
+            ->assertSuccessful()
+            ->assertSee('Failed to import new Records: Invalid format');
+
+        $this->assertTrue($user->organization->academics->filter(function ($academic) {
+            return $academic['name'] !== null && $academic['Cumulative_GPA'] !== null && $academic['Current_Term_GPA'] !== null;
+        })->values()->isEmpty());
+    }
+
+    /**
+     * * InvolvementController@import
+     * Testing uploading a valid file
+     */
+    public function _upload_file()
+    {
+        $user = $this->loginAsAdmin();
+        $user->update(['name' => 'Jacob Drury']);
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->post(route('involvement.import'), [
+                'grades' => new UploadedFile('storage\app\public\involvement\testFiles\pointsTestWorking.xlsx', 'pointsTestWorking.xlsx', 'xlsx', null, true),
+                'test' => true,
+            ])
+            ->assertSuccessful();
+        //->assertSee('Successfully imported new academic records!');
+
+        $involvements = $user->organization->involvement->filter(function ($involvement) {
+            return $involvement['name'] !== null && $involvement['points'] !== null;
+        })->values();
+
+        dd($involvements);
+        //$this->assertTrue($involvements->isNotEmpty() && $involvements->count() === 3);
+    }
+
+    /**
+     * * InvolvementController@destroy
      * Testing ability to delete Involvement Events
      */
     public function test_can_delete_involvement_event()

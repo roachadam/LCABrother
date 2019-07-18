@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Academics;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use App\AcademicStandings;
+use Tests\TestCase;
+use App\Academics;
 
 class AcademicsTest extends TestCase
 {
@@ -15,6 +15,7 @@ class AcademicsTest extends TestCase
     use WithFaker;
 
     /**
+     * * AcademicsController@index
      * Testing getting the academics page
      */
     public function test_can_view_Academics()
@@ -31,6 +32,7 @@ class AcademicsTest extends TestCase
     }
 
     /**
+     * * AcademicsController@index
      * Testing prevention of basic users from accessing the page
      */
     public function test_basic_cannot_view_Academics()
@@ -44,6 +46,7 @@ class AcademicsTest extends TestCase
     }
 
     /**
+     * * AcademicsController@manage
      * Testing showing the manage view from the academics page
      */
     public function test_can_view_manage()
@@ -59,6 +62,7 @@ class AcademicsTest extends TestCase
     }
 
     /**
+     * * AcademicsController@store
      * Testing uploading an invalid file (in this case its empty)
      */
     public function test_upload_invalid_file()
@@ -81,6 +85,7 @@ class AcademicsTest extends TestCase
     }
 
     /**
+     * * AcademicsController@store
      * Testing uploading a valid file
      */
     public function test_upload_file()
@@ -105,6 +110,7 @@ class AcademicsTest extends TestCase
     }
 
     /**
+     * * AcademicsController@edit
      * Testing showing the override view from the academics page
      */
     public function test_can_get_override_view()
@@ -131,6 +137,7 @@ class AcademicsTest extends TestCase
     }
 
     /**
+     * * AcademicsController@update
      * Testing ability to override a user's academic data
      */
     public function test_can_override_user()
@@ -184,6 +191,9 @@ class AcademicsTest extends TestCase
         return count(array_intersect($academics, $latestAcademics)) === $size;
     }
 
+    /**
+     *
+     */
     public function test_basic_update_standing()        //"Basic" is when you upload a new excel file with data that gets updated
     {
         $this->withoutExceptionHandling();

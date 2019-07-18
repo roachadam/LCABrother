@@ -13,6 +13,10 @@ class InvolvementLogTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    /**
+     * * InvolvementLogController@breakdown
+     * Testing admin's ability to view involvement breakdown
+     */
     public function test_can_view_breakdown()
     {
         $user = $this->loginAsAdmin();
@@ -33,6 +37,7 @@ class InvolvementLogTest extends TestCase
     }
 
     /**
+     * * InvolvementLogController@store
      * Testing ability to add a new Involvement Log
      */
     public function test_can_add_involvementLog()
@@ -65,6 +70,7 @@ class InvolvementLogTest extends TestCase
     }
 
     /**
+     * * InvolvementLogController@destroy
      * Testing ability to delete involvement logs
      */
     public function test_can_delete_involvementLog()
