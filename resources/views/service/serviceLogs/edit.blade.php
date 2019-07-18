@@ -1,6 +1,5 @@
 @extends('layouts.main')
-
-
+@section('title', 'Edit Service Log')
 
 @section('content')
 <section class="card">

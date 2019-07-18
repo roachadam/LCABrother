@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Edit Role Permissions')
 @section('content')
 
 {{-- {{dd(Session()->all())}} --}}

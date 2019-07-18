@@ -1,5 +1,7 @@
 @extends('layouts.main')
 
+@section('title', 'Roles')
+
 @section('content')
 <section class="card">
     <div class="card-block">

@@ -1,11 +1,11 @@
 @extends('layouts.main')
-
+@section('title', 'Attendance')
 @section('content')
     <section class="card">
         <div class="card-block">
             <header class="card-header" style="border-bottom: 0">
                 <div class="row">
-                    <h2 class="card-title">Attendance Record Events</h2>
+                    <h2 class="card-title">Attendance Records</h2>
                     <div class="ml-auto" id="headerButtons">
                         @if($user->canManageEvents())
                             <a href="/calendarItem/create" class="btn btn-inline btn-primary">Create New Event</a>

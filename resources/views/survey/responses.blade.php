@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-
+@section('title', 'Survey Responses')
 @section('content')
 
 <header class="section-header">

@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Service Event Breakdown')
 
 
 @section('content')

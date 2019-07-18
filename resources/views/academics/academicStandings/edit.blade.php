@@ -1,5 +1,5 @@
 @extends('layouts.main');
-
+@section('title', 'Academic Standing Rules')
 @section('content')
 <div class="container">
     @include('partials.errors')
