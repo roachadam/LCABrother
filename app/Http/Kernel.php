@@ -111,6 +111,7 @@ class Kernel extends HttpKernel
         'orgverified' => \App\Http\Middleware\CheckOrgVerified::class,
         'ManageEvents' => \App\Http\Middleware\ManageEvents::class,
         'ManageAcademics' => \App\Http\Middleware\ManageAcademics::class,
+        'ManageGoals' => \App\Http\Middleware\ManageGoals::class,
     ];
 
     /**

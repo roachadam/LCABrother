@@ -8,7 +8,7 @@
             <div class="row">
                 <h2 class="card-title">Academics</h2>
                 <div class="ml-auto" id="headerButtons">
-                    <a href="/academicStandings" class="btn btn-inline btn-secondary-outline">Override Academic Rules</a>
+                    <a href="/academicStandings" class="btn btn-inline btn-secondary-outline">Academic Standing Rules</a>
                     <a href="/academics/manage" class="btn btn-inline btn-primary">Manage</a>
                 </div>
             </div>

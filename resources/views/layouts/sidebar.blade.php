@@ -64,7 +64,7 @@
     </ul>
     <section>
         <ul class="side-menu-list">
-            @if (auth()->user()->canManageMembers())
+            @if (auth()->user()->canViewMembers())
                 <header class="side-menu-title">High Zeta</header>
                 <li class="blue {{ request()->is('user') ? 'opened' : '' }}">
                     <a href="/user">
@@ -105,7 +105,7 @@
                     </a>
                 </li>
             @endif
-            @if (auth()->user()->canManageMembers())
+            @if (auth()->user()->canManageGoals())
                 <li class="red {{ request()->is('totals') ? 'opened' : '' }}">
                     <a href="/totals">
                     <span>

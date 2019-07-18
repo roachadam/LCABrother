@@ -335,6 +335,11 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $this->role->permission->manage_member_details;
     }
 
+    public function canViewMembers()
+    {
+        return $this->role->permission->view_member_details;
+    }
+
     public function canManageInvolvement()
     {
         return $this->role->permission->manage_all_involvement;
@@ -403,6 +408,11 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function canManageCalendar()
     {
         return $this->role->permission->manage_calendar;
+    }
+
+    public function canManageGoals()
+    {
+        return $this->role->permission->manage_goals;
     }
 
     public function isAdmin()

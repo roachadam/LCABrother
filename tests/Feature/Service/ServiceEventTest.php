@@ -8,7 +8,6 @@ use App\ServiceEvent;
 use Tests\TestCase;
 use App\ServiceLog;
 
-
 class ServiceEventTest extends TestCase
 {
     use RefreshDatabase;
@@ -20,7 +19,7 @@ class ServiceEventTest extends TestCase
      */
     public function test_basic_user_view_service_events()
     {
-        $user = $this->loginAsBasic();
+        $user = $this->loginAs('basic_user');
         $serviceEvent = factory(ServiceEvent::class)->create(['organization_id' => $user->organization_id]);
 
         $this
@@ -36,11 +35,11 @@ class ServiceEventTest extends TestCase
 
     /**
      * * ServiceEventController@index
-     * Testing an admin's ability to view service event's page
+     * Testing the Service Manager's ability to view service event's page
      */
     public function test_admin_user_view_service_events()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
         $serviceEvent = factory(ServiceEvent::class)->create(['organization_id' => $user->organization_id]);
 
         $this
@@ -60,7 +59,7 @@ class ServiceEventTest extends TestCase
      */
     public function test_add_new_service_event()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $this
             ->withoutExceptionHandling()
@@ -95,7 +94,7 @@ class ServiceEventTest extends TestCase
      */
     public function test_adding_log_with_existing_event()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $serviceEvent = factory(ServiceEvent::class)->create([
             'organization_id' => $user->organization_id,
@@ -129,7 +128,7 @@ class ServiceEventTest extends TestCase
      */
     public function test_adding_log_without_money_donated()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $serviceEvent = factory(ServiceEvent::class)->create([
             'organization_id' => $user->organization_id,
@@ -162,7 +161,7 @@ class ServiceEventTest extends TestCase
      */
     public function test_adding_log_without_money_donated_and_hours_served()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $serviceEvent = factory(ServiceEvent::class)->make([
             'organization_id' => $user->organization_id,
@@ -187,7 +186,7 @@ class ServiceEventTest extends TestCase
      */
     public function test_adding_log_without_name()
     {
-        $this->loginAsAdmin();
+        $this->loginAs('service_manager');
 
         $this
             ->post(route('serviceEvent.store'), [
@@ -210,7 +209,7 @@ class ServiceEventTest extends TestCase
      */
     public function test_show_service_event()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $serviceEvent = factory(ServiceEvent::class)->create([
             'organization_id' => $user->organization_id,
@@ -246,7 +245,7 @@ class ServiceEventTest extends TestCase
      */
     public function test_delete_service_event()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $serviceEvent = factory(ServiceEvent::class)->create([
             'organization_id' => $user->organization_id,

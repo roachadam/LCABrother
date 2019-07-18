@@ -18,7 +18,7 @@ class TotalsTest extends TestCase
      */
     public function test_get_index()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('goals_manager');
 
         $goals = factory(Goals::class)->create([
             'organization_id' => $user->organization_id,
@@ -47,7 +47,7 @@ class TotalsTest extends TestCase
      */
     public function test_start_new_semester()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('goals_manager');
 
         $this->arrange($user);
 

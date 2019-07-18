@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Academics;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use App\AcademicStandings;
+use Tests\TestCase;
+use App\Academics;
 
 class AcademicsTest extends TestCase
 {
@@ -15,27 +15,12 @@ class AcademicsTest extends TestCase
     use WithFaker;
 
     /**
-     * Testing getting the academics page
+     * * AcademicsController@index
+     * Testing to ensure a basic user cannot view the academics page
      */
-    public function test_can_view_Academics()
+    public function test_basic_user_cannot_view_Academics()
     {
-        $this->loginAsAdmin();
-
-        $this
-            ->withoutExceptionHandling()
-            ->get(route('academics.index'))
-            ->assertSuccessful()
-            ->assertSee('Academics')
-            ->assertSee('Override Academic Rules')
-            ->assertSee('Manage');
-    }
-
-    /**
-     * Testing prevention of basic users from accessing the page
-     */
-    public function test_basic_cannot_view_Academics()
-    {
-        $this->loginAsBasic();
+        $this->loginAs('basic_user');
 
         $this
             ->withoutExceptionHandling()
@@ -44,11 +29,43 @@ class AcademicsTest extends TestCase
     }
 
     /**
-     * Testing showing the manage view from the academics page
+     * * AcademicsController@index
+     * Testing if the Academics Manager can view the academics page
      */
-    public function test_can_view_manage()
+    public function test_academics_manager_can_view_Academics()
     {
-        $this->loginAsAdmin();
+        $this->loginAs('academics_manager');
+
+        $this
+            ->withoutExceptionHandling()
+            ->get(route('academics.index'))
+            ->assertSuccessful()
+            ->assertSee('Academics')
+            ->assertSee('Academic Standing Rules')
+            ->assertSee('Manage');
+    }
+
+    /**
+     * * AcademicsController@manage
+     * Testing to ensure a basic user cannot view the manage page
+     */
+    public function test_basic_user_cannot_view_manage()
+    {
+        $this->loginAs('basic_user');
+
+        $this
+            ->withoutExceptionHandling()
+            ->get(route('academics.manage'))
+            ->assertRedirect('/dash');
+    }
+
+    /**
+     * * AcademicsController@manage
+     * Testing if the Academics Manager can view the manage page
+     */
+    public function test_academics_manager_can_view_manage()
+    {
+        $this->loginAs('academics_manager');
 
         $this
             ->withoutExceptionHandling()
@@ -59,11 +76,12 @@ class AcademicsTest extends TestCase
     }
 
     /**
+     * * AcademicsController@store
      * Testing uploading an invalid file (in this case its empty)
      */
     public function test_upload_invalid_file()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('academics_manager');
 
         $this
             ->withoutExceptionHandling()
@@ -81,11 +99,12 @@ class AcademicsTest extends TestCase
     }
 
     /**
+     * * AcademicsController@store
      * Testing uploading a valid file
      */
     public function test_upload_file()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('academics_manager');
 
         $this
             ->withoutExceptionHandling()
@@ -105,11 +124,12 @@ class AcademicsTest extends TestCase
     }
 
     /**
-     * Testing showing the override view from the academics page
+     * * AcademicsController@edit
+     * Testing to ensure a basic user cannot view the edit page
      */
-    public function test_can_get_override_view()
+    public function test_basic_user_cannot_get_override_view()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('basic_user');
 
         $createdAcademics = factory(Academics::class)->create([
             'name' => $user->name,
@@ -119,7 +139,29 @@ class AcademicsTest extends TestCase
         $this
             ->withoutExceptionHandling()
             ->followingRedirects()
-            ->get('academics/user_id/' . $createdAcademics->id . '/edit')
+            ->get(route('academics.edit', $createdAcademics))
+            ->assertSuccessful()
+            ->assertDontSee('Override Academics')
+            ->assertDontSee($createdAcademics['name']);
+    }
+
+    /**
+     * * AcademicsController@edit
+     * Testing showing the override view from the academics page
+     */
+    public function test_can_get_override_view()
+    {
+        $user = $this->loginAs('academics_manager');
+
+        $createdAcademics = factory(Academics::class)->create([
+            'name' => $user->name,
+            'user_id' => $user->id
+        ]);
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->get(route('academics.edit', $createdAcademics))
             ->assertSuccessful()
             ->assertSee('Override Academics')
             ->assertSee($createdAcademics['name'])
@@ -131,11 +173,12 @@ class AcademicsTest extends TestCase
     }
 
     /**
+     * * AcademicsController@update
      * Testing ability to override a user's academic data
      */
     public function test_can_override_user()
     {
-        $user = $this->withoutExceptionHandling()->loginAsAdmin();
+        $user = $this->withoutExceptionHandling()->loginAs('academics_manager');
         $user->update(['name' => 'Billy Bob']);
         $user->refresh();
 
@@ -184,19 +227,24 @@ class AcademicsTest extends TestCase
         return count(array_intersect($academics, $latestAcademics)) === $size;
     }
 
+    /**
+     *
+     */
     public function test_basic_update_standing()        //"Basic" is when you upload a new excel file with data that gets updated
     {
         $this->withoutExceptionHandling();
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('academics_manager');
 
         //Good 2.5
         factory(AcademicStandings::class)->create([
             'id' => 1,
+            'organization_id' => $user->organization_id
         ]);
 
         //Probation 1.0
         factory(AcademicStandings::class)->create([
             'id' => 2,
+            'organization_id' => $user->organization_id,
             'name' => 'Probation',
             'Term_GPA_Min' => 1.0,
             'Cumulative_GPA_Min' => 1.0,
@@ -205,21 +253,22 @@ class AcademicsTest extends TestCase
         //Suspension 0
         factory(AcademicStandings::class)->create([
             'id' => 3,
+            'organization_id' => $user->organization_id,
             'name' => 'Suspension',
             'Term_GPA_Min' => 0,
             'Cumulative_GPA_Min' => 0,
         ]);
 
         factory(Academics::class)->create([
+            'organization_id' => $user->organization_id,
             'name' => $user->name,
             'user_id' => $user->id,
             'Cumulative_GPA' => 3.2,
             'Previous_Term_GPA' => '',
-            'Current_Term_GPA' => 3.0,
+            'Current_Term_GPA' => 4.0,
             'Previous_Academic_Standing' => '',
             'Current_Academic_Standing' => '',
         ]);
-
 
         //Initial standing calculation
         $user->updateStanding();

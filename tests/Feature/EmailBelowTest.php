@@ -13,10 +13,10 @@ class EmailBelowTest extends TestCase
     public function test_can_get_notify_index()
     {
         $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $this->loginAs('admin');
 
         $goals = factory(Goals::class)->create();
-        $response = $this->get('/goals/'.$goals->id.'/notify');
+        $response = $this->get('/goals/' . $goals->id . '/notify');
         $response->assertOk();
         $response->assertSee($goals->points_goal);
         $response->assertSee($goals->study_goal);

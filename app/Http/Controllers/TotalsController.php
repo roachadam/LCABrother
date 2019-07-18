@@ -7,6 +7,11 @@ use App\Charts\ServiceHoursChart;
 
 class TotalsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('ManageGoals');
+    }
+
     public function index()
     {
         $organization = auth()->user()->organization;

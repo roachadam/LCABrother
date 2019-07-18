@@ -14,7 +14,7 @@ class UserProfileTest extends TestCase
     public function test_can_view_profile()
     {
         $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $this->loginAs('basic_user');
 
         $response = $this->get('/users/profile');
         $response->assertStatus(200);
@@ -23,7 +23,7 @@ class UserProfileTest extends TestCase
     public function test_can_see_user_details()
     {
         $this->withoutExceptionHandling();
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('basic_user');
         $user->update(['name' => 'John']);
 
         $response = $this->get('/users/profile');
@@ -35,7 +35,7 @@ class UserProfileTest extends TestCase
     public function test_can_user_get_edit()
     {
         $this->withoutExceptionHandling();
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('basic_user');
 
         $response = $this->get('/users/edit');
         $response->assertStatus(200);
@@ -43,7 +43,7 @@ class UserProfileTest extends TestCase
 
     public function test_user_can_edit_email()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('basic_user');
 
         $originalEmail = $user->email;
         $newEmail = 'johndoe@gmail.com';
@@ -71,7 +71,7 @@ class UserProfileTest extends TestCase
 
     public function test_user_can_edit_phone()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('basic_user');
 
         $originalPhone = $user->phone;
         $newPhone = '12224567890';
@@ -102,7 +102,7 @@ class UserProfileTest extends TestCase
     public function test_make_avatar_default()
     {
         $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $this->loginAs('basic_user');
 
         $response = $this->post('/avatar/default');
         $response->assertSessionDoesntHaveErrors();

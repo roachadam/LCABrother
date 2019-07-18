@@ -18,12 +18,13 @@ class TotalsUnitTest extends TestCase
     use WithFaker;
 
     /**
+     * * Organization->getTotals()
      * Tests if the method $organization->getTotals() correctly works
      */
     public function test_get_totals()
     {
         //Arrange
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('member_manager');
 
         $createdInvolvementPointsTotal = $this->getInvolvementPointsTotal(15, $user->id, $user->organization_id);
 
@@ -45,12 +46,13 @@ class TotalsUnitTest extends TestCase
     }
 
     /**
+     * * Organization->getAverages()
      * Tests if the method $organization->getAverages() correctly works
      */
     public function test_get_averages()
     {
         //Arrange
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('member_manager');
 
         $userIds = factory(User::class, 5)
             ->create([

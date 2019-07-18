@@ -16,6 +16,12 @@ class InvolvementLogController extends Controller
         $this->middleware('ManageInvolvement')->except(['index', 'breakdown']);
     }
 
+    public function breakdown(Request $request, User $user)
+    {
+        $logs = $user->InvolvementLogs;
+        return view('involvement.involvementLogs.breakdown', compact('logs'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -54,11 +60,5 @@ class InvolvementLogController extends Controller
         NotificationFunctions::alert('success', 'Involvement log deleted!');
 
         return redirect('/user/' . $involvementLog->user_id . '/involvementLogs');
-    }
-
-    public function breakdown(Request $request, User $user)
-    {
-        $logs = $user->InvolvementLogs;
-        return view('involvement.involvementLogs.breakdown', compact('logs'));
     }
 }

@@ -2,15 +2,11 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Event;
+use Tests\TestCase;
 use App\Invite;
+use App\Event;
 use App\User;
-use App\Organization;
-use Illuminate\Auth\Access\Response;
-use DB;
 
 class EventInvitesTest extends TestCase
 {
@@ -19,7 +15,7 @@ class EventInvitesTest extends TestCase
     public function test_get_events_index()
     {
         $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $this->loginAs('basic_user');
         $response = $this->get('/event');
 
         $response->assertOk();
@@ -28,7 +24,7 @@ class EventInvitesTest extends TestCase
     public function test_get_create_view()
     {
         $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $this->loginAs('events_manager');
         $response = $this->get('/event/create');
 
         $response->assertStatus(200);
@@ -37,8 +33,7 @@ class EventInvitesTest extends TestCase
     public function test_get_edit_view()
     {
         $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
-
+        $this->loginAs('events_manager');
         $event = factory(Event::class)->create(['organization_id' => auth()->user()->organization->id]);
         $response = $this->get('/event/' . $event->id);
 
@@ -48,7 +43,7 @@ class EventInvitesTest extends TestCase
     public function test_create_event()
     {
         $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $this->loginAs('events_manager');
 
         $event = factory(Event::class)->raw(['organization_id' => auth()->user()->organization->id]);
         $response = $this->post('/event', $event);
@@ -66,7 +61,7 @@ class EventInvitesTest extends TestCase
     public function test_edit_event()
     {
         $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $this->loginAs('events_manager');
 
         $event = factory(Event::class)->create(['organization_id' => auth()->user()->organization->id]);
         $newName = 'NewEventName';
@@ -92,7 +87,7 @@ class EventInvitesTest extends TestCase
     public function test_get_user_guest_list()
     {
         //$this->withoutExceptionHandling();
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('events_manager');
         $user2 = factory(User::class)->create(['organization_id' => $user->organization_id]);
 
         $event = factory(Event::class)->create(['organization_id' => $user->organization_id]);
@@ -122,7 +117,7 @@ class EventInvitesTest extends TestCase
     public function test_get_entire_guest_list()
     {
         $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $this->loginAs('events_manager');
         $user2 = factory(User::class)->create(['organization_id' => auth()->user()->organization->id]);
 
         $event = factory(Event::class)->create(['organization_id' => auth()->user()->organization->id]);
@@ -145,7 +140,7 @@ class EventInvitesTest extends TestCase
     public function test_delete_invite()
     {
         $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $this->loginAs('events_manager');
 
         $invite = factory(Invite::class)->create(['user_id' => auth()->id()]);
         $inviteArray = $invite->toArray();
@@ -155,7 +150,7 @@ class EventInvitesTest extends TestCase
 
     public function test_cannot_insert_duplicates()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('events_manager');
 
         $event = factory(Event::class)->create(['organization_id' => $user->organization->id]);
         $invite = factory(Invite::class)->raw([
@@ -185,7 +180,7 @@ class EventInvitesTest extends TestCase
     public function test_delete_event()
     {
         $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $this->loginAs('events_manager');
         $event = factory(Event::class)->create(['organization_id' => auth()->user()->organization->id]);
 
         $response = $this->delete('event/' . $event->id);
@@ -195,14 +190,14 @@ class EventInvitesTest extends TestCase
         ]);
     }
 
-    public function test_not_admin_cant_delete_event()
+    public function test_not_events_manager_cant_delete_event()
     {
         $this->withoutExceptionHandling();
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('basic_user');
         $event = factory(Event::class)->create(['organization_id' => $user->organization_id]);
         auth()->logout();
 
-        $this->loginAsBasic($user->organization);
+        $this->loginAs('basic_user', $user->organization);
         $response = $this->delete('event/' . $event->id);
 
         $this->assertDatabaseHas('events', [

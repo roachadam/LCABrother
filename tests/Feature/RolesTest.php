@@ -17,7 +17,7 @@ class RolesTest extends TestCase
      */
     public function test_can_view_roles_page()
     {
-        $roles = $this->loginAsAdmin()->organization->roles;
+        $roles = $this->loginAs('member_manager')->organization->roles;
 
         $this
             ->get(route('role.index'))
@@ -35,7 +35,7 @@ class RolesTest extends TestCase
      */
     public function test_can_add_role()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('member_manager');
 
         $newRoleName = 'President';
         $role = factory(Role::class)->raw([
@@ -64,7 +64,7 @@ class RolesTest extends TestCase
 
     // public function test_edit_role()
     // {
-    //     $user = $this->loginAsAdmin();
+    //     $user = $this->loginAs('member_manager');
 
     //     dd($user->organization->roles);
     // }

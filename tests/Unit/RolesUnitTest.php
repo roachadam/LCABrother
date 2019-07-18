@@ -14,16 +14,18 @@ class RolesUnitTest extends TestCase
     use WithFaker;
 
     /**
+     * * Role->setPermissions($attributes)
      * Testing ability to set permissions of a user role
      */
     public function test_set_permissions_of_role()
     {
         $role = $this->arrange();
-        $permission = $role->setPermissions(factory(Permission::class)->states('manage_members')->raw())->getAttributes();
+        $permission = $role->setPermissions(factory(Permission::class)->states('member_manager')->raw())->getAttributes();
         $this->assert($role, $permission);
     }
 
     /**
+     * * Role->setAdminPermissions()
      * Testing ability to set admin permissions on a role
      */
     public function test_set_admin_permission()
@@ -34,6 +36,7 @@ class RolesUnitTest extends TestCase
     }
 
     /**
+     * * Role->setBasicPermissions()
      * Testing ability to set basic permissions on a role
      */
     public function test_set_basic_permission()
@@ -49,7 +52,7 @@ class RolesUnitTest extends TestCase
     private function arrange(): Role
     {
         return factory(Role::class)->state('admin')->create([
-            'organization_id' => $this->loginAsAdmin()->organization_id
+            'organization_id' => $this->loginAs('admin')->organization_id
         ]);
     }
 

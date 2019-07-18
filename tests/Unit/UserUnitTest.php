@@ -13,6 +13,7 @@ class UserUnitTest extends TestCase
     use WithFaker;
 
     /**
+     * * User::findByName($name, $organization_id)
      * Tests if the method User::findByName($organizationId) correctly returns
      * user in organization with matching name
      */
@@ -28,6 +29,7 @@ class UserUnitTest extends TestCase
     }
 
     /**
+     * * User::findByName($name)
      * Tests if the method User::findByName() correctly returns first user
      * with matching name
      */
@@ -43,6 +45,7 @@ class UserUnitTest extends TestCase
     }
 
     /**
+     * * User::findById($id, $organization_id)
      * Tests if the method User::findById($organizationId) correctly returns
      * user in organization with matching Id
      */
@@ -58,6 +61,7 @@ class UserUnitTest extends TestCase
     }
 
     /**
+     * * User::findById($id)
      * Tests if the method User::findById() correctly returns first user
      * with matching Id
      */
@@ -73,6 +77,7 @@ class UserUnitTest extends TestCase
     }
 
     /**
+     * * User::findById($organization_id)
      * Tests if the method User::findAll($organizationId) correctly returns
      * all users in the organization
      */
@@ -87,6 +92,7 @@ class UserUnitTest extends TestCase
     }
 
     /**
+     * * User::findById()
      * Tests if the method User::findAll() correctly returns all users
      */
     public function test_can_find_all_users()

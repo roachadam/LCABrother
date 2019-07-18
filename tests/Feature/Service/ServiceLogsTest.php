@@ -2,25 +2,22 @@
 
 namespace Tests\Feature;
 
-use DB;
-use App\ServiceLog;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\ServiceEvent;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Collection;
+use App\ServiceLog;
 
 class ServiceLogsTest extends TestCase
 {
     use RefreshDatabase;
 
     /**
-     * * ServiceEventController@index
+     * * ServiceLogController@index
      * Testing basic user's ability to view service logs page
      */
     public function test_basic_user_view_service_logs()
     {
-        $user = $this->loginAsBasic();
+        $user = $this->loginAs('basic_user');
 
         $attributes = $this->arrange($user, 10);
         $serviceLogs = $attributes['serviceLog'];
@@ -41,12 +38,12 @@ class ServiceLogsTest extends TestCase
 
 
     /**
-     * * ServiceEventController@index
+     * * ServiceLogController@index
      * Testing admin's ability to view service logs page
      */
     public function test_admin_view_service_logs()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $attributes = $this->arrange($user, 10);
         $serviceLogs = $attributes['serviceLog'];
@@ -66,12 +63,12 @@ class ServiceLogsTest extends TestCase
     }
 
     /**
-     * * ServiceEventController@edit
+     * * ServiceLogController@edit
      * Testing viewing edit service log page
      */
     public function test_view_edit_service_log()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $attributes = $this->arrange($user);
         $serviceLog = $attributes['serviceLog'];
@@ -88,12 +85,12 @@ class ServiceLogsTest extends TestCase
     }
 
     /**
-     * * ServiceEventController@update
+     * * ServiceLogController@update
      * Testing ability to edit and update a service log
      */
     public function test_update_service_log()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $attributes = $this->arrange($user);
         $serviceLog = $attributes['serviceLog'];
@@ -133,12 +130,12 @@ class ServiceLogsTest extends TestCase
     }
 
     /**
-     * * ServiceEventController@breakdown
+     * * ServiceLogController@breakdown
      * Testing ability to get the user's service breakdown
      */
     public function test_view_user_service_breakdown()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $attributes = $this->arrange($user);
         $serviceLog = $attributes['serviceLog'];
@@ -156,12 +153,12 @@ class ServiceLogsTest extends TestCase
     }
 
     /**
-     * * ServiceEventController@destroy
+     * * ServiceLogController@destroy
      * Testing ability to delete the user's service log
      */
     public function test_delete_service_log()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $attributes = $this->arrange($user);
         $serviceLog = $attributes['serviceLog'];

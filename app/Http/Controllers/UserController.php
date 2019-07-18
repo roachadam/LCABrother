@@ -14,7 +14,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('MemberView', ['only' => ['index', 'contact']]);
+        $this->middleware('MemberView', ['only' => ['index']]);
         $this->middleware('orgverified', ['only' => ['index', 'contact']]);
     }
 
