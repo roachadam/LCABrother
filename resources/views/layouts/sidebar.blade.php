@@ -12,8 +12,8 @@
                     <span class="lbl">Service Events</span>
                 </a>
         </li>
-        <li class="blue {{ request()->is('serviceEvents/indexByUser') ? 'opened' : '' }}">
-            <a href="/serviceEvents/indexByUser">
+        <li class="blue {{ request()->is('serviceLogs') ? 'opened' : '' }}">
+            <a href="/serviceLogs">
                 <i class="glyphicon glyphicon-calendar"></i>
                 <span class="lbl">Service Logs</span>
             </a>

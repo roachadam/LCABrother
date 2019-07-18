@@ -69,8 +69,8 @@ Route::middleware('auth')->group(function () {
         Route::middleware('orgverified')->group(function () {
             Route::resource('role', 'RoleController')->middleware('ManageMembers');
 
-            Route::resource('serviceEvent', 'ServiceEventController');
-            Route::resource('serviceLog', 'ServiceLogController');
+            Route::resource('serviceEvent', 'ServiceEventController')->except(['create', 'edit', 'up0date']);
+            Route::resource('serviceLogs', 'ServiceLogController')->except(['show', 'create', 'store']);
             Route::resource('event', 'EventController');
             Route::resource('survey', 'SurveyController');
             Route::resource('surveyAnswers', 'SurveyAnswersController');
@@ -91,7 +91,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/users/update', 'UserController@update');
             Route::get('/users/{user}/adminView', 'UserController@adminView');
             Route::post('/user/{user}/organization/remove', 'UserController@orgRemove');
-            Route::get('user/{user}/serviceBreakdown', 'UserController@serviceBreakdown');
+            // Route::get('user/{user}/serviceBreakdown', 'UserController@serviceBreakdown');
             Route::get('/users/profile', 'UserController@profile');
             Route::get('/users/edit', 'UserController@edit');
             Route::get('/users/contact', 'UserController@contact');
@@ -135,12 +135,11 @@ Route::middleware('auth')->group(function () {
             Route::post('/event/{event}/invite', 'InviteController@store')->name('invite.store');
             Route::delete('/invite/{invite}', 'InviteController@destroy');
 
-            Route::get('/serviceEvents/indexByUser', 'ServiceEventController@indexByUser');
-            Route::get('/users/{user}/service', 'UserController@serviceBreakdown');
+            Route::get('/users/{user}/service_breakdown', 'ServiceLogController@breakdown')->name('serviceLogs.breakdown');
 
             Route::resource('involvement', 'InvolvementController')->only(['index', 'store']); //except(['destroy', 'update', 'show', 'edit', 'create']);
             Route::resource('involvementLog', 'InvolvementLogController')->only(['store', 'destroy']);
-            Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown')->name('involvementLog.breakdown');
+            Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown')->name('involvement.breakdown');
 
             Route::middleware('ManageInvolvement')->group(function () {
                 Route::get('/involvement/adminView', 'InvolvementController@adminView')->name('involvement.adminView');

@@ -8,8 +8,7 @@
             <div class="row">
                 <h2 class="card-title">{{ auth()->user()->organization->getActiveSemester()->semester_name }}: Service Logs</h2>
                 <div class="ml-auto" id="headerButtons">
-                    <a href="/users/{{auth()->user()->id}}/service" class="btn btn-inline btn-secondary-outline">View My Service Breakdown</a>
-                    <a href="/serviceEvent" class="btn btn-inline btn-primary">View By Event</a>
+                    <a href={{route('serviceLogs.breakdown', auth()->user())}} class="btn btn-inline btn-primary">My Service Breakdown</a>
                 </div>
             </div>
         </header>
@@ -31,7 +30,7 @@
                             <td> {{ $user->getserviceHours() }} </td>
                             <td>${{ $user->getMoneyDonated() }} </td>
                             @if(auth()->user()->canManageService())
-                                <td><a href="/users/{{$user->id}}/service" class="btn btn-inline btn-primary">View</a></td>
+                                <td><a href={{route('serviceLogs.breakdown', $user)}} class="btn btn-inline btn-primary">View</a></td>
                             @endif
                         </tr>
                     @endforeach

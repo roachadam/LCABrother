@@ -6,6 +6,7 @@ use App\Role;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Permission;
 
 class RolesTest extends TestCase
 {
@@ -34,7 +35,7 @@ class RolesTest extends TestCase
      */
     public function test_can_add_role()
     {
-        $this->loginAsAdmin();
+        $user = $this->loginAsAdmin();
 
         $newRoleName = 'President';
         $role = factory(Role::class)->raw([
@@ -61,11 +62,19 @@ class RolesTest extends TestCase
         ]);
     }
 
+    // public function test_edit_role()
+    // {
+    //     $user = $this->loginAsAdmin();
+
+    //     dd($user->organization->roles);
+    // }
+
+
     //Future tests
 
     //public function test_assign_user_role() { }
 
-    //public function test_edit_role() { }
+
 
     //public function test_view_members_in_role() { }
 

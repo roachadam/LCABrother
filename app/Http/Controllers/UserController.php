@@ -149,10 +149,4 @@ class UserController extends Controller
 
         return back();
     }
-
-    public function serviceBreakdown(User $user)
-    {
-        $serviceLogs = $user->getActiveServiceLogs();
-        return view('service.userBreakdown', compact('serviceLogs', 'user'));
-    }
 }
