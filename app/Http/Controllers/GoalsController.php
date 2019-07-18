@@ -8,12 +8,10 @@ use App\Organization;
 
 class GoalsController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    //     $this->middleware('ManageInvolvement');
-    //     $this->middleware('orgverified');
-    // }
+    public function __construct()
+    {
+        $this->middleware('ManageGoals');
+    }
 
     public function index()
     {

@@ -30,6 +30,7 @@ class CreatePermissionsTable extends Migration
             $table->unsignedTinyInteger('manage_all_study')->default('0');
             $table->unsignedTinyInteger('manage_calendar')->default('0');
             $table->unsignedTinyInteger('take_attendance')->default('0');
+            $table->unsignedTinyInteger('manage_goals')->default('0');
             $table->timestamps();
         });
     }

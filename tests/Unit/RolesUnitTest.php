@@ -20,7 +20,7 @@ class RolesUnitTest extends TestCase
     public function test_set_permissions_of_role()
     {
         $role = $this->arrange();
-        $permission = $role->setPermissions(factory(Permission::class)->states('manage_members')->raw())->getAttributes();
+        $permission = $role->setPermissions(factory(Permission::class)->states('member_manager')->raw())->getAttributes();
         $this->assert($role, $permission);
     }
 
@@ -52,7 +52,7 @@ class RolesUnitTest extends TestCase
     private function arrange(): Role
     {
         return factory(Role::class)->state('admin')->create([
-            'organization_id' => $this->loginAsAdmin()->organization_id
+            'organization_id' => $this->loginAs('admin')->organization_id
         ]);
     }
 

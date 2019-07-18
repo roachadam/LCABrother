@@ -11,7 +11,7 @@ class ContactTest extends TestCase
     use RefreshDatabase;
     public function testExample()
     {
-        $this->loginAsAdmin();
+        $this->loginAs('basic_user');
 
         $this->get('/users/contact')
             ->assertSee(auth()->user()->name)

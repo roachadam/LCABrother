@@ -15,11 +15,11 @@ class InvolvementLogTest extends TestCase
 
     /**
      * * InvolvementLogController@breakdown
-     * Testing admin's ability to view involvement breakdown
+     * Testing Involvement Manager's ability to view involvement breakdown
      */
-    public function test_can_view_breakdown()
+    public function test_involvement_manager_can_view_breakdown()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('involvement_manager');
 
         $involvementLog = factory(InvolvementLog::class)->create([
             'organization_id' => $user->organization->id,
@@ -42,7 +42,7 @@ class InvolvementLogTest extends TestCase
      */
     public function test_can_add_involvementLog()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('involvement_manager');
 
         $event = factory(Involvement::class)->create(['organization_id' => auth()->user()->organization->id]);
         $dateOfEvent = now()->format('m/d/Y');
@@ -75,7 +75,7 @@ class InvolvementLogTest extends TestCase
      */
     public function test_can_delete_involvementLog()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('involvement_manager');
 
         $involvementLog = factory(InvolvementLog::class)->create([
             'organization_id' => $user->organization->id,

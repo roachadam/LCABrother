@@ -20,7 +20,7 @@ class InvolvementTest extends TestCase
      */
     public function test_involvement_basic_view()
     {
-        $this->loginAsBasic();
+        $this->loginAs('basic_user');
 
         $this
             ->withoutExceptionHandling()
@@ -36,12 +36,12 @@ class InvolvementTest extends TestCase
 
     /**
      * * InvolvementController@index
-     * Testing ability to view Involvement Page as an admin
+     * Testing ability to view Involvement Page as the Involvement Manager
      * Ensures admins are able to see all the buttons available to them
      */
     public function test_involvement_admin_view()
     {
-        $this->loginAsAdmin();
+        $this->loginAs('involvement_manager');
 
         $this
             ->withoutExceptionHandling()
@@ -61,7 +61,7 @@ class InvolvementTest extends TestCase
      */
     public function test_cannot_add_involvement_without_points()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('involvement_manager');
         $event = factory(Involvement::class)->raw([
             'organization_id' => $user->organization->id,
             'points' => ''
@@ -78,7 +78,7 @@ class InvolvementTest extends TestCase
      */
     public function test_cannot_add_involvement_without_name()
     {
-        $this->loginAsAdmin();
+        $this->loginAs('involvement_manager');
         $event = factory(Involvement::class)->raw([
             'organization_id' => auth()->user()->organization->id,
             'name' => ''
@@ -95,7 +95,7 @@ class InvolvementTest extends TestCase
      */
     public function test_can_add_involvement()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('involvement_manager');
         $event = factory(Involvement::class)->raw(['organization_id' => $user->organization->id]);
 
         $this
@@ -119,7 +119,7 @@ class InvolvementTest extends TestCase
      */
     public function test_edit_involvement_event_invalid_point_value()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('involvement_manager');
         $event = factory(Involvement::class)->create([
             'organization_id' => $user->organization->id,
             'name' => 'Social'
@@ -148,7 +148,7 @@ class InvolvementTest extends TestCase
      */
     public function test_edit_involvement_event_point_value()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('involvement_manager');
         $event = factory(Involvement::class)->create([
             'organization_id' => $user->organization->id,
             'name' => 'Social'
@@ -184,7 +184,7 @@ class InvolvementTest extends TestCase
      */
     public function test_edit_involvement_event_invalid_name()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('involvement_manager');
         $event = factory(Involvement::class)->create([
             'organization_id' => $user->organization->id,
             'name' => 'Social'
@@ -213,7 +213,7 @@ class InvolvementTest extends TestCase
      */
     public function test_edit_involvement_event_valid_name()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('involvement_manager');
         $event = factory(Involvement::class)->create([
             'organization_id' => $user->organization->id,
             'name' => 'Recruitment'
@@ -254,7 +254,7 @@ class InvolvementTest extends TestCase
      */
     public function _upload_invalid_file()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('involvement_manager');
 
         $this
             ->withoutExceptionHandling()
@@ -277,7 +277,7 @@ class InvolvementTest extends TestCase
      */
     public function _upload_file()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('involvement_manager');
         $user->update(['name' => 'Jacob Drury']);
 
         $this
@@ -304,7 +304,7 @@ class InvolvementTest extends TestCase
      */
     public function test_can_delete_involvement_event()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('involvement_manager');
         $event = factory(Involvement::class)->create([
             'organization_id' => $user->organization->id,
             'name' => 'Social'

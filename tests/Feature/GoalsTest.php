@@ -17,7 +17,7 @@ class GoalsTest extends TestCase
     public function test_view_goals()
     {
         $this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $user = $this->loginAs('goals_manager');
 
         $goals = factory(Goals::class)->raw();
 
@@ -34,7 +34,7 @@ class GoalsTest extends TestCase
     public function test_can_create_goals()
     {
         $this->withoutExceptionHandling();
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('goals_manager');
 
         $org = $user->organization;
         $goals = factory(Goals::class)->raw();
@@ -53,7 +53,7 @@ class GoalsTest extends TestCase
     public function test_cannot_submit_nonInt_goals()
     {
         //$this->withoutExceptionHandling();
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('goals_manager');
 
         $attributes = factory(Goals::class)->raw(['study_goal' => 'fish']);
         $response = $this->post('/goals/store', $attributes);
@@ -63,7 +63,7 @@ class GoalsTest extends TestCase
     public function test_cannot_submit_huge_goals()
     {
         //$this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $this->loginAs('goals_manager');
         $attributes = factory(Goals::class)->raw(['points_goal' => '10000000000000000']);
         $response = $this->post('/goals/store', $attributes);
         $response->assertSessionHasErrors('points_goal');
@@ -72,7 +72,7 @@ class GoalsTest extends TestCase
     public function test_cannot_submit_negative_goals()
     {
         //$this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $this->loginAs('goals_manager');
 
         $attributes = factory(Goals::class)->raw(['service_hours_goal' => '-4323']);
         $response = $this->post('/goals/store', $attributes);
@@ -82,7 +82,7 @@ class GoalsTest extends TestCase
     public function test_cannot_submit_null_goals()
     {
         //$this->withoutExceptionHandling();
-        $this->loginAsAdmin();
+        $this->loginAs('goals_manager');
 
         $attributes = factory(Goals::class)->raw(['service_money_goal' => '']);
         $response = $this->post('/goals/store', $attributes);
@@ -92,7 +92,7 @@ class GoalsTest extends TestCase
     public function test_can_get_edit_view()
     {
         $this->withoutExceptionHandling();
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('goals_manager');
 
         $goals = factory(Goals::class)->raw();
 
@@ -105,7 +105,7 @@ class GoalsTest extends TestCase
     public function test_edit_goals()
     {
         $this->withoutExceptionHandling();
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('goals_manager');
         $org = $user->organization;
 
         $goals = factory(Goals::class)->raw();

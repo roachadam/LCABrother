@@ -17,7 +17,7 @@ class ServiceLogsTest extends TestCase
      */
     public function test_basic_user_view_service_logs()
     {
-        $user = $this->loginAsBasic();
+        $user = $this->loginAs('basic_user');
 
         $attributes = $this->arrange($user, 10);
         $serviceLogs = $attributes['serviceLog'];
@@ -43,7 +43,7 @@ class ServiceLogsTest extends TestCase
      */
     public function test_admin_view_service_logs()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $attributes = $this->arrange($user, 10);
         $serviceLogs = $attributes['serviceLog'];
@@ -68,7 +68,7 @@ class ServiceLogsTest extends TestCase
      */
     public function test_view_edit_service_log()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $attributes = $this->arrange($user);
         $serviceLog = $attributes['serviceLog'];
@@ -90,7 +90,7 @@ class ServiceLogsTest extends TestCase
      */
     public function test_update_service_log()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $attributes = $this->arrange($user);
         $serviceLog = $attributes['serviceLog'];
@@ -135,7 +135,7 @@ class ServiceLogsTest extends TestCase
      */
     public function test_view_user_service_breakdown()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $attributes = $this->arrange($user);
         $serviceLog = $attributes['serviceLog'];
@@ -158,7 +158,7 @@ class ServiceLogsTest extends TestCase
      */
     public function test_delete_service_log()
     {
-        $user = $this->loginAsAdmin();
+        $user = $this->loginAs('service_manager');
 
         $attributes = $this->arrange($user);
         $serviceLog = $attributes['serviceLog'];
