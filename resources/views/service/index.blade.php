@@ -16,8 +16,7 @@
                     <h2 class="card-title">{{ auth()->user()->organization->getActiveSemester()->semester_name }}: Service Events</h2>
                     <div class="ml-auto" id="headerButtons">
                         <button type="button" class="btn btn-inline btn-secondary-outline" data-toggle="modal" data-target="#submitServiceHours">Submit Service Hours</button>
-                        <a href="/users/{{auth()->user()->id}}/service" class="btn btn-inline btn-primary-outline">View My Service Breakdown</a>
-                        <a href="/serviceEvents/indexByUser" class="btn btn-inline btn-primary-outline">View By Log</a>
+                        <a href={{route('serviceLogs.breakdown', auth()->user())}} class="btn btn-inline btn-primary">My Service Breakdown</a>
                     </div>
                 </div>
             </header>
@@ -38,11 +37,11 @@
                     @if ($serviceEvents->count())
                         @foreach ($serviceEvents as $serviceEvent)
                         <tr>
-                            <td>{{ $serviceEvent->name }}</td>
+                            <td>{{$serviceEvent->name}}</td>
                             <td> {{$serviceEvent->date_of_event}} </td>
-                            <td> {{ $serviceEvent->getAttendance() }} </td>
+                            <td> {{ $serviceEvent->getAttendance()}} </td>
                             @if (auth()->user()->canManageService())
-                                <td><a href="/serviceEvent/{{$serviceEvent->id}}" class="btn btn-primary">Manage</a></td>
+                                <td><a href={{route('serviceEvent.show', $serviceEvent)}} class="btn btn-primary">Manage</a></td>
                             @endif
 
                         </tr>

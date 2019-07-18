@@ -161,9 +161,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function getActiveServiceLogs()
     {
-        $activeSemester = $this->organization->getActiveSemester();
-        $activeServiceLogs = $this->serviceLogs()->where('created_at', '>', $activeSemester->start_date)->get();
-        return $activeServiceLogs;
+        return $this->serviceLogs()->where('created_at', '>', $this->organization->getActiveSemester()->start_date)->get();
     }
 
     // Involvement Logs
@@ -184,9 +182,8 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function getInvolvementPoints()
     {
-        $InvolvementLogs = $this->getActiveInvolvementLogs();
         $points = 0;
-        foreach ($InvolvementLogs as $log) {
+        foreach ($this->getActiveInvolvementLogs() as $log) {
             $points += $log->involvement->points;
         }
         return $points;
@@ -194,9 +191,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function getActiveInvolvementLogs()
     {
-        $activeSemester = $this->organization->getActiveSemester();
-        $activeInvolvementLogs = $this->InvolvementLogs()->where('created_at', '>', $activeSemester->start_date)->get();
-        return $activeInvolvementLogs;
+        return $this->InvolvementLogs()->where('created_at', '>', $this->organization->getActiveSemester()->start_date)->get();
     }
 
     //Academics stuff

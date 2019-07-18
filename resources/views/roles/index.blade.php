@@ -1,5 +1,7 @@
-@extends('main.dash')
+@extends('layouts.main')
+
 @section('title', 'Roles')
+
 @section('content')
 <section class="card">
     <div class="card-block">
@@ -12,7 +14,6 @@
             </div>
         </header>
         @include('partials.errors')
-
         <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
             <thead>
             <tr>
@@ -66,7 +67,7 @@
                                 {{-- edit member details --}}
                                 @foreach($permissionNames as $permission_name)
                                     <div class="checkbox-toggle form-group">
-                                        <input type="checkbox" id={{$permission_name}} name={{$permission_name}} {{$role->permission->$permission_name ==1 ? 'checked' : ''}}>
+                                        <input type="checkbox" id={{$permission_name}} name={{$permission_name}} {{$role->permission->$permission_name == 1 ? 'checked' : ''}}>
                                         <label for={{$permission_name}}>{{ucwords(str_replace('_', ' ', $permission_name))}}</label>
                                     </div>
                                 @endforeach
@@ -81,8 +82,6 @@
             </div>
         </div>
     </div><!--.modal-->
-
-
 </section>
 
     @section('js')

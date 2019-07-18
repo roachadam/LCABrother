@@ -43,11 +43,13 @@ class GoalsController extends Controller
         //redirect
         return view('semester.create');
     }
+
     public function edit()
     {
         $goals = auth()->user()->organization->goals;
         return view('goals.edit', compact('goals'));
     }
+
     public function update(Goals $goals)
     {
         $attributes = request()->validate([

@@ -64,7 +64,7 @@
                     <h4 class="modal-title" id="myModalLabel">Start New Semester</h4>
                 </div>
 
-                <form action="{{ action('SemesterController@store') }}" method="POST">
+                <form action="/semester" method="POST">
                     @csrf
                     <div class="row m-t-md offset-1">
                         <div class="col-md-6">
@@ -79,9 +79,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
                     <div class="modal-footer m-t-lg">
                         <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-inline btn-primary">Submit</button>

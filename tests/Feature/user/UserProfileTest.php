@@ -24,6 +24,7 @@ class UserProfileTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $user = $this->loginAsAdmin();
+        $user->update(['name' => 'John']);
 
         $response = $this->get('/users/profile');
         $response->assertSee($user->name);
