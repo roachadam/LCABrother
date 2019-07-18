@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Add Event')
 @section('content')
 
 <header class="section-header">

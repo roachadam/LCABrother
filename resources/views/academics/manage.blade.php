@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Manage Academics')
 @section('css')
 <style>
     /* Float four columns side by side */

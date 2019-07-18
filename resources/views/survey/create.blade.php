@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Create Survey')
 <style>
     input{
     display: block;

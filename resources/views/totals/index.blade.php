@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Totals')
 @section('content')
     <h3>{{ auth()->user()->organization->getActiveSemester()->semester_name }}</h3>
 

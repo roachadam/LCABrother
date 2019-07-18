@@ -1,11 +1,11 @@
 @extends('layouts.main')
-
+@section('title', 'Member Contact Info')
 @section('content')
     <section class="card">
         <div class="card-block">
             <header class="card-header" style="border-bottom: 0">
                 <div class="row">
-                    <h2 class="card-title">Members Contact Info</h2>
+                    <h2 class="card-title">Member Contact Info</h2>
                     {{-- <div class="ml-auto" id="headerButtons">
                         This is where buttons should go if we need them
                     </div> --}}

@@ -1,8 +1,8 @@
 @extends('layouts.main')
-
+@section('title', 'Members in Role')
 @section('content')
     <div class="card">
-    <div class="card-header">Users in {{$role->name}}Role</div>
+    <div class="card-header">Members in '{{$role->name}}' Role</div>
         <div class="card-body">
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
                 <thead>
@@ -27,7 +27,7 @@
     </div>
 
 
-    <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#assignRoles">Assign Users</button>
+    <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#assignRoles">Assign Members</button>
     <div class="modal fade" id="assignRoles" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -35,7 +35,7 @@
                     <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
                         <i class="font-icon-close-2"></i>
                     </button>
-                <h4 class="modal-title" id="myModalLabel">Assign Users to {{$role->name}}</h4>
+                <h4 class="modal-title" id="myModalLabel">Assign Members to {{$role->name}}</h4>
                 </div>
                 <form method="POST" action="/role/{{$role->id}}/massSet" class="box" >
                     <div class="modal-body">

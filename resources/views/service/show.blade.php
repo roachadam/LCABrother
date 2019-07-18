@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Attendance')
 @section('content')
     <header class="section-header">
         <div class="tbl">
