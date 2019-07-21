@@ -62,7 +62,7 @@ class InvolvementController extends Controller
     public function update(Request $request, Involvement $involvement)
     {
         $attributes = request()->validate([
-            'name' => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'name' => ['required'],
             'points' => ['required', 'numeric', 'min:0', 'max:999']
         ]);
 

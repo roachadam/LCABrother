@@ -1,6 +1,6 @@
 <header class="site-header" id="header">
     <div class="container-fluid">
-        <a href="#" class="site-logo-text">LCA</a>
+        <a href="/dash" class="site-logo-text">LCA</a>
 
         <button class="hamburger hamburger--htla" class="show-hide-sidebar">
             <span>toggle menu</span>

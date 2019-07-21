@@ -74,9 +74,9 @@ class RolesTest extends TestCase
 
     //public function test_assign_user_role() { }
 
-
-
     //public function test_view_members_in_role() { }
+
+    //public function test_remove_user_from_role() { }
 
     //public function test_delete_role() { }
 }

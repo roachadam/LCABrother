@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/goals/store', 'GoalsController@store');
     Route::post('semester/initial', 'SemesterController@initial');
 
-    Route::resource('academicStandings', 'AcademicStandingsController')->except(['update', 'destroy']);
+    Route::resource('academicStandings', 'AcademicStandingsController')->except(['update', 'destroy', 'edit']);
 
     Route::post('/user/{user}/join', 'UserController@joinOrg');
 
@@ -67,7 +67,7 @@ Route::middleware('auth')->group(function () {
 
         //Can only access if you're apart of the organization
         Route::middleware('orgverified')->group(function () {
-            Route::resource('role', 'RoleController')->middleware('ManageMembers');
+            Route::resource('role', 'RoleController');
 
             Route::resource('serviceEvent', 'ServiceEventController')->except(['create', 'edit', 'up0date']);
             Route::resource('serviceLogs', 'ServiceLogController')->except(['show', 'create', 'store']);
@@ -122,6 +122,7 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/role/{role}/users', 'RoleController@users');
             Route::post('/role/{role}/massSet', 'RoleController@massSet');
+            Route::patch('/users/{user}/removeRole', 'RoleController@removeRole')->name('user.removeRole');
 
             Route::get('/alumni', 'AlumniController@index');
             Route::post('/user/{user}/alumni', 'AlumniController@setAlum');
@@ -160,6 +161,7 @@ Route::middleware('auth')->group(function () {
                 Route::post('/academics/notify/specificStanding', 'NotifyController@academicsNotifySpecificStanding')->name('academics.notifySpecificStanding');
                 Route::patch('/academicStandings/{academicStandings}', 'AcademicStandingsController@update')->name('academicStandings.update');
                 Route::delete('/academicStandings/{academicStandings}', 'AcademicStandingsController@destroy')->name('academicStandings.destroy');
+                Route::get('academicStandings/{academicStandings}/edit', 'AcademicStandingsController@edit')->name('academicStandings.edit');
             });
         });
     });

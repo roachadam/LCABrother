@@ -17,7 +17,6 @@ use App\Semester;
 use DevDojo\Chatter\Models\Discussion;
 use DevDojo\Chatter\Models\Category;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Organization extends Model
 {
