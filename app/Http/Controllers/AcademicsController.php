@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Academics;
-use Illuminate\Http\Request;
-use App\Imports\GradesImport;
-use Maatwebsite\Excel\Facades\Excel;
-use App\User;
 use App\Commons\NotificationFunctions;
 use App\Commons\ImportHelperFunctions;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Events\OverrideAcademics;
+use App\Imports\GradesImport;
+use Illuminate\Http\Request;
 use App\AcademicStandings;
+use App\Academics;
+use App\User;
 
 class AcademicsController extends Controller
 {
@@ -131,7 +131,7 @@ class AcademicsController extends Controller
     private function rules()
     {
         return [
-            'name' => ['regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'name' => [],
             'Cumulative_GPA' => ['min:0', 'max:5.0'],
             'Previous_Term_GPA' => ['min:0', 'max:5.0'],
             'Current_Term_GPA' => ['min:0', 'max:5.0'],

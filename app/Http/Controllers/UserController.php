@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Commons\NotificationFunctions;
 use Illuminate\Http\Request;
 use App\Mail\MemberJoined;
 use App\Organization;
@@ -63,6 +64,7 @@ class UserController extends Controller
             $user->update($attributes);
         }
 
+        NotificationFunctions::alert('success', 'Updated your details!');
         return redirect('/users/profile');
     }
 

@@ -346,7 +346,7 @@ class PasswordResetTest extends TestCase
                 'password_confirmation' => $password,
             ])
             ->assertSuccessful()
-            ->assertSee('Updated your details!');
+            ->assertSee('Successfully Updated Password!');
 
         $user->refresh();
 

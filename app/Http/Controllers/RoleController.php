@@ -7,7 +7,7 @@ use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
-use DB;
+use App\Commons\NotificationFunctions;
 
 class RoleController extends Controller
 {
@@ -66,6 +66,7 @@ class RoleController extends Controller
         }
         $role->setPermissions($attributes);
 
+        NotificationFunctions::alert('success', 'Added role!');
         return back();
     }
 
@@ -121,7 +122,10 @@ class RoleController extends Controller
             }
         }
         $permission->save();
-        return back();
+
+        NotificationFunctions::alert('success', 'Updated role!');
+
+        return redirect(route('role.index'));
     }
 
     /**
@@ -141,29 +145,36 @@ class RoleController extends Controller
         }
 
         $role->delete();
+        NotificationFunctions::alert('primary', 'Successfully deleted role!');
         return redirect('/role');
     }
+
     public function users(Role $role)
     {
-        $users = User::where(['role_id' => $role->id, 'organization_id' => auth()->user()->organization->id])->get();
-        $others = User::where([['role_id', '!=', $role->id], ['organization_id', '=', auth()->user()->organization->id]])->get();
-        return view('roles.userRoles', compact('role', 'users', 'others'));
+        $users = User::findAll(auth()->user()->organization->id);
+
+        $usersWithRole = $users->where('role_id', $role->id);
+        $usersWithoutRole = $users->where('role_id', '!=', $role->id);
+
+        return view('roles.userRoles', compact('role', 'usersWithRole', 'usersWithoutRole'));
     }
+
     public function massSet(Request $request, $role)
     {
         $attributes = $request->all();
         if (isset($attributes['users'])) {
             foreach ($attributes['users'] as $user_id) {
-                $user = User::find($user_id);
-                if ($user->role->name == 'Admin') {
-                    if ($user->id != auth()->user()->organization->owner->id) {
-                        $user->setRole($role);
-                    }
-                } else {
-                    $user->setRole($role);
-                }
+                $user = User::findById($user_id);
+                $user->setRole($role);
             }
         }
+        return back();
+    }
+
+    public function removeRole(Request $request, User $user)
+    {
+        $user->setBasicUser();
+        NotificationFunctions::alert('primary', 'Successfully removed user!');
         return back();
     }
 }

@@ -1,29 +1,46 @@
 @extends('layouts.main')
+
 @section('title', 'Edit Role Permissions')
+
 @section('content')
+    <div class="container">
+        @include('partials.errors')
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">{{ __('Edit ' . $role->name . ' Pemissions') }}</div>
+                    <div class="card-body">
+                        <form method="post" action={{route('role.update', $role)}}>
+                            @method('PATCH')
+                            @csrf
 
-{{-- {{dd(Session()->all())}} --}}
-<form method="POST" action="/role/{{$role->id}}" class="box" >
-        @csrf
-        @method('PATCH')
+                            <div class="form-body row offset-3">
+                                <fieldset class="">
+                                    @foreach($permissionNames as $permission_name)
+                                        <div class="checkbox-toggle form-group">
+                                            <input type="checkbox" id={{$permission_name}} name={{$permission_name}} {{$role->permission->$permission_name == 1 ? 'checked' : ''}}>
+                                            <label for={{$permission_name}}>{{ucwords(str_replace('_', ' ', $permission_name))}}</label>
+                                        </div>
+                                    @endforeach
+                                </fieldset>
+                            </div>
 
-        <h3>Edit {{$role->name}} Pemissions</h3>
-
-        <label class="form-label semibold" for="exampleInput">Permissions</label>
-
-        @foreach($permissionNames as $permission_name)
-            <div class="checkbox-toggle form-group">
-                <input type="checkbox" id={{$permission_name}} name={{$permission_name}} {{$role->permission->$permission_name ==1 ? 'checked' : ''}}>
-                <label for={{$permission_name}}>{{ucwords(str_replace('_', ' ', $permission_name))}}</label>
+                            <div class="form-group row mb-0">
+                                <div class="btn-group col-md-6 offset-md-6">
+                                    <a href="/role" class="btn btn-inline btn-primary">Cancel</a>
+                                    <button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#deleteRoleModal" {{($role->name =='Admin' || $role->name =='Basic') ? 'disabled' : ''}}>Delete</button>
+                                    <button type="submit" class="btn btn-inline btn-primary">{{ __('Update') }}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-        @endforeach
-        <button type="submit" class="btn btn-inline btn-primary">Edit</button>
+        </div>
+    </div>
 
-</form>
-<button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#deleteRoleModal" {{($role->name =='Admin' || $role->name =='Basic') ? 'disabled' : ''}}>Delete</button>
-
-<!--.modal for notifying all memebrs-->
-<div class="modal fade" id="deleteRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!--.modal for confirming delete-->
+    <div class="modal fade" id="deleteRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

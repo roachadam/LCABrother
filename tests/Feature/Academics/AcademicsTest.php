@@ -21,7 +21,6 @@ class AcademicsTest extends TestCase
     public function test_basic_user_cannot_view_Academics()
     {
         $this->loginAs('basic_user');
-
         $this
             ->withoutExceptionHandling()
             ->get(route('academics.index'))

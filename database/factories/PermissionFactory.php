@@ -26,6 +26,7 @@ $factory->state(App\Permission::class, 'admin', function ($faker) {
         'manage_all_study' => true,
         'manage_calendar' => true,
         'take_attendance' => true,
+        'manage_goals' => true,
     ];
 });
 
@@ -107,6 +108,7 @@ $factory->state(App\Permission::class, 'study_viewer', function ($faker) {
 
 $factory->state(App\Permission::class, 'academics_manager', function ($faker) {
     return [
+        'view_all_study' => true,
         'manage_all_study' => true,
     ];
 });

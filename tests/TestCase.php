@@ -2,14 +2,13 @@
 
 namespace Tests;
 
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Organization;
+use Notification;
+use App\Semester;
 use App\Role;
 use App\User;
-use DB;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Notification;
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use App\Organization;
-use App\Semester;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -22,87 +21,83 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-
         Notification::fake();
     }
 
-    protected function createAdmin($organization = null)
+    /**
+     * Helper function for all tests that logs in as a specific role
+     * and creates the corresponding permission
+     */
+    protected function loginAs($name): User
     {
-        if ($organization !== null) {
-            $user = factory(User::class)->create(['organization_id' => $organization->id]);
-        } else {
-            $user = factory(User::class)->create();
-            $organization = $this->getOrganization($user);
-        }
-        $this->setSemester($organization);
-
-        $organization->createAdmin();
-        $user->join($organization);
-
-        $user->setAdmin();
+        $user = $this->createRole(strtolower($name));
+        $this->actingAs($user);
         return $user;
     }
 
-    protected function createBasic($organization = null)
+    /**
+     * Created the desired role and returns the user it is associated with
+     */
+    private function createRole($name): User
     {
-        if (isset($organization)) {
-            $user = factory(User::class)->create(['organization_id' => $organization->id]);
-        } else {
-            $user = factory(User::class)->create();
-            $organization = $this->getOrganization($user);
-        }
-        $this->setSemester($organization);
+        $user = factory(User::class)->create([
+            'organization_id' => rand(1, 999),
+        ]);
 
-        $organization->createBasicUser();
-        $user->join($organization);
-
-        $user->setBasicUser();
-        return $user;
-    }
-
-
-    protected function getRole($role)
-    {
-        return factory(Role::class)->state($role)->create();
-    }
-
-    protected function createRole($name)
-    {
-        $role = $this->getRole($name);
-        $user = factory(User::class)->create();
         $organization = $this->getOrganization($user);
-        $organization->createBasicUser();
         $user->join($organization);
+
+        $role = $this->getRole($name, $organization);
 
         $user->setRole($role);
+
         $this->setSemester($organization);
 
         return $user;
     }
 
-    protected function loginAs($name, $organization = null)
+    /**
+     * Checks if the role already exists in the database and returns it if it does
+     * If it doesn't then it creates and return a new role with the given name
+     */
+    private function getRole($name, $organization): Role
     {
-        if (strtolower($name) === 'admin') {
-            $role = $this->createAdmin($organization);
-        } else if (strtolower($name) === 'basic_user') {
-            $role = $this->createBasic($organization);
-        } else {
-            $role = $this->createRole($name);
-        }
+        $name = $this->getNewName($name);
+        $storedRole = $organization->roles->where('name', $name)->first();
 
-        $this->actingAs($role);
-        return $role;
+        return isset($storedRole) ? $storedRole : factory(Role::class)->state($name)->create([
+            'organization_id' => $organization->id,
+            'name' => $name,
+        ]);
     }
 
-    private function getOrganization(User $user)
+    /**
+     * Creates and returns an Organization with the passed user as the owner
+     */
+    private function getOrganization(User $user): Organization
     {
-        return factory(Organization::class)->create(['owner_id' => $user->id]);
+        return factory(Organization::class)->create([
+            'id' => $user->organization_id,
+            'owner_id' => $user->id
+        ]);
     }
 
+    /**
+     * Makes sure there is an active semester set
+     */
     private function setSemester($organization)
     {
         if (Semester::all()->isEmpty()) {
             factory(Semester::class)->create(['organization_id' => $organization->id]);
         }
+    }
+
+    /**
+     * This function helps translate the tests naming for the roles to what the organization models create on initialization
+     */
+    private function getNewName($name): string
+    {
+        $specialRole = collect(['Basic' => 'basic_user', 'Admin' => 'admin'])->search($name);
+        return $specialRole !== false ? $specialRole : $name;
     }
 }
