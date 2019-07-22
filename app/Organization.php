@@ -51,18 +51,22 @@ class Organization extends Model
     {
         return $this->calendarItem()->create($attributes);
     }
+
     public function survey()
     {
         return $this->hasMany(Survey::class);
     }
+
     public function addSurvey($attributes)
     {
         return $this->survey()->create($attributes);
     }
+
     public function discussion()
     {
         return $this->hasMany(Discussion::class);
     }
+
     public function category()
     {
         return $this->hasMany(Category::class);
@@ -142,6 +146,7 @@ class Organization extends Model
             return $this->involvement()->create($attributes);
         }
     }
+
     public function involvement()
     {
         return $this->hasMany(Involvement::Class);
@@ -151,6 +156,7 @@ class Organization extends Model
     {
         return $this->hasMany(Semester::class);
     }
+
     public function getActiveSemester()
     {
         $match = [
@@ -160,6 +166,7 @@ class Organization extends Model
         $activeSemester = Semester::where($match)->first();
         return $activeSemester;
     }
+
     public function addSemester($attributes)
     {
         return $this->semester()->create($attributes);
@@ -169,6 +176,7 @@ class Organization extends Model
     {
         return $this->event()->create($attributes);
     }
+
     public function event()
     {
         return $this->hasMany(Event::Class);

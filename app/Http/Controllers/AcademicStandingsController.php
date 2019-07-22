@@ -8,12 +8,6 @@ use App\AcademicStandings;
 
 class AcademicStandingsController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('ManageAcademics')->except(['store', 'create']);
-    }
-
     /**
      * Display a listing of the resource.
      *

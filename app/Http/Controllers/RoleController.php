@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Role;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use App\Commons\NotificationFunctions;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\User;
+use App\Role;
 
 class RoleController extends Controller
 {
@@ -31,17 +31,6 @@ class RoleController extends Controller
         $roles = $organization->roles;
 
         return view('roles.index', compact('roles', 'organization', 'permissionNames'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $org = Auth::user()->organization;
-        return view('roles.create', compact('org'));
     }
 
     /**
@@ -69,15 +58,6 @@ class RoleController extends Controller
         NotificationFunctions::alert('success', 'Added role!');
         return back();
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Role $role)
-    { }
 
     /**
      * Show the form for editing the specified resource.
@@ -138,8 +118,10 @@ class RoleController extends Controller
     {
         abort_if(!auth()->user()->canManageMembers(), 403);
         $match = ['name' => 'Basic', 'organization_id' => auth()->user()->organization->id];
+
         $users = User::where('role_id', '=', $role->id)->get();
         $basicRole = Role::where(['name' => 'Basic', 'organization_id' => auth()->user()->organization->id])->first();
+
         foreach ($users as $user) {
             $user->setRole($basicRole);
         }
@@ -149,7 +131,7 @@ class RoleController extends Controller
         return redirect('/role');
     }
 
-    public function users(Role $role)
+    public function usersInRole(Role $role)
     {
         $users = User::findAll(auth()->user()->organization->id);
 
@@ -168,6 +150,8 @@ class RoleController extends Controller
                 $user->setRole($role);
             }
         }
+
+        NotificationFunctions::alert('success', 'Successfully Assigned New Roles!');
         return back();
     }
 
