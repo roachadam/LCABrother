@@ -2,13 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use App\Goals;
-use App\Organization;
-use DB;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+use App\Goals;
+use DB;
 
 class GoalsTest extends TestCase
 {

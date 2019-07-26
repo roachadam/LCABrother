@@ -2,13 +2,9 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Academics;
-use App\AcademicStandings;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Role;
-use App\Organization;
+use App\AcademicStandings;
+use Tests\TestCase;
 
 class AcademicStandingsTest extends TestCase
 {
@@ -44,14 +40,6 @@ class AcademicStandingsTest extends TestCase
             ->assertSee('Academic Standing Rules')
             ->assertSee('Add Standing Rule');
     }
-
-    /**
-     * TODO: Figure out if we're going to remove setting the academic standing rules when
-     * TODO creating a new organization or just make them do it from the academics page
-     * * AcademicStandingsController@create
-     * Testing if the academics manager can see the create academic standing rule view
-     */
-    //public function test_create_academic_standing_rule_view() {}
 
     /**
      * * AcademicStandingsController@store

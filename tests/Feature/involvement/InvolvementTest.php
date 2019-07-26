@@ -78,15 +78,39 @@ class InvolvementTest extends TestCase
      */
     public function test_cannot_add_involvement_without_name()
     {
-        $this->loginAs('involvement_manager');
+        $user = $this->loginAs('involvement_manager');
         $event = factory(Involvement::class)->raw([
-            'organization_id' => auth()->user()->organization->id,
+            'organization_id' => $user->organization_id,
             'name' => ''
         ]);
 
         $this
             ->post(route('involvement.store'), $event)
             ->assertSessionHasErrors('name');
+    }
+
+    /**
+     * * InvolvementController@store
+     * Testing adding a duplicate involvement event
+     */
+    public function test_cannot_add_duplicate_involvement_event()
+    {
+        $user = $this->loginAs('involvement_manager');
+
+        $event = factory(Involvement::class)->create([
+            'name' => 'Social',
+            'organization_id' => $user->organization_id,
+        ])->toArray();
+        $event['test'] = true;
+
+        $this
+            ->withExceptionHandling()
+            ->followingRedirects()
+            ->post(route('involvement.store'), $event)
+            ->assertSuccessful()
+            ->assertSee('An Involvement event for ' . $event['name'] . 's already exits');
+
+        $this->assertTrue($user->organization->involvement->where('name', $event['name'])->count() === 1);
     }
 
     /**
@@ -104,12 +128,12 @@ class InvolvementTest extends TestCase
             ->from(route('involvement.adminView'))
             ->post(route('involvement.store'), $event)
             ->assertSuccessful()
-            ->assertSee('Successfully created and involvement event for ' . $event['name'] . 's')
+            ->assertSee('Successfully created involvement event for ' . $event['name'] . 's')
             ->assertSee($event['name'])
             ->assertSee($event['points']);
 
         $this->assertDatabaseHas('involvements', [
-            "name" => $event['name'],
+            'name' => $event['name'],
         ]);
     }
 
@@ -244,21 +268,17 @@ class InvolvementTest extends TestCase
     }
 
     /**
-     * ! Import tests do not work
-     * TODO: Fix the involvement import
-     */
-
-    /**
      * * InvolvementController@import
      * Testing uploading an invalid file (in this case its empty)
      */
-    public function _upload_invalid_file()
+    public function test_upload_invalid_file()
     {
         $user = $this->loginAs('involvement_manager');
 
         $this
             ->withoutExceptionHandling()
             ->followingRedirects()
+            ->from(route('involvement.index'))
             ->post(route('involvement.import'), [
                 'InvolvementData' => new UploadedFile('storage\app\public\grades\testFile\gradesTestFail.xlsx', 'gradesTestFail.xlsx', 'xlsx', null, true),
                 'test' => true,
@@ -273,29 +293,141 @@ class InvolvementTest extends TestCase
 
     /**
      * * InvolvementController@import
-     * Testing uploading a valid file
+     * Testing uploading a valid file when the organization already had all the events created
      */
-    public function _upload_file()
+    public function test_upload_file_with_existing_events()
     {
         $user = $this->loginAs('involvement_manager');
         $user->update(['name' => 'Jacob Drury']);
 
+        $events = $this->preloadInvolvementEvents($user->organization_id);
+
         $this
             ->withoutExceptionHandling()
             ->followingRedirects()
+            ->from(route('involvement.index'))
             ->post(route('involvement.import'), [
-                'grades' => new UploadedFile('storage\app\public\involvement\testFiles\pointsTestWorking.xlsx', 'pointsTestWorking.xlsx', 'xlsx', null, true),
+                'InvolvementData' => new UploadedFile('storage\app\public\involvement\testFiles\pointsTestWorking.xlsx', 'pointsTestWorking.xlsx', 'xlsx', null, true),
                 'test' => true,
             ])
-            ->assertSuccessful();
-        //->assertSee('Successfully imported new academic records!');
+            ->assertSuccessful()
+            ->assertSee('Successfully imported new Involvement records!');
 
         $involvements = $user->organization->involvement->filter(function ($involvement) {
             return $involvement['name'] !== null && $involvement['points'] !== null;
         })->values();
 
-        dd($involvements);
-        //$this->assertTrue($involvements->isNotEmpty() && $involvements->count() === 3);
+        $this->assertTrue($involvements->isNotEmpty() && $involvements->count() === ($events->count() + 1));            //Plus one for a random event created from one of the factories
+
+        foreach ($events as $event) {
+            $this->assertDatabaseHas('involvements', $event->toArray());
+        }
+    }
+
+
+    /**
+     * * InvolvementController@import
+     * Testing uploading a valid file when the organization doesn't have any existing events
+     * and makes sure it brings you to the page to fill out points for the created events
+     */
+    public function test_upload_file_without_existing_events()
+    {
+        $user = $this->loginAs('involvement_manager');
+        $user->update(['name' => 'Jacob Drury']);
+
+        $response = $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->from(route('involvement.index'))
+            ->post(route('involvement.import'), [
+                'InvolvementData' => new UploadedFile('storage\app\public\involvement\testFiles\pointsTestWorking.xlsx', 'pointsTestWorking.xlsx', 'xlsx', null, true),
+                'test' => true,
+            ])
+            ->assertSuccessful()
+            ->assertSee('Edit Involvement Event Points');
+
+        $eventNames = $user->organization->involvement->filter(function ($involvement) {
+            return $involvement['name'] !== null && $involvement['points'] == null;
+        })->values()->pluck('name');
+
+        foreach ($eventNames as $eventName) {
+            $response->assertSee($eventName);
+        }
+    }
+
+    /**
+     * * InvolvementController@setPoints
+     * Testing uploading a valid file
+     */
+    public function test_setting_event_point_value_when_auto_created()
+    {
+        $pointValues = collect();
+        $user = $this->loginAs('involvement_manager');
+
+        $involvements = $this->preloadInvolvementEvents($user->organization_id, true);
+
+        $names = $involvements->pluck('name');
+
+        foreach ($names as $name) {
+            $pointValues->push(rand(1, 100));
+        }
+
+        $this
+            ->withExceptionHandling()
+            ->followingRedirects()
+            ->post(route('involvement.setPoints'), [
+                'name' => $names->toArray(),
+                'point_value' => $pointValues->toArray(),
+                'test' => true,
+            ])
+            ->assertSuccessful()
+            ->assertSee('Successfully imported new Involvement records!');
+
+        foreach ($names->combine($pointValues) as $name => $pointValue) {
+            $this->assertDatabaseHas('involvements', [
+                'organization_id' => $user->organization_id,
+                'name' => $name,
+                'points' => $pointValue,
+            ]);
+        }
+    }
+
+    /**
+     * * InvolvementController@adminView
+     * Testing to ensure a basic user cannot view the events breakdown
+     */
+    public function test_basic_user_cannot_get_admin_view()
+    {
+        $this->loginAs('basic_user');
+
+        $this
+            ->get(route('involvement.adminView'))
+            ->assertRedirect('/dash');
+    }
+
+    /**
+     * * InvolvementController@adminView
+     * Testing ability of the involvement manager to view the admin breakdown
+     */
+    public function test_can_get_admin_view()
+    {
+        $user = $this->loginAs('involvement_manager');
+
+        $involvements = $this->preloadInvolvementEvents($user->organization_id);
+
+        $response = $this
+            ->withExceptionHandling()
+            ->followingRedirects()
+            ->get(route('involvement.adminView'))
+            ->assertSuccessful()
+            ->assertSee('Involvement Events')
+            ->assertSee('Create New');
+
+        foreach ($involvements as $involvement) {
+            $response
+                ->assertSee($involvement->name)
+                ->assertSee($involvement->points);
+        }
     }
 
     /**
@@ -320,5 +452,27 @@ class InvolvementTest extends TestCase
             ->assertDontSee($event->name);
 
         $this->assertDatabaseMissing('involvements', $event->toArray());
+    }
+
+    private function preloadInvolvementEvents($organization_id, $nullPoints = false)
+    {
+        return collect([
+            "Recruitment events",
+            "Philanthropy events",
+            "Brotherhood events",
+            "Intramurals",
+            "Socials",
+            "Pay dues in full",
+            "PI",
+            "Attend other organizations events",
+            "Leadership role in another organization",
+            "Move into the house",
+        ])->map(function ($name) use ($organization_id, $nullPoints) {
+            return factory(Involvement::class)->create([
+                'organization_id' => $organization_id,
+                'name' => $name,
+                'points' => $nullPoints ? null : rand(1, 100),
+            ]);
+        });
     }
 }
