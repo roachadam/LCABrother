@@ -28,8 +28,8 @@
                     @foreach ($roles as $role)
                         <tr>
                             <td>{{ $role->name }}</td>
-                            <td><a href="/role/{{$role->id}}/users" class="btn btn-inline">View</a></td>
-                            <td><a href="/role/{{$role->id}}/edit" class="btn btn-inline">Edit</a></td>
+                            <td><a href={{route('role.usersInRole', $role)}} class="btn btn-inline">View</a></td>
+                            <td><a href={{route('role.edit', $role)}} class="btn btn-inline">Edit</a></td>
                         </tr>
                     @endforeach
                 @endif
@@ -52,7 +52,7 @@
                     </button>
                     <h4 class="modal-title" id="myModalLabel">Add Role</h4>
                 </div>
-                <form method="POST" action="/role" class="box" >
+                <form method="POST" action={{route('role.store')}} class="box" >
                     <div class="modal-body">
                         @csrf
                         <div class="col-md-12">

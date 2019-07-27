@@ -55,8 +55,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/goals/store', 'GoalsController@store');
     Route::post('semester/initial', 'SemesterController@initial');
 
-    Route::resource('academicStandings', 'AcademicStandingsController')->except(['update', 'destroy', 'edit']);
-
     Route::post('/user/{user}/join', 'UserController@joinOrg');
 
     //Can only access if email is verified
@@ -120,8 +118,8 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/orgpending/{user}', 'OrgVerificationController@show');
 
-            Route::get('/role/{role}/users', 'RoleController@users');
-            Route::post('/role/{role}/massSet', 'RoleController@massSet');
+            Route::get('/role/{role}/users', 'RoleController@usersInRole')->name('role.usersInRole');
+            Route::post('/role/{role}/massSet', 'RoleController@massSet')->name('role.massSet');
             Route::patch('/users/{user}/removeRole', 'RoleController@removeRole')->name('user.removeRole');
 
             Route::get('/alumni', 'AlumniController@index');
@@ -159,6 +157,8 @@ Route::middleware('auth')->group(function () {
                 Route::post('/academics/notifyAll', 'NotifyController@academicsNotifyAll')->name('academics.notifyAll');
                 Route::post('/academics/notify/selected', 'NotifyController@academicsNotifySelected')->name('academics.notifySelected');
                 Route::post('/academics/notify/specificStanding', 'NotifyController@academicsNotifySpecificStanding')->name('academics.notifySpecificStanding');
+
+                Route::resource('academicStandings', 'AcademicStandingsController')->only(['index', 'store']);
                 Route::patch('/academicStandings/{academicStandings}', 'AcademicStandingsController@update')->name('academicStandings.update');
                 Route::delete('/academicStandings/{academicStandings}', 'AcademicStandingsController@destroy')->name('academicStandings.destroy');
                 Route::get('academicStandings/{academicStandings}/edit', 'AcademicStandingsController@edit')->name('academicStandings.edit');

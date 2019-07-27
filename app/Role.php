@@ -61,35 +61,16 @@ class Role extends Model
         $this->permission()->associate($permission)->save();
 
         return $this->permission;
-        //return $this->permission()->create($attributes);
     }
 
     public function setBasicPermissions(): Permission
     {
-        $attributes = [
-            'view_member_details' => false,
-            'manage_member_details' => false,
-            'log_service_event' => false,
-            'view_all_service' => false,
-            'view_all_involvement' => false,
-            'manage_all_service' => false,
-            'manage_all_involvement' => false,
-            'manage_events' => false,
-            'manage_forum' => false,
-            'manage_alumni' => false,
-            'manage_surveys' => false,
-            'manage_all_study' => false,
-            'view_all_study' => false,
-            'manage_calendar' => false,
-            'take_attendance' => false,
-            'manage_goals' => false,
-        ];
+        $attributes = [];
 
         $permission = Permission::create($attributes);
 
         $this->permission()->associate($permission)->save();
 
         return $this->permission;
-        //return $this->permission()->create($attributes);
     }
 }

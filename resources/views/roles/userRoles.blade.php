@@ -16,7 +16,9 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Remove</th>
+                    @if($role->name !== 'Basic')
+                        <th>Remove</th>
+                    @endif
                 </tr>
                 </thead>
                 <tbody>
@@ -25,7 +27,9 @@
                         @foreach ($usersWithRole as $user)
                             <tr>
                                 <td>{{ $user->name }}</td>
-                                <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#removeUserFromRole{{$user->id}}">Remove</button></td>
+                                @if($role->name !== 'Basic')
+                                    <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#removeUserFromRole{{$user->id}}">Remove</button></td>
+                                @endif
                             </tr>
 
                             <!--.modal for confirming removal of user from role-->
@@ -59,7 +63,6 @@
                     @endif
 
                 </tbody>
-
             </table>
         </div>
     </section>
@@ -87,7 +90,6 @@
                                         <label for={{$otherUsers->name}}>{{$otherUsers->name}}</label>
                                     </div>
                                 @endforeach
-
                             </fieldset>
                         </div>
                     </div>

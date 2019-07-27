@@ -8,7 +8,16 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">{{ __('Edit ' . $role->name . ' Pemissions') }}</div>
+                    <div class="card-header">
+                        <div class="row">
+                            <h5 class="card-title">{{ __('Edit ' . $role->name . ' Permissions') }}</h5>
+                            <div class="ml-auto" id="headerButtons">
+                                @if(!($role->name == 'Admin' || $role->name == 'Basic'))
+                                    <button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#deleteRoleModal">Delete</button>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <form method="post" action={{route('role.update', $role)}}>
                             @method('PATCH')
@@ -26,9 +35,8 @@
                             </div>
 
                             <div class="form-group row mb-0">
-                                <div class="btn-group col-md-6 offset-md-6">
+                                <div class="btn-group col-md-6 offset-md-7">
                                     <a href="/role" class="btn btn-inline btn-primary">Cancel</a>
-                                    <button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#deleteRoleModal" {{($role->name =='Admin' || $role->name =='Basic') ? 'disabled' : ''}}>Delete</button>
                                     <button type="submit" class="btn btn-inline btn-primary">{{ __('Update') }}</button>
                                 </div>
                             </div>
@@ -49,7 +57,7 @@
                     </button>
                     <h4 class="modal-title" id="myModalLabel">Delete Role</h4>
                 </div>
-                <form action="/role/{{$role->id}}" method="post" class="box" >
+                <form action={{route('role.destroy', $role)}} method="post" class="box" >
                     <div class="modal-body">
                         @csrf
                         @method('delete')

@@ -21,6 +21,7 @@ class AcademicsController extends Controller
      */
     public function index()
     {
+        $user = auth()->user()->organization->roles;
         $users = User::findAll(auth()->user()->organization->id);
 
         $users->load(['Academics' => function ($query) {
