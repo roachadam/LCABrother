@@ -12,13 +12,38 @@ class EventInvitesTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_get_events_index()
+    /**
+     * * EventsController@index
+     * Testing ability of basic user to view the events page
+     */
+    public function test_basic_user_can_view_events_index()
     {
-        $this->withoutExceptionHandling();
         $this->loginAs('basic_user');
-        $response = $this->get('/event');
 
-        $response->assertOk();
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->get(route('event.index'))
+            ->assertSuccessful()
+            ->assertSee('Events')
+            ->assertDontSee('Add Event');
+    }
+
+    /**
+     * * EventsController@index
+     * Testing ability of the event manager to view the events page
+     */
+    public function test_event_manager_can_view_events_index()
+    {
+        $this->loginAs('events_manager');
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->get(route('event.index'))
+            ->assertSuccessful()
+            ->assertSee('Events')
+            ->assertSee('Add Event');
     }
 
     public function test_get_create_view()
