@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use DB;
 use Illuminate\Support\Facades\Mail;
 use App\Goals;
 use Illuminate\Http\Request;
