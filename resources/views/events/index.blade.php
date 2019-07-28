@@ -51,7 +51,7 @@
         </div>
     </section>
 
-    <!--.modal for adding Involvement Scores<-->
+    <!--.modal for adding Events<-->
     <div class="modal fade" id="addEvent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
