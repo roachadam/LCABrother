@@ -28,9 +28,9 @@ abstract class TestCase extends BaseTestCase
      * Helper function for all tests that logs in as a specific role
      * and creates the corresponding permission
      */
-    protected function loginAs($name): User
+    protected function loginAs($name, $organization = null): User
     {
-        $user = $this->createRole(strtolower($name));
+        $user = $this->createRole(strtolower($name), $organization);
         $this->actingAs($user);
         return $user;
     }
@@ -38,13 +38,13 @@ abstract class TestCase extends BaseTestCase
     /**
      * Created the desired role and returns the user it is associated with
      */
-    private function createRole($name): User
+    private function createRole($name, $organization): User
     {
         $user = factory(User::class)->create([
-            'organization_id' => rand(1, 999),
+            'organization_id' => isset($organization) ? $organization->id : rand(1, 999),
         ]);
 
-        $organization = $this->getOrganization($user);
+        $organization = isset($organization) ? $organization : $this->getOrganization($user);
         $user->join($organization);
 
         $role = $this->getRole($name, $organization);
