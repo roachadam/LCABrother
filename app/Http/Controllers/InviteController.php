@@ -57,40 +57,6 @@ class InviteController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Invite  $invite
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Invite $invite)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Invite  $invite
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Invite $invite)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Invite  $invite
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Invite $invite)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Invite  $invite
