@@ -36,8 +36,8 @@
                             <td> {{$event->date_of_event}} </td>
                             <td> {{$event->num_invites}} </td>
                             <td> {{auth()->user()->getInvitesRemaining($event)}} </td>
-                            <td><a href="/event/{{$event->id}}/invite" class="btn btn-inline {{ auth()->user()->hasInvitesRemaining($event) ? '' : 'disabled' }} ">Invite</a></td>
-                            <td><a href="/event/{{$event->id}}/invites" class="btn btn-inline {{ auth()->user()->getInvitesRemaining($event) === $event->num_invites ? 'disabled' : '' }} ">View</a></td>
+                            <td><a href={{route('invite.create', $event)}} class="btn btn-inline {{ auth()->user()->hasInvitesRemaining($event) ? '' : 'disabled' }} ">Invite</a></td>
+                            <td><a href={{route('invites.index', $event)}} class="btn btn-inline {{ auth()->user()->getInvitesRemaining($event) === $event->num_invites ? 'disabled' : '' }} ">View</a></td>
                             @if (auth()->user()->canManageEvents())
 
                                 <td><a href="/event/{{$event->id}}" class="btn btn-inline">Show</a></td>

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Event;
-use App\Invite;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Commons\NotificationFunctions;
 use App\Events\DuplicateGuestInvited;
+use Illuminate\Http\Request;
+use App\Invite;
+use App\Event;
 
 class InviteController extends Controller
 {
@@ -56,6 +55,12 @@ class InviteController extends Controller
         return redirect(route('event.index'));
     }
 
+    public function all(Event $event)
+    {
+        $invites = $event->invites;
+        return view(' invites . all ', compact(' event ', ' invites'));
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -65,12 +70,7 @@ class InviteController extends Controller
     public function destroy(Invite $invite)
     {
         $invite->delete();
+        NotificationFunctions::alert('success', 'Successfully deleted guest!');
         return back();
-    }
-
-    public function all(Event $event)
-    {
-        $invites = $event->invites;
-        return view(' invites . all ', compact(' event ', ' invites'));
     }
 }

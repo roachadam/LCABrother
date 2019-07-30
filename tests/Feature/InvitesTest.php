@@ -39,7 +39,7 @@ class InvitesTest extends TestCase
         ]);
         $event->addInvite($inviteAttributes3);
 
-        $response = $this->get('event/' . $event->id . '/invites');
+        $response = $this->get('user/' . $event->id . '/invites');
 
         $response->assertSee($inviteAttributes1['guest_name']);
         $response->assertSee($inviteAttributes2['guest_name']);
