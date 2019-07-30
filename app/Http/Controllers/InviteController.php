@@ -37,11 +37,11 @@ class InviteController extends Controller
         $attributes = request()->validate([
             'guest_name' => 'required',
         ]);
-        $invites = $event->invites;
-        foreach ($invites as $invite) {
+
+        foreach ($event->invites as $invite) {
             if (strtolower($attributes['guest_name']) === strtolower($invite->guest_name)) {
                 event(new DuplicateGuestInvited($invite));
-                return redirect('/event/' . $event->id . '/invite');
+                return redirect(route('invite.create', $event));
             }
         }
 
@@ -49,7 +49,6 @@ class InviteController extends Controller
         {
             $attributes['user_id'] = auth()->id();
             $event->addInvite($attributes);
-            auth()->user()->getInvitesRemaining($event);
         }
 
         return redirect(route('event.index'));
