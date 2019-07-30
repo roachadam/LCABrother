@@ -14,36 +14,38 @@ class InvitesTest extends TestCase
 
     /**
      * * InviteController@index
-     * Testing ability to create an Event with valid data
+     * Testing ability to view a user's invited guests
      */
     public function test_get_user_guest_list()
     {
-        //$this->withoutExceptionHandling();
         $user = $this->loginAs('events_manager');
         $user2 = factory(User::class)->create(['organization_id' => $user->organization_id]);
 
         $event = factory(Event::class)->create(['organization_id' => $user->organization_id]);
-        $inviteAttributes1 = factory(Invite::class)->raw([
-            'guest_name' => 'Bobby',
-            'user_id' => $user->id,
-        ]);
-        $event->addInvite($inviteAttributes1);
-        $inviteAttributes2 = factory(Invite::class)->raw([
-            'guest_name' => 'Jane',
-            'user_id' => $user->id,
-        ]);
-        $event->addInvite($inviteAttributes2);
-        $inviteAttributes3 = factory(Invite::class)->raw([
-            'guest_name' => 'John',
-            'user_id' => $user->id,
-        ]);
-        $event->addInvite($inviteAttributes3);
 
-        $response = $this->get('user/' . $event->id . '/invites');
+        $event->addInvite(factory(Invite::class)->raw(['guest_name' => 'Sally', 'user_id' => $user2->id]));
+        $event->addInvite(factory(Invite::class)->raw(['guest_name' => 'Sue', 'user_id' => $user2->id]));
+        $event->addInvite(factory(Invite::class)->raw(['guest_name' => 'Billy', 'user_id' => $user->id]));
+        $event->addInvite(factory(Invite::class)->raw(['guest_name' => 'Bob', 'user_id' => $user->id]));
 
-        $response->assertSee($inviteAttributes1['guest_name']);
-        $response->assertSee($inviteAttributes2['guest_name']);
-        //$response->assertDontSee($inviteAttributes3['guest_name']);
+        //Clears the notifications from the guests being invited
+        Session()->flush();
+
+        $response = $this
+            ->withExceptionHandling()
+            ->followingRedirects()
+            ->from(route('event.index'))
+            ->get(route('invites.index', $event))
+            ->assertSuccessful()
+            ->assertSee('Your guestlist for ' . $event->name);
+
+        foreach ($user->getInvites($event) as $invite) {
+            $response->assertSee($invite->guest_name);
+        }
+
+        foreach ($user2->getInvites($event) as $invite) {
+            $response->assertDontSee($invite->guest_name);
+        }
     }
 
     /**

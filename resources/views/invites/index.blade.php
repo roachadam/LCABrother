@@ -17,7 +17,7 @@
                 <tbody>
                     @foreach ($invites as $invite)
                         <tr>
-                            <td>{{ $invite->guest_name }}</td>
+                            <td>{{$invite->guest_name}}</td>
                             <td><button type="button" class="btn btn-inline btn-danger-outline"  data-toggle="modal" data-target="#{{$invite->id}}">Delete</button></td>
                         </tr>
 
