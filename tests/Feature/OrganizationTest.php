@@ -2,98 +2,66 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Organization;
-use DB;
+use Tests\TestCase;
 
 class OrganizationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_can_register_user()
+    /**
+     * * OrganizationController@index
+     * Testing the ability to view the choose/create and organization page
+     */
+    public function test_get_choose_organization_page()
     {
-        $user = factory(User::class)->make();
+        $this->loginAs('basic_user');
+
         $this
             ->withoutExceptionHandling()
             ->followingRedirects()
-            ->post('/register', [
-                'name' => $user->name,
-                'email' => $user->email,
-                'phone' => $user->phone,
-                'password' => 'secret123!=-',
-                'password_confirmation' => 'secret123!=-'
-            ])
+            ->get(route('organization.index'))
             ->assertSuccessful()
-            ->assertSee('Add Avatar');
+            ->assertSee('Join Organization')
+            ->assertSee('Choose Your Organization');
     }
 
+    /**
+     * * OrganizationController@create
+     * Testing the ability to get the create organization page
+     */
     public function test_get_create_organization_page()
     {
-        $user = factory(User::class)->make();
-        $response = $this->post('/register', [
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'password' => 'secret123!=-',
-            'password_confirmation' => 'secret123!=-'
-        ]);
+        $this->loginAs('basic_user');
 
-        $response = $this->get('/organization/create');
-        $response->assertStatus(200);
+        $this
+            ->withExceptionHandling()
+            ->followingRedirects()
+            ->get(route('organization.create'))
+            ->assertSee('Create Organization')
+            ->assertSee('Name');
     }
 
+    /**
+     * * OrganizationController@store
+     * Testing the ability to create a new organization
+     */
     public function test_create_Organization()
     {
-        $user = factory(User::class)->make();
-        $response = $this->post('/register', [
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'password' => 'secret123!=-',
-            'password_confirmation' => 'secret123!=-'
-        ]);
-        $dbUser =  DB::table('users')->where('email', $user->email)->first();
+        $this->loginAs('basic_user');
 
-        $response = $this->get('/organization/create');
+        $organization = factory(Organization::class)->make();
 
-        $org = factory(Organization::class)->make();
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->from(route('organization.create'))
+            ->post(route('organization.store', ['name' => $organization->name]))
+            ->assertSuccessful();
 
-        $response = $this->post('/organization/', [
-            'name' => $org->name
-        ]);
         $this->assertDatabaseHas('organizations', [
-            'name' => $org->name,
+            'name' => $organization->name,
         ]);
-        $response->assertRedirect('/goals/create');
-    }
-
-    public function test_join_Organization()
-    {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->make();
-        $org = factory(Organization::class)->create();
-
-        $response = $this->post('/register', [
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'password' => 'secret123!=-',
-            'password_confirmation' => 'secret123!=-'
-        ]);
-        $dbUser =  DB::table('users')->where('email', $user->email)->first();
-
-
-        $response = $this->post('/user/' . $dbUser->id . '/join', [
-            'organization' => $org->id,
-        ]);
-
-        $this->assertDatabaseHas('users', [
-            'email' => $user->email,
-            'organization_id' => $org->id,
-        ]);
-        $response->assertRedirect('/dash');
     }
 }

@@ -31,8 +31,8 @@ Route::get('/contact/thanks', function () {
     return view('home.contact.thanks');
 });
 
-Route::get('/organizations/{organization}/join', 'InvitedRegisterController@showRegistrationForm');
-Route::post('/organization/{organization}/register', 'InvitedRegisterController@register');
+Route::get('/organizations/{organization}/join', 'InvitedRegisterController@showRegistrationForm')->name('organization.join');
+Route::post('/organization/{organization}/register', 'InvitedRegisterController@register')->name('organization.register');
 
 Auth::routes(['verify' => true]);
 
@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/goals/store', 'GoalsController@store');
     Route::post('semester/initial', 'SemesterController@initial');
 
-    Route::post('/user/{user}/join', 'UserController@joinOrg');
+    Route::post('/user/{user}/join', 'UserController@joinOrg')->name('user.joinOrg');
 
     //Can only access if email is verified
     Route::middleware('verified')->group(function () {
@@ -87,7 +87,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/goals/{goals}/notify/sendAll', 'NotifyController@sendAll');
 
             Route::get('/users/{user}/adminView', 'UserController@adminView');
-            Route::post('/user/{user}/organization/remove', 'UserController@orgRemove');
+            Route::post('/user/{user}/organization/remove', 'UserController@orgRemove')->name('organization.removeUser');
 
             Route::get('/users/contact', 'ContactController@userContacts')->name('contact.users');
 
