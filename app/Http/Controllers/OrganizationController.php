@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Organization;
-use App\User;
 use Illuminate\Http\Request;
+use App\Organization;
 
 class OrganizationController extends Controller
 {
