@@ -49,15 +49,10 @@ class InviteController extends Controller
         {
             $attributes['user_id'] = auth()->id();
             $event->addInvite($attributes);
+            NotificationFunctions::alert('success', $attributes['guest_name'] . ' has been invited!');
         }
 
         return redirect(route('event.index'));
-    }
-
-    public function all(Event $event)
-    {
-        $invites = $event->invites;
-        return view(' invites . all ', compact(' event ', ' invites'));
     }
 
     /**

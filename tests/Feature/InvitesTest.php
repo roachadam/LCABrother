@@ -18,7 +18,7 @@ class InvitesTest extends TestCase
      */
     public function test_get_user_guest_list()
     {
-        $user = $this->loginAs('events_manager');
+        $user = $this->loginAs('basic_user');
         $user2 = factory(User::class)->create(['organization_id' => $user->organization_id]);
 
         $event = factory(Event::class)->create(['organization_id' => $user->organization_id]);
@@ -49,30 +49,56 @@ class InvitesTest extends TestCase
     }
 
     /**
-     * * InviteController@destroy
-     * Testing ability to create an Event with valid data
+     * * InviteController@create
+     * Testing ability to view the invite guest page
      */
-    public function test_delete_invite()
+    public function test_can_create_new_invite()
     {
-        $this->withoutExceptionHandling();
-        $this->loginAs('events_manager');
+        $user = $this->loginAs('basic_user');
+        $event = factory(Event::class)->create(['organization_id' => $user->organization->id]);
 
-        $invite = factory(Invite::class)->create(['user_id' => auth()->id()]);
-        $inviteArray = $invite->toArray();
-        $response = $this->delete('invite/' . $invite->id);
-        $this->assertDatabaseMissing('invites', $inviteArray);
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->from(route('event.index'))
+            ->get(route('invite.create', $event))
+            ->assertSuccessful()
+            ->assertSee($event->name . ': Add Invite')
+            ->assertSee('Guest Name');
     }
 
     /**
      * * InviteController@store
-     * Testing ability to create an Event with valid data
+     * Testing ability to invite guests to an event
+     */
+    public function test_inviting_guest_to_event()
+    {
+        $user = $this->loginAs('basic_user');
+
+        $event = factory(Event::class)->create(['organization_id' => $user->organization->id]);
+        $guestName = 'Billy Bob';
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->from(route('event.index'))
+            ->post(route('invite.store', $event->id), [
+                'guest_name' => $guestName,
+            ])
+            ->assertSuccessful()
+            ->assertSee($guestName . ' has been invited!');
+    }
+
+    /**
+     * * InviteController@store
+     * Testing to make sure you cannot invite a guest that's already invited to an event
      */
     public function test_cannot_insert_duplicates()
     {
-        $user = $this->loginAs('events_manager');
+        $user = $this->loginAs('basic_user');
 
         $event = factory(Event::class)->create(['organization_id' => $user->organization->id]);
-        $invite = factory(Invite::class)->raw([
+        $invite = factory(Invite::class)->create([
             'user_id' => $user->id,
             'event_id' => $event->id,
             'guest_name' => $user->name,
@@ -81,18 +107,35 @@ class InvitesTest extends TestCase
         $this
             ->withoutExceptionHandling()
             ->followingRedirects()
-            ->post(route('invite.store', $event->id), $invite)
-            ->assertSuccessful()
-            ->assertSee('Events')
-            ->assertSee($event->name)
-            ->assertSee('1');
-
-        $this
-            ->withoutExceptionHandling()
-            ->followingRedirects()
-            ->post(route('invite.store', $event->id), $invite)
+            ->from(route('event.index'))
+            ->post(route('invite.store', $event->id), $invite->toArray())
             ->assertSuccessful()
             ->assertSee('primary', $user->name . ' has already been invited!')
             ->assertSee($event->name . ': Add Invite');
+    }
+
+    /**
+     * * InviteController@destroy
+     * Testing ability to delete an invite
+     */
+    public function test_delete_invite()
+    {
+        $user = $this->loginAs('basic_user');
+
+        $invite = factory(Invite::class)->create([
+            'user_id' => $user->id,
+            'guest_name' => $user->name,
+        ]);
+
+        $this
+            ->withExceptionHandling()
+            ->followingRedirects()
+            ->from(route('invites.index', $invite->event))
+            ->delete(route('invite.destroy', $invite->id))
+            ->assertSuccessful()
+            ->assertSee('Successfully deleted guest!');
+
+        unset($invite['event']);
+        $this->assertDatabaseMissing('invites', $invite->toArray());
     }
 }
