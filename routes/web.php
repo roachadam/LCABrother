@@ -41,8 +41,8 @@ Auth::routes(['verify' => true]);
 Route::middleware('auth')->group(function () {
     //Registration Routes
     Route::resource('user', 'UserController');
-    Route::get('/avatar/create', 'UserController@create_avatar');
-    Route::post('/avatar/create', 'UserController@update_avatar');
+    Route::get('/avatar/create', 'ProfileController@create_avatar')->name('profile.createAvatar');
+    Route::post('/avatar/create', 'ProfileController@update_avatar')->name('profile.updateAvatar');
 
     Route::get('/forum/create/categories', 'ForumController@create');
     Route::post('/forum/create/categories', 'ForumController@store');
@@ -86,16 +86,16 @@ Route::middleware('auth')->group(function () {
             Route::post('/goals/{goals}/notify/send', 'NotifyController@send');
             Route::post('/goals/{goals}/notify/sendAll', 'NotifyController@sendAll');
 
-            Route::post('/users/update', 'UserController@update');
             Route::get('/users/{user}/adminView', 'UserController@adminView');
             Route::post('/user/{user}/organization/remove', 'UserController@orgRemove');
-            // Route::get('user/{user}/serviceBreakdown', 'UserController@serviceBreakdown');
-            Route::get('/users/profile', 'UserController@profile');
-            Route::get('/users/edit', 'UserController@edit');
-            Route::get('/users/contact', 'UserController@contact');
 
+            Route::get('/users/contact', 'ContactController@userContacts')->name('contact.users');
 
-            Route::post('/avatar/default', 'UserController@default_avatar');
+            Route::get('/users/profile', 'ProfileController@index')->name('profile.index');
+            Route::get('/users/edit', 'ProfileController@edit')->name('profile.edit');
+            Route::post('/users/update', 'ProfileController@update')->name('profile.update');
+
+            Route::post('/avatar/default', 'ProfileController@default_avatar')->name('profile.defaultAvatar');
 
             Route::get('/attendance/attendanceEvent/{attendanceEvent}', 'AttendanceController@index');
             Route::post('/attendanceEvent/calendarItem/{calendarItem}', 'AttendanceEventController@store');
