@@ -129,10 +129,10 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/totals', 'TotalsController@index')->name('totals.index');
 
-            Route::get('/event/{event}/invites', 'InviteController@index');
-            Route::get('/event/{event}/invite', 'InviteController@create')->name('invite.create');
-            Route::post('/event/{event}/invite', 'InviteController@store')->name('invite.store');
-            Route::delete('/invite/{invite}', 'InviteController@destroy');
+            Route::get('/user/{event}/invites', 'InviteController@index')->name('invites.index');
+            Route::get('/user/{event}/invite', 'InviteController@create')->name('invite.create');
+            Route::post('/user/{event}/invite', 'InviteController@store')->name('invite.store');
+            Route::delete('/invite/{invite}', 'InviteController@destroy')->name('invite.destroy');
 
             Route::get('/users/{user}/service_breakdown', 'ServiceLogController@breakdown')->name('serviceLogs.breakdown');
 

@@ -29,7 +29,7 @@ class EmailCreatorIfAllMembersRespond
      */
     public function handle(MemberAnsweredSurvey $event)
     {
-        if($event->survey->getAllUnansweredMembers()->count() == 0){
+        if ($event->survey->getAllUnansweredMembers()->count() == 0) {
             Mail::to($event->survey->user)->send(
                 new SurveyCompleted($event->survey)
             );

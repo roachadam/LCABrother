@@ -6,6 +6,7 @@ use App\Events\AttendanceRecorded;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Session;
+use App\Commons\NotificationFunctions;
 
 class AttendanceRecordedSuccessfully
 {
@@ -27,16 +28,7 @@ class AttendanceRecordedSuccessfully
      */
     public function handle(AttendanceRecorded $event)
     {
-        if(Session::has('success')){
-            $msgs = Session('success');
-            array_push($msgs, 'Attendance Was Recorded');
-            Session()->forget('success');
-            Session()->put('success', $msgs);
-        }else{
-            $msgs = [
-                'Attendance Was Recorded'
-            ];
-            Session()->put('success', $msgs);
-        }
+        NotificationFunctions::alert('success', 'Attendance Was Recorded!');
+        return back();
     }
 }

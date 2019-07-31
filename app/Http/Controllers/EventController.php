@@ -91,7 +91,7 @@ class EventController extends Controller
     {
         $event->delete();
 
-        NotificationFunctions::alert('primary', 'Successfully deleted Event!');
+        NotificationFunctions::alert('success', 'Successfully deleted Event!');
         return redirect(route('event.index'));
     }
 }

@@ -127,7 +127,7 @@ class RoleController extends Controller
         }
 
         $role->delete();
-        NotificationFunctions::alert('primary', 'Successfully deleted role!');
+        NotificationFunctions::alert('success', 'Successfully deleted role!');
         return redirect('/role');
     }
 
@@ -158,7 +158,7 @@ class RoleController extends Controller
     public function removeRole(Request $request, User $user)
     {
         $user->setBasicUser();
-        NotificationFunctions::alert('primary', 'Successfully removed user!');
+        NotificationFunctions::alert('success', 'Successfully removed user!');
         return back();
     }
 }

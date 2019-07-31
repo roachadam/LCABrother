@@ -97,7 +97,7 @@ class AcademicStandingsController extends Controller
     public function destroy(AcademicStandings $academicStandings)
     {
         $academicStandings->delete();
-        NotificationFunctions::alert('primary', 'Successfully Deleted Standing Rule!');
+        NotificationFunctions::alert('success', 'Successfully Deleted Standing Rule!');
         return back();
     }
 }

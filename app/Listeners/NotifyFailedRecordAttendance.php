@@ -27,20 +27,6 @@ class NotifyFailedRecordAttendance
      */
     public function handle(FailedToRecordAttendance $event)
     {
-        $newMsg = $event->user->name . ' was already marked as attending for this event.';
-            if(Session::has('error')){
-                $msgs = Session('error');
-
-                $alreadyInSession = false;
-
-                if(!$alreadyInSession){
-                    array_push($msgs, $newMsg);
-                Session()->forget('error');
-                Session()->put('error', $msgs);
-                }
-
-            }else{
-                Session()->put('error', array($newMsg));
-            }
+        NotificationFunctions::alert('success', $event->user->name . ' was already marked as attending for this event.');
     }
 }
