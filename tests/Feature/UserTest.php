@@ -11,21 +11,48 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_can_register_user()
+    /**
+     * * UserController@index
+     * Testing ability to view the users
+     */
+    public function test_get_admin_view()
     {
-        $user = factory(User::class)->make();
+        $user = $this->loginAs('member_manager');
+
+        $users = factory(User::class, 5)->create(['organization_id' => $user->organization_id])->push($user);
+
+        $response = $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->get(route('user.index'))
+            ->assertSuccessful()
+            ->assertSee('Members');
+
+        foreach ($users as $user) {
+            $response
+                ->assertSee($user->name)
+                ->assertSee($user->role->name);
+        }
+    }
+
+    /**
+     * * UserController@destroy
+     * Testing ability to delete a user
+     */
+    public function test_can_delete_user()
+    {
+        $user = $this->loginAs('basic_user');
+
         $this
             ->withoutExceptionHandling()
             ->followingRedirects()
-            ->post('/register', [
-                'name' => $user->name,
-                'email' => $user->email,
-                'phone' => $user->phone,
-                'password' => 'secret123!=-',
-                'password_confirmation' => 'secret123!=-'
-            ])
-            ->assertSuccessful()
-            ->assertSee('Add Avatar');
+            ->delete(route('user.destroy', $user))
+            ->assertSuccessful();
+
+        $this->assertDatabaseMissing('users', [
+            'id' => $user->id,
+            'name' => $user->name,
+        ]);
     }
 
     /**

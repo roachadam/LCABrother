@@ -40,7 +40,7 @@ Auth::routes(['verify' => true]);
 //Can only access if user is logged in
 Route::middleware('auth')->group(function () {
     //Registration Routes
-    Route::resource('user', 'UserController');
+    Route::resource('user', 'UserController')->only(['index', 'destroy']);
     Route::get('/avatar/create', 'ProfileController@create_avatar')->name('profile.createAvatar');
     Route::post('/avatar/create', 'ProfileController@update_avatar')->name('profile.updateAvatar');
 
