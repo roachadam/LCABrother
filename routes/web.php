@@ -87,7 +87,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/goals/{goals}/notify/sendAll', 'NotifyController@sendAll');
 
             Route::get('/users/{user}/adminView', 'UserController@adminView');
-            Route::post('/user/{user}/organization/remove', 'OrganizationController@orgRemove')->name('organization.removeUser');
+            Route::post('/user/{user}/organization/remove', 'OrganizationController@removeUser')->name('organization.removeUser');
 
             Route::get('/users/contact', 'ContactController@userContacts')->name('contact.users');
 

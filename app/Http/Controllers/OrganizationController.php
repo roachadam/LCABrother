@@ -38,7 +38,7 @@ class OrganizationController extends Controller
         return redirect('/goals/create');
     }
 
-    public function orgRemove(Request $request, User $user)
+    public function removeUser(Request $request, User $user)
     {
         $user->organization_verified = 0;
         $user->save();

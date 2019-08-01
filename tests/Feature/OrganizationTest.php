@@ -66,8 +66,8 @@ class OrganizationTest extends TestCase
     }
 
     /**
-     * * OrganizationController@orgRemove
-     * Testing ability to remove user from organization
+     * * OrganizationController@removeUser
+     * Testing ability to remove a user from organization
      */
     public function test_remove_organization_from_user()
     {
