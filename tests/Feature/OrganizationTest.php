@@ -64,4 +64,24 @@ class OrganizationTest extends TestCase
             'name' => $organization->name,
         ]);
     }
+
+    /**
+     * * OrganizationController@orgRemove
+     * Testing ability to remove user from organization
+     */
+    public function test_remove_organization_from_user()
+    {
+        $user = $this->loginAs('basic_user');
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->post(route('organization.removeUser', $user))
+            ->assertSuccessful();
+
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'organization_verified' => 0,
+        ]);
+    }
 }

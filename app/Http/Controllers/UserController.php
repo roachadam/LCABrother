@@ -55,14 +55,6 @@ class UserController extends Controller
         return redirect('/dash');
     }
 
-    public function orgRemove(Request $request, User $user)
-    {
-        $user->organization_verified = 0;
-        $user->save();
-
-        return back();
-    }
-
     public function adminView(Request $request, User $user)
     {
         return View('user.adminView', compact('user'));

@@ -61,28 +61,27 @@ class UserTest extends TestCase
      */
     public function test_join_Organization()
     {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->make();
+        $user = $this->loginAs('basic_user');
         $org = factory(Organization::class)->create();
 
-        $response = $this->post('/register', [
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'password' => 'secret123!=-',
-            'password_confirmation' => 'secret123!=-'
-        ]);
-        $dbUser =  User::where('email', $user->email)->first();
+        $previousOrgId = $user->organization_id;
 
+        $this
+            ->withExceptionHandling()
+            ->followingRedirects()
+            ->post('/user/' . $user->id . '/join', [
+                'organization' => $org->id,
+            ])
+            ->assertSuccessful();
 
-        $response = $this->post('/user/' . $dbUser->id . '/join', [
-            'organization' => $org->id,
+        $this->assertDatabaseMissing('users', [
+            'id' => $user->id,
+            'organization_id' => $previousOrgId,
         ]);
 
         $this->assertDatabaseHas('users', [
-            'email' => $user->email,
+            'id' => $user->id,
             'organization_id' => $org->id,
         ]);
-        $response->assertRedirect('/dash');
     }
 }
