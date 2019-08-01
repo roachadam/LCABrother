@@ -53,15 +53,18 @@ class ProfileController extends Controller
 
     public function update_avatar(Request $request)
     {
-        $request->validate([
+        $attributes = $request->validate([
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'test' => 'boolean'
         ]);
 
         $user = auth()->user();
 
         $avatarName = $user->id . '_avatar' . time() . '.' . request()->avatar->getClientOriginalExtension();
 
-        $request->avatar->storeAs('avatars', $avatarName);
+        if (isset($attributes['test']) ? !$attributes['test'] : true) {
+            $request->avatar->storeAs('avatars', $avatarName);
+        }
 
         $user->avatar = $avatarName;
         $user->save();
