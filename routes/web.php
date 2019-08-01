@@ -40,7 +40,7 @@ Auth::routes(['verify' => true]);
 //Can only access if user is logged in
 Route::middleware('auth')->group(function () {
     //Registration Routes
-    Route::resource('user', 'UserController');
+    Route::resource('user', 'UserController')->only(['index', 'destroy']);
     Route::get('/avatar/create', 'ProfileController@create_avatar')->name('profile.createAvatar');
     Route::post('/avatar/create', 'ProfileController@update_avatar')->name('profile.updateAvatar');
 
@@ -87,7 +87,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/goals/{goals}/notify/sendAll', 'NotifyController@sendAll');
 
             Route::get('/users/{user}/adminView', 'UserController@adminView');
-            Route::post('/user/{user}/organization/remove', 'UserController@orgRemove')->name('organization.removeUser');
+            Route::post('/user/{user}/organization/remove', 'OrganizationController@removeUser')->name('organization.removeUser');
 
             Route::get('/users/contact', 'ContactController@userContacts')->name('contact.users');
 

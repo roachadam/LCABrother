@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Organization;
+use App\User;
 
 class OrganizationController extends Controller
 {
@@ -35,5 +36,13 @@ class OrganizationController extends Controller
         $user->setAdmin();
         $user->setVerification(true);
         return redirect('/goals/create');
+    }
+
+    public function removeUser(Request $request, User $user)
+    {
+        $user->organization_verified = 0;
+        $user->save();
+
+        return back();
     }
 }

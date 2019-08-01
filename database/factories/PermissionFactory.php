@@ -42,6 +42,7 @@ $factory->state(App\Permission::class, 'member_viewer', function ($faker) {
 
 $factory->state(App\Permission::class, 'member_manager', function ($faker) {
     return [
+        'view_member_details' => true,
         'manage_member_details' => true,
     ];
 });
@@ -49,6 +50,7 @@ $factory->state(App\Permission::class, 'member_manager', function ($faker) {
 $factory->state(App\Permission::class, 'service_logger', function ($faker) {
     return [
         'log_service_event' => true,
+        'view_all_service' => true,
     ];
 });
 
@@ -73,6 +75,7 @@ $factory->state(App\Permission::class, 'service_manager', function ($faker) {
 $factory->state(App\Permission::class, 'involvement_manager', function ($faker) {
     return [
         'manage_all_involvement' => true,
+        'view_all_involvement' => true,
     ];
 });
 
