@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Commons\NotificationFunctions;
+use Illuminate\Http\Request;
+use App\Mail\AlumniContact;
 use App\User;
 use Mail;
-use App\Mail\AlumniContact;
-use Illuminate\Http\Request;
 
 class AlumniController extends Controller
 {
@@ -18,61 +19,6 @@ class AlumniController extends Controller
     {
         $alumni = auth()->user()->organization->alumni;
         return view('alumni.index', compact('alumni'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\user  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\user  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\user  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
-    {
-        //
     }
 
     /**
@@ -89,6 +35,7 @@ class AlumniController extends Controller
     public function setAlum(User $user)
     {
         $user->markAsAlumni();
+        NotificationFunctions::alert('success', 'Successfully marked ' . $user->name . ' as Alumni!');
         return redirect('/alumni');
     }
 
