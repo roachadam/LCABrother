@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('verified')->group(function () {
         Route::get('/orgpending/waiting', 'OrgVerificationController@waiting');
         Route::get('/orgpending/rejected', 'OrgVerificationController@rejected');
-        Route::get('/orgpending/alumni', 'OrgVerificationController@alumni');
+        Route::get('/orgpending/alumni', 'OrgVerificationController@alumni')->name('OrgVerification.alumni');
 
         //Can only access if you're apart of the organization
         Route::middleware('orgverified')->group(function () {
@@ -122,10 +122,10 @@ Route::middleware('auth')->group(function () {
             Route::post('/role/{role}/massSet', 'RoleController@massSet')->name('role.massSet');
             Route::patch('/users/{user}/removeRole', 'RoleController@removeRole')->name('user.removeRole');
 
-            Route::get('/alumni', 'AlumniController@index');
-            Route::post('/user/{user}/alumni', 'AlumniController@setAlum');
-            Route::get('/alumni/contact', 'AlumniController@contact');
-            Route::post('/alumni/contact/send', 'AlumniController@send');
+            Route::get('/alumni', 'AlumniController@index')->name('alumni.index');
+            Route::post('/user/{user}/alumni', 'AlumniController@setAlum')->name('alumni.setAlum');
+            Route::get('/alumni/contact', 'AlumniController@contact')->name('alumni.contact');
+            Route::post('/alumni/contact/send', 'AlumniController@send')->name('alumni.send');
 
             Route::get('/totals', 'TotalsController@index')->name('totals.index');
 
