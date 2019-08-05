@@ -44,7 +44,7 @@ abstract class TestCase extends BaseTestCase
             'organization_id' => isset($organization) ? $organization->id : rand(1, 999),
         ]);
 
-        $organization = isset($organization) ? $organization : $this->getOrganization($user);
+        $organization = $organization ?? $this->getOrganization($user);
         $user->join($organization);
 
         $role = $this->getRole($name, $organization);
@@ -65,7 +65,7 @@ abstract class TestCase extends BaseTestCase
         $name = $this->getNewName($name);
         $storedRole = $organization->roles->where('name', $name)->first();
 
-        return isset($storedRole) ? $storedRole : factory(Role::class)->state($name)->create([
+        return $storedRole ?? factory(Role::class)->state($name)->create([
             'organization_id' => $organization->id,
             'name' => $name,
         ]);

@@ -306,7 +306,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function canViewMembers()
     {
-        return $this->role->permission->view_member_details;
+        return $this->role->permission->view_member_details || $this->canManageMembers();
     }
 
     public function canManageInvolvement()
@@ -326,12 +326,12 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function canViewAllService()
     {
-        return $this->role->permission->view_all_service;
+        return $this->role->permission->view_all_service || $this->canManageService();
     }
 
     public function canViewAllInvolvement()
     {
-        return $this->role->permission->view_all_involvement;
+        return $this->role->permission->view_all_involvement || $this->canManageInvolvement();
     }
 
     public function canLogServiceEvent()
@@ -354,9 +354,14 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $this->role->permission->manage_alumni;
     }
 
+    public function canManageAttendance()
+    {
+        return $this->role->permission->manage_attendance;
+    }
+
     public function canTakeAttendance()
     {
-        return $this->role->permission->take_attendance;
+        return $this->role->permission->take_attendance || $this->role->permission->manage_attendance;
     }
 
     public function canManageSurveys()
@@ -364,14 +369,14 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $this->role->permission->manage_surveys;
     }
 
-    public function canViewAllStudy()
-    {
-        return $this->role->permission->view_all_study;
-    }
-
     public function canManageAllStudy()
     {
         return $this->role->permission->manage_all_study;
+    }
+
+    public function canViewAllStudy()
+    {
+        return $this->role->permission->view_all_study || $this->canManageAllStudy();
     }
 
     public function canManageCalendar()

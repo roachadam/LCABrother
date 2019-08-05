@@ -81,7 +81,14 @@ class Kernel extends HttpKernel
         [
             \App\Http\Middleware\ServiceView::class,
         ],
-
+        'ManageAttendance' =>
+        [
+            \App\Http\Middleware\ManageAttendance::class,
+        ],
+        'TakeAttendance' =>
+        [
+            \App\Http\Middleware\TakeAttendance::class,
+        ],
     ];
 
     /**

@@ -210,6 +210,18 @@ $factory->state(App\Role::class, 'calendar_manager', function ($faker) {
     ];
 });
 
+$factory->state(App\Role::class, 'attendance_manager', function ($faker) {
+    return [
+        'name' => 'attendance_manager',
+        'organization_id' => function () {
+            return factory(App\Organization::class)->create()->id;
+        },
+        'permission_id' => function () {
+            return factory(App\Permission::class)->states('attendance_manager')->create()->id;
+        }
+    ];
+});
+
 $factory->state(App\Role::class, 'attendance_taker', function ($faker) {
     return [
         'name' => 'attendance_taker',

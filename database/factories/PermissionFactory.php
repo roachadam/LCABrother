@@ -122,6 +122,12 @@ $factory->state(App\Permission::class, 'calendar_manager', function ($faker) {
     ];
 });
 
+$factory->state(App\Permission::class, 'attendance_manager', function ($faker) {
+    return [
+        'manage_attendance' => true,
+    ];
+});
+
 $factory->state(App\Permission::class, 'attendance_taker', function ($faker) {
     return [
         'take_attendance' => true,
