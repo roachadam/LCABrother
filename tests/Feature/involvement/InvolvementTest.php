@@ -341,7 +341,6 @@ class InvolvementTest extends TestCase
             ->from(route('involvement.index'))
             ->post(route('involvement.import'), [
                 'InvolvementData' => new UploadedFile('storage\app\public\involvement\testFiles\pointsTestWorking.xlsx', 'pointsTestWorking.xlsx', 'xlsx', null, true),
-                'test' => true,
             ])
             ->assertSuccessful()
             ->assertSee('Edit Involvement Event Points');
@@ -378,7 +377,6 @@ class InvolvementTest extends TestCase
             ->post(route('involvement.setPoints'), [
                 'name' => $names->toArray(),
                 'point_value' => $pointValues->toArray(),
-                'test' => true,
             ])
             ->assertSuccessful()
             ->assertSee('Successfully imported new Involvement records!');

@@ -119,13 +119,12 @@ class InvolvementController extends Controller
         $attributes = $request->validate([
             'name' => ['required'],
             'point_value' => ['required'],
-            'test' => 'boolean',
         ]);
 
         $pointData = array_combine($attributes['name'], $attributes['point_value']);
 
         $organization = auth()->user()->organization;
-        $involvements = $attributes['test'] ? (Involvement::where('organization_id', $organization->id)->get()) : $organization->involvement;
+        $involvements = (env('APP_ENV') === 'testing') ? (Involvement::where('organization_id', $organization->id)->get()) : $organization->involvement;
 
         foreach ($pointData as $eventName => $points) {
             $involvements->where('name', $eventName)->first()->update(['points' => $points]);
