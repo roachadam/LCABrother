@@ -124,7 +124,7 @@ class AttendanceTest extends TestCase
      * * AttendanceController@destroy
      * Testing ability to delete an attendance log
      */
-    public function test_testName()
+    public function test_deleting_attendance_event()
     {
         $user = $this->loginAs('attendance_manager');
         $attendanceEvent = $this->arrange($user);
