@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class ManageAttendance
+class TakeAttendance
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,7 @@ class ManageAttendance
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user() && !$request->user()->canManageAttendance()) {
+        if ($request->user() && !$request->user()->canTakeAttendance()) {
             return redirect()->action('DashController@index');
         }
         return $next($request);

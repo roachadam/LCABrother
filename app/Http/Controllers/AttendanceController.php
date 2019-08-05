@@ -14,7 +14,8 @@ class AttendanceController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('ManageAttendance')->except('index');
+        $this->middleware('TakeAttendance')->only(['create', 'store']);
+        $this->middleware('ManageAttendance')->only(['destroy']);
     }
 
     /**
@@ -24,8 +25,9 @@ class AttendanceController extends Controller
      */
     public function index(AttendanceEvent $attendanceEvent)
     {
+        $user = auth()->user();
         $attendances = $attendanceEvent->attendance;
-        return view('attendance.index', compact('attendances', 'attendanceEvent'));
+        return view('attendance.index', compact('user', 'attendances', 'attendanceEvent'));
     }
 
     /**

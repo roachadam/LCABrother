@@ -23,7 +23,7 @@
                         <th>Take Attendance</th>
                     @endif
 
-                    @if($user->canManageEvents())
+                    @if($user->canManageAttendance())
                         <th>Delete</th>
                     @endif
                 </tr>
@@ -39,7 +39,7 @@
                                     <td><a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-primary">Take Attendance</a></td>
                                 @endif
 
-                                @if($user->canManageEvents())
+                                @if($user->canManageAttendance())
                                     <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$attendanceEvent->id}}">Delete</button></td>
 
                                     <!--.modal for confirming deletion-->

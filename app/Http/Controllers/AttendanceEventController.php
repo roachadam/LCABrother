@@ -9,7 +9,7 @@ class AttendanceEventController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('ManageEvents')->except('index');
+        $this->middleware('ManageAttendance')->only('destroy');
     }
 
     /**

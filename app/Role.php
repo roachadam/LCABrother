@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Permission;
 use App\Organization;
+use Illuminate\Support\Facades\Schema;
 
 class Role extends Model
 {
@@ -36,25 +37,15 @@ class Role extends Model
 
     public function setAdminPermissions(): Permission
     {
-        $attributes = [
-            'view_member_details' => true,
-            'manage_member_details' => true,
-            'log_service_event' => true,
-            'view_all_service' => true,
-            'view_all_involvement' => true,
-            'manage_all_service' => true,
-            'manage_all_involvement' => true,
-            'manage_events' => true,
-            'manage_forum' => true,
-            'manage_alumni' => true,
-            'manage_surveys' => true,
-            'view_all_study' => true,
-            'manage_all_study' => true,
-            'view_all_study' => true,
-            'manage_calendar' => true,
-            'take_attendance' => true,
-            'manage_goals' => true,
-        ];
+        $permissionNames = Schema::getColumnListing('permissions');
+
+        foreach ($permissionNames as $key => $name) {
+            if ($name == 'id' || $name == 'created_at' || $name == 'updated_at') {
+                unset($permissionNames[$key]);
+            } else {
+                $attributes[$name] = true;
+            }
+        }
 
         $permission = Permission::create($attributes);
 

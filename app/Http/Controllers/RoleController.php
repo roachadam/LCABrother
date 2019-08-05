@@ -20,7 +20,6 @@ class RoleController extends Controller
     {
         $permissionNames = Schema::getColumnListing('permissions');
 
-
         foreach ($permissionNames as $key => $value) {
             if ($value == 'id' || $value == 'created_at' || $value == 'updated_at') {
                 unset($permissionNames[$key]);

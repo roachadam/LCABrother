@@ -25,7 +25,31 @@ class AttendanceTest extends TestCase
             ->followingRedirects()
             ->get(route('attendance.index', $attendanceEvent))
             ->assertSuccessful()
-            ->assertSee($attendanceEvent->name . ' Attendance');
+            ->assertSee($attendanceEvent->name . ' Attendance')
+            ->assertDontSee('Take Attendance')
+            ->assertDontSee('Delete');
+    }
+
+    /**
+     * * AttendanceController@index
+     * Testing attendance taker can view attendance record breakdown for an event
+     */
+    public function test_attendance_taker_can_view_attendance_record_breakdown_for_event()
+    {
+        $user = $this->loginAs('attendance_manager');
+
+        dd($user->role->permission);
+        $attendanceEvent = factory(AttendanceEvent::class)->create();
+        $user->update(['organization_id' => $attendanceEvent->organization_id]);
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->get(route('attendance.index', $attendanceEvent))
+            ->assertSuccessful()
+            ->assertSee($attendanceEvent->name . ' Attendance')
+            ->assertDontSee('Take Attendance')
+            ->assertDontSee('Delete');
     }
 
 
