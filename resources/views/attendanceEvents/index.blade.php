@@ -24,7 +24,7 @@
                     @endif
 
                     @if($user->canManageEvents())
-                        <th>Manage</th>
+                        <th>Delete</th>
                     @endif
                 </tr>
                 </thead>
@@ -41,36 +41,36 @@
 
                                 @if($user->canManageEvents())
                                     <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$attendanceEvent->id}}">Delete</button></td>
-                                @endif
-                            </tr>
 
-                            <!--.modal for confirming deletion-->
-                            <div class="modal fade" id="{{$attendanceEvent->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
-                                                <i class="font-icon-close-2"></i>
-                                            </button>
-                                            <h4 class="modal-title" id="myModalLabel">Delete Attendance Log</h4>
-                                        </div>
-                                        <form action={{route('attendanceEvents.destroy', $attendanceEvent)}} method="POST" class="box" >
-                                            <div class="modal-body">
-                                                @csrf
-                                                @method('DELETE')
-                                                <div class="col-md-12">
-                                                    <p>Are you sure you want to delete this attendance log?</p>
+                                    <!--.modal for confirming deletion-->
+                                    <div class="modal fade" id="{{$attendanceEvent->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                                                            <i class="font-icon-close-2"></i>
+                                                        </button>
+                                                        <h4 class="modal-title" id="myModalLabel">Delete Attendance Log</h4>
+                                                    </div>
+                                                    <form action={{route('attendanceEvents.destroy', $attendanceEvent)}} method="POST" class="box" >
+                                                        <div class="modal-body">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <div class="col-md-12">
+                                                                <p>Are you sure you want to delete this attendance log?</p>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-inline btn-danger">Delete</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div><!--.modal-->
+                                        </div><!--.modal-->
+                                @endif
+                            </tr>
                         @endforeach
                     @endif
                 </tbody>

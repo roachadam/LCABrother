@@ -13,32 +13,8 @@ class AttendanceEvent extends Model
 {
     protected $guarded = [];
 
-    protected static function boot()
+    public function attendance()
     {
-        parent::boot();
-
-        static::deleted(function ($AttendanceEvent)
-        {
-            $newMsg = 'Event Deleted!';
-            if(Session::has('primary')){
-                $msgs = Session('primary');
-
-                $alreadyInSession = false;
-
-                if(!$alreadyInSession){
-                    array_push($msgs, $newMsg);
-                Session()->forget('primary');
-                Session()->put('primary', $msgs);
-                }
-
-            }else{
-                Session()->put('primary', array($newMsg));
-            }
-        });
-        return back();
-    }
-
-    public function attendance(){
         return $this->hasMany(Attendance::class);
     }
 
@@ -47,14 +23,17 @@ class AttendanceEvent extends Model
         return $this->attendance()->create($attributes);
     }
 
-    public function calendarItem(){
+    public function calendarItem()
+    {
         return $this->belongsTo(CalendarItem::class);
     }
-    public function involvement(){
+    public function involvement()
+    {
         return $this->belongsTo(Involvement::class);
     }
 
-    public function getUsersNotInAttendance(){
+    public function getUsersNotInAttendance()
+    {
         $users = auth()->user()->organization->getVerifiedMembers();
         $attending = $this->getUsersInAttendance();
         $notAttending = $users->diff($attending);
@@ -62,11 +41,12 @@ class AttendanceEvent extends Model
         return $notAttending;
     }
 
-    public function getUsersInAttendance(){
+    public function getUsersInAttendance()
+    {
         $attendances = Attendance::where('attendance_event_id', $this->id)->get();
 
         $attending = collect();
-        foreach($attendances as $attendance){
+        foreach ($attendances as $attendance) {
             $user = $attendance->user;
             $attending->push($user);
         }

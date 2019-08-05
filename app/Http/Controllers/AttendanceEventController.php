@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Commons\NotificationFunctions;
 use App\AttendanceEvent;
-use App\CalendarItem;
-use Illuminate\Http\Request;
 
 class AttendanceEventController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('ManageEvents')->except('index');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -30,6 +34,8 @@ class AttendanceEventController extends Controller
     public function destroy(AttendanceEvent $attendanceEvent)
     {
         $attendanceEvent->delete();
+
+        NotificationFunctions::alert('success', 'Event Deleted!');
         return back();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\FailedToRecordAttendance;
+use App\Commons\NotificationFunctions;
 use App\Events\AttendanceRecorded;
 use Illuminate\Http\Request;
 use App\AttendanceEvent;
@@ -11,6 +12,11 @@ use App\User;
 
 class AttendanceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('ManageAttendance')->except('index');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +35,6 @@ class AttendanceController extends Controller
      */
     public function create(Request $request, AttendanceEvent $attendanceEvent)
     {
-
         return view('attendance.create', compact('attendanceEvent'));
     }
 
@@ -64,6 +69,7 @@ class AttendanceController extends Controller
         if ($notAllFailed) {
             event(new AttendanceRecorded($attendanceEvent));
         }
+
         return back();
     }
 
@@ -80,13 +86,14 @@ class AttendanceController extends Controller
             $involvementLogs = $involvement->involvementLogs;
             foreach ($involvementLogs as $involvementLog) {
                 if ($involvementLog->user_id == $attendance->user_id) {
-                    // dump('Found attendance log');
                     $involvementLog->delete();
                     break;
                 }
             }
         }
         $attendance->delete();
+
+        NotificationFunctions::alert('success', 'Attendance log(s) deleted!');
         return back();
     }
 }

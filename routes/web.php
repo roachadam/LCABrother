@@ -97,9 +97,9 @@ Route::middleware('auth')->group(function () {
 
             Route::post('/avatar/default', 'ProfileController@default_avatar')->name('profile.defaultAvatar');
 
-            Route::get('/attendance/attendanceEvent/{attendanceEvent}', 'AttendanceController@index')->name('Attendance.index');
-            Route::get('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@create')->name('Attendance.create');
-            Route::post('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@store')->name('Attendance.store');
+            Route::get('/attendance/attendanceEvent/{attendanceEvent}', 'AttendanceController@index')->name('attendance.index');
+            Route::get('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@create')->name('attendance.create');
+            Route::post('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@store')->name('attendance.store');
 
             Route::resource('newsletter', 'NewsLetterController')->except(['show', 'update']);
             Route::post('newsletter/send/preview', 'NewsLetterController@preview');
