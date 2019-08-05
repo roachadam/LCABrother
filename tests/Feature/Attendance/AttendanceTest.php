@@ -17,8 +17,7 @@ class AttendanceTest extends TestCase
     public function test_basic_user_can_view_attendance_record_breakdown_for_event()
     {
         $user = $this->loginAs('basic_user');
-        $attendanceEvent = factory(AttendanceEvent::class)->create();
-        $user->update(['organization_id' => $attendanceEvent->organization_id]);
+        $attendanceEvent = $this->arrange($user);
 
         $this
             ->withoutExceptionHandling()
@@ -32,15 +31,12 @@ class AttendanceTest extends TestCase
 
     /**
      * * AttendanceController@index
-     * Testing attendance taker can view attendance record breakdown for an event
+     * Testing attendance manager can view attendance record breakdown for an event
      */
-    public function test_attendance_taker_can_view_attendance_record_breakdown_for_event()
+    public function test_attendance_manager_can_view_attendance_record_breakdown_for_event()
     {
         $user = $this->loginAs('attendance_manager');
-
-        dd($user->role->permission);
-        $attendanceEvent = factory(AttendanceEvent::class)->create();
-        $user->update(['organization_id' => $attendanceEvent->organization_id]);
+        $attendanceEvent = $this->arrange($user);
 
         $this
             ->withoutExceptionHandling()
@@ -48,13 +44,39 @@ class AttendanceTest extends TestCase
             ->get(route('attendance.index', $attendanceEvent))
             ->assertSuccessful()
             ->assertSee($attendanceEvent->name . ' Attendance')
-            ->assertDontSee('Take Attendance')
+            ->assertSee('Take Attendance')
+            ->assertSee('Delete');
+    }
+
+    /**
+     * * AttendanceController@index
+     * Testing attendance taker can view attendance record breakdown for an event
+     */
+    public function test_attendance_taker_can_view_attendance_record_breakdown_for_event()
+    {
+        $user = $this->loginAs('attendance_taker');
+        $attendanceEvent = $this->arrange($user);
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->get(route('attendance.index', $attendanceEvent))
+            ->assertSuccessful()
+            ->assertSee($attendanceEvent->name . ' Attendance')
+            ->assertSee('Take Attendance')
             ->assertDontSee('Delete');
     }
 
+    
+
 
     /**
-     * Take attendance page AttendanceController@create
-     * Delete a user's attendance record AttendanceController@destroy
+     * Helper function that sets up data needed for tests
      */
+    private function arrange($user): AttendanceEvent
+    {
+        $attendanceEvent = factory(AttendanceEvent::class)->create();
+        $user->update(['organization_id' => $attendanceEvent->organization_id]);
+        return $attendanceEvent;
+    }
 }

@@ -6,11 +6,6 @@
             <header class="card-header" style="border-bottom: 0">
                 <div class="row">
                     <h2 class="card-title">Attendance Records</h2>
-                    <div class="ml-auto" id="headerButtons">
-                        @if($user->canManageEvents())
-                            <a href="/calendarItem/create" class="btn btn-inline btn-primary">Create New Event</a>
-                        @endif
-                    </div>
                 </div>
             </header>
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
