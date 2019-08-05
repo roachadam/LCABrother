@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\AttendanceEvent;
 use Tests\TestCase;
+use App\Attendance;
 
 class AttendanceTest extends TestCase
 {
@@ -67,7 +68,31 @@ class AttendanceTest extends TestCase
             ->assertDontSee('Delete');
     }
 
-    
+    /**
+     * * AttendanceController@create
+     * Testing ability to get the take attendance view
+     */
+    public function test_get_take_attendance_view()
+    {
+        $user = $this->loginAs('attendance_taker');
+        $attendanceEvent = $this->arrange($user);
+
+
+        // dd(AttendanceEvent::all()->first()->attendance);
+
+        // $attendanceLog = factory(Attendance::class)->create([
+        //     'attendance_event_id' => $attendanceEvent->id,
+        //     'user_id' => $user->id,
+        // ]);
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->from(route('attendance.index', $attendanceEvent))
+            ->get(route('attendance.create', $attendanceEvent))
+            ->assertSuccessful()
+            ->assertSee($user->name);
+    }
 
 
     /**

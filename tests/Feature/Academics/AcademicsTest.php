@@ -8,7 +8,6 @@ use Illuminate\Http\UploadedFile;
 use App\AcademicStandings;
 use Tests\TestCase;
 use App\Academics;
-use App\Role;
 
 class AcademicsTest extends TestCase
 {

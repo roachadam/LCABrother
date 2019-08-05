@@ -37,7 +37,7 @@ class AttendanceEvent extends Model
         $users = auth()->user()->organization->getVerifiedMembers();
         $attending = $this->getUsersInAttendance();
         $notAttending = $users->diff($attending);
-        //dd($notAttending);
+        // dd($notAttending);
         return $notAttending;
     }
 
@@ -50,7 +50,7 @@ class AttendanceEvent extends Model
             $user = $attendance->user;
             $attending->push($user);
         }
-        //dd($attendances);
+        // dd($attendances);
         return $attending;
     }
 }

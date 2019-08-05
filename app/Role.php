@@ -37,17 +37,13 @@ class Role extends Model
 
     public function setAdminPermissions(): Permission
     {
-        $permissionNames = Schema::getColumnListing('permissions');
-
-        foreach ($permissionNames as $key => $name) {
-            if ($name == 'id' || $name == 'created_at' || $name == 'updated_at') {
-                unset($permissionNames[$key]);
-            } else {
-                $attributes[$name] = true;
-            }
-        }
-
-        $permission = Permission::create($attributes);
+        $permission = Permission::create(
+            collect(Schema::getColumnListing('permissions'))->filter(function ($permissionName) {
+                return $permissionName !== 'id' && $permissionName !== 'created_at' && $permissionName !== 'updated_at';
+            })->mapWithKeys(function ($permissionName) {
+                return [$permissionName => true];
+            })->toArray()
+        );
 
         $this->permission()->associate($permission)->save();
 
