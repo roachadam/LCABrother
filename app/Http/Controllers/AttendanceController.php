@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Attendance;
-use Illuminate\Http\Request;
-use App\CalendarItem;
-use App\User;
-use App\AttendanceEvent;
-use App\Events\AttendanceRecorded;
 use App\Events\FailedToRecordAttendance;
+use App\Events\AttendanceRecorded;
+use Illuminate\Http\Request;
+use App\AttendanceEvent;
+use App\Attendance;
+use App\User;
 
 class AttendanceController extends Controller
 {
@@ -66,38 +65,6 @@ class AttendanceController extends Controller
             event(new AttendanceRecorded($attendanceEvent));
         }
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Attendance $attendance)
-    { }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Attendance $attendance)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Attendance $attendance)
-    {
-        //
     }
 
     /**

@@ -18,7 +18,7 @@ class AttendanceEventTest extends TestCase
     {
         $user = $this->loginAs('basic_user');
         $attendanceEvent = factory(AttendanceEvent::class)->create(['organization_id' => $user->organization_id]);
-        // $user->update(['organization_id' => $attendanceEvent->organization_id]);
+        $user->update(['organization_id' => $attendanceEvent->organization_id]);
 
 
         $this

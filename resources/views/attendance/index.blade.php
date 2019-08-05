@@ -39,7 +39,7 @@
                                             </button>
                                             <h4 class="modal-title" id="myModalLabel">Delete Attendance</h4>
                                         </div>
-                                        <form action="/attendance/{{$attendance->id}}" method="POST" class="box" >
+                                        <form action={{route('attendance.destroy', $attendance)}} method="POST" class="box" >
                                             <div class="modal-body">
                                                 @csrf
                                                 @method('DELETE')

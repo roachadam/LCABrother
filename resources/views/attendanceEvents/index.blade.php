@@ -54,7 +54,7 @@
                                             </button>
                                             <h4 class="modal-title" id="myModalLabel">Delete Attendance Log</h4>
                                         </div>
-                                        <form action="/attendanceEvent/{{$attendanceEvent->id}}" method="POST" class="box" >
+                                        <form action={{route('attendanceEvents.destroy', $attendanceEvent)}} method="POST" class="box" >
                                             <div class="modal-body">
                                                 @csrf
                                                 @method('DELETE')
