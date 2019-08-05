@@ -10,7 +10,7 @@
                 @include('partials.errors')
 
                 @if ($attendanceEvent->getUsersNotInAttendance()->count())
-                <form method="POST" action="/attendanceEvent/{{$attendanceEvent->id}}/attendance">
+                <form method="POST" action={{route('attendance.store', $attendanceEvent)}}>
                     @csrf
                     <label for="users"><h3>Users</h3></label>
                     @foreach ($attendanceEvent->getUsersNotInAttendance() as $user)

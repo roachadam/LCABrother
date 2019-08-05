@@ -8,7 +8,7 @@
                 <h2 class="card-title">{{$attendanceEvent->calendarItem->name}} Attendance</h2>
                 @if ($user->canTakeAttendance())
                     <div class="ml-auto" id="headerButtons">
-                        <a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-inline btn-primary">Take Attendance</a>
+                        <a href={{route('attendance.create', $attendanceEvent)}} class="btn btn-inline btn-primary">Take Attendance</a>
                     </div>
                 @endif
             </div>
@@ -75,7 +75,7 @@
 		$(function() {
 			$('#table').DataTable({
 				responsive: true
-			});
+            });
 		});
     </script>
 @endsection

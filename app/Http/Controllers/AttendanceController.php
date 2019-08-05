@@ -95,7 +95,7 @@ class AttendanceController extends Controller
         }
         $attendance->delete();
 
-        NotificationFunctions::alert('success', 'Attendance log(s) deleted!');
+        NotificationFunctions::alert('success', 'Attendance log deleted!');
         return back();
     }
 }

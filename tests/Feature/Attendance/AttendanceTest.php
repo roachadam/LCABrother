@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\AttendanceEvent;
 use Tests\TestCase;
+use App\User;
 use App\Attendance;
 
 class AttendanceTest extends TestCase
@@ -77,14 +78,6 @@ class AttendanceTest extends TestCase
         $user = $this->loginAs('attendance_taker');
         $attendanceEvent = $this->arrange($user);
 
-
-        // dd(AttendanceEvent::all()->first()->attendance);
-
-        // $attendanceLog = factory(Attendance::class)->create([
-        //     'attendance_event_id' => $attendanceEvent->id,
-        //     'user_id' => $user->id,
-        // ]);
-
         $this
             ->withoutExceptionHandling()
             ->followingRedirects()
@@ -94,6 +87,65 @@ class AttendanceTest extends TestCase
             ->assertSee($user->name);
     }
 
+    /**
+     * * AttendanceController@store
+     * Testing ability to mark users as attended
+     */
+    public function test_taking_attendance()
+    {
+        $user = $this->loginAs('attendance_taker');
+        $attendanceEvent = $this->arrange($user);
+
+        $user2 = factory(User::class)->create(['organization_id' => $user->organization_id]);
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->from(route('attendance.create', $attendanceEvent))
+            ->post(route('attendance.store', $attendanceEvent), [
+                'users' => [$user->id, $user2->id],
+            ])
+            ->assertSuccessful()
+            ->assertSee('Attendance Was Recorded!')
+            ->assertSee('All your members are in attendance!');
+
+        $this->assertDatabaseHas('attendances', [
+            'attendance_event_id' => $attendanceEvent->id,
+            'user_id' => $user->id,
+        ]);
+
+        $this->assertDatabaseHas('attendances', [
+            'attendance_event_id' => $attendanceEvent->id,
+            'user_id' => $user2->id,
+        ]);
+    }
+
+    /**
+     * * AttendanceController@destroy
+     * Testing ability to delete an attendance log
+     */
+    public function test_testName()
+    {
+        $user = $this->loginAs('attendance_manager');
+        $attendanceEvent = $this->arrange($user);
+
+        $attendanceLog = factory(Attendance::class)->create([
+            'attendance_event_id' => $attendanceEvent->id,
+            'user_id' => $user->id,
+        ]);
+
+
+        $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->from(route('attendance.index', $attendanceEvent))
+            ->delete(route('attendance.destroy', $attendanceLog))
+            ->assertSuccessful()
+            ->assertSee('Attendance log deleted!')
+            ->assertDontSee($user->name);
+
+        $this->assertDatabaseMissing('attendances', $attendanceLog->toArray());
+    }
 
     /**
      * Helper function that sets up data needed for tests

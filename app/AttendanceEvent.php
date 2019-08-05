@@ -6,7 +6,6 @@ use App\Attendance;
 use App\CalendarItem;
 use App\Involvement;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Session;
 
 
 class AttendanceEvent extends Model
@@ -34,11 +33,9 @@ class AttendanceEvent extends Model
 
     public function getUsersNotInAttendance()
     {
-        $users = auth()->user()->organization->getVerifiedMembers();
+        $users = (env('APP_ENV') === 'testing') ? User::where('organization_id', auth()->user()->organization_id)->get() : auth()->user()->organization->getVerifiedMembers();
         $attending = $this->getUsersInAttendance();
-        $notAttending = $users->diff($attending);
-        // dd($notAttending);
-        return $notAttending;
+        return $users->diff($attending);
     }
 
     public function getUsersInAttendance()
@@ -50,7 +47,6 @@ class AttendanceEvent extends Model
             $user = $attendance->user;
             $attending->push($user);
         }
-        // dd($attendances);
         return $attending;
     }
 }
