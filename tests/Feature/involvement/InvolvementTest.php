@@ -280,7 +280,7 @@ class InvolvementTest extends TestCase
             ->followingRedirects()
             ->from(route('involvement.index'))
             ->post(route('involvement.import'), [
-                'InvolvementData' => new UploadedFile('storage\app\public\grades\testFile\gradesTestFail.xlsx', 'gradesTestFail.xlsx', 'xlsx', null, true),
+                'InvolvementData' => new UploadedFile('tests\fakeImportFiles\involvement\pointsTestFail.xlsx', 'pointsTestFail.xlsx', 'xlsx', null, true),
                 'test' => true,
             ])
             ->assertSuccessful()
@@ -307,7 +307,7 @@ class InvolvementTest extends TestCase
             ->followingRedirects()
             ->from(route('involvement.index'))
             ->post(route('involvement.import'), [
-                'InvolvementData' => new UploadedFile('storage\app\public\involvement\testFiles\pointsTestWorking.xlsx', 'pointsTestWorking.xlsx', 'xlsx', null, true),
+                'InvolvementData' => new UploadedFile('tests\fakeImportFiles\involvement\pointsTestWorking.xlsx', 'pointsTestWorking.xlsx', 'xlsx', null, true),
                 'test' => true,
             ])
             ->assertSuccessful()
@@ -340,7 +340,7 @@ class InvolvementTest extends TestCase
             ->followingRedirects()
             ->from(route('involvement.index'))
             ->post(route('involvement.import'), [
-                'InvolvementData' => new UploadedFile('storage\app\public\involvement\testFiles\pointsTestWorking.xlsx', 'pointsTestWorking.xlsx', 'xlsx', null, true),
+                'InvolvementData' => new UploadedFile('tests\fakeImportFiles\involvement\pointsTestWorking.xlsx', 'pointsTestWorking.xlsx', 'xlsx', null, true),
             ])
             ->assertSuccessful()
             ->assertSee('Edit Involvement Event Points');

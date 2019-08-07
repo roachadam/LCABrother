@@ -86,7 +86,7 @@ class AcademicsTest extends TestCase
             ->withoutExceptionHandling()
             ->followingRedirects()
             ->post(route('academics.store'), [
-                'grades' => new UploadedFile('storage\app\public\grades\testFile\gradesTestFail.xlsx', 'gradesTestFail.xlsx', 'xlsx', null, true),
+                'grades' => new UploadedFile('tests\fakeImportFiles\grades\gradesTestFail.xlsx', 'gradesTestFail.xlsx', 'xlsx', null, true),
                 'test' => true,
             ])
             ->assertSuccessful()
@@ -109,7 +109,7 @@ class AcademicsTest extends TestCase
             ->withoutExceptionHandling()
             ->followingRedirects()
             ->post(route('academics.store'), [
-                'grades' => new UploadedFile('storage\app\public\grades\testFile\gradesTestWorking.xlsx', 'gradesTestWorking.xlsx', 'xlsx', null, true),
+                'grades' => new UploadedFile('tests\fakeImportFiles\grades\gradesTestWorking.xlsx', 'gradesTestWorking.xlsx', 'xlsx', null, true),
                 'test' => true,
             ])
             ->assertSuccessful()
