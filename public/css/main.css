@@ -9885,6 +9885,10 @@ body.modal-open {
  background-size:cover;
  margin:0 0 30px
 }
+.statistic-box.blue {
+    background-color:#008FFB;
+    background-image:url(../img/statistic-box-blue.png)
+}
 .statistic-box.red {
  background-color:#fa424a;
  background-image:url(../img/statistic-box-red.png)

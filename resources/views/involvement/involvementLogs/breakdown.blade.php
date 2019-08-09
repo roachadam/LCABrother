@@ -69,3 +69,13 @@
     </section>
 @endsection
 
+@section('js')
+    <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
+    <script>
+            $(function() {
+                $('#table').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+@endsection
