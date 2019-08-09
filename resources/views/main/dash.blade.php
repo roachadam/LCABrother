@@ -94,7 +94,7 @@
             <div class="col-sm-3">
                 <article class="statistic-box yellow" id="academics">
                     <div>
-                        <div class="number">{{ round($gpa, 2) }}</div>
+                        <div class="number">{{ $gpa }}</div>
                         <div class="caption"><div>Semester GPA</div></div>
                     </div>
                 </article>
@@ -103,10 +103,101 @@
     </div><!--.col-->
 </div><!--.row-->
 
+<section class="box-typical">
+    <header class="box-typical-header">
+        <div class="tbl-row">
+            <div class="tbl-cell tbl-cell-title">
+                <h1>Invites</h1>
+            </div>
+        </div>
+    </header>
+    <div class="box-typical-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="table2">
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Date</th>
+                        <th>Invites Remaining</th>
+                        <th>Add Guest</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($eventsWithInvites as $event)
+                        <tr>
+                            <td>{{$event->name}}</td>
+                            <td>{{$event->date_of_event}}</td>
+                            <td>{{$user->getInvitesRemaining($event)}}</td>
+                            <td><a href={{route('invite.create', $event)}} class="btn btn-inline btn-primary">Add Guest</a></td>
+                        </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
+        </div>
+    </div><!--.box-typical-body-->
+</section><!--.box-typical-->
+
+<section class="box-typical">
+    <header class="box-typical-header">
+        <div class="tbl-row">
+            <div class="tbl-cell tbl-cell-title">
+                <h1>Surveys</h1>
+            </div>
+        </div>
+    </header>
+    <div class="box-typical-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Date Posted</th>
+                        <th>Respond</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($unAnsweredSurveys as $survey)
+                        <tr>
+                            <td>{{$survey->name}}</td>
+                            <td>{{$survey->desc}}</td>
+                            <td>{{$survey->created_at}}</td>
+                            <td><a href={{route('survey.show', $survey)}} class="btn btn-inline btn-primary">Respond</a></td>
+                        </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
+        </div>
+    </div><!--.box-typical-body-->
+</section><!--.box-typical-->
+
 
 @endsection
 @section('js')
+<script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
 <script>
+    $(function() {
+        $('#table').DataTable({
+            responsive: true,
+            bPaginate: false,
+            bFilter: false,
+            bInfo: false,
+            ordering: false
+        });
+        $('#table2').DataTable({
+            responsive: true,
+            bPaginate: false,
+            bFilter: false,
+            bInfo: false,
+            ordering: false
+        });
+    });
+</script>
+
+<script>
+
 $(document).ready(function() {
 
     const serviceHours = $("#serviceHours")

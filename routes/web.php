@@ -70,8 +70,8 @@ Route::middleware('auth')->group(function () {
             Route::resource('serviceEvent', 'ServiceEventController')->except(['create', 'edit', 'up0date']);
             Route::resource('serviceLogs', 'ServiceLogController')->except(['show', 'create', 'store']);
             Route::resource('event', 'EventController');
-            Route::resource('survey', 'SurveyController');
-            Route::resource('surveyAnswers', 'SurveyAnswersController');
+            Route::resource('survey', 'SurveyController')->except('update');
+            Route::resource('surveyAnswers', 'SurveyAnswersController')->only(['destroy', 'store']);
             Route::resource('calendarItem', 'CalendarController');
             Route::resource('attendance', 'AttendanceController')->only(['destroy']);
             Route::resource('attendanceEvents', 'AttendanceEventController')->only(['index', 'destroy']);
@@ -112,7 +112,7 @@ Route::middleware('auth')->group(function () {
 
             Route::post('survey/{survey}/notify', 'SurveyController@notify');
             Route::get('survey/{survey}/responses', 'SurveyController@viewResponses');
-            Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store');
+            Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store')->name('survey.submit');
 
             Route::get('/orgpending/{user}', 'OrgVerificationController@show');
 

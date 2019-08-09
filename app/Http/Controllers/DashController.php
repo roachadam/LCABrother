@@ -12,14 +12,42 @@ class DashController extends Controller
         $user = auth()->user();
 
         $moneyDontated = $user->getMoneyDonated();
-        $hoursServed = $user->getServiceHours();         //Serivce hours and money donated
-        $gpa = $user->latestAcademics()->Current_Term_GPA;
+        $hoursServed = $user->getServiceHours();
+        $gpa = $user->latestAcademics()->Current_Term_GPA ?? 'N/A';
         $points = $user->getInvolvementPoints();
 
+        if($gpa != 'N/A')
+            $gpa = round($gpa, 2);
 
-        return view('main.dash', compact('user', 'points', 'moneyDontated', 'hoursServed', 'gpa'));
+
+        // Surveys
+        $surveys = $user->organization->survey;
+        if(isset($surveys))
+        {
+
+            $unAnsweredSurveys = collect();
+            foreach($surveys as $survey)
+            {
+                if(!$user->hasResponded($survey))
+                {
+                    $unAnsweredSurveys->push($survey);
+                }
+            }
+        }
+
+
+        // Invites/events
+        $events = $user->organization->event;
+        if(isset($events))
+        {
+            $eventsWithInvites = collect();
+            foreach($events as $event)
+            {
+                if($user->hasInvitesRemaining($event))
+                    $eventsWithInvites->push($event);
+            }
+        }
+
+        return view('main.dash', compact('user', 'points', 'moneyDontated', 'hoursServed', 'gpa', 'unAnsweredSurveys', 'eventsWithInvites'));
     }
-
-
-
 }
