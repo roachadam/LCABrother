@@ -10,44 +10,21 @@ class DashController extends Controller
     public function index()
     {
         $user = auth()->user();
+        $latestAcademics = $user->latestAcademics();
 
-        $moneyDontated = $user->getMoneyDonated();
+        $moneyDonated = $user->getMoneyDonated();
         $hoursServed = $user->getServiceHours();
-        $gpa = $user->latestAcademics()->Current_Term_GPA ?? 'N/A';
+        $gpa = isset($latestAcademics) ? round($latestAcademics->Current_Term_GPA, 2) : 'N/A';
         $points = $user->getInvolvementPoints();
 
-        if($gpa != 'N/A')
-            $gpa = round($gpa, 2);
+        $unAnsweredSurveys = $user->organization->survey->filter(function ($survey) use ($user) {
+            return !$user->hasResponded($survey);
+        });
 
+        $eventsWithInvites = $user->organization->event->filter(function ($event) use ($user) {
+            return $user->hasInvitesRemaining($event);
+        });
 
-        // Surveys
-        $surveys = $user->organization->survey;
-        if(isset($surveys))
-        {
-
-            $unAnsweredSurveys = collect();
-            foreach($surveys as $survey)
-            {
-                if(!$user->hasResponded($survey))
-                {
-                    $unAnsweredSurveys->push($survey);
-                }
-            }
-        }
-
-
-        // Invites/events
-        $events = $user->organization->event;
-        if(isset($events))
-        {
-            $eventsWithInvites = collect();
-            foreach($events as $event)
-            {
-                if($user->hasInvitesRemaining($event))
-                    $eventsWithInvites->push($event);
-            }
-        }
-
-        return view('main.dash', compact('user', 'points', 'moneyDontated', 'hoursServed', 'gpa', 'unAnsweredSurveys', 'eventsWithInvites'));
+        return view('main.dash', compact('user', 'moneyDonated', 'hoursServed', 'gpa', 'points', 'unAnsweredSurveys', 'eventsWithInvites'));
     }
 }

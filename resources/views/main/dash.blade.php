@@ -76,7 +76,7 @@
             <div class="col-sm-3">
                 <article class="statistic-box green" id="moneyDonated">
                     <div>
-                        <div class="number">{{ $moneyDontated }}</div>
+                        <div class="number">{{ $moneyDonated }}</div>
                         <div class="caption"><div>Money Donated</div></div>
                     </div>
                 </article>
@@ -205,8 +205,6 @@ $(document).ready(function() {
     const points    = $("#points")
     const academics = $("#academics")
 
-
-
     serviceHours.click(function() {
         window.location.href = '{{route("serviceLogs.breakdown", $user)}}';
     });
@@ -234,8 +232,6 @@ $(document).ready(function() {
     academics.hover(function() {
         $(this).css('cursor','pointer');
     });
-
-
 
   });
 </script>
