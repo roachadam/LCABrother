@@ -35,6 +35,7 @@
                         @if ($user->canManageSurveys())
                             <td><a href="/survey/{{$survey->id}}/responses" class="btn btn-inline">View Responses</a></td>
 
+                            //TODO: Add modal to this
                             <form action="/survey/{{$survey->id}}/notify" method="POST">
                                 @csrf
                                <td><button type="submit" class="btn btn-primary">Notify</button></td>
