@@ -41,15 +41,6 @@
         <!-- End Global Styles -->
 
 
-
-        {{-- <link rel="stylesheet" href="{{ asset('css/separate/vendor/bootstrap-daterangepicker.min.css') }}" rel="stylesheet"> --}}
-        {{-- <link href="{{ asset('css/lib/lobipanel/lobipanel.min.css') }}" rel="stylesheet"> --}}
-        {{-- <link href="{{ asset('css/separate/vendor/lobipanel.min.css') }}" rel="stylesheet"> --}}
-
-        {{-- <link href="{{ asset('css/separate/pages/widgets.min.css') }}" rel="stylesheet"> --}}
-
-        {{-- <link href="{{ asset('css/lib/flatpickr/flatpickr.min.css') }}" rel="stylesheet"> --}}
-        {{-- <link href="{{ asset('css/separate/vendor/flatpickr.min.css') }}" rel="stylesheet"> --}}
     </head>
 
     <body class="with-side-menu dark-theme mozilla-browser">
@@ -71,21 +62,10 @@
 
         <!-- Scripts All Pages-->
         <script src="{{ asset('js/lib/jquery/jquery-3.2.1.min.js') }}"></script>
-
-        {{-- VV this is for notifications --}}
         <script src="{{ asset('js/lib/popper/popper.min.js') }}"></script>
-
         <script src="{{ asset('js/lib/bootstrap/bootstrap.min.js') }}"></script>
-        {{-- <script src="{{ asset('js/lib/tether/tether.min.js') }}"></script> --}}
         <script src="{{ asset('js/plugins.js') }}"></script>
-
         <script type="text/javascript" src="{{ asset('js/lib/jqueryui/jquery-ui.min.js') }}"></script>
-        {{-- <script type="text/javascript" src="{{ asset('js/lib/lobipanel/lobipanel.min.js') }}"></script> --}}
-        {{-- <script type="text/javascript" src="{{ asset('js/lib/match-height/jquery.matchHeight.min.js') }}"></script> --}}
-        {{-- <script type="text/javascript" src="{{ asset('https://www.gstatic.com/charts/loader.js') }}"></script> --}}
-        {{-- <script type="text/javascript" src="{{ asset('js/lib/flatpickr/flatpickr.min.js') }}"></script> --}}
-
-        {{-- <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script> --}}
         <script type="text/javascript" src="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.js") }}"></script>
         <script src="{{ asset('js/bootstrap-combobox.js') }}"></script>
 

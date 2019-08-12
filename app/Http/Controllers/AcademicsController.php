@@ -145,4 +145,10 @@ class AcademicsController extends Controller
     {
         return response()->download(public_path('/storage/grades/exampleFiles/ExampleGradeUploadFile.xlsx'));
     }
+
+    public function breakdown(User $user)
+    {
+        $academics = $user->academics()->get()->reverse();
+        return view('academics.breakdown', compact('user', 'academics'));
+    }
 }

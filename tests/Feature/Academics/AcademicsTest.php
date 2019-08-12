@@ -41,7 +41,8 @@ class AcademicsTest extends TestCase
             ->assertSuccessful()
             ->assertSee('Academics')
             ->assertSee('Academic Standing Rules')
-            ->assertSee('Manage');
+            ->assertSee('Manage')
+            ->assertSee('Breakdown');
     }
 
     /**
@@ -337,4 +338,36 @@ class AcademicsTest extends TestCase
     // {
     //     //TODO
     // }
+
+    /**
+     * * AcademicsController@breakdown
+     * Testing ability to view a user's breakdown of all of their academic entries
+     */
+    public function test_view_academics_breakdown()
+    {
+        $user = $this->loginAs('basic_user');
+
+        $academics = factory(Academics::class, 2)->create([
+            'organization_id' => $user->organization_id,
+            'user_id' => $user->id,
+            'name' => $user->name,
+        ]);
+
+        $response = $this
+            ->withoutExceptionHandling()
+            ->followingRedirects()
+            ->get(route('academics.breakdown', $user))
+            ->assertSuccessful()
+            ->assertSee($user->name . '\'s Academic Breakdown');
+
+        foreach ($academics as $academic) {
+            $response
+                ->assertSee($academic->Cumulative_GPA)
+                ->assertSee($academic->Previous_Term_GPA)
+                ->assertSee($academic->Current_Term_GPA)
+                ->assertSee($academic->Previous_Academic_Standing)
+                ->assertSee($academic->Current_Academic_Standing)
+                ->assertSee($academic->created_at);
+        }
+    }
 }

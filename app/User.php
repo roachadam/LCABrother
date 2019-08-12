@@ -259,7 +259,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
             'user_id' => $this->id,
             'event_id' => $event->id,
         ];
-        $invitesSent = DB::table('invites')->where($match)->count();
+        $invitesSent = Invite::where($match)->count();
         return $invitesPer - $invitesSent;
     }
 

@@ -9,21 +9,6 @@ use App\Events\MemberAnsweredSurvey;
 
 class SurveyAnswersController extends Controller
 {
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -38,41 +23,7 @@ class SurveyAnswersController extends Controller
         $survey->addResponse($attributes);
 
         event(new MemberAnsweredSurvey($survey));
-        return redirect('/survey');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\SurveyAnswers  $surveyAnswers
-     * @return \Illuminate\Http\Response
-     */
-    public function show(SurveyAnswers $surveyAnswers)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\SurveyAnswers  $surveyAnswers
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(SurveyAnswers $surveyAnswers)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\SurveyAnswers  $surveyAnswers
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, SurveyAnswers $surveyAnswers)
-    {
-        //
+        return redirect(route('survey.index'));
     }
 
     /**
@@ -83,7 +34,6 @@ class SurveyAnswersController extends Controller
      */
     public function destroy(SurveyAnswers $surveyAnswers)
     {
-        dd($surveyAnswers->id);
         $surveyAnswers->delete();
         return back();
     }
