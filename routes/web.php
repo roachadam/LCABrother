@@ -146,6 +146,7 @@ Route::middleware('auth')->group(function () {
                 Route::delete('involvement/{involvement}', 'InvolvementController@destroy')->name('involvement.delete');
             });
 
+            Route::get('/user/{user}/academics/breakdown', 'AcademicsController@breakdown')->name('academics.breakdown');
             Route::middleware('ManageAcademics')->group(function () {
                 Route::resource('academics', 'AcademicsController')->only(['index', 'store']);
                 Route::get('/academics/user_id/{academics}/edit', 'AcademicsController@edit')->name('academics.edit');

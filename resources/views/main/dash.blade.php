@@ -227,7 +227,7 @@ $(document).ready(function() {
     });
 
     academics.click(function() {
-        window.location.href = '{{route("academics.index")}}';
+        window.location.href = '{{route("academics.breakdown", $user)}}';
     });
     academics.hover(function() {
         $(this).css('cursor','pointer');
