@@ -16,7 +16,7 @@
                             <th>Current Term GPA</th>
                             <th>Previous Academic Standing</th>
                             <th>Current Academic Standing</th>
-                            <th>Created at</th>
+                            <th>Upload Date</th>
                         </tr>
                     </thead>
 
@@ -31,7 +31,6 @@
                                     <td>{{$academic->Current_Academic_Standing}}</td>
                                     <td>{{$academic->created_at}}</td>
                                 </tr>
-
                             @endforeach
                         @endif
                     </tbody>
@@ -45,6 +44,7 @@
     <script>
             $(function() {
                 $('#table').DataTable({
+                    'order': [[ 5, 'desc' ]],
                     responsive: true
                 });
             });
