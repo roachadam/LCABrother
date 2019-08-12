@@ -8,7 +8,6 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Events\OverrideAcademics;
 use App\Imports\GradesImport;
 use Illuminate\Http\Request;
-use App\AcademicStandings;
 use App\Academics;
 use App\User;
 
@@ -90,15 +89,13 @@ class AcademicsController extends Controller
         }
     }
 
-
     public function edit(Academics $academics)
     {
         $organization = auth()->user()->organization;
+        $user = $organization->getVerifiedMembers()->where('id', $academics->user_id)->first();
 
-        $user = User::findById($academics->user_id, $organization->id);
         $academics = $user->latestAcademics();
-
-        $academicStandings = AcademicStandings::where('organization_id', $organization->id)->get()->sortByDesc('Term_GPA_Min');
+        $academicStandings = $organization->academicStandings->sortByDesc('Term_GPA_Min');
         return view('academics.override', compact('academics', 'user', 'academicStandings'));
     }
 
