@@ -12,6 +12,7 @@ class InviteController extends Controller
 {
     public function index(Event $event)
     {
+        $this->authorize('view', $event);
         $invites = auth()->user()->getInvites($event);
         return view('invites.index', compact('event', 'invites'));
     }
@@ -23,6 +24,7 @@ class InviteController extends Controller
      */
     public function create(Event $event)
     {
+        $this->authorize('view', $event);
         return view('invites.create', compact('event'));
     }
 

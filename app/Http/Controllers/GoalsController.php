@@ -8,11 +8,6 @@ use App\Organization;
 
 class GoalsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('ManageGoals');
-    }
-
     public function index()
     {
         $goals = auth()->user()->organization->goals;

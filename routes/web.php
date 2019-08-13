@@ -64,8 +64,6 @@ Route::middleware('auth')->group(function () {
 
         //Can only access if you're apart of the organization
         Route::middleware('orgverified')->group(function () {
-            Route::resource('role', 'RoleController');
-
             Route::resource('serviceEvent', 'ServiceEventController')->except(['create', 'edit', 'up0date']);
             Route::resource('serviceLogs', 'ServiceLogController')->except(['show', 'create', 'store']);
             Route::resource('event', 'EventController');
@@ -76,14 +74,6 @@ Route::middleware('auth')->group(function () {
             Route::resource('attendanceEvents', 'AttendanceEventController')->only(['index', 'destroy']);
             Route::resource('semester', 'SemesterController')->only('store');   //need to test
             Route::get('/dash', 'DashController@index');
-
-
-            Route::get('/goals', 'GoalsController@index');
-            Route::get('/goals/edit', 'GoalsController@edit');
-            Route::post('/goals/{goals}/update', 'GoalsController@update');
-            Route::get('/goals/{goals}/notify', 'NotifyController@index');
-            Route::post('/goals/{goals}/notify/send', 'NotifyController@send');
-            Route::post('/goals/{goals}/notify/sendAll', 'NotifyController@sendAll');
 
             Route::get('/users/{user}/adminView', 'UserController@adminView');
             Route::post('/user/{user}/organization/remove', 'OrganizationController@removeUser')->name('organization.removeUser');
@@ -108,21 +98,17 @@ Route::middleware('auth')->group(function () {
 
             Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
 
-
             Route::post('survey/{survey}/notify', 'SurveyController@notify');
             Route::get('survey/{survey}/responses', 'SurveyController@viewResponses');
             Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store')->name('survey.submit');
 
             Route::get('/orgpending/{user}', 'OrgVerificationController@show');
 
+            //! Everything below this is verified
+            Route::resource('role', 'RoleController')->except('show');
             Route::get('/role/{role}/users', 'RoleController@usersInRole')->name('role.usersInRole');
             Route::post('/role/{role}/massSet', 'RoleController@massSet')->name('role.massSet');
             Route::patch('/users/{user}/removeRole', 'RoleController@removeRole')->name('user.removeRole');
-
-            Route::get('/alumni', 'AlumniController@index')->name('alumni.index');
-            Route::post('/user/{user}/alumni', 'AlumniController@setAlum')->name('alumni.setAlum');
-            Route::get('/alumni/contact', 'AlumniController@contact')->name('alumni.contact');
-            Route::post('/alumni/contact/send', 'AlumniController@send')->name('alumni.send');
 
             Route::get('/totals', 'TotalsController@index')->name('totals.index');
 
@@ -130,6 +116,20 @@ Route::middleware('auth')->group(function () {
             Route::get('/user/{event}/invite', 'InviteController@create')->name('invite.create');
             Route::post('/user/{event}/invite', 'InviteController@store')->name('invite.store');
             Route::delete('/invite/{invite}', 'InviteController@destroy')->name('invite.destroy');
+
+            Route::get('/alumni', 'AlumniController@index')->name('alumni.index');
+            Route::post('/user/{user}/alumni', 'AlumniController@setAlum')->name('alumni.setAlum');
+            Route::get('/alumni/contact', 'AlumniController@contact')->name('alumni.contact');
+            Route::post('/alumni/contact/send', 'AlumniController@send')->name('alumni.send');
+
+            Route::middleware('ManageGoals')->group(function () {
+                Route::get('/goals', 'GoalsController@index')->name('goals.index');
+                Route::get('/goals/edit', 'GoalsController@edit')->name('goals.edit');
+                Route::post('/goals/{goals}/update', 'GoalsController@update')->name('goals.update');
+                Route::get('/goals/{goals}/notify', 'NotifyController@index')->name('goals.notify');
+                Route::post('/goals/{goals}/notify/send', 'NotifyController@send')->name('goals.send');
+                Route::post('/goals/{goals}/notify/sendAll', 'NotifyController@sendAll')->name('goals.sendAll');
+            });
 
             Route::get('/users/{user}/service_breakdown', 'ServiceLogController@breakdown')->name('serviceLogs.breakdown');
 

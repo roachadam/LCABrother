@@ -11,11 +11,11 @@ use Mail;
 
 class UserController extends Controller
 {
-
     public function __construct()
     {
-        $this->middleware('MemberView', ['only' => ['index']]);
-        $this->middleware('orgverified', ['only' => ['index', 'contact']]);
+        $this->middleware('MemberView')->only(['index', 'adminView']);
+        $this->middleware('ManageMembers')->only('destroy');
+        $this->middleware('orgverified')->only(['index', 'contact']);
     }
 
     /**

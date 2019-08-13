@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\SurveyAnswers;
-use Illuminate\Http\Request;
-use App\Survey;
 use App\Events\MemberAnsweredSurvey;
+use Illuminate\Http\Request;
+use App\SurveyAnswers;
+use App\Survey;
 
 class SurveyAnswersController extends Controller
 {
