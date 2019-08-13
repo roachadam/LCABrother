@@ -26,7 +26,6 @@ Route::get('/contact', function () {
 
 Route::post('/home/contactUs', 'HomeController@contactUs');
 
-
 Route::get('/contact/thanks', function () {
     return view('home.contact.thanks');
 });
@@ -149,7 +148,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/user/{user}/academics/breakdown', 'AcademicsController@breakdown')->name('academics.breakdown');
             Route::middleware('ManageAcademics')->group(function () {
                 Route::resource('academics', 'AcademicsController')->only(['index', 'store']);
-                Route::get('/academics/user_id/{academics}/edit', 'AcademicsController@edit')->name('academics.edit');
+                Route::get('/academics/{academics}/edit', 'AcademicsController@edit')->name('academics.edit');
                 Route::patch('/user/{user}/academics/{academics}/update', 'AcademicsController@update')->name('academics.update');
                 Route::get('/academics/manage', 'AcademicsController@manage')->name('academics.manage');
                 Route::get('/academics/downloadExampleFile', 'AcademicsController@getExampleFile')->name('academics.getExampleFile');

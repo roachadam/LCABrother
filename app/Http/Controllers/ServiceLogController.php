@@ -48,6 +48,7 @@ class ServiceLogController extends Controller
 
     public function breakdown(User $user)
     {
+        $this->authorize('view', [ServiceLog::class, $user]);
         $serviceLogs = $user->getActiveServiceLogs();
         return view('service.serviceLogs.breakdown', compact('serviceLogs', 'user'));
     }

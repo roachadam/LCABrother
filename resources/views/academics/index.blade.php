@@ -40,7 +40,7 @@
                                 <td>{{ $user->academics->last()->Current_Term_GPA }}</td>
                                 <td>{{ str_replace('_', ' ', $user->academics->last()->Previous_Academic_Standing) }}</td>
                                 <td>{{ str_replace('_', ' ', $user->academics->last()->Current_Academic_Standing) }}</td>
-                                <td><a href="/academics/user_id/{{ $user->academics->last()->id }}/edit" class="btn btn-inline btn-primary">Override</a></td>
+                                <td><a href={{route('academics.edit', $user->academics->last())}} class="btn btn-inline btn-primary">Override</a></td>
                                 <td><a href={{route('academics.breakdown', $user)}} class="btn btn-inline btn-primary">Breakdown</a></td>
                             </tr>
                         @endif

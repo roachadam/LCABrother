@@ -145,7 +145,11 @@ class AcademicsController extends Controller
 
     public function breakdown(User $user)
     {
+
         $academics = $user->academics()->get()->reverse();
+        $this->authorize('view', [Academics::class, $user]);
+
+
         return view('academics.breakdown', compact('user', 'academics'));
     }
 }
