@@ -75,7 +75,7 @@
         </section>
     </div>
 
-    @if (count($newAcademicStandings) > 0)
+    @if ($newAcademicStandings->isNotEmpty())
         <section class="card m-t-md">
             <div class="card-header">Notify Members of Academic Standing</div>
                 <div class="card-body">

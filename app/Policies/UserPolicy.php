@@ -3,21 +3,20 @@
 namespace App\Policies;
 
 use App\User;
-use App\InvolvementLog;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class InvolvementLogPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, User $urlUser)
+    public function view(User $user, User $model)
     {
-        return $user->id === $urlUser->id;
+        return $user->id === $model->id;
     }
 
     public function before($user, $ability)
     {
-        if ($user->canManageInvolvement()) {
+        if ($user->canManageMembers()) {
             return true;
         }
     }

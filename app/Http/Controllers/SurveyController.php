@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Survey;
-use Illuminate\Http\Request;
-use App\Organization;
+use App\Commons\NotificationFunctions;
 use App\Mail\UserSurveyReminder;
+use Illuminate\Http\Request;
+use App\Survey;
 use Mail;
 
 class SurveyController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('ManageSurvey')->only('create', 'store');
+        $this->middleware('ManageSurvey')->except('index', 'show');
     }
 
     public function index()
     {
-        $surveys = Survey::where('organization_id', auth()->user()->organization->id)->get();
         $user = auth()->user();
+        $surveys = $user->organization->survey;
+
         return view('survey.index', compact('surveys', 'user'));
     }
 
@@ -84,6 +85,7 @@ class SurveyController extends Controller
     public function destroy(Survey $survey)
     {
         $survey->delete();
+        NotificationFunctions::alert('success', 'Successfully Deleted Survey!');
         return back();
     }
 
@@ -91,10 +93,10 @@ class SurveyController extends Controller
     {
         return view('survey.responses', compact('survey'));
     }
+
     public function notify(Request $request, Survey  $survey)
     {
         $users = $survey->getAllUnansweredMembers();
-        dd('here');
         foreach ($users as $user) {
             Mail::to($user->email)->send(
                 new UserSurveyReminder($survey)

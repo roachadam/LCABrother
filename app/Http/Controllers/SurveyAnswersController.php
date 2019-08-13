@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Commons\NotificationFunctions;
 use App\Events\MemberAnsweredSurvey;
 use Illuminate\Http\Request;
 use App\SurveyAnswers;
@@ -9,6 +10,11 @@ use App\Survey;
 
 class SurveyAnswersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('ManageSurvey')->only('destroy');
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -35,6 +41,7 @@ class SurveyAnswersController extends Controller
     public function destroy(SurveyAnswers $surveyAnswers)
     {
         $surveyAnswers->delete();
+        NotificationFunctions::alert('success', 'Successfully Deleted Survey Entry!');
         return back();
     }
 }

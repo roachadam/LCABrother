@@ -67,8 +67,6 @@ Route::middleware('auth')->group(function () {
             Route::resource('serviceEvent', 'ServiceEventController')->except(['create', 'edit', 'up0date']);
             Route::resource('serviceLogs', 'ServiceLogController')->except(['show', 'create', 'store']);
             Route::resource('event', 'EventController');
-            Route::resource('survey', 'SurveyController')->except('update');
-            Route::resource('surveyAnswers', 'SurveyAnswersController')->only(['destroy', 'store']);
             Route::resource('calendarItem', 'CalendarController');
             Route::resource('attendance', 'AttendanceController')->only(['destroy']);
             Route::resource('attendanceEvents', 'AttendanceEventController')->only(['index', 'destroy']);
@@ -98,13 +96,16 @@ Route::middleware('auth')->group(function () {
 
             Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
 
-            Route::post('survey/{survey}/notify', 'SurveyController@notify');
-            Route::get('survey/{survey}/responses', 'SurveyController@viewResponses');
+            //! Everything below this is verified
+            Route::resource('survey', 'SurveyController')->except('update');
+            Route::resource('surveyAnswers', 'SurveyAnswersController')->only('store');
+            Route::delete('surveyAnswers/{surveyAnswers}', 'SurveyAnswersController@destroy')->name('surveyAnswers.destroy');
+            Route::post('survey/{survey}/notify', 'SurveyController@notify')->name('survey.notify');
+            Route::get('survey/{survey}/responses', 'SurveyController@viewResponses')->name('survey.responses');
             Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store')->name('survey.submit');
 
-            Route::get('/orgpending/{user}', 'OrgVerificationController@show');
+            Route::get('/orgpending/{user}', 'OrgVerificationController@approve');
 
-            //! Everything below this is verified
             Route::resource('role', 'RoleController')->except('show');
             Route::get('/role/{role}/users', 'RoleController@usersInRole')->name('role.usersInRole');
             Route::post('/role/{role}/massSet', 'RoleController@massSet')->name('role.massSet');
