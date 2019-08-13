@@ -94,9 +94,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/newsletter/{newsletter}/subscribers', 'NewsLetterController@subscribers');
             Route::post('/newsletter/send', 'NewsLetterController@send');
 
+            //! Everything below this is verified
             Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
 
-            //! Everything below this is verified
             Route::resource('survey', 'SurveyController')->except('update');
             Route::resource('surveyAnswers', 'SurveyAnswersController')->only('store');
             Route::delete('surveyAnswers/{surveyAnswers}', 'SurveyAnswersController@destroy')->name('surveyAnswers.destroy');
