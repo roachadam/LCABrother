@@ -28,6 +28,7 @@ class ServiceLogController extends Controller
      */
     public function edit(ServiceLog $serviceLog)
     {
+        $this->authorize('update', $serviceLog);
         return view('service.serviceLogs.edit', compact('serviceLog'));
     }
 
@@ -40,6 +41,7 @@ class ServiceLogController extends Controller
      */
     public function update(Request $request, ServiceLog $serviceLog)
     {
+        $this->authorize('update', $serviceLog);
         $attributes = $request->all();
         $serviceLog->update($attributes);
 
@@ -48,7 +50,7 @@ class ServiceLogController extends Controller
 
     public function breakdown(User $user)
     {
-        $this->authorize('view', [ServiceLog::class, $user]);
+        $this->authorize('breakdown', [ServiceLog::class, $user]);
         $serviceLogs = $user->getActiveServiceLogs();
         return view('service.serviceLogs.breakdown', compact('serviceLogs', 'user'));
     }
@@ -61,6 +63,7 @@ class ServiceLogController extends Controller
      */
     public function destroy(ServiceLog $serviceLog)
     {
+        $this->authorize('update', $serviceLog);
         $serviceLog->delete();
         NotificationFunctions::alert('success', 'Successfully deleted Service Log!');
         return redirect(route('serviceLogs.breakdown', $serviceLog->user));

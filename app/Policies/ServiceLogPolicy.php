@@ -10,7 +10,12 @@ class ServiceLogPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, User $urlUser)
+    public function update(User $user, ServiceLog $serviceLog)
+    {
+        return $user->id === $serviceLog->user_id;
+    }
+
+    public function breakdown(User $user, User $urlUser)
     {
         return $user->id === $urlUser->id;
     }

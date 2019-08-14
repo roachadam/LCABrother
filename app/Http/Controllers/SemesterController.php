@@ -15,6 +15,7 @@ class SemesterController extends Controller
         $attributes = $request->validate([
             'semester_name' => 'required'
         ]);
+
         $organization = auth()->user()->organization;
 
         $activeSemester = $organization->getActiveSemester();
@@ -27,6 +28,7 @@ class SemesterController extends Controller
 
         $attributes['active'] = true;
         $attributes['start_date'] = Carbon::now();
+
         NotificationFunctions::alert('success', 'Successfully created new semester');
         $organization->addSemester($attributes);
 

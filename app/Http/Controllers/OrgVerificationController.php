@@ -15,7 +15,6 @@ use App\Events\MemberDeclined;
 
 class OrgVerificationController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('orgverified')->only('show');
@@ -34,7 +33,7 @@ class OrgVerificationController extends Controller
 
     public function approve(User $user)
     {
-        $this->authorize('view', $user);
+        $this->authorize('orgApprove', $user);
         return view('orgPending.approve', compact('user'));
     }
 

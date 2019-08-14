@@ -49,6 +49,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
+        $this->authorize('view', $event);
         $invites = $event->invites;
         return view('events.show', compact('event', 'invites'));
     }
@@ -61,6 +62,7 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
+        $this->authorize('view', $event);
         return view('events.edit', compact('event'));
     }
 
@@ -73,6 +75,8 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
+        $this->authorize('view', $event);
+
         $attributes = request()->all();
 
         $event->update($attributes);
@@ -89,6 +93,8 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
+        $this->authorize('view', $event);
+
         $event->delete();
 
         NotificationFunctions::alert('success', 'Successfully deleted Event!');

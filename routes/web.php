@@ -64,11 +64,10 @@ Route::middleware('auth')->group(function () {
 
         //Can only access if you're apart of the organization
         Route::middleware('orgverified')->group(function () {
-            Route::resource('serviceEvent', 'ServiceEventController')->except(['create', 'edit', 'up0date']);
+            Route::resource('serviceEvent', 'ServiceEventController')->except(['create', 'edit', 'update']);
             Route::resource('serviceLogs', 'ServiceLogController')->except(['show', 'create', 'store']);
             Route::resource('event', 'EventController');
-            Route::resource('calendarItem', 'CalendarController');
-
+            Route::resource('calendarItem', 'CalendarController')->except('update');
             Route::resource('semester', 'SemesterController')->only('store');   //need to test
             Route::get('/dash', 'DashController@index');
 
@@ -83,7 +82,6 @@ Route::middleware('auth')->group(function () {
 
             Route::post('/avatar/default', 'ProfileController@default_avatar')->name('profile.defaultAvatar');
 
-            //! Everything below this is verified
 
             Route::resource('attendance', 'AttendanceController')->only(['destroy']);
             Route::resource('attendanceEvents', 'AttendanceEventController')->only(['index', 'destroy']);

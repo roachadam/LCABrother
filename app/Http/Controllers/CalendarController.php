@@ -96,6 +96,8 @@ class CalendarController extends Controller
      */
     public function show(CalendarItem $calendarItem)
     {
+        $this->authorize('update', $calendarItem);
+
         if ($calendarItem->hasEvent()) {
             $event = $calendarItem->event;
             $invites = $event->invites;
@@ -115,19 +117,9 @@ class CalendarController extends Controller
      */
     public function edit(CalendarItem $calendarItem)
     {
-        return view('calendar.edit', compact('calendarItem'));
-    }
+        $this->authorize('update', $calendarItem);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return view('calendar.edit', compact('calendarItem'));
     }
 
     /**
@@ -138,6 +130,8 @@ class CalendarController extends Controller
      */
     public function destroy(CalendarItem $calendarItem)
     {
+        $this->authorize('update', $calendarItem);
+
         if ($calendarItem->hasEvent()) {
             $event = $calendarItem->event;
             $event->delete();
@@ -145,8 +139,11 @@ class CalendarController extends Controller
         $calendarItem->delete();
         return redirect('/calendarItem');
     }
+
     public function addEvent(Request $request, CalendarItem $calendarItem)
     {
+        $this->authorize('update', $calendarItem);
+
         $attributes = request()->validate([
             'name' => 'required',
             'date_of_event' => 'required',
