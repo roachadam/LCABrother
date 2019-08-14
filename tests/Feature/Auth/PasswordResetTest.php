@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Semester;
 use App\User;
 use Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -323,7 +324,10 @@ class PasswordResetTest extends TestCase
      */
     public function testSubmitPasswordReset()
     {
-        $user = factory(User::class)->create([
+        $user = $this->loginAs('basic_user');
+        auth()->logout();
+
+        $user->update([
             'password' => bcrypt(
                 self::USER_ORIGINAL_PASSWORD
             ),

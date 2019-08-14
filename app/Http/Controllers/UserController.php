@@ -25,22 +25,20 @@ class UserController extends Controller
      */
     public function index()
     {
-        $org = Auth::user()->organization;
-        $members = $org->users()->where('organization_verified', 1)->get();
+        $members = auth()->user()->organization->users()->where('organization_verified', 1)->get();
         return view('user.userInfo.members', compact('members'));
     }
 
     public function destroy(User $user)
     {
-        abort_if($user->id != auth()->id(), 403);
+
         $user->delete();
         return redirect('/');
     }
 
     public function joinOrg(Request $request, User $user)
     {
-
-        abort_unless(Auth::id() == $user->id, 403);
+        $this->authorize('update', $user);
 
         $orgID = $request->organization;
         $user->join($orgID);

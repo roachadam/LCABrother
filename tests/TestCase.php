@@ -41,7 +41,7 @@ abstract class TestCase extends BaseTestCase
     private function createRole($name, $organization): User
     {
         $user = factory(User::class)->create([
-            'organization_id' => isset($organization) ? $organization->id : rand(1, 999),
+            'organization_id' => $organization->id ?? rand(1, 999),
         ]);
 
         $organization = $organization ?? $this->getOrganization($user);
