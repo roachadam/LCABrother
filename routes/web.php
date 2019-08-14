@@ -68,8 +68,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('serviceLogs', 'ServiceLogController')->except(['show', 'create', 'store']);
             Route::resource('event', 'EventController');
             Route::resource('calendarItem', 'CalendarController');
-            Route::resource('attendance', 'AttendanceController')->only(['destroy']);
-            Route::resource('attendanceEvents', 'AttendanceEventController')->only(['index', 'destroy']);
+
             Route::resource('semester', 'SemesterController')->only('store');   //need to test
             Route::get('/dash', 'DashController@index');
 
@@ -84,17 +83,21 @@ Route::middleware('auth')->group(function () {
 
             Route::post('/avatar/default', 'ProfileController@default_avatar')->name('profile.defaultAvatar');
 
+            //! Everything below this is verified
+
+            Route::resource('attendance', 'AttendanceController')->only(['destroy']);
+            Route::resource('attendanceEvents', 'AttendanceEventController')->only(['index', 'destroy']);
             Route::get('/attendance/attendanceEvent/{attendanceEvent}', 'AttendanceController@index')->name('attendance.index');
             Route::get('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@create')->name('attendance.create');
             Route::post('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@store')->name('attendance.store');
 
-            Route::resource('newsletter', 'NewsLetterController')->except(['show', 'update']);
-            Route::post('newsletter/send/preview', 'NewsLetterController@preview');
-            Route::get('newsletter/send/show', 'NewsLetterController@showSend');
-            Route::get('/newsletter/{newsletter}/subscribers', 'NewsLetterController@subscribers');
-            Route::post('/newsletter/send', 'NewsLetterController@send');
+            // ? We're not using this right?
+            // Route::resource('newsletter', 'NewsLetterController')->except(['show', 'update']);
+            // Route::post('newsletter/send/preview', 'NewsLetterController@preview');
+            // Route::get('newsletter/send/show', 'NewsLetterController@showSend');
+            // Route::get('/newsletter/{newsletter}/subscribers', 'NewsLetterController@subscribers');
+            // Route::post('/newsletter/send', 'NewsLetterController@send');
 
-            //! Everything below this is verified
             Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
 
             Route::resource('survey', 'SurveyController')->except('update');

@@ -18,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\InvolvementLog' => 'App\Policies\InvolvementLogPolicy',
         'App\ServiceLog' => 'App\Policies\ServiceLogPolicy',
         'App\Event' => 'App\Policies\EventPolicy',
+        'App\AttendanceEvent' => 'App\Policies\AttendanceEventPolicy',
     ];
 
     /**
@@ -30,7 +31,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         $gate->before(function ($user) {
-            if ($user->isAdmin() || $user->id === $user->organization->owner_id) {
+            if ($user->isAdmin()) {
                 return true;
             }
         });
