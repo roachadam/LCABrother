@@ -71,7 +71,7 @@ class OrganizationTest extends TestCase
      */
     public function test_remove_organization_from_user()
     {
-        $user = $this->loginAs('basic_user');
+        $user = $this->loginAs('member_manager');
 
         $this
             ->withoutExceptionHandling()

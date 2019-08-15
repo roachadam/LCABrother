@@ -3,7 +3,7 @@
 
 Please complete the '{{$survey->name}}' survey as soon as possible.
 
-@component('mail::button', ['url' => '/survey/'.$survey->id])
+@component('mail::button', ['url' => '/survey'])
 View Survey
 @endcomponent
 

@@ -15,10 +15,10 @@ use App\Events\MemberDeclined;
 
 class OrgVerificationController extends Controller
 {
-
     public function __construct()
     {
-        $this->middleware('orgverified', ['only' => 'show']);
+        $this->middleware('orgverified')->only('show');
+        $this->middleware('ManageMembers')->only('approve');
     }
 
     // hits from rout /orgpending
@@ -31,9 +31,10 @@ class OrgVerificationController extends Controller
         return view('orgpending.waitingScreen');
     }
 
-    public function show(User $user)
+    public function approve(User $user)
     {
-        return view('orgPending.show', compact('user'));
+        $this->authorize('orgApprove', $user);
+        return view('orgPending.approve', compact('user'));
     }
 
     public function update(Request $request, User $user)

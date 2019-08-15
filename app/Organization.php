@@ -159,12 +159,10 @@ class Organization extends Model
 
     public function getActiveSemester()
     {
-        $match = [
+        return Semester::where([
             'organization_id' => $this->id,
             'active' => '1'
-        ];
-        $activeSemester = Semester::where($match)->first();
-        return $activeSemester;
+        ])->first();
     }
 
     public function addSemester($attributes)

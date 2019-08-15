@@ -11,7 +11,7 @@ class ServiceEventController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('ManageService')->only(['edit', 'update', 'destroy']);
+        $this->middleware('ManageService')->only('destroy');
     }
 
     public function index()
@@ -24,6 +24,7 @@ class ServiceEventController extends Controller
     {
         $activeSemester = auth()->user()->organization->getActiveSemester();
         $attributes = $this->validateServiceEvent();
+
         $serviceEvent = ServiceEvent::where([
             'name' => $attributes['name'],
             ['created_at', '>', $activeSemester->start_date]
@@ -65,11 +66,15 @@ class ServiceEventController extends Controller
 
     public function show(ServiceEvent $serviceEvent)
     {
+        $this->authorize('update', $serviceEvent);
+
         return view('service.show', compact('serviceEvent'));
     }
 
     public function destroy(ServiceEvent $serviceEvent)
     {
+        $this->authorize('update', $serviceEvent);
+
         if (isset($serviceEvent->serviceLogs)) {
             foreach ($serviceEvent->serviceLogs as $serviceLog) {
                 $serviceLog->delete();

@@ -26,7 +26,6 @@ Route::get('/contact', function () {
 
 Route::post('/home/contactUs', 'HomeController@contactUs');
 
-
 Route::get('/contact/thanks', function () {
     return view('home.contact.thanks');
 });
@@ -65,26 +64,12 @@ Route::middleware('auth')->group(function () {
 
         //Can only access if you're apart of the organization
         Route::middleware('orgverified')->group(function () {
-            Route::resource('role', 'RoleController');
-
-            Route::resource('serviceEvent', 'ServiceEventController')->except(['create', 'edit', 'up0date']);
+            Route::resource('serviceEvent', 'ServiceEventController')->except(['create', 'edit', 'update']);
             Route::resource('serviceLogs', 'ServiceLogController')->except(['show', 'create', 'store']);
             Route::resource('event', 'EventController');
-            Route::resource('survey', 'SurveyController')->except('update');
-            Route::resource('surveyAnswers', 'SurveyAnswersController')->only(['destroy', 'store']);
-            Route::resource('calendarItem', 'CalendarController');
-            Route::resource('attendance', 'AttendanceController')->only(['destroy']);
-            Route::resource('attendanceEvents', 'AttendanceEventController')->only(['index', 'destroy']);
+            Route::resource('calendarItem', 'CalendarController')->except('update');
             Route::resource('semester', 'SemesterController')->only('store');   //need to test
             Route::get('/dash', 'DashController@index');
-
-
-            Route::get('/goals', 'GoalsController@index');
-            Route::get('/goals/edit', 'GoalsController@edit');
-            Route::post('/goals/{goals}/update', 'GoalsController@update');
-            Route::get('/goals/{goals}/notify', 'NotifyController@index');
-            Route::post('/goals/{goals}/notify/send', 'NotifyController@send');
-            Route::post('/goals/{goals}/notify/sendAll', 'NotifyController@sendAll');
 
             Route::get('/users/{user}/adminView', 'UserController@adminView');
             Route::post('/user/{user}/organization/remove', 'OrganizationController@removeUser')->name('organization.removeUser');
@@ -97,33 +82,35 @@ Route::middleware('auth')->group(function () {
 
             Route::post('/avatar/default', 'ProfileController@default_avatar')->name('profile.defaultAvatar');
 
+
+            Route::resource('attendance', 'AttendanceController')->only(['destroy']);
+            Route::resource('attendanceEvents', 'AttendanceEventController')->only(['index', 'destroy']);
             Route::get('/attendance/attendanceEvent/{attendanceEvent}', 'AttendanceController@index')->name('attendance.index');
             Route::get('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@create')->name('attendance.create');
             Route::post('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@store')->name('attendance.store');
 
-            Route::resource('newsletter', 'NewsLetterController')->except(['show', 'update']);
-            Route::post('newsletter/send/preview', 'NewsLetterController@preview');
-            Route::get('newsletter/send/show', 'NewsLetterController@showSend');
-            Route::get('/newsletter/{newsletter}/subscribers', 'NewsLetterController@subscribers');
-            Route::post('/newsletter/send', 'NewsLetterController@send');
+            // ? We're not using this right?
+            // Route::resource('newsletter', 'NewsLetterController')->except(['show', 'update']);
+            // Route::post('newsletter/send/preview', 'NewsLetterController@preview');
+            // Route::get('newsletter/send/show', 'NewsLetterController@showSend');
+            // Route::get('/newsletter/{newsletter}/subscribers', 'NewsLetterController@subscribers');
+            // Route::post('/newsletter/send', 'NewsLetterController@send');
 
             Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
 
-
-            Route::post('survey/{survey}/notify', 'SurveyController@notify');
-            Route::get('survey/{survey}/responses', 'SurveyController@viewResponses');
+            Route::resource('survey', 'SurveyController')->except('update');
+            Route::resource('surveyAnswers', 'SurveyAnswersController')->only('store');
+            Route::delete('surveyAnswers/{surveyAnswers}', 'SurveyAnswersController@destroy')->name('surveyAnswers.destroy');
+            Route::post('survey/{survey}/notify', 'SurveyController@notify')->name('survey.notify');
+            Route::get('survey/{survey}/responses', 'SurveyController@viewResponses')->name('survey.responses');
             Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store')->name('survey.submit');
 
-            Route::get('/orgpending/{user}', 'OrgVerificationController@show');
+            Route::get('/orgpending/{user}', 'OrgVerificationController@approve');
 
+            Route::resource('role', 'RoleController')->except('show');
             Route::get('/role/{role}/users', 'RoleController@usersInRole')->name('role.usersInRole');
             Route::post('/role/{role}/massSet', 'RoleController@massSet')->name('role.massSet');
             Route::patch('/users/{user}/removeRole', 'RoleController@removeRole')->name('user.removeRole');
-
-            Route::get('/alumni', 'AlumniController@index')->name('alumni.index');
-            Route::post('/user/{user}/alumni', 'AlumniController@setAlum')->name('alumni.setAlum');
-            Route::get('/alumni/contact', 'AlumniController@contact')->name('alumni.contact');
-            Route::post('/alumni/contact/send', 'AlumniController@send')->name('alumni.send');
 
             Route::get('/totals', 'TotalsController@index')->name('totals.index');
 
@@ -131,6 +118,20 @@ Route::middleware('auth')->group(function () {
             Route::get('/user/{event}/invite', 'InviteController@create')->name('invite.create');
             Route::post('/user/{event}/invite', 'InviteController@store')->name('invite.store');
             Route::delete('/invite/{invite}', 'InviteController@destroy')->name('invite.destroy');
+
+            Route::get('/alumni', 'AlumniController@index')->name('alumni.index');
+            Route::post('/user/{user}/alumni', 'AlumniController@setAlum')->name('alumni.setAlum');
+            Route::get('/alumni/contact', 'AlumniController@contact')->name('alumni.contact');
+            Route::post('/alumni/contact/send', 'AlumniController@send')->name('alumni.send');
+
+            Route::middleware('ManageGoals')->group(function () {
+                Route::get('/goals', 'GoalsController@index')->name('goals.index');
+                Route::get('/goals/edit', 'GoalsController@edit')->name('goals.edit');
+                Route::post('/goals/{goals}/update', 'GoalsController@update')->name('goals.update');
+                Route::get('/goals/{goals}/notify', 'NotifyController@index')->name('goals.notify');
+                Route::post('/goals/{goals}/notify/send', 'NotifyController@send')->name('goals.send');
+                Route::post('/goals/{goals}/notify/sendAll', 'NotifyController@sendAll')->name('goals.sendAll');
+            });
 
             Route::get('/users/{user}/service_breakdown', 'ServiceLogController@breakdown')->name('serviceLogs.breakdown');
 
@@ -149,7 +150,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/user/{user}/academics/breakdown', 'AcademicsController@breakdown')->name('academics.breakdown');
             Route::middleware('ManageAcademics')->group(function () {
                 Route::resource('academics', 'AcademicsController')->only(['index', 'store']);
-                Route::get('/academics/user_id/{academics}/edit', 'AcademicsController@edit')->name('academics.edit');
+                Route::get('/academics/{academics}/edit', 'AcademicsController@edit')->name('academics.edit');
                 Route::patch('/user/{user}/academics/{academics}/update', 'AcademicsController@update')->name('academics.update');
                 Route::get('/academics/manage', 'AcademicsController@manage')->name('academics.manage');
                 Route::get('/academics/downloadExampleFile', 'AcademicsController@getExampleFile')->name('academics.getExampleFile');

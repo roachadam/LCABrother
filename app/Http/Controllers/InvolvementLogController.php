@@ -18,8 +18,9 @@ class InvolvementLogController extends Controller
 
     public function breakdown(Request $request, User $user)
     {
+        $this->authorize('view', [InvolvementLog::class, $user]);
         $logs = $user->InvolvementLogs;
-        return view('involvement.involvementLogs.breakdown', compact('logs'));
+        return view('involvement.involvementLogs.breakdown', compact('user', 'logs'));
     }
 
     /**

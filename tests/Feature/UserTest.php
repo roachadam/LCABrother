@@ -41,7 +41,7 @@ class UserTest extends TestCase
      */
     public function test_can_delete_user()
     {
-        $user = $this->loginAs('basic_user');
+        $user = $this->loginAs('member_manager');
 
         $this
             ->withoutExceptionHandling()

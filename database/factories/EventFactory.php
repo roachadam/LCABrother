@@ -7,8 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Event::class, function (Faker $faker) {
     return [
-        'organization_id' => function()
-        {
+        'organization_id' => function () {
             return factory(App\Organization::class)->create()->id;
         },
         'name' => $faker->catchPhrase,

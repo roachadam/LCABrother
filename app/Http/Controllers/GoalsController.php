@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Goals;
-use App\Organization;
 
 class GoalsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('ManageGoals');
+        $this->middleware('ManageGoals')->except('index');
     }
 
     public function index()

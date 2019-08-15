@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Answer Survey')
 @section('content')
 
 <h3>{{$survey->name}}</h3>

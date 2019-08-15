@@ -62,20 +62,24 @@ class NewsLetterController extends Controller
         }
         return redirect('/newsletter');
     }
+
     public function edit(NewsLetter $newsletter)
     {
         return view('newsletter.edit', compact('newsletter'));
     }
+
     public function subscribers(NewsLetter $newsletter)
     {
         $subscribersz = $newsletter->subscribers;
         return view('newsletter.subscribers', compact('subscribersz', 'newsletter'));
     }
+
     public function showSend()
     {
         $newsletters = auth()->user()->organization->newsletter;
         return view('newsletter.send', compact('newsletters'));
     }
+    
     public function destroy(NewsLetter $newsletter)
     {
         $newsletter->delete();

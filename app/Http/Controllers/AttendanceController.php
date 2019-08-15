@@ -25,6 +25,8 @@ class AttendanceController extends Controller
      */
     public function index(AttendanceEvent $attendanceEvent)
     {
+        $this->authorize('update', $attendanceEvent);
+
         $user = auth()->user();
         $attendances = $attendanceEvent->attendance;
         return view('attendance.index', compact('user', 'attendances', 'attendanceEvent'));
@@ -37,6 +39,8 @@ class AttendanceController extends Controller
      */
     public function create(Request $request, AttendanceEvent $attendanceEvent)
     {
+        $this->authorize('update', $attendanceEvent);
+
         return view('attendance.create', compact('attendanceEvent'));
     }
 
@@ -48,6 +52,8 @@ class AttendanceController extends Controller
      */
     public function store(Request $request, AttendanceEvent $attendanceEvent)
     {
+        $this->authorize('update', $attendanceEvent);
+
         $attributes = $request->validate([
             'users' => 'required'
         ]);
