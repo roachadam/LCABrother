@@ -61,7 +61,6 @@ class SurveyController extends Controller
         $att['desc'] = $attributes['desc'];
 
         auth()->user()->organization->addSurvey($att);
-
         return redirect('/survey');
     }
 
@@ -91,6 +90,7 @@ class SurveyController extends Controller
 
     public function viewResponses(Request $request, Survey $survey)
     {
+        $survey = $survey::with('surveyAnswers')->get()->first();
         return view('survey.responses', compact('survey'));
     }
 

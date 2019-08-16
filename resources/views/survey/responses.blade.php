@@ -27,7 +27,15 @@
                     <tr>
                         <td>{{$surveyAnswer->user->name}}</td>
                         @foreach($surveyAnswer->field_answers as $answer)
-                            <th>{{$answer}}</th>
+                            @if(is_array($answer))
+                                <th>
+                                    @foreach ($answer as $subAnswer)
+                                        {{$subAnswer}},
+                                    @endforeach
+                                </th>
+                            @else
+                                <th>{{$answer}}</th>
+                            @endif
                         @endforeach
                         <td>{{$surveyAnswer->created_at}}</td>
                         <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$surveyAnswer->id}}">Delete</button></td>

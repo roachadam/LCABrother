@@ -38,20 +38,31 @@ class Survey extends Model
 
     public function generateForm()
     {
-
-        $s = "";
+        $survey = "";
         foreach ($this->field_names as $index => $fieldName) {
             $fieldType = $this->field_types[$index];
-            $s .=   "<label>" . $fieldName . "</label>";
-            $s .= "<br>";
-            if ($fieldType == 'textarea') {
-                $s .= "<textarea rows = \"5\" cols = \"50\" name = \"field_answers[]\" class=\"form-control\"></textarea>";
-            } else {
-                $s .= "<input id=\"" . $fieldName . "\" type=\"" . $fieldType . "\" class=\"form-control\" name=\"field_answers[]\" required=\"\" autofocus=\"\">";
+            $survey .=   "<label>" . $fieldName . "</label>";
+            $survey .= "<br>";
+            if ($fieldType === 'textarea') {
+                $survey .= "<textarea rows = \"5\" cols = \"50\" name = \"field_answers[" . $fieldName . "]\" class=\"form-control\"></textarea>";
+            } else if ($fieldType === 'text') {
+                $survey .= "<input id=\"" . $fieldName . "\" type=\"" . $fieldType . "\" class=\"form-control\" name = \"field_answers[" . $fieldName . "]\" required=\"\" autofocus=\"\">";
+            } else if ($fieldType === 'select') {
+                $survey .= "<select rows = \"5\" cols = \"50\" class=\"form-control\" name = \"field_answers[" . $fieldName . "]\">";
+                foreach ($this->field_names as $value) {                                                // ! I need an array of the options to loop over
+                    $survey .=  "<option value=\"" . $value . "\">" . $value . "</option>";
+                }
+                $survey .= "</select>";
+            } else if ($fieldType === 'checkbox') {                                                     // ! I need an array of the options to loop over
+                $survey .= "<ul rows = \"5\" cols = \"50\" class=\"form-check\">";
+                foreach ($this->field_names as $value) {
+                    $survey .= "<li><input class=\"form-check-input\" type=\"checkbox\" name = \"field_answers[" . $fieldName . "][]\" value=\"" . $value . "\">" . $value . "</li>";
+                }
+                $survey .= "</ul>";
             }
-            $s .= "<br>";
+            $survey .= "<br>";
         }
-        return $s;
+        return $survey;
     }
 
     public function getAllMembersWhoAnswered()
@@ -70,9 +81,6 @@ class Survey extends Model
 
     public function getAllUnansweredMembers()
     {
-        $users = auth()->user()->organization->users;
-        $answered = $this->getAllMembersWhoAnswered();
-        $unanswered = $users->diff($answered);
-        return $unanswered;
+        return auth()->user()->organization->users->diff($this->getAllMembersWhoAnswered());
     }
 }

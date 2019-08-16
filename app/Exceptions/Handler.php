@@ -47,9 +47,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof AuthorizationException || (env('APP_ENV') !== 'testing' && $exception->getStatusCode() === 403)) {
-            return redirect('/dash');
-        }
+        // if ($exception instanceof AuthorizationException || (env('APP_ENV') !== 'testing' && $exception->getStatusCode() === 403)) {
+        //     return redirect('/');
+        // }
         return parent::render($request, $exception);
     }
 }

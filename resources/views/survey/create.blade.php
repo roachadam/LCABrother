@@ -71,8 +71,8 @@
         select.options[select.options.length] = new Option('Text', 'text');
         select.options[select.options.length] = new Option('Date', 'date');
         select.options[select.options.length] = new Option('TextArea', 'textarea');
-        //select.options[select.options.length] = new Option('CheckBox', 'checkbox');
-        //select.options[select.options.length] = new Option('Dropdown', 'select');
+        select.options[select.options.length] = new Option('CheckBox', 'checkbox');
+        select.options[select.options.length] = new Option('Dropdown', 'select');
         form2.appendChild(select);
     };
     btn.addEventListener('click', function() {
@@ -80,7 +80,7 @@
     }.bind(this));
     })();
 </script>
-{{-- <script>
+<script>
     (function() {
     let elements = document.querySelectorAll('select[id^="select-"]');
     let form = document.getElementById('frmAccess');
@@ -108,6 +108,6 @@
     };
         })();
 
-</script> --}}
+</script>
 @endsection
 
