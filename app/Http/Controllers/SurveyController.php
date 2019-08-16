@@ -90,7 +90,7 @@ class SurveyController extends Controller
 
     public function viewResponses(Request $request, Survey $survey)
     {
-        $survey = $survey::with('surveyAnswers')->get()->first();
+        $survey->load('surveyAnswers');
         return view('survey.responses', compact('survey'));
     }
 

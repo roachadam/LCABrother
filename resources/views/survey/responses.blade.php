@@ -29,9 +29,13 @@
                         @foreach($surveyAnswer->field_answers as $answer)
                             @if(is_array($answer))
                                 <th>
-                                    @foreach ($answer as $subAnswer)
-                                        {{$subAnswer}},
-                                    @endforeach
+                                    @if(count($answer) === 0)
+                                        {{$answer[0]}}
+                                    @else
+                                        @foreach ($answer as $key=>$subAnswer)
+                                            {{$subAnswer}}{{($key === (count($answer)-1) ? '' : ',')}}
+                                        @endforeach
+                                    @endif
                                 </th>
                             @else
                                 <th>{{$answer}}</th>
@@ -40,7 +44,6 @@
                         <td>{{$surveyAnswer->created_at}}</td>
                         <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$surveyAnswer->id}}">Delete</button></td>
                     </tr>
-
 
                     <!--.modal for confirming deletion-->
                     <div class="modal fade" id="{{$surveyAnswer->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
