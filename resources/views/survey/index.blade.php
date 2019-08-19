@@ -1,23 +1,6 @@
 @extends('layouts.main')
 @section('title', 'Surveys')
 
-@section('css')
-    /*Styles to make the modals scrollable*/
-    <style>
-        .modal-body{
-            overflow-y: auto;
-        }
-
-        @media (min-height: 500px) {
-            .modal-body { height: 400px; }
-        }
-
-        @media (min-height: 800px) {
-            .modal-body { height: 700px; }
-        }
-    </style>
-@endsection
-
 @section('content')
 <section class="card">
     <div class="card-block">
@@ -54,7 +37,7 @@
                         @if(!$user->hasResponded($survey))
                             <!--.modal for filling out survey-->
                             <div class="modal fade" id="submit{{$survey->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
@@ -81,7 +64,7 @@
                         @endif
 
                         @if ($user->canManageSurveys())
-                            <td><a href={{route('survey.responses', $survey)}} class="btn btn-inline">View Responses</a></td>
+                            <td><a href={{route('survey.responses', $survey)}} class="btn btn-inline btn-primary">View Responses</a></td>
                             <td><button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#notify{{$survey->id}}">Notify</button></td>
                             <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#delete{{$survey->id}}">Delete</button></td>
 

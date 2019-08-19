@@ -8,11 +8,11 @@
                 <div class="card">
                     <div class="card-header">Override Academics</div>
                     <div class="card-body">
-                        <form method="post" action={{route('academics.update', [$user, $academics])}}>
+                        <form method="POST" action={{route('academics.update', [$user, $academics])}}>
                             @method('PATCH')
                             @csrf
                             <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">'User Name:</label>
+                                <label for="name" class="col-md-4 col-form-label text-md-right">User Name:</label>
 
                                 <div class="col-md-4">
                                     <input id="name" type="text" class="form-control " name="name" value="{{ $academics->name }}" required  readonly="readonly" autofocus>
