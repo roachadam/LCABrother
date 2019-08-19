@@ -5,7 +5,6 @@
     /*Styles to make the modals scrollable*/
     <style>
         .modal-body{
-            height: 250px;
             overflow-y: auto;
         }
 
