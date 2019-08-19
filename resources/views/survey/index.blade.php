@@ -1,5 +1,24 @@
 @extends('layouts.main')
 @section('title', 'Surveys')
+
+@section('css')
+    /*Styles to make the modals scrollable*/
+    <style>
+        .modal-body{
+            height: 250px;
+            overflow-y: auto;
+        }
+
+        @media (min-height: 500px) {
+            .modal-body { height: 400px; }
+        }
+
+        @media (min-height: 800px) {
+            .modal-body { height: 700px; }
+        }
+    </style>
+@endsection
+
 @section('content')
 <section class="card">
     <div class="card-block">

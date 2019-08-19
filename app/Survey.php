@@ -54,7 +54,7 @@ class Survey extends Model
                 }
                 $survey .= "</select>";
             } else if ($fieldType === 'checkbox') {                                                     // ! I need an array of the options to loop over @Dawson
-                $survey .= "<ul rows = \"5\" cols = \"50\" class=\"form-check\">";
+                $survey .= "<ul rows = \"5\" cols = \"520\" class=\"form-check\">";
                 foreach ($this->field_names as $value) {
                     $survey .= "<li><input class=\"form-check-input\" type=\"checkbox\" name = \"field_answers[" . $fieldName . "][]\" value=\"" . $value . "\">" . $value . "</li>";
                 }
