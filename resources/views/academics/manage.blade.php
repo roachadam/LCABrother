@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Manage Academics')
 @section('css')
 <style>
     /* Float four columns side by side */
@@ -75,7 +75,7 @@
         </section>
     </div>
 
-    @if (count($newAcademicStandings) > 0)
+    @if (collect($newAcademicStandings)->isNotEmpty())
         <section class="card m-t-md">
             <div class="card-header">Notify Members of Academic Standing</div>
                 <div class="card-body">

@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Academics;
-use Illuminate\Http\Request;
-use App\Imports\GradesImport;
-use Maatwebsite\Excel\Facades\Excel;
-use App\User;
 use App\Commons\NotificationFunctions;
 use App\Commons\ImportHelperFunctions;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Events\OverrideAcademics;
-use App\AcademicStandings;
+use App\Imports\GradesImport;
+use Illuminate\Http\Request;
+use App\Academics;
+use App\User;
 
 class AcademicsController extends Controller
 {
@@ -21,6 +20,7 @@ class AcademicsController extends Controller
      */
     public function index()
     {
+        $user = auth()->user()->organization->roles;
         $users = User::findAll(auth()->user()->organization->id);
 
         $users->load(['Academics' => function ($query) {
@@ -30,14 +30,25 @@ class AcademicsController extends Controller
         return view('academics.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
+    public function manage()
     {
-        //
+        $usedStandings = array();
+        $newAcademicStandings = array();
+
+        $academicStandings = auth()->user()->organization->academicStandings;
+        foreach (auth()->user()->organization->users as $user) {
+            if (isset($user->latestAcademics()->Current_Academic_Standing)) {
+                array_push($usedStandings, $user->latestAcademics()->Current_Academic_Standing);
+            }
+        }
+
+        foreach ($academicStandings->all() as $academicStanding) {
+            if (in_array($academicStanding->name, $usedStandings)) {
+                array_push($newAcademicStandings, $academicStanding->name);
+            }
+        }
+
+        return view('academics.manage', compact('academicStandings', 'newAcademicStandings'));
     }
 
     /**
@@ -78,53 +89,14 @@ class AcademicsController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Academics  $academics
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Academics $academics)
-    {
-        //
-    }
-
     public function edit(Academics $academics)
     {
         $organization = auth()->user()->organization;
+        $user = $organization->getVerifiedMembers()->where('id', $academics->user_id)->first();
 
-        $user = User::findById($academics->user_id, $organization->id);
         $academics = $user->latestAcademics();
-
-        $academicStandings = AcademicStandings::where('organization_id', $organization->id)->get()->sortByDesc('Term_GPA_Min');
+        $academicStandings = $organization->academicStandings->sortByDesc('Term_GPA_Min');
         return view('academics.override', compact('academics', 'user', 'academicStandings'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Academics  $academics
-     * @return \Illuminate\Http\Response
-     */
-    public function manage()
-    {
-        $usedStandings = array();
-        $newAcademicStandings = array();
-
-        $academicStandings = auth()->user()->organization->academicStandings;
-        foreach (auth()->user()->organization->users as $user) {
-            if (isset($user->latestAcademics()->Current_Academic_Standing)) {
-                array_push($usedStandings, $user->latestAcademics()->Current_Academic_Standing);
-            }
-        }
-
-        foreach ($academicStandings->all() as $academicStanding) {
-            if (in_array($academicStanding->name, $usedStandings)) {
-                array_push($newAcademicStandings, $academicStanding->name);
-            }
-        }
-
-        return view('academics.manage', compact('academicStandings', 'newAcademicStandings'));
     }
 
     /**
@@ -157,7 +129,7 @@ class AcademicsController extends Controller
     private function rules()
     {
         return [
-            'name' => ['regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'name' => [],
             'Cumulative_GPA' => ['min:0', 'max:5.0'],
             'Previous_Term_GPA' => ['min:0', 'max:5.0'],
             'Current_Term_GPA' => ['min:0', 'max:5.0'],
@@ -166,19 +138,18 @@ class AcademicsController extends Controller
         ];
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Academics  $academics
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Academics $academics)
-    {
-        //
-    }
-
     public function getExampleFile()
     {
         return response()->download(public_path('/storage/grades/exampleFiles/ExampleGradeUploadFile.xlsx'));
+    }
+
+    public function breakdown(User $user)
+    {
+
+        $academics = $user->academics()->get()->reverse();
+        $this->authorize('view', [Academics::class, $user]);
+
+
+        return view('academics.breakdown', compact('user', 'academics'));
     }
 }

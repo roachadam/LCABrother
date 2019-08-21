@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'New Calendar Event')
 @section('content')
 
 

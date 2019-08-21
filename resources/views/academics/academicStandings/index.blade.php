@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Academic Standing Rules')
 @section('content')
 <section class="card">
     <div class="card-block">
@@ -7,7 +7,7 @@
             <div class="row">
                 <h2 class="card-title">Academic Standing Rules</h2>
                 <div class="ml-auto">
-                    <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#addMoreRules">Add More Standing Rules</button>
+                    <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#addMoreRules">Add Standing Rule</button>
                 </div>
             </div>
         </header>
@@ -92,8 +92,6 @@
                                     <input id="Cumulative_GPA_Min" type="text" class="form-control " name="Cumulative_GPA_Min" value="{{ old('Cumulative_GPA_Min') }}" required autofocus>
                                 </div>
                             </div>
-
-                            <input type="hidden" name="SubmitAndFinishCheck" id="SubmitAndFinishCheck" value="0">
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>

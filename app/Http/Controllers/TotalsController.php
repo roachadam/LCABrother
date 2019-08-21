@@ -7,18 +7,23 @@ use App\Charts\ServiceHoursChart;
 
 class TotalsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('ManageGoals');
+    }
+
     public function index()
     {
-        $org = auth()->user()->organization;
-        $users = $org->getVerifiedMembers();
-        $serviceHoursArray = $org->getArrayOfServiceHours();
+        $organization = auth()->user()->organization;
+        $users = $organization->getVerifiedMembers();
+        $serviceHoursArray = $organization->getArrayOfServiceHours();
 
 
-        $totals = auth()->user()->organization->getTotals();
-        $averages = auth()->user()->organization->getAverages();
-        $goals = auth()->user()->organization->goals;
+        $totals = $organization->getTotals();
+        $averages = $organization->getAverages();
+        $goals = $organization->goals;
 
-        $numMembers = auth()->user()->organization->getVerifiedMembers()->count();
+        $numMembers = $organization->getVerifiedMembers()->count();
         $sumTotals['service'] = $goals->service_hours_goal * $numMembers;
         $sumTotals['money'] = $goals->service_money_goal * $numMembers;
         $sumTotals['points'] = $goals->points_goal * $numMembers;

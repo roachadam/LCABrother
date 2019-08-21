@@ -12,6 +12,7 @@ class ForumController extends Controller
         $category = auth()->user()->organization->category;
         return view('forums.categories.create', compact('category'));
     }
+
     public function store(Request $request)
     {
         $attributes = $request->validate([

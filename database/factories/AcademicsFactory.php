@@ -8,7 +8,6 @@ use Faker\Generator as Faker;
 $factory->define(Academics::class, function (Faker $faker) {
     $standings = array("Good", "Probation", "Suspension");
     return [
-        'id' => rand(1, 10),
         'organization_id' => 1,
         'user_id' => rand(0, 500),
         'name' => $faker->name,

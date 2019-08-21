@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Event;
-use App\Invite;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Commons\NotificationFunctions;
 use App\Events\DuplicateGuestInvited;
+use Illuminate\Http\Request;
+use App\Invite;
+use App\Event;
 
 class InviteController extends Controller
 {
     public function index(Event $event)
     {
+        $this->authorize('view', $event);
         $invites = auth()->user()->getInvites($event);
         return view('invites.index', compact('event', 'invites'));
     }
@@ -24,6 +24,7 @@ class InviteController extends Controller
      */
     public function create(Event $event)
     {
+        $this->authorize('view', $event);
         return view('invites.create', compact('event'));
     }
 
@@ -38,11 +39,11 @@ class InviteController extends Controller
         $attributes = request()->validate([
             'guest_name' => 'required',
         ]);
-        $invites = $event->invites;
-        foreach ($invites as $invite) {
+
+        foreach ($event->invites as $invite) {
             if (strtolower($attributes['guest_name']) === strtolower($invite->guest_name)) {
                 event(new DuplicateGuestInvited($invite));
-                return redirect('/event/' . $event->id . '/invite');
+                return redirect(route('invite.create', $event));
             }
         }
 
@@ -50,44 +51,10 @@ class InviteController extends Controller
         {
             $attributes['user_id'] = auth()->id();
             $event->addInvite($attributes);
-            auth()->user()->getInvitesRemaining($event);
+            NotificationFunctions::alert('success', $attributes['guest_name'] . ' has been invited!');
         }
 
         return redirect(route('event.index'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Invite  $invite
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Invite $invite)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Invite  $invite
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Invite $invite)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Invite  $invite
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Invite $invite)
-    {
-        //
     }
 
     /**
@@ -99,12 +66,7 @@ class InviteController extends Controller
     public function destroy(Invite $invite)
     {
         $invite->delete();
+        NotificationFunctions::alert('success', 'Successfully deleted guest!');
         return back();
-    }
-
-    public function all(Event $event)
-    {
-        $invites = $event->invites;
-        return view(' invites . all ', compact(' event ', ' invites'));
     }
 }

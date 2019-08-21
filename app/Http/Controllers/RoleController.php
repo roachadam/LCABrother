@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Schema;
+use App\Commons\NotificationFunctions;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\User;
 use App\Role;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Schema;
-use DB;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('ManageMembers');
+    }
+
     public function index()
     {
         $permissionNames = Schema::getColumnListing('permissions');
@@ -20,20 +25,11 @@ class RoleController extends Controller
                 unset($permissionNames[$key]);
             }
         }
-        $roles = Auth::user()->organization->roles;
-        $org = Auth::user()->organization;
-        return view('roles.index', compact('roles', 'org', 'permissionNames'));
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $org = Auth::user()->organization;
-        return view('roles.create', compact('org'));
+        $organization = Auth::user()->organization;
+        $roles = $organization->roles;
+
+        return view('roles.index', compact('roles', 'organization', 'permissionNames'));
     }
 
     /**
@@ -47,7 +43,7 @@ class RoleController extends Controller
         $attributes = $request->all();
         unset($attributes['_token']);
 
-        $role = auth()->user()->organization->addrole($attributes['name']);
+        $role = auth()->user()->organization->addRole($attributes['name']);
 
         unset($attributes['name']);
 
@@ -58,17 +54,9 @@ class RoleController extends Controller
         }
         $role->setPermissions($attributes);
 
+        NotificationFunctions::alert('success', 'Added role!');
         return back();
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Role $role)
-    { }
 
     /**
      * Show the form for editing the specified resource.
@@ -113,7 +101,10 @@ class RoleController extends Controller
             }
         }
         $permission->save();
-        return back();
+
+        NotificationFunctions::alert('success', 'Updated role!');
+
+        return redirect(route('role.index'));
     }
 
     /**
@@ -126,36 +117,47 @@ class RoleController extends Controller
     {
         abort_if(!auth()->user()->canManageMembers(), 403);
         $match = ['name' => 'Basic', 'organization_id' => auth()->user()->organization->id];
+
         $users = User::where('role_id', '=', $role->id)->get();
         $basicRole = Role::where(['name' => 'Basic', 'organization_id' => auth()->user()->organization->id])->first();
+
         foreach ($users as $user) {
             $user->setRole($basicRole);
         }
 
         $role->delete();
+        NotificationFunctions::alert('success', 'Successfully deleted role!');
         return redirect('/role');
     }
-    public function users(Role $role)
+
+    public function usersInRole(Role $role)
     {
-        $users = User::where(['role_id' => $role->id, 'organization_id' => auth()->user()->organization->id])->get();
-        $others = User::where([['role_id', '!=', $role->id], ['organization_id', '=', auth()->user()->organization->id]])->get();
-        return view('roles.userRoles', compact('role', 'users', 'others'));
+        $users = User::findAll(auth()->user()->organization->id);
+
+        $usersWithRole = $users->where('role_id', $role->id);
+        $usersWithoutRole = $users->where('role_id', '!=', $role->id);
+
+        return view('roles.userRoles', compact('role', 'usersWithRole', 'usersWithoutRole'));
     }
+
     public function massSet(Request $request, $role)
     {
         $attributes = $request->all();
         if (isset($attributes['users'])) {
             foreach ($attributes['users'] as $user_id) {
-                $user = User::find($user_id);
-                if ($user->role->name == 'Admin') {
-                    if ($user->id != auth()->user()->organization->owner->id) {
-                        $user->setRole($role);
-                    }
-                } else {
-                    $user->setRole($role);
-                }
+                $user = User::findById($user_id);
+                $user->setRole($role);
             }
         }
+
+        NotificationFunctions::alert('success', 'Successfully Assigned New Roles!');
+        return back();
+    }
+
+    public function removeRole(Request $request, User $user)
+    {
+        $user->setBasicUser();
+        NotificationFunctions::alert('success', 'Successfully removed user!');
         return back();
     }
 }

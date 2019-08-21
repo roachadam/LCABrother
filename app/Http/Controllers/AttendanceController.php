@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Attendance;
-use Illuminate\Http\Request;
-use App\CalendarItem;
-use App\User;
-use App\AttendanceEvent;
-use App\Events\AttendanceRecorded;
 use App\Events\FailedToRecordAttendance;
+use App\Commons\NotificationFunctions;
+use App\Events\AttendanceRecorded;
+use Illuminate\Http\Request;
+use App\AttendanceEvent;
+use App\Attendance;
+use App\User;
 
 class AttendanceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('TakeAttendance')->only(['create', 'store']);
+        $this->middleware('ManageAttendance')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,8 +25,11 @@ class AttendanceController extends Controller
      */
     public function index(AttendanceEvent $attendanceEvent)
     {
+        $this->authorize('update', $attendanceEvent);
+
+        $user = auth()->user();
         $attendances = $attendanceEvent->attendance;
-        return view('attendance.index', compact('attendances', 'attendanceEvent'));
+        return view('attendance.index', compact('user', 'attendances', 'attendanceEvent'));
     }
 
     /**
@@ -30,6 +39,7 @@ class AttendanceController extends Controller
      */
     public function create(Request $request, AttendanceEvent $attendanceEvent)
     {
+        $this->authorize('update', $attendanceEvent);
 
         return view('attendance.create', compact('attendanceEvent'));
     }
@@ -42,6 +52,8 @@ class AttendanceController extends Controller
      */
     public function store(Request $request, AttendanceEvent $attendanceEvent)
     {
+        $this->authorize('update', $attendanceEvent);
+
         $attributes = $request->validate([
             'users' => 'required'
         ]);
@@ -65,39 +77,8 @@ class AttendanceController extends Controller
         if ($notAllFailed) {
             event(new AttendanceRecorded($attendanceEvent));
         }
+
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Attendance $attendance)
-    { }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Attendance $attendance)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Attendance $attendance)
-    {
-        //
     }
 
     /**
@@ -113,13 +94,14 @@ class AttendanceController extends Controller
             $involvementLogs = $involvement->involvementLogs;
             foreach ($involvementLogs as $involvementLog) {
                 if ($involvementLog->user_id == $attendance->user_id) {
-                    // dump('Found attendance log');
                     $involvementLog->delete();
                     break;
                 }
             }
         }
         $attendance->delete();
+
+        NotificationFunctions::alert('success', 'Attendance log deleted!');
         return back();
     }
 }

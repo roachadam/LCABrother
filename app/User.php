@@ -12,7 +12,6 @@ use DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Commons\NotificationFunctions;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -32,50 +31,20 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'email_verified_at' => 'datetime',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::updated(function ($User) {
-            NotificationFunctions::alert('success', 'Updated your details!');
-            return back();
-        });
-    }
-
     //Static helper functions
     public static function findByName($name, $organizationId = null): ?User
     {
-        if (isset($organizationId)) {
-            return self::where([
-                'organization_id' => $organizationId,
-                'name' => $name,
-            ])->first();
-        } else {
-            return self::where('name', $name)->first();
-        }
+        return isset($organizationId) ? (self::where(['organization_id' => $organizationId, 'name' => $name,])->first()) : self::where('name', $name)->first();
     }
 
     public static function findById($id, $organizationId = null): ?User
     {
-        if (isset($organizationId)) {
-            return self::where([
-                'organization_id' => $organizationId,
-                'id' => $id,
-            ])->first();
-        } else {
-            return self::where('id', $id)->first();
-        }
+        return isset($organizationId) ? (self::where(['organization_id' => $organizationId, 'id' => $id,])->first()) : self::where('id', $id)->first();
     }
 
     public static function findAll($organizationId = null): ?Collection
     {
-        if (isset($organizationId)) {
-            return self::where([
-                'organization_id' => $organizationId
-            ])->get();
-        } else {
-            return self::all();
-        }
+        return isset($organizationId) ? (self::where(['organization_id' => $organizationId])->get()) : self::all();
     }
 
     public function setBasicUser()
@@ -161,9 +130,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function getActiveServiceLogs()
     {
-        $activeSemester = $this->organization->getActiveSemester();
-        $activeServiceLogs = $this->serviceLogs()->where('created_at', '>', $activeSemester->start_date)->get();
-        return $activeServiceLogs;
+        return $this->serviceLogs()->where('created_at', '>', $this->organization->getActiveSemester()->start_date)->get();
     }
 
     // Involvement Logs
@@ -184,9 +151,8 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function getInvolvementPoints()
     {
-        $InvolvementLogs = $this->getActiveInvolvementLogs();
         $points = 0;
-        foreach ($InvolvementLogs as $log) {
+        foreach ($this->getActiveInvolvementLogs() as $log) {
             $points += $log->involvement->points;
         }
         return $points;
@@ -194,9 +160,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function getActiveInvolvementLogs()
     {
-        $activeSemester = $this->organization->getActiveSemester();
-        $activeInvolvementLogs = $this->InvolvementLogs()->where('created_at', '>', $activeSemester->start_date)->get();
-        return $activeInvolvementLogs;
+        return $this->InvolvementLogs()->where('created_at', '>', $this->organization->getActiveSemester()->start_date)->get();
     }
 
     //Academics stuff
@@ -295,7 +259,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
             'user_id' => $this->id,
             'event_id' => $event->id,
         ];
-        $invitesSent = DB::table('invites')->where($match)->count();
+        $invitesSent = Invite::where($match)->count();
         return $invitesPer - $invitesSent;
     }
 
@@ -305,7 +269,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
             'user_id' => $this->id,
             'event_id' => $event->id,
         ];
-        $invites = DB::table('invites')->where($match)->get();
+        $invites = Invite::where($match)->get();
         return $invites;
     }
 
@@ -340,6 +304,11 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $this->role->permission->manage_member_details;
     }
 
+    public function canViewMembers()
+    {
+        return $this->role->permission->view_member_details || $this->canManageMembers();
+    }
+
     public function canManageInvolvement()
     {
         return $this->role->permission->manage_all_involvement;
@@ -357,12 +326,12 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function canViewAllService()
     {
-        return $this->role->permission->view_all_service;
+        return $this->role->permission->view_all_service || $this->canManageService();
     }
 
     public function canViewAllInvolvement()
     {
-        return $this->role->permission->view_all_involvement;
+        return $this->role->permission->view_all_involvement || $this->canManageInvolvement();
     }
 
     public function canLogServiceEvent()
@@ -385,9 +354,14 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $this->role->permission->manage_alumni;
     }
 
+    public function canManageAttendance()
+    {
+        return $this->role->permission->manage_attendance;
+    }
+
     public function canTakeAttendance()
     {
-        return $this->role->permission->take_attendance;
+        return $this->role->permission->take_attendance || $this->role->permission->manage_attendance;
     }
 
     public function canManageSurveys()
@@ -395,19 +369,24 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $this->role->permission->manage_surveys;
     }
 
-    public function canViewAllStudy()
-    {
-        return $this->role->permission->view_all_study;
-    }
-
     public function canManageAllStudy()
     {
         return $this->role->permission->manage_all_study;
     }
 
+    public function canViewAllStudy()
+    {
+        return $this->role->permission->view_all_study || $this->canManageAllStudy();
+    }
+
     public function canManageCalendar()
     {
         return $this->role->permission->manage_calendar;
+    }
+
+    public function canManageGoals()
+    {
+        return $this->role->permission->manage_goals;
     }
 
     public function isAdmin()

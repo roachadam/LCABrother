@@ -1,12 +1,12 @@
 @extends('layouts.main')
-
+@section('title', 'Involvement Points')
 @section('content')
 
 <section class="card">
         <div class="card-block">
             <header class="card-header" style="border-bottom: 0">
                 <div class="row">
-                    <h2 class="card-title">{{auth()->user()->name}}'s Involvement Logs</h2>
+                    <h2 class="card-title">{{$user->name}}'s Involvement Logs</h2>
                 </div>
             </header>
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
@@ -15,7 +15,7 @@
                         <th>Event Name</th>
                         <th>Points</th>
                         <th>Date</th>
-                        @if (auth()->user()->canManageInvolvement())
+                        @if ($user->canManageInvolvement())
                             <th>Delete</th>
                         @endif
                     </tr>
@@ -28,7 +28,7 @@
                                 <td>{{ $log->involvement->name }}</td>
                                 <td> {{ $log->involvement->points  }} </td>
                                 <td> {{ $log->date_of_event }} </td>
-                                @if (auth()->user()->canManageInvolvement())
+                                @if ($user->canManageInvolvement())
                                     <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$log->id}}">Delete</button></td>
                                 @endif
                             </tr>
@@ -69,3 +69,13 @@
     </section>
 @endsection
 
+@section('js')
+    <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
+    <script>
+            $(function() {
+                $('#table').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+@endsection

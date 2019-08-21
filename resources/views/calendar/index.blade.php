@@ -1,6 +1,10 @@
 @extends('layouts.main')
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' />
+<<<<<<< HEAD
 <link rel="stylesheet" href="css/lib/flatpickr/flatpickr.min.css">
+=======
+@section('title', 'Calendar')
+>>>>>>> ab466ab433cabc858ce12dde1fb5ce748aa0ed1c
 @section('content')
 
 

@@ -2,32 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Organziation;
-use App\Event;
+use App\Commons\NotificationFunctions;
 use Illuminate\Http\Request;
-use App\CalendarItem;
+use App\Event;
 
 class EventController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('ManageEvents')->only('destroy');
+        $this->middleware('ManageEvents')->except('index');
     }
 
     public function index()
     {
         $events = auth()->user()->organization->event;
         return view('events.index', compact('events'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(CalendarItem $calendarItem = null)
-    {
-        return view('events.create', compact('calendarItem'));
     }
 
     /**
@@ -47,7 +36,9 @@ class EventController extends Controller
         $org = auth()->user()->organization;
         $org->addEvent($attributes);
 
-        return redirect(route('event.index'));
+        NotificationFunctions::alert('success', 'Successfully created new Event!');
+
+        return back();
     }
 
     /**
@@ -58,6 +49,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
+        $this->authorize('view', $event);
         $invites = $event->invites;
         return view('events.show', compact('event', 'invites'));
     }
@@ -70,6 +62,7 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
+        $this->authorize('view', $event);
         return view('events.edit', compact('event'));
     }
 
@@ -82,11 +75,14 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
+        $this->authorize('view', $event);
+
         $attributes = request()->all();
 
         $event->update($attributes);
 
-        return redirect('event');
+        NotificationFunctions::alert('success', 'Successfully updated Event!');
+        return redirect(route('event.index'));
     }
 
     /**
@@ -97,7 +93,11 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
+        $this->authorize('view', $event);
+
         $event->delete();
-        return redirect('/event');
+
+        NotificationFunctions::alert('success', 'Successfully deleted Event!');
+        return redirect(route('event.index'));
     }
 }

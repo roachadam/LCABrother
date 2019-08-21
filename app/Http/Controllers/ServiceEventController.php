@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use App\ServiceLog;
-use App\ServiceEvent;
-use App\Organization;
 use App\Commons\NotificationFunctions;
-
 use Illuminate\Http\Request;
+use App\ServiceEvent;
+use DB;
 
 class ServiceEventController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('ManageService')->only(['delete', 'edit', 'update']);
+        $this->middleware('ManageService')->only('destroy');
     }
 
     public function index()
@@ -23,17 +20,11 @@ class ServiceEventController extends Controller
         return view('service.index', compact('serviceEvents'));
     }
 
-    public function create()
-    {
-        $serviceEvents = auth()->user()->organization->getActiveServiceEvents();
-        return view('service.create', compact('serviceEvents'));
-    }
-
-
     public function store(Request $request)
     {
         $activeSemester = auth()->user()->organization->getActiveSemester();
         $attributes = $this->validateServiceEvent();
+
         $serviceEvent = ServiceEvent::where([
             'name' => $attributes['name'],
             ['created_at', '>', $activeSemester->start_date]
@@ -73,27 +64,26 @@ class ServiceEventController extends Controller
         return redirect(route('serviceEvent.index'));
     }
 
-
     public function show(ServiceEvent $serviceEvent)
     {
+        $this->authorize('update', $serviceEvent);
+
         return view('service.show', compact('serviceEvent'));
     }
 
-
-    public function edit(ServiceEvent $serviceEvent)
-    {
-        //
-    }
-
-
-    public function update(Request $request, ServiceEvent $serviceEvent)
-    { }
-
-
     public function destroy(ServiceEvent $serviceEvent)
     {
+        $this->authorize('update', $serviceEvent);
+
+        if (isset($serviceEvent->serviceLogs)) {
+            foreach ($serviceEvent->serviceLogs as $serviceLog) {
+                $serviceLog->delete();
+            }
+        }
+
         $serviceEvent->delete();
-        return redirect('/serviceEvent');
+        NotificationFunctions::alert('success', 'Successfully deleted Event and Logs!');
+        return redirect(route('serviceEvent.index'));
     }
 
     protected function validateServiceEvent()
@@ -104,11 +94,5 @@ class ServiceEventController extends Controller
             'hours_served' =>  ['required_without:money_donated', 'numeric', 'nullable'],
             'date_of_event' => 'required'
         ]);
-    }
-
-    public function indexByUser(Request $request)
-    {
-        $users = auth()->user()->organization->getVerifiedMembers();
-        return view('service.indexByUser', compact('users'));
     }
 }

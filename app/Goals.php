@@ -24,6 +24,7 @@ class Goals extends Model
             return back();
         });
     }
+    
     public function organization()
     {
         return $this->belongsTo(Organization::Class);

@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Commons\NotificationFunctions;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Organization;
 use App\User;
-use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('ManageMembers')->only('removeUser');
+    }
+
     public function index()
     {
-        $orgs =  Organization::all();
+        $orgs = Organization::all();
         return view('organizations.index', compact('orgs'));
     }
 
@@ -36,5 +42,14 @@ class OrganizationController extends Controller
         $user->setAdmin();
         $user->setVerification(true);
         return redirect('/goals/create');
+    }
+
+    public function removeUser(Request $request, User $user)
+    {
+        $user->organization_verified = 0;
+        $user->save();
+
+        NotificationFunctions::alert('success', 'Successfully Removed ' . $user->name . ' from Organization!');
+        return redirect(route('user.index'));
     }
 }

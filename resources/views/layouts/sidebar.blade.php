@@ -12,8 +12,8 @@
                     <span class="lbl">Service Events</span>
                 </a>
         </li>
-        <li class="blue {{ request()->is('serviceEvents/indexByUser') ? 'opened' : '' }}">
-            <a href="/serviceEvents/indexByUser">
+        <li class="blue {{ request()->is('serviceLogs') ? 'opened' : '' }}">
+            <a href="/serviceLogs">
                 <i class="glyphicon glyphicon-calendar"></i>
                 <span class="lbl">Service Logs</span>
             </a>
@@ -64,7 +64,7 @@
     </ul>
     <section>
         <ul class="side-menu-list">
-            @if (auth()->user()->canManageMembers())
+            @if (auth()->user()->canViewMembers())
                 <header class="side-menu-title">High Zeta</header>
                 <li class="blue {{ request()->is('user') ? 'opened' : '' }}">
                     <a href="/user">
@@ -105,7 +105,7 @@
                     </a>
                 </li>
             @endif
-            @if (auth()->user()->canManageMembers())
+            @if (auth()->user()->canManageGoals())
                 <li class="red {{ request()->is('totals') ? 'opened' : '' }}">
                     <a href="/totals">
                     <span>

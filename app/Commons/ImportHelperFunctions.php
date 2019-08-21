@@ -9,7 +9,7 @@ class ImportHelperFunctions
 {
     public static function validateHeadingRow($file, $keys): bool
     {
-        return count(array_intersect($keys, (new HeadingRowImport)->toArray($file)[0][0])) === count($keys) ? true : false;
+        return count(array_intersect($keys, (new HeadingRowImport)->toArray($file)[0][0])) === count($keys);
     }
 
     public static function storeFileLocally($file, $path)

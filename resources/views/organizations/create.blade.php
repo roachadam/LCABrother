@@ -9,7 +9,7 @@
     <div class="auth__auth">
         <h1 class="auth__title">Create Organization</h1>
         @include('partials.errors')
-        <form method="POST" action="/organization">
+        <form method="POST" action={{route('organization.store')}}>
             @csrf
 
             <label>Name</label>

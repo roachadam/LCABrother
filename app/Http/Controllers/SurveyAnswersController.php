@@ -2,26 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\SurveyAnswers;
-use Illuminate\Http\Request;
-use App\Survey;
+use App\Commons\NotificationFunctions;
 use App\Events\MemberAnsweredSurvey;
+use Illuminate\Http\Request;
+use App\SurveyAnswers;
+use App\Survey;
 
 class SurveyAnswersController extends Controller
 {
-    public function index()
+    public function __construct()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $this->middleware('ManageSurvey')->only('destroy');
     }
 
     /**
@@ -38,41 +29,7 @@ class SurveyAnswersController extends Controller
         $survey->addResponse($attributes);
 
         event(new MemberAnsweredSurvey($survey));
-        return redirect('/survey');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\SurveyAnswers  $surveyAnswers
-     * @return \Illuminate\Http\Response
-     */
-    public function show(SurveyAnswers $surveyAnswers)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\SurveyAnswers  $surveyAnswers
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(SurveyAnswers $surveyAnswers)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\SurveyAnswers  $surveyAnswers
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, SurveyAnswers $surveyAnswers)
-    {
-        //
+        return redirect(route('survey.index'));
     }
 
     /**
@@ -83,8 +40,8 @@ class SurveyAnswersController extends Controller
      */
     public function destroy(SurveyAnswers $surveyAnswers)
     {
-        dd($surveyAnswers->id);
         $surveyAnswers->delete();
+        NotificationFunctions::alert('success', 'Successfully Deleted Survey Entry!');
         return back();
     }
 }

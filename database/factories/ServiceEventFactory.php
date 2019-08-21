@@ -6,11 +6,11 @@ use App\ServiceEvent;
 use Faker\Generator as Faker;
 
 $factory->define(ServiceEvent::class, function (Faker $faker) {
+    $names = collect(['Social', 'Pumpkin Bust', 'Pi', 'Brotherhood Event']);
     return [
-        'name' => $faker->name,
-        'date_of_event' => $faker->dateTime(),
-        'organization_id' => function()
-        {
+        'name' => $names->random(),
+        'date_of_event' => now(),
+        'organization_id' => function () {
             return factory(App\Organization::class)->create()->id;
         },
     ];

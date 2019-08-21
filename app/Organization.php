@@ -17,7 +17,6 @@ use App\Semester;
 use DevDojo\Chatter\Models\Discussion;
 use DevDojo\Chatter\Models\Category;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Organization extends Model
 {
@@ -52,18 +51,22 @@ class Organization extends Model
     {
         return $this->calendarItem()->create($attributes);
     }
+
     public function survey()
     {
         return $this->hasMany(Survey::class);
     }
+
     public function addSurvey($attributes)
     {
         return $this->survey()->create($attributes);
     }
+
     public function discussion()
     {
         return $this->hasMany(Discussion::class);
     }
+
     public function category()
     {
         return $this->hasMany(Category::class);
@@ -85,6 +88,7 @@ class Organization extends Model
         $role = $this->addRole('Basic');
         $role->setBasicPermissions();
     }
+
     public function getVerifiedMembers()
     {
         $members = $this->users()->where('organization_verified', 1)->get();
@@ -121,10 +125,12 @@ class Organization extends Model
     {
         return $this->hasOne(Goals::class);
     }
+
     public function serviceEvents()
     {
         return $this->hasMany(ServiceEvent::Class);
     }
+
     public function getActiveServiceEvents()
     {
         $activeSemester = $this->getActiveSemester();
@@ -134,12 +140,13 @@ class Organization extends Model
 
     public function addInvolvementEvent($attributes, $newServiceEvents = null)
     {
-        if ($newServiceEvents === null && empty(Involvement::where('name', $attributes['name'])->get()->first())) {
+        if ($newServiceEvents === null && $this->involvement->where('name', $attributes['name'])->isEmpty()) {
             return $this->involvement()->create($attributes);
         } else if ($newServiceEvents->where('name', $attributes['name'])->isEmpty()) {
             return $this->involvement()->create($attributes);
         }
     }
+
     public function involvement()
     {
         return $this->hasMany(Involvement::Class);
@@ -149,15 +156,15 @@ class Organization extends Model
     {
         return $this->hasMany(Semester::class);
     }
+
     public function getActiveSemester()
     {
-        $match = [
+        return Semester::where([
             'organization_id' => $this->id,
             'active' => '1'
-        ];
-        $activeSemester = Semester::where($match)->first();
-        return $activeSemester;
+        ])->first();
     }
+
     public function addSemester($attributes)
     {
         return $this->semester()->create($attributes);
@@ -167,6 +174,7 @@ class Organization extends Model
     {
         return $this->event()->create($attributes);
     }
+
     public function event()
     {
         return $this->hasMany(Event::Class);
@@ -192,16 +200,15 @@ class Organization extends Model
 
         return $attributes;
     }
+
     public function getTotals()
     {
         $users = $this->users;
         $attributes = [];
-        $count = 0;
         $tempService = 0;
         $tempMoney = 0;
         $tempPoints = 0;
         foreach ($users  as $user) {
-            $count++;
             $tempService += $user->getServiceHours();
             $tempMoney += $user->getMoneyDonated();
             $tempPoints += $user->getInvolvementPoints();

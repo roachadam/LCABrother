@@ -8,13 +8,13 @@ use Faker\Generator as Faker;
 
 $factory->define(Organization::class, function (Faker $faker) {
     return [
-        'name'=> $faker->company,
-        'owner_id' => function()
-        {
+        'name' => $faker->company,
+        'owner_id' => function () {
             return factory(App\User::class)->create()->id;
         }
     ];
 });
+
 $factory->afterCreating(Organization::class, function ($Organization, $faker) {
     $Organization->createAdmin();
     $Organization->createBasicUser();

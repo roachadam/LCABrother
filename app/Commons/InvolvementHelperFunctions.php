@@ -3,26 +3,19 @@
 namespace App\Commons;
 
 use App\Involvement;
-use App\Organization;
+use Illuminate\Database\Eloquent\Collection;
 
 class InvolvementHelperFunctions
 {
-    public static function getExistingLogs()
+    public static function getExistingLogs($test): Collection
     {
-        $involvements = auth()->user()->organization->involvement;
-        return $involvements->filter(function ($involvement) {
-            return $involvement['organization_id'] === auth()->user()->organization->id;
-        });
+        return $test ? (Involvement::where('organization_id', auth()->user()->organization_id)->get()) : auth()->user()->organization->involvement;
     }
 
-    public static function checkIfInvolvementEventExists($attributes)
+    public static function checkIfInvolvementEventExists($attributes): Collection
     {
-        $organization = auth()->user()->organization;
-        $involvements = $organization->involvement;
-        $organizationId = $organization->id;
-
-        return $involvements->filter(function ($involvement) use ($attributes, $organizationId) {
-            return $involvement['name'] === $attributes['name'] && $involvement['organization_id'] === $organizationId;
+        return auth()->user()->organization->involvement->filter(function ($involvement) use ($attributes) {
+            return $involvement['name'] === $attributes['name'];
         });
     }
 }

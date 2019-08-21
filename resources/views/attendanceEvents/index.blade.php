@@ -1,16 +1,11 @@
 @extends('layouts.main')
-
+@section('title', 'Attendance')
 @section('content')
     <section class="card">
         <div class="card-block">
             <header class="card-header" style="border-bottom: 0">
                 <div class="row">
-                    <h2 class="card-title">Attendance Record Events</h2>
-                    <div class="ml-auto" id="headerButtons">
-                        @if($user->canManageEvents())
-                            <a href="/calendarItem/create" class="btn btn-inline btn-primary">Create New Event</a>
-                        @endif
-                    </div>
+                    <h2 class="card-title">Attendance Records</h2>
                 </div>
             </header>
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
@@ -23,8 +18,8 @@
                         <th>Take Attendance</th>
                     @endif
 
-                    @if($user->canManageEvents())
-                        <th>Manage</th>
+                    @if($user->canManageAttendance())
+                        <th>Delete</th>
                     @endif
                 </tr>
                 </thead>
@@ -39,38 +34,38 @@
                                     <td><a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-primary">Take Attendance</a></td>
                                 @endif
 
-                                @if($user->canManageEvents())
+                                @if($user->canManageAttendance())
                                     <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$attendanceEvent->id}}">Delete</button></td>
-                                @endif
-                            </tr>
 
-                            <!--.modal for confirming deletion-->
-                            <div class="modal fade" id="{{$attendanceEvent->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
-                                                <i class="font-icon-close-2"></i>
-                                            </button>
-                                            <h4 class="modal-title" id="myModalLabel">Delete Attendance Log</h4>
-                                        </div>
-                                        <form action="/attendanceEvent/{{$attendanceEvent->id}}" method="POST" class="box" >
-                                            <div class="modal-body">
-                                                @csrf
-                                                @method('DELETE')
-                                                <div class="col-md-12">
-                                                    <p>Are you sure you want to delete this attendance log?</p>
+                                    <!--.modal for confirming deletion-->
+                                    <div class="modal fade" id="{{$attendanceEvent->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                                                            <i class="font-icon-close-2"></i>
+                                                        </button>
+                                                        <h4 class="modal-title" id="myModalLabel">Delete Attendance Log</h4>
+                                                    </div>
+                                                    <form action={{route('attendanceEvents.destroy', $attendanceEvent)}} method="POST" class="box" >
+                                                        <div class="modal-body">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <div class="col-md-12">
+                                                                <p>Are you sure you want to delete this attendance log?</p>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-inline btn-danger">Delete</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div><!--.modal-->
+                                        </div><!--.modal-->
+                                @endif
+                            </tr>
                         @endforeach
                     @endif
                 </tbody>

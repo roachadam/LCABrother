@@ -38,23 +38,20 @@ class InvolvementController extends Controller
      */
     public function store(Request $request)
     {
-        //validate
         $attributes = request()->validate([
             'name' => 'required',
             'points' => ['required', 'numeric', 'min:0', 'max:999'],
         ]);
 
-        //Check if that event already exists
         if (InvolvementHelperFunctions::checkIfInvolvementEventExists($attributes)->isNotEmpty()) {
             NotificationFunctions::alert('danger', 'An Involvement event for ' . $attributes['name'] . 's already exits');
             return redirect(route('involvement.adminView'));
         } else {
-            //persist
             $org = auth()->user()->organization;
             $org->addInvolvementEvent($attributes);
 
-            NotificationFunctions::alert('success', 'Successfully created and involvement event for ' . $attributes['name'] . 's');
-            //redirect
+            NotificationFunctions::alert('success', 'Successfully created involvement event for ' . $attributes['name'] . 's');
+
             return redirect(route('involvement.adminView'));
         }
     }
@@ -62,7 +59,7 @@ class InvolvementController extends Controller
     public function update(Request $request, Involvement $involvement)
     {
         $attributes = request()->validate([
-            'name' => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'name' => ['required'],
             'points' => ['required', 'numeric', 'min:0', 'max:999']
         ]);
 
@@ -77,11 +74,12 @@ class InvolvementController extends Controller
         $request->validate(
             [
                 'InvolvementData' => 'required|file|max:2048|mimes:xlsx',
-                'test' => 'boolean',
+                'test' => 'boolean'
             ],
             //Error messages
             ['InvolvementData.mimes' => 'You must upload a spread sheet']
         );
+
         $file = request()->file('InvolvementData');
 
         $requiredHeadings = [
@@ -96,19 +94,19 @@ class InvolvementController extends Controller
             }
 
             $organization = auth()->user()->organization;
-            $import = new InvolvementsImport(InvolvementHelperFunctions::getExistingLogs(), $organization, $organization->users);
+            $import = new InvolvementsImport(InvolvementHelperFunctions::getExistingLogs($request['test']), $organization, $organization->users);
             Excel::import($import, $file);
 
-            return $this->checkNullEvents($import->getNewServiceEvents());
+            return $this->checkNullEvents($import->getNewServiceEvents(), $organization, $request['test']);
         } else {
             NotificationFunctions::alert('danger', 'Failed to import new Records: Invalid format');
-            return redirect(route('involvement.index'));
+            return back();
         }
     }
 
-    private function checkNullEvents($events)
+    private function checkNullEvents($events, $organization, $test)
     {
-        if ($events->isNotEmpty()) {
+        if ($events->where('points', null)->isNotEmpty() && $organization->involvement->where('name', $test)) {
             return view('/involvement/edit', compact('events'));
         } else {
             NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');
@@ -124,14 +122,15 @@ class InvolvementController extends Controller
         ]);
 
         $pointData = array_combine($attributes['name'], $attributes['point_value']);
-        $involvements = auth()->user()->organization->involvement;
+
+        $organization = auth()->user()->organization;
+        $involvements = (env('APP_ENV') === 'testing') ? (Involvement::where('organization_id', $organization->id)->get()) : $organization->involvement;
 
         foreach ($pointData as $eventName => $points) {
-            $event = $involvements->filter(function ($event) use ($eventName, $points) {
-                return $event['name'] === $eventName && $event['organization_id'] === auth()->user()->organization->id;
-            })->first();
-            $event->update(['points' => $points]);
+            $involvements->where('name', $eventName)->first()->update(['points' => $points]);
         }
+
+        NotificationFunctions::alert('success', 'Successfully imported new Involvement records!');
         return redirect('/involvement');
     }
 

@@ -4,16 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Goals;
-use App\Organization;
 
 class GoalsController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    //     $this->middleware('ManageInvolvement');
-    //     $this->middleware('orgverified');
-    // }
+    public function __construct()
+    {
+        $this->middleware('ManageGoals')->except('index');
+    }
 
     public function index()
     {
@@ -43,11 +40,13 @@ class GoalsController extends Controller
         //redirect
         return view('semester.create');
     }
+
     public function edit()
     {
         $goals = auth()->user()->organization->goals;
         return view('goals.edit', compact('goals'));
     }
+
     public function update(Goals $goals)
     {
         $attributes = request()->validate([

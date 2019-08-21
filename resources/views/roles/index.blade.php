@@ -1,4 +1,6 @@
-@extends('main.dash')
+@extends('layouts.main')
+
+@section('title', 'Roles')
 
 @section('content')
 <section class="card">
@@ -12,7 +14,6 @@
             </div>
         </header>
         @include('partials.errors')
-
         <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
             <thead>
             <tr>
@@ -27,8 +28,8 @@
                     @foreach ($roles as $role)
                         <tr>
                             <td>{{ $role->name }}</td>
-                            <td><a href="/role/{{$role->id}}/users" class="btn btn-inline">View</a></td>
-                            <td><a href="/role/{{$role->id}}/edit" class="btn btn-inline">Edit</a></td>
+                            <td><a href={{route('role.usersInRole', $role)}} class="btn btn-inline">View</a></td>
+                            <td><a href={{route('role.edit', $role)}} class="btn btn-inline">Edit</a></td>
                         </tr>
                     @endforeach
                 @endif
@@ -51,7 +52,7 @@
                     </button>
                     <h4 class="modal-title" id="myModalLabel">Add Role</h4>
                 </div>
-                <form method="POST" action="/role" class="box" >
+                <form method="POST" action={{route('role.store')}} class="box" >
                     <div class="modal-body">
                         @csrf
                         <div class="col-md-12">
@@ -66,7 +67,7 @@
                                 {{-- edit member details --}}
                                 @foreach($permissionNames as $permission_name)
                                     <div class="checkbox-toggle form-group">
-                                        <input type="checkbox" id={{$permission_name}} name={{$permission_name}} {{$role->permission->$permission_name ==1 ? 'checked' : ''}}>
+                                        <input type="checkbox" id={{$permission_name}} name={{$permission_name}} {{$role->permission->$permission_name == 1 ? 'checked' : ''}}>
                                         <label for={{$permission_name}}>{{ucwords(str_replace('_', ' ', $permission_name))}}</label>
                                     </div>
                                 @endforeach
@@ -81,8 +82,6 @@
             </div>
         </div>
     </div><!--.modal-->
-
-
 </section>
 
     @section('js')

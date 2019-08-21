@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Add Invite')
 @section('content')
 
 <div class="container">
@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header">{{$event->name}}: Add Invite</div>
                 <div class="card-body">
-                    <form method="POST" action="/event/{{$event->id}}/invite">
+                    <form method="POST" action={{route('invite.store', $event)}}>
                         @csrf
                         <div class="form-group row"> {{-- Name --}}
                             <label for="guest_name" class="col-md-4 col-form-label text-md-right">{{ __('Guest Name') }}</label>
@@ -26,8 +26,6 @@
                                 </button>
                             </div>
                         </div>
-
-
                     </form>
                 </div>
             </div>

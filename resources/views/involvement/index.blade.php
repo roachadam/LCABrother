@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Involvement Points')
 @section('content')
 <section class="card">
     <div class="card-block">
@@ -7,7 +7,7 @@
             <div class="row">
                 <h2 class="card-title">Involvement Points</h2>
                 <div class="ml-auto" id="headerButtons">
-                    <a href="/user/{{auth()->user()->id}}/involvementLogs" class="btn btn-inline {{ $canManageInvolvement ? 'btn-secondary-outline' : 'btn-primary'}}">View My Involvement Breakdown</a>
+                    <a href="/user/{{auth()->user()->id}}/involvementLogs" class="btn btn-inline {{ $canManageInvolvement ? 'btn-secondary-outline' : 'btn-primary'}}">My Involvement Breakdown</a>
                     @if ($canManageInvolvement)
                         <button type="button" class="btn btn-inline btn-secondary-outline" data-toggle="modal" data-target="#addInvolvementScores">Add Involvement Scores</button>
                         <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#uploadInvolvementData">Upload Involvement Data</button>
@@ -21,7 +21,7 @@
                 <th>Name</th>
                 <th>Points</th>
                 @if ($canManageInvolvement)
-                    <th>View BreakDown</th>
+                    <th>View</th>
                 @endif
             </tr>
             </thead>
@@ -131,16 +131,15 @@
             </div><!--.modal-->
         @endif
 </section>
-
+@endsection
 
 @section('js')
-<script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
-<script>
-		$(function() {
-			$('#table').DataTable({
-				responsive: true
-			});
-		});
+    <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
+    <script>
+        $(function() {
+            $('#table').DataTable({
+                responsive: true
+            });
+        });
     </script>
-@endsection
 @endsection
