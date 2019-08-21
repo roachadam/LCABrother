@@ -28,6 +28,7 @@ class SurveyAnswersController extends Controller
         $attributes['user_id'] = auth()->id();
         $survey->addResponse($attributes);
 
+        NotificationFunctions::alert('success', 'Successfully Saved Response!');
         event(new MemberAnsweredSurvey($survey));
         return redirect(route('survey.index'));
     }
