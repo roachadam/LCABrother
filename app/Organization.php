@@ -52,6 +52,25 @@ class Organization extends Model
         return $this->calendarItem()->create($attributes);
     }
 
+    public function calendarCatagories()
+    {
+        return $this->hasMany(CalendarCatagory::Class);
+    }
+
+    public function setCalendarCategories()
+    {
+        $this->addCalendarCategory('General', '#257e4a');
+        $this->addCalendarCategory('Meeting', '#0000CD');
+        $this->addCalendarCategory('Philanthropy', '#FFD700');
+        $this->addCalendarCategory('Socials', '#A52A2A');
+        $this->addCalendarCategory('Ritual', '#696969');
+    }
+
+    public function addCalendarCategory($name, $color)
+    {
+        return $this->calendarCatagories()->create(['name' => $name, 'color' => $color]);
+    }
+
     public function survey()
     {
         return $this->hasMany(Survey::class);
@@ -131,10 +150,6 @@ class Organization extends Model
         return $this->hasMany(ServiceEvent::Class);
     }
 
-    public function calendarCatagories()
-    {
-        return $this->hasMany(CalendarCatagory::Class);
-    }
 
     public function getActiveServiceEvents()
     {

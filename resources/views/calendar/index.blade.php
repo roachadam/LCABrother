@@ -1,12 +1,53 @@
 @extends('layouts.main')
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' />
-<link rel="stylesheet" href="css/lib/flatpickr/flatpickr.min.css">
-<link rel="stylesheet" href="css/lib/flatpickr/flatpickr.min.css">
+@section('css')
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' />
+    <link rel="stylesheet" href="css/lib/flatpickr/flatpickr.min.css">
+    <link rel="stylesheet" href="css/lib/flatpickr/flatpickr.min.css">
+    <style type='text/css'>
+        .my-legend .legend-title {
+          text-align: left;
+          margin-bottom: 5px;
+          font-weight: bold;
+          font-size: 90%;
+          }
+        .my-legend .legend-scale ul {
+          margin: 0;
+          margin-bottom: 5px;
+          padding: 0;
+          float: left;
+          list-style: none;
+          }
+        .my-legend .legend-scale ul li {
+          font-size: 80%;
+          list-style: none;
+          margin-left: 0;
+          line-height: 18px;
+          margin-bottom: 2px;
+          }
+        .my-legend ul.legend-labels li span {
+          display: block;
+          float: left;
+          height: 16px;
+          width: 30px;
+          margin-right: 5px;
+          margin-left: 0;
+          border: 1px solid #999;
+          }
+        .my-legend .legend-source {
+          font-size: 70%;
+          color: #999;
+          clear: both;
+          }
+        .my-legend a {
+          color: #777;
+          }
+      </style>
 
 @section('title', 'Calendar')
 
 @section('content')
 
+<button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#legendModal">Legend</button>
 
 <div id="calendar" class="fc fc-unthemed fc-ltr"></div>
 
@@ -90,6 +131,27 @@
     </div>
 </div>
 
+<div class="modal" tabindex="-1" role="dialog" id="legendModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Legend</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class='my-legend'>
+                        <ul class='legend-labels'>
+                            @foreach (auth()->user()->organization->calendarCatagories as $category)
+                                <li><span style='background:{{$category->color}}'></span>{{$category->name}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -153,7 +215,7 @@
                 inv.style.display = "none";
             }
         }
-        </script>
+    </script>
 
 @endsection
 @endsection
