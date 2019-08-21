@@ -6,11 +6,11 @@
         <div class="card-body">
             <div class="offset-1">
                 <p> Description : {{$calendarItem->description}} </p>
-                @if ($calendarItem->end_date != $calendarItem->start_date)
-                    <p>Start Date : {{$calendarItem->start_date}}</p>
-                    <p>End Date : {{$calendarItem->end_date}}</p>
+                @if ($calendarItem->end_datetime != $calendarItem->start_datetime)
+                    <p id="startDate">Start Date : {{ \Carbon\Carbon::parse($calendarItem->start_datetime)->format('m/d/Y h:i a') }}</p>
+                    <p id="endDate">End Date : {{ \Carbon\Carbon::parse($calendarItem->end_datetime)->format('m/d/Y h:i a') }}</p>
                 @else
-                    <p>Date : {{$calendarItem->start_date}}</p>
+                    <p>Date : {{$calendarItem->start_datetime}}</p>
                 @endif
 
                 @if (auth()->user()->canManageEvents())
@@ -189,6 +189,7 @@
     @section('js')
     <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
     <script>
+
             $(function() {
                 $('#table').DataTable({
                     responsive: true
