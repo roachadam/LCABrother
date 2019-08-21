@@ -1,17 +1,17 @@
 @extends('layouts.main')
 @section('title', 'Event Details')
 @section('content')
-    <div class="container">
-        @include('partials.errors')
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">{{ $event->name }} Details</div>
-                    <div class="card-body">
-                        <p>Date of Event: {{ $event->date_of_event }}</p>
-                        <p>Invites per member: {{ $event->num_invites }}</p>
-                        <p>Total invites logged: {{ $event->getNumInvites() }}</p>
-                    </div>
+
+<div class="container">
+    @include('partials.errors')
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">{{ $event->name }} Details</div>
+                <div class="card-body">
+                    <p>Date of Event: {{ \Carbon\Carbon::parse($event->date_of_event)->format('m/d/Y h:i a') }}</p>
+                    <p>Invites per member: {{ $event->num_invites }}</p>
+                    <p>Total invites logged: {{ $event->getNumInvites() }}</p>
                 </div>
             </div>
         </div>

@@ -19,8 +19,8 @@ class CreateCalendarItemsTable extends Migration
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->dateTime('start_datetime');
+            $table->dateTime('end_datetime');
             $table->timestamps();
         });
     }
