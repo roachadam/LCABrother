@@ -47,6 +47,17 @@
 
                     <div class="row m-t-md">
                         <div class="checkbox-toggle form-group">
+                            <label for="color">Category</label>
+                            <select name="color" id="color" class="form-control">
+                                <option value="0">Choose Category</option>
+                                @foreach (auth()->user()->organization->calendarCatagories as $category)
+                                    <option value="{{$category->color}}">{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row m-t-md">
+                        <div class="checkbox-toggle form-group">
                             <input type="checkbox" id=guestList name=guestList>
                             <label for=guestList>Generate GuestList</label>
                         </div>
@@ -109,10 +120,13 @@
                             start : '{{ $calendarItem->start_datetime }}',
                             end : '{{ $calendarItem->end_datetime }}',
                             url : '/calendarItem/'+{{$calendarItem->id}},
+                            color : '{{ $calendarItem->color }}'
                         },
                         @endforeach
                     @endif
                 ],
+                // color : '#FFFFFF',
+
                 dayClick: function(date) {
                     $("#start_datetime").val(date.format('YYYY-MM-DD hh:mm'));
                     $('#myModal').modal('show');

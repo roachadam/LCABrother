@@ -131,6 +131,11 @@ class Organization extends Model
         return $this->hasMany(ServiceEvent::Class);
     }
 
+    public function calendarCatagories()
+    {
+        return $this->hasMany(CalendarCatagory::Class);
+    }
+
     public function getActiveServiceEvents()
     {
         $activeSemester = $this->getActiveSemester();
