@@ -51,7 +51,8 @@ class CalendarController extends Controller
             "end_datetime" => ['nullable'],
             "guestList" => ['nullable'],
             "attendance" => ['nullable'],
-            "involvement" => ['numeric']
+            "involvement" => ['numeric'],
+            "color" => ['required']
         ]);
 
         $makeGuest = isset($attributes['guestList']);

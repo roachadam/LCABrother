@@ -52,6 +52,25 @@ class Organization extends Model
         return $this->calendarItem()->create($attributes);
     }
 
+    public function calendarCatagories()
+    {
+        return $this->hasMany(CalendarCatagory::Class);
+    }
+
+    public function setCalendarCategories()
+    {
+        $this->addCalendarCategory('General', '#3fb06e');
+        $this->addCalendarCategory('Meeting', '#3d91c9');
+        $this->addCalendarCategory('Philanthropy', '#f9af2b');
+        $this->addCalendarCategory('Socials', '#f05131');
+        $this->addCalendarCategory('Ritual', '#4d5857');
+    }
+
+    public function addCalendarCategory($name, $color)
+    {
+        return $this->calendarCatagories()->create(['name' => $name, 'color' => $color]);
+    }
+
     public function survey()
     {
         return $this->hasMany(Survey::class);
@@ -70,6 +89,14 @@ class Organization extends Model
     public function category()
     {
         return $this->hasMany(Category::class);
+    }
+    public function setForumCategories()
+    {
+        $this->addForumCategory('General', '#3d91c9','general');
+
+    }
+    public function addForumCategory($name, $color, $slug){
+        return $this->category()->create(['name' => $name, 'color' => $color, 'slug' => $slug]);
     }
 
     public function addRole($name)
@@ -130,6 +157,7 @@ class Organization extends Model
     {
         return $this->hasMany(ServiceEvent::Class);
     }
+
 
     public function getActiveServiceEvents()
     {
