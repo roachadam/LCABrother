@@ -51,7 +51,7 @@
 
 <div id="calendar" class="fc fc-unthemed fc-ltr"></div>
 
-<div class="modal" tabindex="-1" role="dialog" id="myModal">
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -60,8 +60,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form method='POST' action="/calendarItem" role="presentation" class="form">
+            <form method='POST' action="/calendarItem" role="presentation" class="form">
+                <div class="modal-body">
                     @csrf
                     @include('partials.errors')
                     <div class="row m-t-md">
@@ -121,17 +121,17 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <button type='submit' class="btn btn-primary">Create</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                        <button type='submit' class="btn btn-inline btn-primary">Create</button>
                     </div>
-
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-<div class="modal" tabindex="-1" role="dialog" id="legendModal">
+<div class="modal fade" tabindex="-1" role="dialog" id="legendModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
