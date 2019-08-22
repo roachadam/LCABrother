@@ -15,7 +15,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">User Name:</label>
 
                                 <div class="col-md-4">
-                                    <input id="name" type="text" class="form-control " name="name" value="{{ $academics->name }}" required  readonly="readonly" autofocus>
+                                    <input id="name" type="text" class="form-control" name="name" value="{{ $academics->name }}" required  readonly="readonly" autofocus>
                                 </div>
                             </div>
 
