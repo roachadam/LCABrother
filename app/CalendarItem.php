@@ -5,6 +5,7 @@ namespace App;
 use App\Organization;
 use App\Event;
 use App\AttendanceEvent;
+use App\CalendarCatagory;
 use Illuminate\Database\Eloquent\Model;
 
 class CalendarItem extends Model
