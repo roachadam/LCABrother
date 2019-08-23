@@ -45,6 +45,6 @@ class SemesterController extends Controller
         $attributes['start_date'] = Carbon::today()->toDateString();
         NotificationFunctions::alert('success', 'Successfully created new semester');
         auth()->user()->organization->addSemester($attributes);
-        return redirect('/forum/create/categories');
+        return redirect('/massInvite');
     }
 }

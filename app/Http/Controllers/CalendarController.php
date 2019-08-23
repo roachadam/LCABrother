@@ -47,11 +47,12 @@ class CalendarController extends Controller
         $attributes = $request->validate([
             "name" => ['required'],
             "description" => ['required'],
-            "start_date" => ['required'],
-            "end_date" => ['nullable'],
+            "start_datetime" => ['required'],
+            "end_datetime" => ['nullable'],
             "guestList" => ['nullable'],
             "attendance" => ['nullable'],
-            "involvement" => ['numeric']
+            "involvement" => ['numeric'],
+            "color" => ['required']
         ]);
 
         $makeGuest = isset($attributes['guestList']);
@@ -62,9 +63,14 @@ class CalendarController extends Controller
         unset($attributes['attendance']);
         unset($attributes['involvement']);
 
-        if (!isset($attributes['end_date'])) {
-            $attributes['end_date'] = $attributes['start_date'];
+        if (!isset($attributes['end_datetime'])) {
+            $attributes['end_datetime'] = $attributes['start_datetime'];
         }
+
+        // remove am/pm and reformat dates
+        $attributes['start_datetime'] = new \DateTime($attributes['start_datetime']);
+        $attributes['end_datetime'] = new \DateTime($attributes['end_datetime']);
+
 
         $org = auth()->user()->organization;
         $calendarItem = $org->addCalendarItem($attributes);

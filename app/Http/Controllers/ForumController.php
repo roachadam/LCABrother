@@ -18,12 +18,12 @@ class ForumController extends Controller
         $attributes = $request->validate([
             'name' => ['required']
         ]);
-        $rand_color = '#' . substr(md5(mt_rand()), 0, 6);
 
-        $attributes['color'] = $rand_color;
-        $attributes['slug'] = strtolower($attributes['name']);
+        $rand_color = '#' . substr(md5(mt_rand()), 0, 6);
+        $slug = strtolower($attributes['name']);
+
         $organization = auth()->user()->organization;
-        $organization->category()->create($attributes);
+        $organization->addForumCategory($attributes['name'],$rand_color,$slug);
 
         return redirect('/forum/create/categories');
     }
