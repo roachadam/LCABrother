@@ -135,7 +135,7 @@
                     </a>
                 </li>
             @endif
-            @if (auth()->user()->canManageCalendar())
+            {{-- @if (auth()->user()->canManageCalendar())
             <li class="blue {{ request()->is('calendarItem/create') ? 'opened' : '' }}">
                 <a href="/calendarItem/create">
                 <span>

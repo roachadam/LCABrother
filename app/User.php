@@ -8,7 +8,6 @@ use App\InvolvementLog;
 use App\Academics;
 use App\Event;
 use App\Invite;
-use DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
