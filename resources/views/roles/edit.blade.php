@@ -6,7 +6,7 @@
     <div class="container">
         @include('partials.errors')
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
@@ -22,8 +22,14 @@
                         <form method="post" action={{route('role.update', $role)}}>
                             @method('PATCH')
                             @csrf
-
                             <div class="form-body row offset-3">
+                                <label for="name" class="col-md-3-col-form-label text-md-left">Role Name:</label>
+
+                                <div class='offset-1'>
+                                    <input id="name" type="text" class="form-control" name="name" value="{{ $role->name }}" required autofocus>
+                                </div>
+                            </div>
+                            <div class="form-body row offset-3 padding-sm">
                                 <fieldset class="">
                                     @foreach($permissionNames as $permission_name)
                                         <div class="checkbox-toggle form-group">
@@ -34,8 +40,8 @@
                                 </fieldset>
                             </div>
 
-                            <div class="form-group row mb-0">
-                                <div class="btn-group col-md-6 offset-md-7">
+                            <div class="form-group row">
+                                <div class="btn-group col-md-4 offset-md-7">
                                     <a href="/role" class="btn btn-inline btn-primary">Cancel</a>
                                     <button type="submit" class="btn btn-inline btn-primary">{{ __('Update') }}</button>
                                 </div>

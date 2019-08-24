@@ -100,6 +100,10 @@ class RoleController extends Controller
                 }
             }
         }
+        if(isset($attributes['name'])){
+            $role->name = $attributes['name'];
+            $role->save();
+        }
         $permission->save();
 
         NotificationFunctions::alert('success', 'Updated role!');
