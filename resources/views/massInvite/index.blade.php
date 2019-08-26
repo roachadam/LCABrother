@@ -15,7 +15,7 @@
                 <textarea name='emailList' id="emailList" rows="12" class="form-control" placeholder="dawson@louisiana.edu, adam@gmail.com"></textarea>
 
             <button type="submit" class="button button__primary">Submit</button>
-            <a href="/dash" class="button">Next</a>
+            <a href="/dash" class="button">Skip</a>
         </form>
 
     </div>

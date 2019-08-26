@@ -3,6 +3,7 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' />
     <link rel="stylesheet" href="css/lib/flatpickr/flatpickr.min.css">
     <link rel="stylesheet" href="css/lib/flatpickr/flatpickr.min.css">
+    <link rel="stylesheet" href="css/color_picker.min.css">
     <style type='text/css'>
         .my-legend .legend-title {
           text-align: left;
@@ -48,6 +49,9 @@
 @section('content')
 
 <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#legendModal">Legend</button>
+@if (auth()->user()->canManageCalendar())
+    <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#addCatModal">Add Category</button>
+@endif
 
 <div id="calendar" class="fc fc-unthemed fc-ltr"></div>
 
@@ -132,35 +136,70 @@
 </div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="legendModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Legend</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class='my-legend'>
-                        <ul class='legend-labels'>
-                            @foreach (auth()->user()->organization->calendarCatagories as $category)
-                                <li><span style='background:{{$category->color}}'></span>{{$category->name}}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Legend</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class='my-legend'>
+                    <ul class='legend-labels'>
+                        @foreach (auth()->user()->organization->calendarCatagories as $category)
+                            <li><span style='background:{{$category->color}}'></span>{{$category->name}}</li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
+<div class="modal fade" tabindex="-1" role="dialog" id="addCatModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Calendar Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/calendarItem/addCategory" class="box" >
+                @csrf
+                <div class="modal-body mx-auto col-md-12">
 
+                    <div  class="col-md-6">
+                        <div class="row m-t-md">
+                            <label class="form-label semibold" for="name">Category Name</label>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
+
+                        <div class="row m-t-md">
+                            <label class="form-label semibold" for="colorPicker">Choose Color</label>
+                            <input type="text" class="form-control inp" id="colorPicker" name="color">
+                            <div class="palette" id="colorPalette"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                    <button type='submit' class="btn btn-inline btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 @section('js')
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
     <script src="js/lib/flatpickr/flatpickr.min.js"></script>
-
+    <script src="js/color_picker.min.js"></script>
     <script>
         $(document).ready(function() {
             // page is now ready, initialize the calendar...
@@ -190,15 +229,20 @@
                 // color : '#FFFFFF',
 
                 dayClick: function(date) {
-                    $("#start_datetime").val(date.format('YYYY-MM-DD hh:mm'));
-                    $('#myModal').modal('show');
+                    if ({{auth()->user()->canManageCalendar()}})
+                    {
+                        $("#start_datetime").val(date.format('YYYY-MM-DD hh:mm'));
+                        $('#myModal').modal('show');
+                    }
                 },
                 select: function(startDate, endDate) {
-                    var correctEndDate = moment(endDate).add(-12, 'h').format('YYYY-MM-DD hh:mm a');
-
-                    $("#start_datetime").val(startDate.format('YYYY-MM-DD hh:mm a'));
-                    $("#end_datetime").val(correctEndDate);
-                    $('#myModal').modal('show');
+                    if ({{auth()->user()->canManageCalendar()}})
+                    {
+                        var correctEndDate = moment(endDate).add(-12, 'h').format('YYYY-MM-DD hh:mm a');
+                        $("#start_datetime").val(startDate.format('YYYY-MM-DD hh:mm a'));
+                        $("#end_datetime").val(correctEndDate);
+                        $('#myModal').modal('show');
+                    }
                 }
             })
         });

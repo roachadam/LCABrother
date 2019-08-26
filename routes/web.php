@@ -97,6 +97,7 @@ Route::middleware('auth')->group(function () {
             // Route::post('/newsletter/send', 'NewsLetterController@send');
 
             Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
+            Route::post('/calendarItem/addCategory', 'CalendarController@addCategory');
 
             Route::resource('survey', 'SurveyController')->except('update');
             Route::resource('surveyAnswers', 'SurveyAnswersController')->only('store');
