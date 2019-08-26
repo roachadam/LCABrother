@@ -168,17 +168,19 @@
             </div>
             <form method="POST" action="/calendarItem/addCategory" class="box" >
                 @csrf
-                <div class="modal-body">
+                <div class="modal-body mx-auto col-md-12">
 
-                    <div class="row m-t-md">
-                        <label class="form-label semibold" for="name">Category Name</label>
-                        <input type="text" class="form-control" id="name" name="name">
-                    </div>
+                    <div  class="col-md-6">
+                        <div class="row m-t-md">
+                            <label class="form-label semibold" for="name">Category Name</label>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
 
-                    <div class="row m-t-md">
-                        <label class="form-label semibold" for="colorPicker">Choose Color</label>
-                        <input type="text" class="form-control inp" id="colorPicker" name="color">
-                        <div class="palette" id="colorPalette"></div>
+                        <div class="row m-t-md">
+                            <label class="form-label semibold" for="colorPicker">Choose Color</label>
+                            <input type="text" class="form-control inp" id="colorPicker" name="color">
+                            <div class="palette" id="colorPalette"></div>
+                        </div>
                     </div>
 
                 </div>
