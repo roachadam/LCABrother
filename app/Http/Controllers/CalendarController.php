@@ -161,4 +161,16 @@ class CalendarController extends Controller
         $calendarItem->event()->associate($event)->save();
         return redirect('/event');
     }
+    public function addCategory(Request $request)
+    {
+        $attributes = request()->validate([
+            'name' => 'required',
+            'color' => 'required',
+        ]);
+
+        $org = auth()->user()->organization;
+        $org->addCalendarCategory($attributes['name'], $attributes['color']);
+        
+        return redirect('/calendarItem');
+    }
 }
