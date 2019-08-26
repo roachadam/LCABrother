@@ -190,15 +190,20 @@
                 // color : '#FFFFFF',
 
                 dayClick: function(date) {
-                    $("#start_datetime").val(date.format('YYYY-MM-DD hh:mm'));
-                    $('#myModal').modal('show');
+                    if ({{auth()->user()->canManageCalendar()}})
+                    {
+                        $("#start_datetime").val(date.format('YYYY-MM-DD hh:mm'));
+                        $('#myModal').modal('show');
+                    }
                 },
                 select: function(startDate, endDate) {
-                    var correctEndDate = moment(endDate).add(-12, 'h').format('YYYY-MM-DD hh:mm a');
-
-                    $("#start_datetime").val(startDate.format('YYYY-MM-DD hh:mm a'));
-                    $("#end_datetime").val(correctEndDate);
-                    $('#myModal').modal('show');
+                    if ({{auth()->user()->canManageCalendar()}})
+                    {
+                        var correctEndDate = moment(endDate).add(-12, 'h').format('YYYY-MM-DD hh:mm a');
+                        $("#start_datetime").val(startDate.format('YYYY-MM-DD hh:mm a'));
+                        $("#end_datetime").val(correctEndDate);
+                        $('#myModal').modal('show');
+                    }
                 }
             })
         });

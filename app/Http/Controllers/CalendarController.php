@@ -22,7 +22,6 @@ class CalendarController extends Controller
     public function index()
     {
         $calendarItems = auth()->user()->organization->calendarItem;
-
         return view('calendar.index', compact('calendarItems'));
     }
 

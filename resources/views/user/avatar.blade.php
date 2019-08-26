@@ -27,7 +27,7 @@
                                 <input type="file" class="form-control-file" name="avatar" id="avatarFile" aria-describedby="fileHelp">
                             </div>
                             <button type="submit" class="button button__primary">Submit</button>
-                            <a href="/organization" class="button">Next</a>
+                            <a href="/organization" class="button">Skip</a>
 
                         </form>
                     </div>
