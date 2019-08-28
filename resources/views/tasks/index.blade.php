@@ -1,10 +1,12 @@
-@extends('layouts.datatable')
+@extends('layouts.main')
+
+
 @section('title', 'Tasks')
 
 @section('css')
     <link href="{{ asset('css/separate/vendor/bootstrap-daterangepicker.min.css') }}" rel="stylesheet">
 @endsection
-
+@section('content')
 {{-- @section('cardTitle', 'Tasks')
 
 @section('buttons')
@@ -66,94 +68,104 @@
 @endsection --}}
 
 {{-- ###################################### --}}
-@section('cardTitle', 'Tasks I assigned')
 
+<section class="card">
+        <div class="card-block">
+            <header class="card-header" style="border-bottom: 0">
+                <div class="row">
+                    <h2 class="card-title">Tasks I assigned</h2>
 
-@section('th')
-    <th>Task Name</th>
-    <th>Description</th>
-    <th>Deadline</th>
-    <th>Members Assigned</th>
-    <th>Completion Rate</th>
-    <th>Manage</th>
-
-
-@endsection
-
-
-@section('tb')
-    @foreach ($tasks as $tasks)
-        <tr>
-            <td>{{$tasks->name}}</td>
-            <td>{{$tasks->description}}</td>
-            <td>{{$tasks->deadline}}</td>
-            <td>
-                @foreach ($tasks->getAllUsersAssigned() as $assignedUser)
-                    {{$assignedUser->name}}
-                @endforeach
-            </td>
-            <td>{{$tasks->getCompletionRate()}}</td>
-            <td><a href={{route('tasks.edit', $tasks)}} class="btn btn-primary">Manage</a></td>
-
-        </tr>
-    @endforeach
-@endsection
-
-
-@section('modals')
-    <!--.modal for Creating Task<-->
-    <div class="modal fade" id="createTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
-                        <i class="font-icon-close-2"></i>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">Create Task</h4>
                 </div>
-                <form method="POST" action={{route('tasks.store')}} enctype="multipart/form-data" class="box" >
-                    @csrf
-                    <div class="modal-body">
-                            <div class="col-md-12">
-                                    <div class="row col-md-6">
-                                        <label for="name" class="col-form-label text-md-right">Task Name</label>
+            </header>
 
-                                        <div class="input-group">
-                                            <input id="name" type="text" class="form-control" name="name">
+            <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
+                <thead>
+                        <th>Task Name</th>
+                        <th>Description</th>
+                        <th>Deadline</th>
+                        <th>Members Assigned</th>
+                        <th>Completion Rate</th>
+                        <th>Manage</th>
+                </thead>
+                <tbody>
+                    @foreach ($tasks as $tasks)
+                        <tr>
+                            <td>{{$tasks->name}}</td>
+                            <td>{{$tasks->description}}</td>
+                            <td>{{$tasks->deadline}}</td>
+                            <td>
+                                @foreach ($tasks->getAllUsersAssigned() as $assignedUser)
+                                    {{$assignedUser->name}}
+                                @endforeach
+                            </td>
+                            <td>{{$tasks->getCompletionRate()}}</td>
+                            <td><a href={{route('tasks.edit', $tasks)}} class="btn btn-primary">Manage</a></td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+
+
+    @section('modals')
+        <!--.modal for Creating Task<-->
+        <div class="modal fade" id="createTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                            <i class="font-icon-close-2"></i>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Create Task</h4>
+                    </div>
+                    <form method="POST" action={{route('tasks.store')}} enctype="multipart/form-data" class="box" >
+                        @csrf
+                        <div class="modal-body">
+                                <div class="col-md-12">
+                                        <div class="row col-md-6">
+                                            <label for="name" class="col-form-label text-md-right">Task Name</label>
+
+                                            <div class="input-group">
+                                                <input id="name" type="text" class="form-control" name="name">
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row col-md-6">
-                                        <label for="description" class="col-form-label text-md-right">Description</label>
+                                        <div class="row col-md-6">
+                                            <label for="description" class="col-form-label text-md-right">Description</label>
 
-                                        <div class="input-group">
-                                            <input id="description" type="text" class="form-control" name="description">
+                                            <div class="input-group">
+                                                <input id="description" type="text" class="form-control" name="description">
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row m-t-md col-md-6">
-                                        <label for='deadline'>Deadline</label>
+                                        <div class="row m-t-md col-md-6">
+                                            <label for='deadline'>Deadline</label>
 
-                                        <div class='input-group date'>
-                                            <div class="form-control-wrapper form-control-icon-left">
-                                                <input id="deadline" type="text" class="form-control" name="deadline">
-                                                <i class="fa fa-calendar "></i>
+                                            <div class='input-group date'>
+                                                <div class="form-control-wrapper form-control-icon-left">
+                                                    <input id="deadline" type="text" class="form-control" name="deadline">
+                                                    <i class="fa fa-calendar "></i>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-inline btn-primary">Create</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-inline btn-primary">Create</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-    </div><!--.modal-->
-@endsection
+        </div><!--.modal-->
+    @endsection
 
+@endsection
 
 @section('js')
     <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
