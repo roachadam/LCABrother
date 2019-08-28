@@ -69,6 +69,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('event', 'EventController');
             Route::resource('calendarItem', 'CalendarController')->except('update');
             Route::resource('semester', 'SemesterController')->only('store');   //need to test
+            Route::resource('tasks', 'TasksController');
             Route::get('/dash', 'DashController@index');
 
             Route::get('/users/{user}/adminView', 'UserController@adminView');

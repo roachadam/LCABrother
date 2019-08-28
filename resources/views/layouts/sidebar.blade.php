@@ -48,6 +48,12 @@
                 <span class="lbl">Surveys</span>
             </a>
         </li>
+        <li class="purple {{ request()->is('tasks') ? 'opened' : '' }}">
+            <a href="/tasks">
+                <i class="glyphicon glyphicon-list-alt"></i>
+                <span class="lbl">Tasks</span>
+            </a>
+        </li>
         <li class="blue {{ request()->is('calendarItem') ? 'opened' : '' }}">
             <a href="/calendarItem">
                 <i class="glyphicon glyphicon-calendar"></i>
@@ -60,7 +66,6 @@
                 <span class="lbl">Attendance</span>
             </a>
         </li>
-
     </ul>
     <section>
         <ul class="side-menu-list">

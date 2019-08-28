@@ -14,6 +14,7 @@ use App\CalendarItem;
 use App\NewsLetter;
 use App\AttendanceEvent;
 use App\Semester;
+use App\Tasks;
 use DevDojo\Chatter\Models\Discussion;
 use DevDojo\Chatter\Models\Category;
 use Illuminate\Database\Eloquent\Model;
@@ -92,10 +93,10 @@ class Organization extends Model
     }
     public function setForumCategories()
     {
-        $this->addForumCategory('General', '#3d91c9','general');
-
+        $this->addForumCategory('General', '#3d91c9', 'general');
     }
-    public function addForumCategory($name, $color, $slug){
+    public function addForumCategory($name, $color, $slug)
+    {
         return $this->category()->create(['name' => $name, 'color' => $color, 'slug' => $slug]);
     }
 
@@ -283,5 +284,15 @@ class Organization extends Model
     public function getStandingsDsc()
     {
         return $this->academicStandings()->orderBy('Term_GPA_Min', 'asc')->get();
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Tasks::class);
+    }
+
+    public function createTask($attributes)
+    {
+        return $this->tasks()->create($attributes);
     }
 }
