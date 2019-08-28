@@ -13,26 +13,29 @@ class Tasks extends Model
     {
         return $this->hasMany(TaskAssignments::class);
     }
-    public function getAllUsersAssigned(){
-        $tasksAssignments = $this->tasksAssignments;
-        $assignedUsers  = collect();
-        foreach($tasksAssignments as $assignments){
-            $assignedUsers->push(User::where('id', '=', $assignments->assignee_id)->first());
 
+    public function getAllUsersAssigned()
+    {
+        $assignedUsers  = collect();
+        foreach ($this->tasksAssignments as $assignments) {
+            $assignedUsers->push(User::where('id', '=', $assignments->assignee_id)->first());
         }
 
         return $assignedUsers;
     }
-    public function getCompletionRate(){
-        $tasksAssignments = $this->tasksAssignments;
-        $numAssigned = count($tasksAssignments);
+
+    public function getCompletionRate()
+    {
+        $numAssigned = count($this->tasksAssignments);
         $numCompleted = 0;
-        foreach($tasksAssignments as $assignments){
-            if($assignments->completed == 1){
-                $numCompleted ++;
+        foreach ($this->tasksAssignments as $assignments) {
+            if ($assignments->completed == 1) {
+                $numCompleted++;
             }
         }
-        return (string)$numCompleted."/". (string)$numAssigned;
+
+        
+        return (string) $numCompleted . "/" . (string) $numAssigned;
     }
 
     public function user()

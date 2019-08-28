@@ -14,12 +14,14 @@ class TaskAssignments extends Model
     {
         return $this->belongsTo(Tasks::class);
     }
-    public function getAssignedBy(){
+
+    public function getAssignedBy()
+    {
         return User::where('id', '=', $this->assigner_id)->first();
     }
-    public function getMemberAssigned(){
+
+    public function getMemberAssigned()
+    {
         return User::where('id', '=', $this->assignee_id)->first();
     }
-
-
 }
