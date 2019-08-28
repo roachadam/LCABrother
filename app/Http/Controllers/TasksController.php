@@ -16,9 +16,11 @@ class TasksController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $tasks = $user->organization->tasks->load(['user', 'tasksAssignments']);
-        dd($tasks);
-        return view('tasks.index', compact('tasks', 'tasks'));
+        // $myTasks = $user->organization->tasks->load(['user', 'tasksAssignments']);
+        $assignedTasks = $user->getAssignedTasks();
+        $tasks = $user->getTasksAssigned();
+        // dd($assigneeTasks[0]->getAllUsersAssigned());
+        return view('tasks.index', compact('assignedTasks', 'tasks'));
     }
 
     /**
@@ -60,7 +62,7 @@ class TasksController extends Controller
      */
     public function show(Tasks $tasks)
     {
-        //
+
     }
 
     /**
@@ -69,9 +71,12 @@ class TasksController extends Controller
      * @param  \App\Tasks  $tasks
      * @return \Illuminate\Http\Response
      */
-    public function edit(Tasks $tasks)
+    public function edit(Request $request,Tasks $task)
     {
-        //
+        // dd($task);
+        $taskAssignments = $task->tasksAssignments;
+        // dd($taskAssignments);
+        return view('tasks.edit', compact('task','taskAssignments'));
     }
 
     /**
@@ -95,5 +100,11 @@ class TasksController extends Controller
     public function destroy(Tasks $tasks)
     {
         //
+    }
+    public function markTaskComplete(Request $request, TaskAssignments $TaskAssignments){
+        $TaskAssignments->completed = 1;
+        $TaskAssignments->save();
+        return redirect()->back();
+
     }
 }

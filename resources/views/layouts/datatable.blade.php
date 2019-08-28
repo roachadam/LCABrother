@@ -1,6 +1,4 @@
-@extends('layouts.main')
 
-@section('content')
     <section class="card">
         <div class="card-block">
             <header class="card-header" style="border-bottom: 0">
@@ -27,5 +25,4 @@
         </div>
     </section>
 
-    @yield('modals')
-@endsection
+

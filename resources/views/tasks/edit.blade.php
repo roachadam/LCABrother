@@ -1,88 +1,70 @@
-@extends('layouts.datatable')
-@section('title', 'Tasks')
+@extends('layouts.main')
 
 @section('css')
     <link href="{{ asset('css/separate/vendor/bootstrap-daterangepicker.min.css') }}" rel="stylesheet">
 @endsection
 
-{{-- @section('cardTitle', 'Tasks')
+@section('content')
+<section class="card">
+        <div class="card-block">
+            <header class="card-header" style="border-bottom: 0">
+                <div class="row">
+                    <h2 class="card-title">{{$task->name}}</h2>
+                        <div class="ml-auto" id="headerButtons">
+                            {{-- @section('buttons')
+                                <!--btn btn-inline-->
+                                <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#createTask">Create Task</button>
+                            @endsection --}}
+                        </div>
+                </div>
+            </header>
 
-@section('buttons')
-    <!--btn btn-inline-->
-    <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#createTask">Create Task</button>
-@endsection
-
-@section('th')
-    <th>Task Name</th>
-    <th>Description</th>
-    <th>Created By</th>
-    <th>Assign Users</th>
-    <th>View</th>
-@endsection
-
-
-@section('tb')
-    @foreach ($tasks as $task)
-        <tr>
-            <td>{{$task->name}}</td>
-            <td>{{$task->description}}</td>
-            <td>{{$task->user->name}}</td>
-            <td>{{$task->Assign}}</td>
-            <td>View</td>   <!--button-->
-        </tr>
-    @endforeach
-@endsection --}}
-
-{{-- ###################################### --}}
-{{-- @section('cardTitle', 'My ToDo')
-
-@section('buttons')
-    <!--btn btn-inline-->
-    <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#createTask">Create Task</button>
-@endsection
-
-@section('th')
-    <th>Task Name</th>
-    <th>Description</th>
-    <th>Assigned by</th>
-    <th>Completed</th>
-@endsection
+            <p>Description: {{$task->description}}</p>
+            <p>Deadline : {{$task->deadline}}</p>
+        </div>
+    {{-- </section>
 
 
-@section('tb')
-    @foreach ($assignedTasks as $taskAssignment)
-        <tr>
-            <td>{{$taskAssignment->tasks->name}}</td>
-            <td>{{$taskAssignment->tasks->description}}</td>
-            <td>{{$taskAssignment->getAssignedBy()->name}}</td>
-            <td>
-                <form action="/tasks/{{$taskAssignment->id}}/complete" method="post">
-                    @csrf
-                    <button class="btn btn-inline btn-primary" type="submit">Complete Task</button>
-                </form>
-            </td>
-        </tr>
-    @endforeach
-@endsection --}}
+    <section class="card">
+            <div class="card-block">
+                <header class="card-header" style="border-bottom: 0">
+                    <div class="row">
+                        <h2 class="card-title">Assigned Users</h2>
+                    </div>
+                </header> --}}
 
-{{-- ###################################### --}}
-@section('cardTitle', 'Tasks I assigned')
+                <header class="card-header" style="border-bottom: 0">
+                        <div class="row">
+                            <h2 class="card-title">Assigned Users</h2>
+                                
+                        </div>
+                    </header>
+                <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                            <th>Name</th>
+                            <th>Completed</th>
+                    </thead>
+                    <tbody>
+                        @foreach ($taskAssignments as $assignment)
+                            <tr>
+                                <td>{{$assignment->getMemberAssigned()->name}}</td>
+                                @if ($assignment->completed == 1)
+                                    <td>{{$assignment->updated_at}}</td>
+                                @else
+                                    <td>No</td>
+                                @endif
 
-
-@section('th')
-    <th>Task Name</th>
-    <th>Description</th>
-    <th>Deadline</th>
-    <th>Members Assigned</th>
-    <th>Completion Rate</th>
-    <th>Manage</th>
-
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
 @endsection
 
-
-@section('tb')
-    @foreach ($tasks as $tasks)
+{{--@section('tb')
+    @foreach ($assigneeTasks as $tasks)
         <tr>
             <td>{{$tasks->name}}</td>
             <td>{{$tasks->description}}</td>
@@ -93,11 +75,15 @@
                 @endforeach
             </td>
             <td>{{$tasks->getCompletionRate()}}</td>
-            <td><a href={{route('tasks.edit', $tasks)}} class="btn btn-primary">Manage</a></td>
-
+            <td>
+                <form action="/tasks/{{$tasks->id}}/edit" method="GET">
+                    @csrf
+                    <button class="btn btn-inline btn-primary" type="submit">Manage Task</button>
+                </form>
+            </td>
         </tr>
     @endforeach
-@endsection
+@endsection --}}
 
 
 @section('modals')

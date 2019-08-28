@@ -304,6 +304,12 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     //     return $this->hasMany(Tasks::class);
     // }
 
+    public function getAssignedTasks(){
+        return TaskAssignments::where('assignee_id', '=', $this->id)->get();
+    }
+    public function getTasksAssigned(){
+        return Tasks::where('user_id', '=', $this->id)->get();
+    }
     public function assignedTasks()
     {
         return $this->hasMany(TaskAssignments::class);

@@ -19,6 +19,7 @@ class CreateTaskAssignments extends Migration
             $table->unsignedBigInteger('task_id');
             $table->unsignedBigInteger('assigner_id');
             $table->unsignedBigInteger('assignee_id');
+            $table->tinyInteger('completed')->default(0);
             $table->timestamps();
         });
 
