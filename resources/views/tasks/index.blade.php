@@ -9,7 +9,6 @@
 @section('content')
 @include('partials.errors')
 
-@if($incompleteTasks->isNotEmpty())
 <section class="card">
     <div class="card-block">
         <header class="card-header" style="border-bottom: 0">
@@ -46,10 +45,7 @@
         </table>
     </div>
 </section>
-@endif
 
-
-@if($completeTasks->isNotEmpty())
 <section class="card">
     <div class="card-block">
         <header class="card-header" style="border-bottom: 0">
@@ -81,9 +77,7 @@
         </table>
     </div>
 </section>
-@endif
 
-@if($tasks->isNotEmpty())
 <section class="card">
     <div class="card-block">
         <header class="card-header" style="border-bottom: 0">
@@ -122,9 +116,8 @@
         </table>
     </div>
 </section>
-@endif
 
-    <!--.modal for Creating Task<-->
+<!--.modal for Creating Task<-->
 <div class="modal fade" id="createTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -181,7 +174,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-inline btn-primary-outline">Create</button>
+                    <button type="submit" class="btn btn-inline btn-primary">Create</button>
                 </div>
             </form>
         </div>
