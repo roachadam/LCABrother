@@ -16,7 +16,7 @@
             <div class="row">
                 <h2 class="card-title">My Incomplete Tasks</h2>
                 <div class="ml-auto" id="headerButtons">
-                    <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#createTask">Create Task</button>
+                    <button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#createTask">Create Task</button>
                 </div>
             </div>
         </header>
@@ -37,7 +37,7 @@
                         <td>
                             <form action={{route('taskAssignments.complete', $taskAssignments)}} method="post">
                                 @csrf
-                                <button class="btn btn-inline btn-primary" type="submit">Complete Task</button>
+                                <button class="btn btn-inline btn-primary-outline" type="submit">Complete Task</button>
                             </form>
                         </td>
                     </tr>
@@ -56,7 +56,7 @@
             <div class="row">
                 <h2 class="card-title">My Complete Tasks</h2>
                 <div class="ml-auto" id="headerButtons">
-                    <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#createTask">Create Task</button>
+                    <button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#createTask">Create Task</button>
                 </div>
             </div>
         </header>
@@ -114,7 +114,7 @@
                             @endforeach
                         </td>
                         <td>{{$tasks->getCompletionRate()}}</td>
-                        <td><a href={{route('tasks.edit', $tasks)}} class="btn btn-primary">Manage</a></td>
+                        <td><a href={{route('tasks.edit', $tasks)}} class="btn btn-primary-outline">Manage</a></td>
 
                     </tr>
                 @endforeach
@@ -181,7 +181,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-inline btn-primary">Create</button>
+                    <button type="submit" class="btn btn-inline btn-primary-outline">Create</button>
                 </div>
             </form>
         </div>

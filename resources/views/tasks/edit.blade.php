@@ -51,78 +51,73 @@
     </div>
 </section>
 
+    <!--.modal for Creating Task<-->
+<div class="modal fade" id="deleteEvent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                    <i class="font-icon-close-2"></i>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Delete</h4>
+            </div>
+            <form action="/tasks/{{$task->id}}" method="POST">
+                @csrf
+                @method('DELETE')
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <p>Are you sure you want to delete {{$task->name}}?</p>
+                    </div>
+                </div>
 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                    <i class="font-icon-close-2"></i>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Delete</h4>
+            </div>
+            <form action="/tasks/{{$task->id}}" method="post">
+                @csrf
+                @method('PATCH')
+                <div class="modal-body">
+                    <div class="row col-md-6">
+                        <label for="assignedUsers" class="col-form-label text-md-right">Edit Assigned Members</label>
+                        <div class="input-group">
+                            @foreach (auth()->user()->organization->users as $user)
+                            <div class="checkbox-toggle form-group">
+                                    <input type="checkbox" value="{{$user->id}}" name="users[]" id="{{$user->id}}" {{$task->getAllUsersAssigned()->contains('id',$user->id) ? 'checked' : ''}}>
+                                    <label for="{{$user->id}}">{{$user->name}}</label>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+
+            </div>
+            <div class="modal-footer">
+                    <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-inline btn-primary">Submit</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
 
 @endsection
-
-
-
-    <!--.modal for Creating Task<-->
-    <div class="modal fade" id="deleteEvent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
-                        <i class="font-icon-close-2"></i>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">Delete</h4>
-                </div>
-                <form action="/tasks/{{$task->id}}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <div class="modal-body">
-                        <div class="col-md-12">
-                            <p>Are you sure you want to delete {{$task->name}}?</p>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-inline btn-danger">Delete</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="editTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
-                        <i class="font-icon-close-2"></i>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">Delete</h4>
-                </div>
-                <form action="/tasks/{{$task->id}}" method="post">
-                    @csrf
-                    @method('PATCH')
-                    <div class="modal-body">
-                        <div class="row col-md-6">
-                            <label for="assignedUsers" class="col-form-label text-md-right">Edit Assigned Members</label>
-                            <div class="input-group">
-                                @foreach (auth()->user()->organization->users as $user)
-                                <div class="checkbox-toggle form-group">
-                                        <input type="checkbox" value="{{$user->id}}" name="users[]" id="{{$user->id}}" {{$task->getAllUsersAssigned()->contains('id',$user->id) ? 'checked' : ''}}>
-                                        <label for="{{$user->id}}">{{$user->name}}</label>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-
-
-                </div>
-                <div class="modal-footer">
-                        <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-inline btn-primary">Submit</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-
 @section('js')
     <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/lib/moment/moment-with-locales.min.js') }}"></script>

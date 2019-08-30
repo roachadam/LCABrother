@@ -163,7 +163,7 @@
                             <td>{{$survey->name}}</td>
                             <td>{{$survey->desc}}</td>
                             <td>{{$survey->created_at}}</td>
-                            <td><a href={{route('survey.show', $survey)}} class="btn btn-inline btn-primary">Respond</a></td>
+                            <td><a href={{route('survey.show', $survey)}} class="btn btn-inline btn-outline-primary">Respond</a></td>
                         </tr>
                     @endforeach
 
@@ -172,6 +172,46 @@
         </div>
     </div><!--.box-typical-body-->
 </section><!--.box-typical-->
+
+
+<section class="box-typical">
+    <header class="box-typical-header">
+        <div class="tbl-row">
+            <div class="tbl-cell tbl-cell-title">
+                <h1>Tasks</h1>
+            </div>
+        </div>
+    </header>
+    <div class="box-typical-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="table3">
+                <thead>
+                    <tr>
+                        <th>Task Name</th>
+                        <th>Description</th>
+                        <th>Assigned by</th>
+                        <th>Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($inCompleteTasks as $taskAssignments)
+                        <tr>
+                            <td>{{$taskAssignments->tasks->name}}</td>
+                            <td>{{$taskAssignments->tasks->description}}</td>
+                            <td>{{$taskAssignments->getAssignedBy()->name}}</td>
+                            <td>
+                                <form action={{route('taskAssignments.complete', $taskAssignments)}} method="post">
+                                    @csrf
+                                    <button class="btn btn-inline btn-primary-outline" type="submit">Complete Task</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
 
 
 @endsection
@@ -187,6 +227,13 @@
             ordering: false
         });
         $('#table2').DataTable({
+            responsive: true,
+            bPaginate: false,
+            bFilter: false,
+            bInfo: false,
+            ordering: false
+        });
+        $('#table3').DataTable({
             responsive: true,
             bPaginate: false,
             bFilter: false,
