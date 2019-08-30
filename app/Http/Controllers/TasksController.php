@@ -17,10 +17,12 @@ class TasksController extends Controller
     {
         $user = auth()->user();
         // $myTasks = $user->organization->tasks->load(['user', 'tasksAssignments']);
-        $assignedTasks = $user->getAssignedTasks();
+        $incompleteTasks = $user->getIncompleteTasks();
+        $completeTasks = $user->getCompleteTasks();
+
         $tasks = $user->getTasksAssigned();
         // dd($assigneeTasks[0]->getAllUsersAssigned());
-        return view('tasks.index', compact('assignedTasks', 'tasks'));
+        return view('tasks.index', compact('completeTasks', 'tasks','incompleteTasks'));
     }
 
     /**
@@ -45,13 +47,17 @@ class TasksController extends Controller
             'name' => ['required'],
             'description' => ['required', 'max:255'],
             'deadline' => ['required'],
+             'users' => ['required'],
         ]);
 
+        $users = $attributes['users'];
+        unset($attributes['users']);
+
         $user = auth()->user();
-        unset($attributes['_token']);
         $attributes['deadline'] = date('Y-m-d', strtotime($attributes['deadline']));
         $attributes['user_id'] = $user->id;
-        $user->organization->createTask($attributes);
+        $task = $user->organization->createTask($attributes);
+        $task->assignUsersToTask($users);
         return redirect(route('tasks.index'));
     }
 
@@ -72,9 +78,7 @@ class TasksController extends Controller
      */
     public function edit(Request $request, Tasks $task)
     {
-        // dd($task);
         $taskAssignments = $task->tasksAssignments;
-        // dd($taskAssignments);
         return view('tasks.edit', compact('task', 'taskAssignments'));
     }
 
@@ -85,9 +89,31 @@ class TasksController extends Controller
      * @param  \App\Tasks  $tasks
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tasks $tasks)
+    public function update(Request $request, Tasks $task)
     {
-        //
+        $attributes = request()->all();
+        $assignedUsers = $task->getAllUsersAssigned();
+
+        if(isset($attributes['users']))
+        {
+           foreach($assignedUsers as $user)
+           {
+                if(!in_array($user->id,$attributes['users']))
+                {
+                    $task->unAssignUser($user->id);
+                }
+            }
+
+            $task->assignUsersToTask($attributes['users']);
+        }
+        else
+        {
+            foreach($assignedUsers as $user)
+            {
+                $task->unAssignUser($user->id);
+            }
+        }
+        return redirect()->back();
     }
 
     /**
@@ -96,15 +122,11 @@ class TasksController extends Controller
      * @param  \App\Tasks  $tasks
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tasks $tasks)
+    public function destroy(Tasks $task)
     {
-        //
+        $task->delete();
+        return redirect('/tasks');
     }
 
-    public function markTaskComplete(Request $request, TaskAssignments $TaskAssignments)
-    {
-        $TaskAssignments->completed = 1;
-        $TaskAssignments->save();
-        return redirect()->back();
-    }
+
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\TaskAssignments;
+use App\Organization;
 use Illuminate\Database\Eloquent\Model;
 
 class Tasks extends Model
@@ -34,12 +35,34 @@ class Tasks extends Model
             }
         }
 
-        
+
         return (string) $numCompleted . "/" . (string) $numAssigned;
     }
+    public function assignUsersToTask($userArray){
+        $attributes = [
+            'organization_id' => $this->organization->id,
+            'assigner_id' => $this->user_id,
+        ];
+        foreach($userArray as $user){
+            $attributes['assignee_id'] = $user;
+            $this->tasksAssignments()->create($attributes);
+        }
+    }
 
+    public function unAssignUser($userID){
+        $match = [
+            'assignee_id' => $userID,
+            'tasks_id' => $this->id
+        ];
+        $toDelete = TaskAssignments::where($match)->first();
+        $toDelete->delete();
+    }
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function organization(){
+        return $this->belongsTo(Organization::class);
     }
 }

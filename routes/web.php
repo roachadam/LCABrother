@@ -70,11 +70,9 @@ Route::middleware('auth')->group(function () {
             Route::resource('calendarItem', 'CalendarController')->except('update');
             Route::resource('semester', 'SemesterController')->only('store');   //need to test
             Route::resource('tasks', 'TasksController');
-            Route::post('/tasks/{taskAssignment}/complete', 'TasksController@markTaskComplete');
             Route::get('/tasks/{tasks}/edit', 'TasksController@edit');
-
+            Route::post('/TaskAssignments/{TaskAssignments}/complete', 'TaskAssignmentsController@markTaskComplete')->name('taskAssignments.complete');
             Route::get('/dash', 'DashController@index');
-
             Route::get('/users/{user}/adminView', 'UserController@adminView');
             Route::post('/user/{user}/organization/remove', 'OrganizationController@removeUser')->name('organization.removeUser');
 

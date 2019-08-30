@@ -82,30 +82,30 @@
         </div>
     </section>
     <div class="modal fade" id="deleteEvent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
-                            <i class="font-icon-close-2"></i>
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel">Delete</h4>
-                    </div>
-                    <form action="/serviceEvent/{{$serviceEvent->id}}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <div class="modal-body">
-                            <div class="col-md-12">
-                                <p>Are you sure you want to delete {{$serviceEvent->name}} and all logs associated?</p>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-inline btn-danger">Delete</button>
-                        </div>
-                    </form>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                        <i class="font-icon-close-2"></i>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Delete</h4>
                 </div>
+                <form action="/serviceEvent/{{$serviceEvent->id}}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <p>Are you sure you want to delete {{$serviceEvent->name}} and all logs associated?</p>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
 @endsection
 
