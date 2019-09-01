@@ -45,8 +45,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/avatar/create', 'ProfileController@create_avatar')->name('profile.createAvatar');
     Route::post('/avatar/create', 'ProfileController@update_avatar')->name('profile.updateAvatar');
 
-    Route::get('/forum/create/categories', 'ForumController@create');
-    Route::post('/forum/create/categories', 'ForumController@store');
     Route::get('/massInvite', 'MassInvite@index');
     Route::post('/massInvite/send', 'MassInvite@inviteAll');
 
