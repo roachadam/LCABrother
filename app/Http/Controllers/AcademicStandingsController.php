@@ -53,7 +53,7 @@ class AcademicStandingsController extends Controller
 
         NotificationFunctions::alert('success', 'Successfully Created New Rule!');
 
-        return /* ($SubmitAndFinishCheck) ? redirect('/forum/create/categories') : */ back();
+        return back();
     }
 
     /**

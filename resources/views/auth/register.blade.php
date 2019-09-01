@@ -4,7 +4,7 @@
 	<meta class="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<title>Register</title>
-	<link rel='stylesheet' href='css/style.min.css' />
+    <link rel='stylesheet' href='css/style.min.css'/>
 </head>
 <body>
     <!-- navbar -->
@@ -57,7 +57,13 @@
 		</div>
     </div>
 
-<script src='js/app.min.js'></script>
+    <script src='js/app.min.js'></script>
+    {{-- <script src="{{ asset('js/lib/jquery/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('js/lib/input-mask/jquery.mask.min.js') }}"></script>
+
+    <script>
+            $('.frmPhoneNumA').mask('(000) 000-0000', {placeholder: "(___) ___-____"});
+    </script> --}}
 </body>
 </html>
 

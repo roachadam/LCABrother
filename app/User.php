@@ -374,10 +374,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $this->role->permission->manage_events;
     }
 
-    public function canManageForum()
-    {
-        return $this->role->permission->manage_forum;
-    }
 
     public function canManageAlumni()
     {

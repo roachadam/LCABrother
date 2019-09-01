@@ -41,7 +41,6 @@ class OrganizationController extends Controller
         $org->createBasicUser();
         $user->setAdmin();
         $org->setCalendarCategories();
-        $org->setForumCategories();
         $user->setVerification(true);
         return redirect('/goals/create');
     }

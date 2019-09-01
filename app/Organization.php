@@ -15,8 +15,6 @@ use App\NewsLetter;
 use App\AttendanceEvent;
 use App\Semester;
 use App\Tasks;
-use DevDojo\Chatter\Models\Discussion;
-use DevDojo\Chatter\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 
 class Organization extends Model
@@ -91,14 +89,7 @@ class Organization extends Model
     {
         return $this->hasMany(Category::class);
     }
-    public function setForumCategories()
-    {
-        $this->addForumCategory('General', '#3d91c9', 'general');
-    }
-    public function addForumCategory($name, $color, $slug)
-    {
-        return $this->category()->create(['name' => $name, 'color' => $color, 'slug' => $slug]);
-    }
+
 
     public function addRole($name)
     {
