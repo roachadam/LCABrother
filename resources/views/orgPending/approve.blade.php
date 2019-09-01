@@ -5,7 +5,7 @@
 
 <div class="container">
     <p>{{ $user->name }}  </p>
-    <form method="POST" action="{{$user->id}}/update">
+    <form method="POST" action="/orgpending/{{$user->id}}/update">
         @csrf
 
         <div class="checkbox-toggle">

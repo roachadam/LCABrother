@@ -33,7 +33,6 @@ class OrgVerificationController extends Controller
 
     public function approve(User $user)
     {
-        $this->authorize('orgApprove', $user);
         return view('orgPending.approve', compact('user'));
     }
 

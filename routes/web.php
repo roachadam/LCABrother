@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/orgpending/waiting', 'OrgVerificationController@waiting');
         Route::get('/orgpending/rejected', 'OrgVerificationController@rejected');
         Route::get('/orgpending/alumni', 'OrgVerificationController@alumni')->name('OrgVerification.alumni');
-
+        Route::post('/orgpending/{user}/update', 'OrgVerificationController@update');
         //Can only access if you're apart of the organization
         Route::middleware('orgverified')->group(function () {
             Route::resource('serviceEvent', 'ServiceEventController')->except(['create', 'edit', 'update']);
@@ -108,7 +108,7 @@ Route::middleware('auth')->group(function () {
             Route::get('survey/{survey}/responses', 'SurveyController@viewResponses')->name('survey.responses');
             Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store')->name('survey.submit');
 
-            Route::get('/orgpending/{user}/update', 'OrgVerificationController@approve');
+            Route::get('/orgpending/{user}', 'OrgVerificationController@approve');
 
             Route::resource('role', 'RoleController')->except('show');
             Route::get('/role/{role}/users', 'RoleController@usersInRole')->name('role.usersInRole');
