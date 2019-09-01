@@ -4,46 +4,7 @@
     <link rel="stylesheet" href="css/lib/flatpickr/flatpickr.min.css">
     <link rel="stylesheet" href="css/lib/flatpickr/flatpickr.min.css">
     <link rel="stylesheet" href="css/color_picker.min.css">
-    <style type='text/css'>
-        .my-legend .legend-title {
-          text-align: left;
-          margin-bottom: 5px;
-          font-weight: bold;
-          font-size: 90%;
-          }
-        .my-legend .legend-scale ul {
-          margin: 0;
-          margin-bottom: 5px;
-          padding: 0;
-          float: left;
-          list-style: none;
-          }
-        .my-legend .legend-scale ul li {
-          font-size: 80%;
-          list-style: none;
-          margin-left: 0;
-          line-height: 18px;
-          margin-bottom: 2px;
-          }
-        .my-legend ul.legend-labels li span {
-          display: block;
-          float: left;
-          height: 16px;
-          width: 30px;
-          margin-right: 5px;
-          margin-left: 0;
-          border: 1px solid #999;
-          }
-        .my-legend .legend-source {
-          font-size: 70%;
-          color: #999;
-          clear: both;
-          }
-        .my-legend a {
-          color: #777;
-          }
-      </style>
-
+@endsection
 @section('title', 'Calendar')
 
 @section('content')
@@ -59,7 +20,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Create Event</h5>
+                <h5 class="modal-title">Create Calendar Event</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -68,62 +29,93 @@
                 <div class="modal-body">
                     @csrf
                     @include('partials.errors')
-                    <div class="row m-t-md">
-                        <label>Event Name</label>
-                        <input class="offset-1 form-control" type="text" name="name" id='name' placeholder="Chapter Meeting">
-                    </div>
 
-                    <div class="row m-t-md">
-                        <label>Description</label>
-                        <input class="offset-1 form-control" type="text" name="description" id='description' placeholder="Weekly meeting at the Union">
-                    </div>
-
-                    <div class="row m-t-md">
-                        <label for='start_date'>Start Date</label>
-                        <input class=" offset-1 form-control flatpickr flatpickr-input active" data-enable-time="true" name="start_datetime" id="start_datetime">
-                    </div>
-
-                    <div class="row m-t-md">
-                        <label for='end_date'>End Date</label>
-                        {{-- <input class="offset-1 form-control" type="date" name="end_date" id="end_date"> --}}
-                        <input class=" offset-1 form-control flatpickr flatpickr-input active" data-enable-time="true" name="end_datetime" id="end_datetime">
-
-                    </div>
-
-                    <div class="row m-t-md">
-                        <div class="checkbox-toggle form-group">
-                            <label for="color">Category</label>
-                            <select name="color" id="color" class="form-control">
-                                <option value="0">Choose Category</option>
-                                @foreach (auth()->user()->organization->calendarCatagories as $category)
-                                    <option value="{{$category->color}}">{{$category->name}}</option>
-                                @endforeach
-                            </select>
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                                <label for="name" class="col-form-label text-md-right">Event Name*</label>
+                            <div class="input-group">
+                                <input class="offset-1 form-control" type="text" name="name" id='name' placeholder="Chapter Meeting">
+                            </div>
                         </div>
                     </div>
-                    <div class="row m-t-md">
-                        <div class="checkbox-toggle form-group">
-                            <input type="checkbox" id=guestList name=guestList>
-                            <label for=guestList>Generate GuestList</label>
+
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                            <label for="description" class="col-form-label text-md-right">Description*</label>
+                            <div class="input-group">
+                                <textarea name="description" class="offset-1 form-control" id="description" cols="30" rows="10" placeholder="Weekly Meeting in the Union"></textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="row m-t-md">
-                        <div class="checkbox-toggle form-group">
-                            <input type="checkbox" id="attendance" name="attendance" onclick="showInvolvement()" >
-                            <label for="attendance">Allow Attendance</label>
+
+
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                                <label for='start_datetime' class="col-form-label text-md-right">Start Date*</label>
+                            <div class="input-group">
+                                <input class=" offset-1 form-control flatpickr flatpickr-input active" data-enable-time="true" name="start_datetime" id="start_datetime">
+                            </div>
                         </div>
                     </div>
-                    <div class="row m-t-md">
-                        <div class="checkbox-toggle form-group" id="inv" style="display: none">
-                            <label for="involvement">Add involvement points to users who attend (optional)</label>
-                            <select name="involvement" id="involvement" class="form-control">
-                                <option value="0">Choose Involvement Item</option>
-                                @foreach (auth()->user()->organization->involvement as $involvement)
-                                    <option value="{{$involvement->id}}">{{$involvement->name}}</option>
-                                @endforeach
-                            </select>
+
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                                <label for='end_datetime' class="col-form-label text-md-right">End Date*</label>
+                            <div class="input-group">
+                                <input class=" offset-1 form-control flatpickr flatpickr-input active" data-enable-time="true" name="end_datetime" id="end_datetime">
+                            </div>
                         </div>
                     </div>
+
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                                <label for="color" class="col-form-label text-md-right">Category*</label>
+                            <div class="input-group offset-1">
+                                <select name="color" id="color" class="form-control">
+                                    <option value="0">Choose Category</option>
+                                    @foreach (auth()->user()->organization->calendarCatagories as $category)
+                                        <option value="{{$category->color}}">{{$category->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 m-t-md">
+                        <div class="row col-md-12">
+                                <div class="checkbox-toggle input-group">
+                                <input type="checkbox" id=guestList name=guestList>
+                                <label for=guestList class="col-form-label text-md-right">Generate GuestList</label>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                                <div class="checkbox-toggle form-group">
+                                <input type="checkbox" id="attendance" name="attendance" onclick="showInvolvement()" >
+                                <label for="attendance" class="col-form-label text-md-right">Allow Attendance</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                                <div class="checkbox-toggle form-group" id="inv" style="display: none">
+                                <label for="involvement">Add involvement points to users who attend (optional)</label>
+                                <select name="involvement" id="involvement" class="form-control">
+                                    <option value="0">Choose Involvement Item</option>
+                                    @foreach (auth()->user()->organization->involvement as $involvement)
+                                        <option value="{{$involvement->id}}">{{$involvement->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>

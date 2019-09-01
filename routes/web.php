@@ -13,23 +13,25 @@
 
 //No middleware needed
 Route::get('/', function () {
-    return view('home.home');
+    return redirect(route('login'));
+    // return view('home.home');
 });
 
-Route::get('/about', function () {
-    return view('home.about');
-});
+/*
+    Route::get('/about', function () {
+        return view('home.about');
+    });
 
-Route::get('/contact', function () {
-    return view('home.contact.contact');
-});
+    Route::get('/contact', function () {
+        return view('home.contact.contact');
+    });
 
-Route::post('/home/contactUs', 'HomeController@contactUs');
+    Route::post('/home/contactUs', 'HomeController@contactUs');
 
-Route::get('/contact/thanks', function () {
-    return view('home.contact.thanks');
-});
-
+    Route::get('/contact/thanks', function () {
+        return view('home.contact.thanks');
+    });
+*/
 Route::get('/organizations/{organization}/join', 'InvitedRegisterController@showRegistrationForm')->name('organization.join');
 Route::post('/organization/{organization}/register', 'InvitedRegisterController@register')->name('organization.register');
 
@@ -69,8 +71,10 @@ Route::middleware('auth')->group(function () {
             Route::resource('event', 'EventController');
             Route::resource('calendarItem', 'CalendarController')->except('update');
             Route::resource('semester', 'SemesterController')->only('store');   //need to test
+            Route::resource('tasks', 'TasksController');
+            Route::get('/tasks/{tasks}/edit', 'TasksController@edit');
+            Route::post('/TaskAssignments/{TaskAssignments}/complete', 'TaskAssignmentsController@markTaskComplete')->name('taskAssignments.complete');
             Route::get('/dash', 'DashController@index');
-
             Route::get('/users/{user}/adminView', 'UserController@adminView');
             Route::post('/user/{user}/organization/remove', 'OrganizationController@removeUser')->name('organization.removeUser');
 

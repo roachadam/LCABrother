@@ -25,6 +25,8 @@ class DashController extends Controller
             return $user->hasInvitesRemaining($event);
         });
 
-        return view('main.dash', compact('user', 'moneyDonated', 'hoursServed', 'gpa', 'points', 'unAnsweredSurveys', 'eventsWithInvites'));
+        $inCompleteTasks = $user->getIncompleteTasks();
+
+        return view('main.dash', compact('user', 'moneyDonated', 'hoursServed', 'gpa', 'points', 'unAnsweredSurveys', 'eventsWithInvites','inCompleteTasks'));
     }
 }

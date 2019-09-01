@@ -8,6 +8,8 @@ use App\InvolvementLog;
 use App\Academics;
 use App\Event;
 use App\Invite;
+use App\Tasks;
+use App\TaskAssignments;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -295,6 +297,35 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function invites()
     {
         return $this->hasMany(Invite::Class);
+    }
+
+    // public function tasks()
+    // {
+    //     return $this->hasMany(Tasks::class);
+    // }
+
+    public function getIncompleteTasks(){
+        $match = [
+            'assignee_id' => $this->id,
+            'completed' => 0,
+        ];
+        return TaskAssignments::where($match)->get();
+    }
+
+    public function getCompleteTasks(){
+        $match = [
+            'assignee_id' => $this->id,
+            'completed' => 1,
+        ];
+        return TaskAssignments::where($match)->get();
+    }
+
+    public function getTasksAssigned(){
+        return Tasks::where('user_id', '=', $this->id)->get();
+    }
+    public function assignedTasks()
+    {
+        return $this->hasMany(TaskAssignments::class);
     }
 
     //Permissions getters

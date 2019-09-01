@@ -42,11 +42,15 @@
                         <input type="password" name="password_confirmation" id="password_confirmation" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
 
                         <p class="row">
-                                <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }} />
-                                <label for="check">Remember Me</label>
-                              </p>
+                            <input type="checkbox" name="remember" id="remember">
+                            <label for="remember">Remember Me</label>
+                        </p>
                         <button type='submit' class="button button__primary">Register</button>
-						<a href=""><h6 class="left-align" >Forgot your password?</h6></a>
+
+                        <p class="row">
+                            <h6 class="">Already have an account? <a href="{{ route('login') }}" style="color:#428bca">Login</a></h6>
+                            <a href="{{ route('password.request') }}"><h6>Forgot your password?</h6></a>
+                        </p>
 					</form>
 				</div>
 			</div>
