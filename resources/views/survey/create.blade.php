@@ -31,8 +31,10 @@
                         <option value="text">Text</option>
                         <option value="date">Date</option>
                         <option value="textarea">TextArea</option>
-                        <option value="checkbox">CheckBox</option>
-                        <option value="select">Dropdown</option>
+                        {{--
+                            @TODO FINISH THIS
+                            <option value="checkbox">CheckBox</option>
+                        <option value="select">Dropdown</option> --}}
                     </select>
 
                     <div id="frmAccess" ></div>
