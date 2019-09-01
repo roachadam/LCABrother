@@ -10,16 +10,16 @@ class CreateChatterUserDiscussionPivotTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('chatter_user_discussion', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('discussion_id')->index();
-            $table->foreign('discussion_id')->references('id')->on('chatter_discussion')->onDelete('cascade');
-            $table->primary(['user_id', 'discussion_id']);
-        });
-    }
+    // public function up()
+    // {
+    //     Schema::create('chatter_user_discussion', function (Blueprint $table) {
+    //         $table->unsignedBigInteger('user_id')->index();
+    //         $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+    //         $table->unsignedBigInteger('discussion_id')->index();
+    //         $table->foreign('discussion_id')->references('id')->on('chatter_discussion')->onDelete('cascade');
+    //         $table->primary(['user_id', 'discussion_id']);
+    //     });
+    // }
 
     /**
      * Reverse the migrations.

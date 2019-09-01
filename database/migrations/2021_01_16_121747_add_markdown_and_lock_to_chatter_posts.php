@@ -11,13 +11,13 @@ class AddMarkdownAndLockToChatterPosts extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::table('chatter_post', function (Blueprint $table) {
-            $table->boolean('markdown')->default(0);
-            $table->boolean('locked')->default(0);
-        });
-    }
+    // public function up()
+    // {
+    //     Schema::table('chatter_post', function (Blueprint $table) {
+    //         $table->boolean('markdown')->default(0);
+    //         $table->boolean('locked')->default(0);
+    //     });
+    // }
 
     /**
      * Reverse the migrations.

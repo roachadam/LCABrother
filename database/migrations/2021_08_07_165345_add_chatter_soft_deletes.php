@@ -11,15 +11,15 @@ class AddChatterSoftDeletes extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::table('chatter_discussion', function (Blueprint $table) {
-            $table->softDeletes();
-        });
-        Schema::table('chatter_post', function (Blueprint $table) {
-            $table->softDeletes();
-        });
-    }
+    // public function up()
+    // {
+    //     Schema::table('chatter_discussion', function (Blueprint $table) {
+    //         $table->softDeletes();
+    //     });
+    //     Schema::table('chatter_post', function (Blueprint $table) {
+    //         $table->softDeletes();
+    //     });
+    // }
 
     /**
      * Reverse the migrations.

@@ -11,12 +11,12 @@ class AddSlugFieldForDiscussions extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::table('chatter_discussion', function (Blueprint $table) {
-            $table->string('slug')->nullable(); //->unique
-        });
-    }
+    // public function up()
+    // {
+    //     Schema::table('chatter_discussion', function (Blueprint $table) {
+    //         $table->string('slug')->nullable(); //->unique
+    //     });
+    // }
 
     /**
      * Reverse the migrations.

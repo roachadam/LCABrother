@@ -5,33 +5,33 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreateForeignKeys extends Migration
 {
-    public function up()
-    {
-        Schema::table('chatter_discussion', function (Blueprint $table) {
-            $table->foreign('chatter_category_id')->references('id')->on('chatter_categories')
-                        ->onDelete('cascade')
-                        ->onUpdate('cascade');
-            $table->foreign('user_id')->references('id')->on('users')
-                        ->onDelete('cascade')
-                        ->onUpdate('cascade');
-            $table->foreign('organization_id')->references('id')->on('organizations')
-                        ->onDelete('cascade')
-                        ->onUpdate('cascade');
-        });
-        Schema::table('chatter_post', function (Blueprint $table) {
-            $table->foreign('chatter_discussion_id')->references('id')->on('chatter_discussion')
-                        ->onDelete('cascade')
-                        ->onUpdate('cascade');
-            $table->foreign('user_id')->references('id')->on('users')
-                        ->onDelete('cascade')
-                        ->onUpdate('cascade');
-        });
-        Schema::table('chatter_categories', function (Blueprint $table) {
-            $table->foreign('organization_id')->references('id')->on('organizations')
-                        ->onDelete('cascade')
-                        ->onUpdate('cascade');
-        });
-    }
+    // public function up()
+    // {
+    //     Schema::table('chatter_discussion', function (Blueprint $table) {
+    //         $table->foreign('chatter_category_id')->references('id')->on('chatter_categories')
+    //                     ->onDelete('cascade')
+    //                     ->onUpdate('cascade');
+    //         $table->foreign('user_id')->references('id')->on('users')
+    //                     ->onDelete('cascade')
+    //                     ->onUpdate('cascade');
+    //         $table->foreign('organization_id')->references('id')->on('organizations')
+    //                     ->onDelete('cascade')
+    //                     ->onUpdate('cascade');
+    //     });
+    //     Schema::table('chatter_post', function (Blueprint $table) {
+    //         $table->foreign('chatter_discussion_id')->references('id')->on('chatter_discussion')
+    //                     ->onDelete('cascade')
+    //                     ->onUpdate('cascade');
+    //         $table->foreign('user_id')->references('id')->on('users')
+    //                     ->onDelete('cascade')
+    //                     ->onUpdate('cascade');
+    //     });
+    //     Schema::table('chatter_categories', function (Blueprint $table) {
+    //         $table->foreign('organization_id')->references('id')->on('organizations')
+    //                     ->onDelete('cascade')
+    //                     ->onUpdate('cascade');
+    //     });
+    // }
 
     public function down()
     {
