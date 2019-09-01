@@ -1,8 +1,8 @@
 @component('mail::message')
-#Dear {{ $user->name }} , 
+#Dear {{ $user->name }} ,
 Congrats you have been accepted into '{{ $user->organization->name}}'!! Follow the link below to visit your dashboard!
 
-@component('mail::button', ['url' => '/dash'])
+@component('mail::button', ['url' => 'dash.lcabrother.org/dash'])
 Visit Dash
 @endcomponent
 

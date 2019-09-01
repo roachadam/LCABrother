@@ -3,7 +3,7 @@
 
 You have been invited to join {{ $org->name }}! Click the link below to sign up or register!
 
-@component('mail::button', ['url' => '/organizations/' . $org->id . '/join'])
+@component('mail::button', ['url' => 'dash.lcabrother.org/organizations/' . $org->id . '/join'])
 Register Now
 @endcomponent
 
