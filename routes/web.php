@@ -108,7 +108,7 @@ Route::middleware('auth')->group(function () {
             Route::get('survey/{survey}/responses', 'SurveyController@viewResponses')->name('survey.responses');
             Route::post('/surveyAnswers/survey/{survey}', 'SurveyAnswersController@store')->name('survey.submit');
 
-            Route::get('/orgpending/{user}', 'OrgVerificationController@approve');
+            Route::get('/orgpending/{user}/update', 'OrgVerificationController@approve');
 
             Route::resource('role', 'RoleController')->except('show');
             Route::get('/role/{role}/users', 'RoleController@usersInRole')->name('role.usersInRole');
