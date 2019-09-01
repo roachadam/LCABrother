@@ -37,13 +37,16 @@ class UserController extends Controller
 
     public function joinOrg(Request $request, User $user)
     {
-        $this->authorize('update', $user);
+        $attributes = $request->validate([
+            'organization' => 'required'
+        ]);
 
-        $orgID = $request->organization;
+        $orgID = $attributes['organization'];
+
         $user->join($orgID);
 
         $user->setBasicUser();
-        $org =  Organization::find($orgID);
+        $org = Organization::find($orgID);
 
         Mail::to($org->owner->email)->send(
             new MemberJoined($user, $org)

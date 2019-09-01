@@ -18,6 +18,13 @@
             <a href="/dash" class="button">Skip</a>
         </form>
 
+        <p>
+            or share this link with your organization:
+            <b>
+                /organizations/{{auth()->user()->organization->id}}/join
+            </b>
+        </p>
+
     </div>
 @endsection
 

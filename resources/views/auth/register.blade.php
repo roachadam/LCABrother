@@ -46,7 +46,7 @@
                             <label for="remember">Remember Me</label>
                         </p>
                         <button type='submit' class="button button__primary">Register</button>
-
+                        
                         <p class="row">
                             <h6 class="">Already have an account? <a href="{{ route('login') }}" style="color:#428bca">Login</a></h6>
                             <a href="{{ route('password.request') }}"><h6>Forgot your password?</h6></a>
