@@ -39,22 +39,26 @@ Auth::routes(['verify' => true]);
 
 
 //Can only access if user is logged in
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'CompletedRegistration'])->group(function () {
     //Registration Routes
-    Route::resource('user', 'UserController')->only(['index', 'destroy']);
-    Route::get('/avatar/create', 'ProfileController@create_avatar')->name('profile.createAvatar');
-    Route::post('/avatar/create', 'ProfileController@update_avatar')->name('profile.updateAvatar');
+    // Route::middleware('CompletedRegistration')->group(function () {
 
-    Route::get('/massInvite', 'MassInvite@index');
-    Route::post('/massInvite/send', 'MassInvite@inviteAll');
+    // });
+        Route::resource('user', 'UserController')->only(['index', 'destroy']);
+        Route::get('/avatar/create', 'ProfileController@create_avatar')->name('profile.createAvatar');
+        Route::post('/avatar/create', 'ProfileController@update_avatar')->name('profile.updateAvatar');
 
-    Route::resource('organization', 'OrganizationController')->only(['index', 'create', 'store']);
+        Route::get('/massInvite', 'MassInvite@index');
+        Route::post('/massInvite/send', 'MassInvite@inviteAll');
 
-    Route::get('/goals/create', 'GoalsController@create');
-    Route::post('/goals/store', 'GoalsController@store');
-    Route::post('semester/initial', 'SemesterController@initial');
+        Route::resource('organization', 'OrganizationController')->only(['index', 'create', 'store']);
 
-    Route::post('/user/{user}/join', 'UserController@joinOrg')->name('user.joinOrg');
+        Route::get('/goals/create', 'GoalsController@create');
+        Route::post('/goals/store', 'GoalsController@store');
+        Route::post('semester/initial', 'SemesterController@initial');
+
+        Route::post('/user/{user}/join', 'UserController@joinOrg')->name('user.joinOrg');
+
 
     //Can only access if email is verified
     Route::middleware('verified')->group(function () {

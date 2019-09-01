@@ -15,7 +15,7 @@ class DashController extends Controller
         $moneyDonated = $user->getMoneyDonated();
         $hoursServed = $user->getServiceHours();
         $gpa = isset($latestAcademics) ? round($latestAcademics->Current_Term_GPA, 2) : 'N/A';
-        $points = $user->getInvolvementPoints();
+        $points = $user->getInvolvementPoints();    
 
         $unAnsweredSurveys = $organization->survey->filter(function ($survey) use ($user) {
             return !$user->hasResponded($survey);

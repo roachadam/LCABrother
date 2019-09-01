@@ -119,6 +119,7 @@ class Kernel extends HttpKernel
         'ManageEvents' => \App\Http\Middleware\ManageEvents::class,
         'ManageAcademics' => \App\Http\Middleware\ManageAcademics::class,
         'ManageGoals' => \App\Http\Middleware\ManageGoals::class,
+        'CompletedRegistration' => \App\Http\Middleware\CompletedRegistration::class,
     ];
 
     /**
@@ -136,5 +137,6 @@ class Kernel extends HttpKernel
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
         \App\Http\Middleware\CheckHasRole::class,
+        \App\Http\Middleware\CompletedRegistration::class,
     ];
 }

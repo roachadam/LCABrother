@@ -1,5 +1,5 @@
 @extends('layouts.theme')
-@section('title', 'Choose Org')
+@section('title', 'Choose Organization')
 
 @section('content')
     <div class="auth__media">
@@ -18,7 +18,7 @@
                 @endforeach
             </select>
             <button type="submit" class="button button__primary">Join Organization</button>
-            <a href="/organization/create" class="button">Create a new Organizatoin</a>
+            <a href="/organization/create" class="button">Create a new Organization</a>
         </form>
     </div>
 @endsection
