@@ -9,14 +9,13 @@
 
 @section('content')
 
-{{-- <div class="col-md-12"> --}}
-    <div id="calendar" class="fc fc-unthemed fc-ltr align-center"></div>
-{{-- </div> --}}
+@include('partials.errors')
+<div id="calendar" class="fc fc-unthemed fc-ltr align-center"></div>
 
 {{-- {{-- <button type="button" class="btn btn-inline btn-primary m-t-md" data-toggle="modal" data-target="#legendModal">Legend</button> --}}
-@if (auth()->user()->canManageCalendar())
+{{-- @if (auth()->user()->canManageCalendar())
     <button type="button" class="btn btn-inline btn-primary m-t-md" data-toggle="modal" data-target="#myModal">Add Event</button>
-@endif
+@endif --}}
 
 <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
     <div class="modal-dialog" role="document">
@@ -30,13 +29,12 @@
             <form method='POST' action="/calendarItem" role="presentation" class="form">
                 <div class="modal-body">
                     @csrf
-                    @include('partials.errors')
 
                     <div class="col-md-12">
                         <div class="row col-md-12">
                                 <label for="name" class="col-form-label text-md-right">Event Name*</label>
                             <div class="input-group">
-                                <input class="offset-1 form-control" type="text" name="name" id='name' placeholder="Chapter Meeting">
+                                <input class="offset-1 form-control" type="text" name="name" id='name' placeholder="Chapter Meeting" required>
                             </div>
                         </div>
                     </div>
@@ -45,33 +43,34 @@
                         <div class="row col-md-12">
                             <label for="description" class="col-form-label text-md-right">Description*</label>
                             <div class="input-group">
-                                <textarea name="description" class="offset-1 form-control" id="description" cols="30" rows="10" placeholder="Weekly Meeting in the Union"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-12">
-                        <div class="row col-md-12">
-                                <label for='start_datetime' class="col-form-label text-md-right">Start Date*</label>
-                            <div class="input-group">
-                                <input class=" offset-1 form-control flatpickr flatpickr-input active" data-enable-time="true" name="start_datetime" id="start_datetime">
+                                <textarea name="description" class="offset-1 form-control" id="description" cols="30" rows="5" placeholder="Weekly Meeting in the Union" required></textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <div class="row col-md-12">
-                                <label for='end_datetime' class="col-form-label text-md-right">End Date*</label>
-                            <div class="input-group">
-                                <input class=" offset-1 form-control flatpickr flatpickr-input active" data-enable-time="true" name="end_datetime" id="end_datetime">
+                            <label for='start_datetime' class="col-form-label text-md-left">Start Date*</label>
+                            <div class="form-control-wrapper form-control-icon-left input-group offset-1">
+                                <input id="start_datetime" type="date" class="form-control" name="start_datetime"  required autocomplete="start_datetime" autofocus>
+                                <i class="fa fa-calendar"></i>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <div class="row col-md-12">
-                                <label for="color" class="col-form-label text-md-right">Category*</label>
+                            <label for='end_datetime' class="col-form-label text-md-left">End Date*</label>
+                            <div class="form-control-wrapper form-control-icon-left input-group offset-1">
+                                <input id="end_datetime" type="date" class="form-control" name="end_datetime"  required autocomplete="end_datetime" autofocus>
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                                <label for="color" class="col-form-label text-md-right" required>Category*</label>
                             <div class="input-group offset-1">
                                 <select name="color" id="color" class="form-control">
                                     <option value="0">Choose Category</option>
@@ -198,7 +197,7 @@
         $(document).ready(function() {
             $('.flatpickr').flatpickr();
 
-            $('#calendar').fullCalendar({
+            calendar = $('#calendar').fullCalendar({
                 // put your options and callbacks here
                 selectable: true,
                 customButtons: {
@@ -218,18 +217,27 @@
                                 $('#addCatModal').modal('toggle');
                             }
                         }
-                    }
+                    },
+                    addEventButton:{
+                        text: 'Add Event',
+                        click: function()
+                        {
+                            if ({{auth()->user()->canManageCalendar()}})
+                            {
+                                $('#myModal').modal('toggle');
+                            }
+                        }
+                    },
                 },
                 header: {
-                    left: '',
+                    left: 'legendButton',
                     center: 'title',
                     right: 'prev,next today',
                 },
                 footer: {
-                    left: 'legendButton,addCategoryButton',
+                    left: 'addCategoryButton,addEventButton',
                 },
-                height: 500,
-                aspectRatio: 2.0,
+                height: $(window).height()*0.83,
                 events : [
                     @if(isset($calendarItems))
                         @foreach($calendarItems as $calendarItem)
@@ -261,9 +269,19 @@
                         $('#myModal').modal('show');
                     }
                 }
+
+
             })
 
         });
+
+        if(calendar) {
+            $(window).resize(function()
+            {
+                var calHeight = $(window).height()*0.83;
+                $('#calendar').fullCalendar('option', 'height', calHeight);
+            });
+        };
     </script>
 
     <script>
