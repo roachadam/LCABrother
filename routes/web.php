@@ -13,23 +13,25 @@
 
 //No middleware needed
 Route::get('/', function () {
-    return view('home.home');
+    return redirect(route('login'));
+    // return view('home.home');
 });
 
-Route::get('/about', function () {
-    return view('home.about');
-});
+/*
+    Route::get('/about', function () {
+        return view('home.about');
+    });
 
-Route::get('/contact', function () {
-    return view('home.contact.contact');
-});
+    Route::get('/contact', function () {
+        return view('home.contact.contact');
+    });
 
-Route::post('/home/contactUs', 'HomeController@contactUs');
+    Route::post('/home/contactUs', 'HomeController@contactUs');
 
-Route::get('/contact/thanks', function () {
-    return view('home.contact.thanks');
-});
-
+    Route::get('/contact/thanks', function () {
+        return view('home.contact.thanks');
+    });
+*/
 Route::get('/organizations/{organization}/join', 'InvitedRegisterController@showRegistrationForm')->name('organization.join');
 Route::post('/organization/{organization}/register', 'InvitedRegisterController@register')->name('organization.register');
 
