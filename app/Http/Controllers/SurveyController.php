@@ -101,9 +101,6 @@ class SurveyController extends Controller
             Mail::to($user->email)->send(
                 new UserSurveyReminder($survey)
             );
-            if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
-                sleep(5); //use usleep(500000) for half a second or less
-            }
         }
         return back();
     }

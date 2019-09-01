@@ -59,9 +59,6 @@ class AlumniController extends Controller
                 Mail::to($alumni->email)->send(
                     new AlumniContact($org, $attributes['subject'], $attributes['body'])
                 );
-                if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
-                    sleep(5); //use usleep(500000) for half a second or less
-                }
             }
         } else {
             foreach ($attributes['alum'] as $alum) {
@@ -70,9 +67,6 @@ class AlumniController extends Controller
                     Mail::to($alumni->email)->send(
                         new AlumniContact($org, $attributes['subject'], $attributes['body'])
                     );
-                    if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
-                        sleep(5); //use usleep(500000) for half a second or less
-                    }
                 }
             }
         }

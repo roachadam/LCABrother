@@ -34,12 +34,7 @@ class MassInvite extends Controller
             Mail::to($email)->queue(
                 new JoinOrgInvitation($org)
             );
-            //Extreme non production only, gets around email server request limit
-            //need to move away from mailtrap for master
-            if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
-                sleep(5); //use usleep(500000) for half a second or less
-            }
-            // REMOVE IF ON MASTER
+
         }
 
         return redirect('/dash');

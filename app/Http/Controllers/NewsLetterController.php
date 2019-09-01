@@ -79,7 +79,7 @@ class NewsLetterController extends Controller
         $newsletters = auth()->user()->organization->newsletter;
         return view('newsletter.send', compact('newsletters'));
     }
-    
+
     public function destroy(NewsLetter $newsletter)
     {
         $newsletter->delete();
@@ -97,9 +97,7 @@ class NewsLetterController extends Controller
             Mail::to($subscriber->user->email)->queue(
                 new NewsLetterGeneric($newsletter, $attributes['body'])
             );
-            if (env('MAIL_HOST', false) == 'smtp.mailtrap.io') {
-                sleep(5);
-            }
+
         }
         return redirect('/newsletter');
     }
