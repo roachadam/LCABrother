@@ -45,26 +45,27 @@
                         <div class="row col-md-12">
                             <label for="description" class="col-form-label text-md-right">Description*</label>
                             <div class="input-group">
-                                <textarea name="description" class="offset-1 form-control" id="description" cols="30" rows="10" placeholder="Weekly Meeting in the Union"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-12">
-                        <div class="row col-md-12">
-                                <label for='start_datetime' class="col-form-label text-md-right">Start Date*</label>
-                            <div class="input-group">
-                                <input class=" offset-1 form-control flatpickr flatpickr-input active" data-enable-time="true" name="start_datetime" id="start_datetime">
+                                <textarea name="description" class="offset-1 form-control" id="description" cols="30" rows="5" placeholder="Weekly Meeting in the Union"></textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <div class="row col-md-12">
-                                <label for='end_datetime' class="col-form-label text-md-right">End Date*</label>
-                            <div class="input-group">
-                                <input class=" offset-1 form-control flatpickr flatpickr-input active" data-enable-time="true" name="end_datetime" id="end_datetime">
+                            <label for='start_datetime' class="col-form-label text-md-left">Start Date*</label>
+                            <div class="form-control-wrapper form-control-icon-left input-group offset-1">
+                                <input id="start_datetime" type="date" class="form-control" name="start_datetime"  required autocomplete="start_datetime" autofocus>
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                            <label for='end_datetime' class="col-form-label text-md-left">End Date*</label>
+                            <div class="form-control-wrapper form-control-icon-left input-group offset-1">
+                                <input id="end_datetime" type="date" class="form-control" name="end_datetime"  required autocomplete="end_datetime" autofocus>
+                                <i class="fa fa-calendar"></i>
                             </div>
                         </div>
                     </div>
