@@ -52,7 +52,6 @@
             <div class="row">
                 <h2 class="card-title">My Complete Tasks</h2>
                 <div class="ml-auto" id="headerButtons">
-                    <button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#createTask">Create Task</button>
                 </div>
             </div>
         </header>
