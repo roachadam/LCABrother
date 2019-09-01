@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+@section('title', 'Edit Profile')
 @section('content')
 <div class="container">
     @include('partials.errors')
@@ -33,7 +33,7 @@
                             {{-- need to center this according to the input boxes on the edit profile page @adam --}}
                             <div class="row">
                                 <div class="btn-group">
-                                    <button type="submit" class="btn btn-inline btn-primary">{{ __('Update Infromation') }}</button>                                    
+                                    <button type="submit" class="btn btn-inline btn-primary">{{ __('Update Infromation') }}</button>
                                     <a href="/users/profile" class="btn btn-inline btn-default" id="cancel" name="cancel">Cancel</a>
                                 </div>
                             </div>
