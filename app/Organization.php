@@ -15,8 +15,6 @@ use App\NewsLetter;
 use App\AttendanceEvent;
 use App\Semester;
 use App\Tasks;
-use DevDojo\Chatter\Models\Discussion;
-use DevDojo\Chatter\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 
 class Organization extends Model

@@ -7,7 +7,6 @@
         <li><a href="/involvementLog" class="{{Request::is('involvementLog*') ? 'vMenu--active' : ''}}">View Involvement Scores</a></li>
         <li><a href="/users/contact" class="{{Request::is('users/contact') ? 'vMenu--active' : ''}}">View Contact Info</a></li>
         <li><a href="/event" class="{{Request::is('event*') ? 'vMenu--active' : ''}}">Events</a></li>
-        <li><a href="/forums" class="{{Request::is('forum*') ? 'vMenu--active' : ''}}">Forum</a></li>
         @if (auth()->user()->canManageMembers())
             <li><a href="/role" class="{{Request::is('role') ? 'vMenu--active' : ''}}">Roles</a> </li>
         @endif
