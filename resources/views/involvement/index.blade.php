@@ -1,39 +1,46 @@
-@extends('layouts.datatable')
+@extends('layouts.main')
 @section('title', 'Involvement Points')
-
-@section('cardTitle', 'Involvement Points')
-@section('buttons')
-    <a href="/user/{{auth()->user()->id}}/involvementLogs" class="btn btn-inline {{ $canManageInvolvement ? 'btn-secondary-outline' : 'btn-primary'}}">My Involvement Breakdown</a>
-    @if ($canManageInvolvement)
-        <button type="button" class="btn btn-inline btn-secondary-outline" data-toggle="modal" data-target="#addInvolvementScores">Add Involvement Scores</button>
-        <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#uploadInvolvementData">Upload Involvement Data</button>
-    @endif
-@endsection
-
-@section('th')
-    <tr>
-        <th>Name</th>
-        <th>Points</th>
-        @if ($canManageInvolvement)
-            <th>View</th>
-        @endif
-    </tr>
-@endsection
-
-@section('tb')
-    @forelse ($users as $user)
-    <tr>
-        <td>{{ $user->name }}</td>
-        <td> {{ $user->getInvolvementPoints() }} </td>
-        @if ($canManageInvolvement)
-            <td><a href="/user/{{$user->id}}/involvementLogs" class="btn btn-inline">View</a></td>
-        @endif
-    </tr>
-    @empty
-    @endforelse
-@endsection
-
-@section('modals')
+@section('content')
+    <section class="card">
+        <div class="card-block">
+            <header class="card-header" style="border-bottom: 0">
+                <div class="row">
+                    <h2 class="card-title">Involvement Points</h2>
+                    <div class="ml-auto" id="headerButtons">
+                        <a href="/user/{{auth()->user()->id}}/involvementLogs" class="btn btn-inline {{ $canManageInvolvement ? 'btn-secondary-outline' : 'btn-primary'}}">My Involvement Breakdown</a>
+                        @if ($canManageInvolvement)
+                            <button type="button" class="btn btn-inline btn-secondary-outline" data-toggle="modal" data-target="#addInvolvementScores">Add Involvement Scores</button>
+                            <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#uploadInvolvementData">Upload Involvement Data</button>
+                        @endif
+                    </div>
+                </div>
+            </header>
+            @include('partials.errors')
+            <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Points</th>
+                        @if ($canManageInvolvement)
+                            <th>View</th>
+                        @endif
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($users as $user)
+                    <tr>
+                        <td>{{ $user->name }}</td>
+                        <td> {{ $user->getInvolvementPoints() }} </td>
+                        @if ($canManageInvolvement)
+                            <td><a href="/user/{{$user->id}}/involvementLogs" class="btn btn-inline">View</a></td>
+                        @endif
+                    </tr>
+                    @empty
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </section>
 
     @if ($canManageInvolvement)
     <!--.modal for Uploading Involvement Data<-->
