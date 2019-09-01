@@ -21,7 +21,7 @@
         <p>
             or share this link with your organization:
             <b>
-                /organizations/{{auth()->user()->organization->id}}/join
+                dash.lcabrother.org/organizations/{{auth()->user()->organization->id}}/join
             </b>
         </p>
 

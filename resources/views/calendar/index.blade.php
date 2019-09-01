@@ -9,12 +9,14 @@
 
 @section('content')
 
-<button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#legendModal">Legend</button>
-@if (auth()->user()->canManageCalendar())
-    <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#addCatModal">Add Category</button>
-@endif
+{{-- <div class="col-md-12"> --}}
+    <div id="calendar" class="fc fc-unthemed fc-ltr align-center"></div>
+{{-- </div> --}}
 
-<div id="calendar" class="fc fc-unthemed fc-ltr"></div>
+{{-- {{-- <button type="button" class="btn btn-inline btn-primary m-t-md" data-toggle="modal" data-target="#legendModal">Legend</button> --}}
+@if (auth()->user()->canManageCalendar())
+    <button type="button" class="btn btn-inline btn-primary m-t-md" data-toggle="modal" data-target="#myModal">Add Event</button>
+@endif
 
 <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
     <div class="modal-dialog" role="document">
@@ -194,17 +196,40 @@
     <script src="js/color_picker.min.js"></script>
     <script>
         $(document).ready(function() {
-            // page is now ready, initialize the calendar...
-
             $('.flatpickr').flatpickr();
+
             $('#calendar').fullCalendar({
                 // put your options and callbacks here
                 selectable: true,
-                header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay',
+                customButtons: {
+                    legendButton: {
+                        text: 'Legend',
+                        click: function()
+                        {
+                            $('#legendModal').modal('toggle');
+                        }
+                    },
+                    addCategoryButton: {
+                        text: 'Add Category',
+                        click: function()
+                        {
+                            if ({{auth()->user()->canManageCalendar()}})
+                            {
+                                $('#addCatModal').modal('toggle');
+                            }
+                        }
+                    }
                 },
+                header: {
+                    left: '',
+                    center: 'title',
+                    right: 'prev,next today',
+                },
+                footer: {
+                    left: 'legendButton,addCategoryButton',
+                },
+                height: 500,
+                aspectRatio: 2.0,
                 events : [
                     @if(isset($calendarItems))
                         @foreach($calendarItems as $calendarItem)
@@ -237,6 +262,7 @@
                     }
                 }
             })
+
         });
     </script>
 

@@ -16,12 +16,11 @@ class TasksController extends Controller
     public function index()
     {
         $user = auth()->user();
-        // $myTasks = $user->organization->tasks->load(['user', 'tasksAssignments']);
         $incompleteTasks = $user->getIncompleteTasks();
         $completeTasks = $user->getCompleteTasks();
 
         $tasks = $user->getTasksAssigned();
-        // dd($assigneeTasks[0]->getAllUsersAssigned());
+        
         return view('tasks.index', compact('completeTasks', 'tasks','incompleteTasks'));
     }
 
