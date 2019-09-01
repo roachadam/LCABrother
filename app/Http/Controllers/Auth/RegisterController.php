@@ -69,7 +69,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $data['phone'] = $this->formatPhoneNumber($data['phone']);
+        // $data['phone'] = $this->formatPhoneNumber($data['phone']);
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -78,8 +78,8 @@ class RegisterController extends Controller
         ]);
     }
 
-    function formatPhoneNumber($phone)
-    {
-        return preg_replace("/^(\(?\d{3}\)?)?[- .]?(\d{3})[- .]?(\d{4})$/", "(\\1) \\2-\\3", $phone);
-    }
+    // function formatPhoneNumber($phone)
+    // {
+    //     return preg_replace("/^(\(?\d{3}\)?)?[- .]?(\d{3})[- .]?(\d{4})$/", "(\\1) \\2-\\3", $phone);
+    // }
 }
