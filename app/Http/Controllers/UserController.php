@@ -42,7 +42,6 @@ class UserController extends Controller
         ]);
 
         $orgID = $attributes['organization'];
-        dd($orgID);
 
         $user->join($orgID);
 
