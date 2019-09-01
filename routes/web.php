@@ -44,20 +44,22 @@ Route::middleware(['auth', 'CompletedRegistration'])->group(function () {
     // Route::middleware('CompletedRegistration')->group(function () {
 
     // });
-        Route::resource('user', 'UserController')->only(['index', 'destroy']);
-        Route::get('/avatar/create', 'ProfileController@create_avatar')->name('profile.createAvatar');
-        Route::post('/avatar/create', 'ProfileController@update_avatar')->name('profile.updateAvatar');
+    Route::resource('user', 'UserController')->only(['index', 'destroy']);
+    Route::get('/avatar/create', 'ProfileController@create_avatar')->name('profile.createAvatar');
+    Route::post('/avatar/create', 'ProfileController@update_avatar')->name('profile.updateAvatar');
 
-        Route::get('/massInvite', 'MassInvite@index');
-        Route::post('/massInvite/send', 'MassInvite@inviteAll');
+    Route::get('/massInvite', 'MassInvite@index');
+    Route::post('/massInvite/send', 'MassInvite@inviteAll');
 
-        Route::resource('organization', 'OrganizationController')->only(['index', 'create', 'store']);
+    Route::resource('organization', 'OrganizationController')->only(['index', 'create', 'store']);
 
-        Route::get('/goals/create', 'GoalsController@create');
-        Route::post('/goals/store', 'GoalsController@store');
-        Route::post('semester/initial', 'SemesterController@initial');
+    Route::get('/goals/create', 'GoalsController@create');
+    Route::post('/goals/store', 'GoalsController@store');
 
-        Route::post('/user/{user}/join', 'UserController@joinOrg')->name('user.joinOrg');
+    Route::post('/user/{user}/join', 'UserController@joinOrg')->name('user.joinOrg');
+
+    Route::get('semester/create', 'SemesterController@create');
+    Route::post('semester/initial', 'SemesterController@initial');
 
 
     //Can only access if email is verified
@@ -94,13 +96,6 @@ Route::middleware(['auth', 'CompletedRegistration'])->group(function () {
             Route::get('/attendance/attendanceEvent/{attendanceEvent}', 'AttendanceController@index')->name('attendance.index');
             Route::get('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@create')->name('attendance.create');
             Route::post('/attendanceEvent/{attendanceEvent}/attendance', 'AttendanceController@store')->name('attendance.store');
-
-            // ? We're not using this right?
-            // Route::resource('newsletter', 'NewsLetterController')->except(['show', 'update']);
-            // Route::post('newsletter/send/preview', 'NewsLetterController@preview');
-            // Route::get('newsletter/send/show', 'NewsLetterController@showSend');
-            // Route::get('/newsletter/{newsletter}/subscribers', 'NewsLetterController@subscribers');
-            // Route::post('/newsletter/send', 'NewsLetterController@send');
 
             Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
             Route::post('/calendarItem/addCategory', 'CalendarController@addCategory');
