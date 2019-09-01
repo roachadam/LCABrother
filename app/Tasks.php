@@ -52,7 +52,7 @@ class Tasks extends Model
     public function unAssignUser($userID){
         $match = [
             'assignee_id' => $userID,
-            'tasks_id' => $this->id
+            'task_id' => $this->id
         ];
         $toDelete = TaskAssignments::where($match)->first();
         $toDelete->delete();
