@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+
 class CompletedRegistration
 {
     /**
@@ -14,7 +15,7 @@ class CompletedRegistration
      * @return mixed
      */
 
-     //@TODO, fix case where users can bypass registration and go to email/verify
+    //@TODO, fix case where users can bypass registration and go to email/verify
     public function handle($request, Closure $next)
     {
 
@@ -24,18 +25,16 @@ class CompletedRegistration
         //dump($step);
 
         // If user has already joined/registered org, they should be sent to dash
-        if(isset(Auth::user()->organization_id) && $uri != 'dash' && $uri !='orgpending/waiting' && $step == 5)
-        {
+        if (isset(Auth::user()->organization_id) && $uri != 'dash' && $uri != 'orgpending/waiting' && $step == 5) {
             return redirect('/dash');
         }
 
         // For simply joining an organization, must allow bypass for join post request.
-        if(strpos($uri, 'join') !== false && strpos($uri, 'user') !== false)
+        if (strpos($uri, 'join') !== false && strpos($uri, 'user') !== false)
             return $next($request);
 
         // Bypass step 4 for massinvite, step 1 is joining org
-        if($step == 5 || $step == 1)
-        {
+        if ($step == 5 || $step == 1) {
             //die('does this get hit ever?');
             return $next($request);
         }
@@ -51,8 +50,7 @@ class CompletedRegistration
             'massInvite',
         ];
 
-        switch($uri)
-        {
+        switch ($uri) {
             case 'avatar/create':
                 return $this->handleUri(0, $uris, $next, $request);
                 break;
@@ -77,10 +75,10 @@ class CompletedRegistration
                 return $this->handleUri(5, $uris, $next, $request);
                 break;
             case 'email/verify':
-                return redirect('/'.$uris[$step+1]);
+                return redirect('/' . $uris[$step + 1]);
             default:
                 //die('why');
-                return redirect('/'.$uris[$step+1]);
+                return redirect('/' . $uris[$step + 1]);
         }
 
         return $next($request);
@@ -92,8 +90,7 @@ class CompletedRegistration
         $completedStep = session('regStep');
 
         // case where you are creating an organization
-        if($step == 2 && $completedStep == 0)
-        {
+        if ($step == 2 && $completedStep == 0) {
 
             return $next($request);
         }
@@ -103,10 +100,9 @@ class CompletedRegistration
 
 
         //|| ($step == 0 && $completedStep != 0)
-        if(abs($step - $completedStep) >= 2 )
-        {
+        if (abs($step - $completedStep) >= 2 || ($step == 0 && $completedStep != 0)) {
 
-            return redirect('/'.$uris[$completedStep+1]);
+            return redirect('/' . $uris[$completedStep + 1]);
         }
 
 
