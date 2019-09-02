@@ -54,6 +54,8 @@ class CalendarController extends Controller
             "color" => ['required']
         ]);
 
+        dd($attributes);
+
         $makeGuest = isset($attributes['guestList']);
         $allowAttendance = isset($attributes['attendance']);
         $involvementId = $attributes['involvement'];
@@ -170,7 +172,7 @@ class CalendarController extends Controller
 
         $org = auth()->user()->organization;
         $org->addCalendarCategory($attributes['name'], $attributes['color']);
-        
+
         return redirect('/calendarItem');
     }
 }

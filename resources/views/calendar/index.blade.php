@@ -256,7 +256,9 @@
                 dayClick: function(date) {
                     if ({{auth()->user()->canManageCalendar()}})
                     {
-                        $("#start_datetime").val(date.format('YYYY-MM-DD hh:mm'));
+                        // $("#start_datetime").val(date.format('YYYY-MM-DD hh:mm'));
+                        console.log(date.format('MM/DD/YY'));
+                        $("#start_datetime").val(date.format('dd-mm-yy'));
                         $('#myModal').modal('show');
                     }
                 },
