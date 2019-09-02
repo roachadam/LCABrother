@@ -57,7 +57,7 @@ class RegisterController extends Controller
                 'regex:/[@$!%*#?&]/', // must contain a special character
                 'different:email'
             ],
-            'phone' => ['required', 'phone'],
+            'phone' => ['required', 'phone', 'min:10'],
         ]);
     }
 
@@ -95,11 +95,6 @@ class RegisterController extends Controller
             $lastFour = substr($phoneNumber, 6, 4);
 
             $phoneNumber = '(' . $areaCode . ') ' . $nextThree . '-' . $lastFour;
-        } else if (strlen($phoneNumber) == 7) {
-            $nextThree = substr($phoneNumber, 0, 3);
-            $lastFour = substr($phoneNumber, 3, 4);
-
-            $phoneNumber = $nextThree . '-' . $lastFour;
         }
 
         return $phoneNumber;
