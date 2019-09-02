@@ -54,7 +54,7 @@ class RegisterController extends Controller
             'password' => [
                 'required', 'string', 'min:8', 'confirmed',
                 'regex:/[0-9]/',      // must contain at least one digit
-                'regex:/[@$!%*#?&]/', // must contain a special character
+                'regex:/[@$!%*#?&-_]/', // must contain a special character
                 'different:email'
             ],
             'phone' => ['required', 'phone'],

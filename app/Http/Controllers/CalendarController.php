@@ -54,7 +54,6 @@ class CalendarController extends Controller
             "color" => ['required']
         ]);
 
-        dd($attributes);
 
         $makeGuest = isset($attributes['guestList']);
         $allowAttendance = isset($attributes['attendance']);
