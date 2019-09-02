@@ -41,25 +41,27 @@ Route::post('/organization/{organization}/register', 'InvitedRegisterController@
 
 
 //Can only access if user is logged in
-Route::middleware(['auth', 'CompletedRegistration'])->group(function () {
+Route::middleware('auth')->group(function () {
     //Registration Routes
-    Route::resource('user', 'UserController')->only(['index', 'destroy']);
-    Route::get('/avatar/create', 'ProfileController@create_avatar')->name('profile.createAvatar');
-    Route::post('/avatar/create', 'ProfileController@update_avatar')->name('profile.updateAvatar');
 
-    Route::get('/massInvite', 'MassInvite@index');
-    Route::post('/massInvite/send', 'MassInvite@inviteAll');
+    Route::middleware('CompletedRegistration')->group(function () {
+        Route::resource('user', 'UserController')->only(['index', 'destroy']);
+        Route::get('/avatar/create', 'ProfileController@create_avatar')->name('profile.createAvatar');
+        Route::post('/avatar/create', 'ProfileController@update_avatar')->name('profile.updateAvatar');
 
-    Route::resource('organization', 'OrganizationController')->only(['index', 'create', 'store']);
+        Route::get('/massInvite', 'MassInvite@index');
+        Route::post('/massInvite/send', 'MassInvite@inviteAll');
 
-    Route::get('/goals/create', 'GoalsController@create');
-    Route::post('/goals/store', 'GoalsController@store');
+        Route::resource('organization', 'OrganizationController')->only(['index', 'create', 'store']);
 
-    Route::post('/user/{user}/join', 'UserController@joinOrg')->name('user.joinOrg');
+        Route::get('/goals/create', 'GoalsController@create');
+        Route::post('/goals/store', 'GoalsController@store');
 
-    Route::get('semester/create', 'SemesterController@create')->name('semester.create');
-    Route::post('semester/initial', 'SemesterController@initial');
+        Route::post('/user/{user}/join', 'UserController@joinOrg')->name('user.joinOrg');
 
+        Route::get('semester/create', 'SemesterController@create')->name('semester.create');
+        Route::post('semester/initial', 'SemesterController@initial');
+    });
 
     //Can only access if email is verified
     Route::middleware('verified')->group(function () {
