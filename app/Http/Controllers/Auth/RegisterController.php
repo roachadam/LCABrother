@@ -69,7 +69,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        dd($data['phone'] = $this->formatPhoneNumber($data['phone']));
+        $data['phone'] = $this->formatPhoneNumber($data['phone']);
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
