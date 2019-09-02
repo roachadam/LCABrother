@@ -55,10 +55,6 @@
 @include('partials.errors')
 <div id="calendar" class="fc fc-unthemed fc-ltr align-center"></div>
 
-{{-- {{-- <button type="button" class="btn btn-inline btn-primary m-t-md" data-toggle="modal" data-target="#legendModal">Legend</button> --}}
-{{-- @if (auth()->user()->canManageCalendar())
-    <button type="button" class="btn btn-inline btn-primary m-t-md" data-toggle="modal" data-target="#myModal">Add Event</button>
-@endif --}}
 
 <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
     <div class="modal-dialog" role="document">
@@ -113,12 +109,12 @@
 
                     <div class="col-md-12">
                         <div class="row col-md-12">
-                                <label for="color" class="col-form-label text-md-right" required>Category*</label>
+                                <label for="calendar_catagories_id" class="col-form-label text-md-right" required>Category*</label>
                             <div class="input-group offset-1">
-                                <select name="color" id="color" class="form-control">
+                                <select name="calendar_catagories_id" id="color" class="form-control">
                                     <option value="0">Choose Category</option>
                                     @foreach (auth()->user()->organization->calendarCatagories as $category)
-                                        <option value="{{$category->color}}">{{$category->name}}</option>
+                                        <option value="{{$category->id}}">{{$category->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -176,7 +172,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Legend</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -185,8 +181,18 @@
                     <ul class='legend-labels'>
                         @foreach (auth()->user()->organization->calendarCatagories as $category)
                             <li>
-                                <span style='background:{{$category->color}}'></span>
-                                {{$category->name}}
+                            <form action={{route('calendarCategory.destroy',$category)}} method="POST">
+                                    @csrf
+                                    <span style='background:{{$category->color}}'></span> {{$category->name}}
+                                    {{-- <div> --}}
+                                    @if (auth()->user()->canManageCalendar())
+                                        <button type="submit" class="close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    @endif
+
+                                    {{-- </div> --}}
+                                </form>
                             </li>
                         @endforeach
                     </ul>
@@ -292,7 +298,7 @@
                             start : '{{ $calendarItem->start_datetime }}',
                             end : '{{ $calendarItem->end_datetime }}',
                             url : '/calendarItem/'+{{$calendarItem->id}},
-                            color : '{{ $calendarItem->color }}'
+                            color : '{{ $calendarItem->calendarCatagory->color }}'
                         },
                         @endforeach
                     @endif

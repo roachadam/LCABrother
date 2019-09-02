@@ -100,6 +100,8 @@ Route::middleware('auth')->group(function () {
 
             Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
             Route::post('/calendarItem/addCategory', 'CalendarController@addCategory');
+            ///calendarItem/Category/{{$category->id}}/delete
+            Route::post('/calendarItem/CalendarCatagory/{CalendarCatagory}','CalendarController@categoryDelete')->name('calendarCategory.destroy');
 
             Route::resource('survey', 'SurveyController')->except('update');
             Route::resource('surveyAnswers', 'SurveyAnswersController')->only('store');
