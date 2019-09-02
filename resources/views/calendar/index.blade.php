@@ -4,6 +4,49 @@
     <link rel="stylesheet" href="css/lib/flatpickr/flatpickr.min.css">
     <link rel="stylesheet" href="css/lib/flatpickr/flatpickr.min.css">
     <link rel="stylesheet" href="css/color_picker.min.css">
+
+
+
+    <style type='text/css'>
+        .my-legend .legend-title {
+        text-align: left;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-size: 90%;
+        }
+        .my-legend .legend-scale ul {
+        margin: 0;
+        margin-bottom: 5px;
+        padding: 0;
+        float: left;
+        list-style: none;
+        }
+        .my-legend .legend-scale ul li {
+        font-size: 80%;
+        list-style: none;
+        margin-left: 0;
+        line-height: 18px;
+        margin-bottom: 2px;
+        }
+        .my-legend ul.legend-labels li span {
+        display: block;
+        float: left;
+        height: 16px;
+        width: 30px;
+        margin-right: 5px;
+        margin-left: 0;
+        border: 1px solid #999;
+        }
+        .my-legend .legend-source {
+        font-size: 70%;
+        color: #999;
+        clear: both;
+        }
+        .my-legend a {
+        color: #777;
+        }
+    </style>
+
 @endsection
 @section('title', 'Calendar')
 
@@ -60,9 +103,9 @@
 
                     <div class="col-md-12">
                         <div class="row col-md-12">
-                            <label for='end_datetime' class="col-form-label text-md-left">End Date*</label>
+                            <label for='end_datetime' class="col-form-label text-md-left">End Date</label>
                             <div class="form-control-wrapper form-control-icon-left input-group offset-1">
-                                <input id="end_datetime" type="date" class="form-control" name="end_datetime"  required autocomplete="end_datetime" autofocus>
+                                <input id="end_datetime" type="date" class="form-control" name="end_datetime"  autocomplete="end_datetime" autofocus>
                                 <i class="fa fa-calendar"></i>
                             </div>
                         </div>
@@ -141,7 +184,10 @@
                 <div class='my-legend'>
                     <ul class='legend-labels'>
                         @foreach (auth()->user()->organization->calendarCatagories as $category)
-                            <li><span style='background:{{$category->color}}'></span>{{$category->name}}</li>
+                            <li>
+                                <span style='background:{{$category->color}}'></span>
+                                {{$category->name}}
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -256,7 +302,9 @@
                 dayClick: function(date) {
                     if ({{auth()->user()->canManageCalendar()}})
                     {
-                        $("#start_datetime").val(date.format('YYYY-MM-DD hh:mm'));
+                        // $("#start_datetime").val(date.format('YYYY-MM-DD hh:mm'));
+                        console.log(date.format('MM/DD/YY'));
+                        $("#start_datetime").val(date.format('dd-mm-yy'));
                         $('#myModal').modal('show');
                     }
                 },

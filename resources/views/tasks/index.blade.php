@@ -94,18 +94,18 @@
                     <th>Manage</th>
             </thead>
             <tbody>
-                @foreach ($tasks as $tasks)
+                @foreach ($tasks as $task)
                     <tr>
-                        <td>{{$tasks->name}}</td>
-                        <td>{{$tasks->description}}</td>
-                        <td>{{$tasks->deadline}}</td>
+                        <td>{{$task->name}}</td>
+                        <td>{{$task->description}}</td>
+                        <td>{{$task->deadline}}</td>
                         <td>
-                            @foreach ($tasks->getAllUsersAssigned() as $assignedUser)
+                            @foreach ($task->getAllUsersAssigned() as $assignedUser)
                                 {{$assignedUser->name}}
                             @endforeach
                         </td>
-                        <td>{{$tasks->getCompletionRate()}}</td>
-                        <td><a href={{route('tasks.edit', $tasks)}} class="btn btn-primary-outline">Manage</a></td>
+                        <td>{{$task->getCompletionRate()}}</td>
+                        <td><a href={{route('tasks.edit', $task)}} class="btn btn-primary-outline">Manage</a></td>
 
                     </tr>
                 @endforeach
