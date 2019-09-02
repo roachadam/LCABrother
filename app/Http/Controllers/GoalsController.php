@@ -25,6 +25,7 @@ class GoalsController extends Controller
 
     public function store(Request $request)
     {
+
         //validate
         $attributes = request()->validate([
             'points_goal' => ['required', 'numeric', 'min:0', 'max:10000'],
@@ -37,6 +38,8 @@ class GoalsController extends Controller
         $org = auth()->user()->organization;
         $org->setGoals($attributes);
 
+        session(['regStep' => 3]); // Mark registration step as completed
+        session()->save();
         //redirect
         return redirect(route('semester.create'));
     }

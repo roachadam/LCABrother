@@ -28,6 +28,7 @@ class OrganizationController extends Controller
 
     public function store(Request $request)
     {
+
         $attributes = request()->validate([
             'name' => ['required', 'min: 3', 'max:255'],
         ]);
@@ -42,6 +43,11 @@ class OrganizationController extends Controller
         $user->setAdmin();
         $org->setCalendarCategories();
         $user->setVerification(true);
+
+
+        session(['regStep' => 2]); // Mark registration step as completed
+        session()->save();
+
         return redirect('/goals/create');
     }
 

@@ -17,12 +17,14 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+
         if (Auth::guard($guard)->check()) {
 
-            //die('a');
-            if(!isset(Auth::user()->organization_id)){
-                return redirect('/avatar/create');
-            }
+
+
+            // if(!isset(Auth::user()->organization_id)){
+            //     return redirect('/avatar/create');
+            // }
             return redirect('/dash');
         }
 

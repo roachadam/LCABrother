@@ -17,6 +17,9 @@ class MassInvite extends Controller
 
     public function index()
     {
+        session(['regStep' => 5]); // Mark registration step as completed
+        session()->save();
+
         return view('massInvite.index');
     }
 

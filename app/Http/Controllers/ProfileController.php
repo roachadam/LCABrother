@@ -47,6 +47,14 @@ class ProfileController extends Controller
 
     public function create_avatar()
     {
+        // Since this step can be ignored, we should mark it as completed once shown
+
+        if(session('regStep') == null){
+            session(['regStep' => 0]); // Mark registration step as completed
+            session()->save();
+        }
+
+
         $user = auth()->user();
         return view('user.avatar', compact('user', $user));
     }
@@ -69,7 +77,8 @@ class ProfileController extends Controller
         $user->avatar = $avatarName;
         $user->save();
 
-        return back();
+
+        return redirect('/organization');
     }
 
     public function default_avatar(Request $request)

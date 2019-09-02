@@ -37,6 +37,7 @@ class UserController extends Controller
 
     public function joinOrg(Request $request, User $user)
     {
+
         $attributes = $request->validate([
             'organization' => 'required'
         ]);
@@ -51,6 +52,9 @@ class UserController extends Controller
         Mail::to($org->owner->email)->send(
             new MemberJoined($user, $org)
         );
+
+        session(['regStep' => 1]); // Mark registration step as completed
+        session()->save();
 
         return redirect('/dash');
     }
