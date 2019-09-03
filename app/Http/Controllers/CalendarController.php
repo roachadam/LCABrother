@@ -75,6 +75,9 @@ class CalendarController extends Controller
         $attributes['start_datetime'] = new \DateTime($attributes['start_datetime']);
         $attributes['end_datetime'] = new \DateTime($attributes['end_datetime']);
 
+        if($attributes['end_datetime'] < $attributes['start_datetime']){
+            $attributes['end_datetime'] = $attributes['start_datetime'];
+        }
 
         $org = auth()->user()->organization;
         $calendarItem = $org->addCalendarItem($attributes);
@@ -93,7 +96,7 @@ class CalendarController extends Controller
             }
         }
         if ($makeGuest) {
-            return view('calendar.guestList', compact('calendarItem'));
+            return redirect(route('calendar.guestList', $calendarItem));
         }
 
         return back();
@@ -197,5 +200,9 @@ class CalendarController extends Controller
 
         $CalendarCatagory->delete();
         return redirect('/calendarItem');
+    }
+
+    public function guestList(Request $request, CalendarItem $calendarItem){
+        return view('calendar.guestList', compact('calendarItem'));
     }
 }

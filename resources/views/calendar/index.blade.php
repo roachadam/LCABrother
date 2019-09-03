@@ -132,6 +132,7 @@
                     </div>
 
 
+
                     <div class="col-md-12">
                         <div class="row col-md-12">
                                 <div class="checkbox-toggle form-group">
@@ -144,7 +145,7 @@
 
                     <div class="col-md-12">
                         <div class="row col-md-12">
-                                <div class="checkbox-toggle form-group" id="inv" style="display: none">
+                            <div class="checkbox-toggle form-group" id="inv" style="display: none">
                                 <label for="involvement">Add involvement points to users who attend (optional)</label>
                                 <select name="involvement" id="involvement" class="form-control">
                                     <option value="0">Choose Involvement Item</option>
@@ -173,7 +174,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Legend</h5>
                 <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="false">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -232,20 +233,39 @@
             </div>
             <form method="POST" action="/calendarItem/addCategory" class="box" >
                 @csrf
-                <div class="modal-body mx-auto col-md-12">
+                <div class="modal-body">
 
-                    <div  class="col-md-6">
-                        <div class="row m-t-md">
+                    {{-- <div  class="col-md-6"> --}}
+                        {{-- <div class="row m-t-md">
                             <label class="form-label semibold" for="name">Category Name</label>
                             <input type="text" class="form-control" id="name" name="name">
-                        </div>
+                        </div> --}}
 
-                        <div class="row m-t-md">
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                                <label for="name" class="col-form-label text-md-right">Category Name*</label>
+                            <div class="input-group">
+                                <input class="offset-1 form-control" type="text" name="name" id='name' required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                                <label for="name" class="col-form-label text-md-right">Choose Color*</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control inp offset-1" id="colorPicker" name="color">
+                                <div class="palette" id="colorPalette"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                        {{-- <div class="row m-t-md">
                             <label class="form-label semibold" for="colorPicker">Choose Color</label>
                             <input type="text" class="form-control inp" id="colorPicker" name="color">
                             <div class="palette" id="colorPalette"></div>
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
 
@@ -258,23 +278,6 @@
     </div>
 </div>
 
-<div id="calendarModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
-                    <h4 id="modalTitle" class="modal-title"></h4>
-                </div>
-                <div id="modalBody" class="modal-body">
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-        </div>
 
 
 @section('js')
@@ -337,9 +340,18 @@
                             end : '{{ $calendarItem->end_datetime }}',
                             url : '/calendarItem/'+{{$calendarItem->id}},
                             color : '{{ $calendarItem->calendarCatagory->color }}',
-                            id : {{$calendarItem->id}}
+                            // id : {{$calendarItem->id}}
                         },
                         @endforeach
+                    @endif
+                    @if(auth()->user()->getIncompleteTasks())
+                        @foreach(auth()->user()->getIncompleteTasks() as $task)
+                        {
+                            title : '{{ $task->name }}',
+                            start : '{{ $task->deadline }}'
+                        }
+                        @endforeach
+
                     @endif
                 ],
                 // color : '#FFFFFF',
@@ -395,6 +407,7 @@
             }
         }
     </script>
+
 
 @endsection
 @endsection

@@ -17,7 +17,7 @@
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <div class="form-control-wrapper form-control-icon-left">
-                                        <input id="name" type="text" class="form-control " name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                        <input id="name" type="text" class="form-control " name="name" value="{{$calendarItem->name}}" required autocomplete="name" autofocus>
                                         <i class="fa fa-pencil"></i>
                                     </div>
                                 </div>
@@ -27,7 +27,7 @@
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <div class="form-control-wrapper form-control-icon-left">
-                                        <input id="date_of_event" type="date" class="form-control" name="date_of_event" value="{{ old('name') }}" required autocomplete="date_of_event" autofocus>
+                                        <input id="date_of_event" type="date" class="form-control" name="date_of_event" value="{{ \Carbon\Carbon::parse($calendarItem->start_datetime)->format('Y-m-d') }}" required autocomplete="date_of_event" autofocus>
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                 </div>
