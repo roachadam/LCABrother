@@ -100,6 +100,7 @@ Route::middleware('auth')->group(function () {
 
             Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
             Route::post('/calendarItem/addCategory', 'CalendarController@addCategory');
+            Route::get('/calendarItem/{calendarItem}/guestList','CalendarController@guestList')->name('calendar.guestList');
             ///calendarItem/Category/{{$category->id}}/delete
             Route::post('/calendarItem/CalendarCatagory/{CalendarCatagory}','CalendarController@categoryDelete')->name('calendarCategory.destroy');
 

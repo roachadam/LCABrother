@@ -1,6 +1,12 @@
 @extends('layouts.main')
 @section('title', 'Your Invites')
 @section('content')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/event">Events</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Your {{$event->name}} Invites</li>
+    </ol>
+</nav>
     <section class="card">
         <div class="card-block">
             <header class="card-header" style="border-bottom: 0">
