@@ -14,8 +14,8 @@
             <p>Category: <span style='background:{{$calendarItem->calendarCatagory->color}}'>&nbsp;{{ $calendarItem->calendarCatagory->name }}&nbsp;</span></p>
             <p> Description : {{$calendarItem->description}} </p>
             @if ($calendarItem->end_datetime != $calendarItem->start_datetime)
-                <p id="startDate">Start Date : {{ \Carbon\Carbon::parse($calendarItem->start_datetime)->format('m/d/Y h:i a') }}</p>
-                <p id="endDate">End Date : {{ \Carbon\Carbon::parse($calendarItem->end_datetime)->format('m/d/Y h:i a') }}</p>
+                <p id="startDate">Start Date : {{ \Carbon\Carbon::parse($calendarItem->start_datetime)->toDayDateTimeString() }}</p>
+                <p id="endDate">End Date : {{ \Carbon\Carbon::parse($calendarItem->end_datetime)->toDayDateTimeString() }}</p>
             @else
                 <p>Date : {{\Carbon\Carbon::parse($calendarItem->start_datetime)->toDayDateTimeString()}}</p>
             @endif
