@@ -17,11 +17,12 @@ class CreateCalendarItemsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('event_id')->nullable();
             $table->unsignedBigInteger('organization_id')->nullable();
+            $table->unsignedBigInteger('calendar_catagory_id')->nullable();
             $table->string('name');
             $table->text('description')->nullable();
             $table->dateTime('start_datetime');
             $table->dateTime('end_datetime');
-            $table->string("color")->nullable();
+            // $table->string("color")->nullable();
             $table->timestamps();
         });
     }

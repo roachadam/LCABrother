@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\CalendarItem;
 use App\Event;
 use App\AttendanceEvent;
+use App\CalendarCatagory;
 
 class CalendarController extends Controller
 {
@@ -51,14 +52,16 @@ class CalendarController extends Controller
             "guestList" => ['nullable'],
             "attendance" => ['nullable'],
             "involvement" => ['numeric'],
-            "color" => ['required']
+            "calendar_catagories_id" => ['required']
         ]);
 
 
         $makeGuest = isset($attributes['guestList']);
         $allowAttendance = isset($attributes['attendance']);
         $involvementId = $attributes['involvement'];
+        $calendarCatagory = $attributes['calendar_catagories_id'];
 
+        unset($attributes['calendar_catagories_id']);
         unset($attributes['guestList']);
         unset($attributes['attendance']);
         unset($attributes['involvement']);
@@ -66,6 +69,7 @@ class CalendarController extends Controller
         if (!isset($attributes['end_datetime'])) {
             $attributes['end_datetime'] = $attributes['start_datetime'];
         }
+        $category = CalendarCatagory::find($calendarCatagory);
 
         // remove am/pm and reformat dates
         $attributes['start_datetime'] = new \DateTime($attributes['start_datetime']);
@@ -74,7 +78,7 @@ class CalendarController extends Controller
 
         $org = auth()->user()->organization;
         $calendarItem = $org->addCalendarItem($attributes);
-
+        $calendarItem->setCatagory($category);
 
         if ($allowAttendance) {
             if ($involvementId != 0) {
@@ -91,6 +95,7 @@ class CalendarController extends Controller
         if ($makeGuest) {
             return view('calendar.guestList', compact('calendarItem'));
         }
+
         return back();
     }
 
@@ -172,6 +177,25 @@ class CalendarController extends Controller
         $org = auth()->user()->organization;
         $org->addCalendarCategory($attributes['name'], $attributes['color']);
 
+        return redirect('/calendarItem');
+    }
+
+    public function categoryDelete(Request $request, CalendarCatagory $CalendarCatagory){
+        $calendarItems = auth()->user()->organization->calendarItem;
+
+        $match = [
+            'organization_id' => auth()->user()->organization->id,
+            'name' => 'General'
+        ];
+        $general = CalendarCatagory::find($match)->first();
+
+        foreach($calendarItems as $item){
+            if($item->calendarCatagory == $CalendarCatagory){
+                $item->setCatagory($general);
+            }
+        }
+
+        $CalendarCatagory->delete();
         return redirect('/calendarItem');
     }
 }

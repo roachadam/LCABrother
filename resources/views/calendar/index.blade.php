@@ -55,10 +55,6 @@
 @include('partials.errors')
 <div id="calendar" class="fc fc-unthemed fc-ltr align-center"></div>
 
-{{-- {{-- <button type="button" class="btn btn-inline btn-primary m-t-md" data-toggle="modal" data-target="#legendModal">Legend</button> --}}
-{{-- @if (auth()->user()->canManageCalendar())
-    <button type="button" class="btn btn-inline btn-primary m-t-md" data-toggle="modal" data-target="#myModal">Add Event</button>
-@endif --}}
 
 <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
     <div class="modal-dialog" role="document">
@@ -113,12 +109,12 @@
 
                     <div class="col-md-12">
                         <div class="row col-md-12">
-                                <label for="color" class="col-form-label text-md-right" required>Category*</label>
+                                <label for="calendar_catagories_id" class="col-form-label text-md-right" required>Category*</label>
                             <div class="input-group offset-1">
-                                <select name="color" id="color" class="form-control">
+                                <select name="calendar_catagories_id" id="color" class="form-control">
                                     <option value="0">Choose Category</option>
                                     @foreach (auth()->user()->organization->calendarCatagories as $category)
-                                        <option value="{{$category->color}}">{{$category->name}}</option>
+                                        <option value="{{$category->id}}">{{$category->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -176,7 +172,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Legend</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -185,8 +181,37 @@
                     <ul class='legend-labels'>
                         @foreach (auth()->user()->organization->calendarCatagories as $category)
                             <li>
-                                <span style='background:{{$category->color}}'></span>
-                                {{$category->name}}
+                                <span style='background:{{$category->color}}'></span> {{$category->name}}
+                                <button type="submit" class="close" data-toggle="modal" data-target="#deleteCategory{{$category->id}}">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                                <div class="modal fade" id="deleteCategory{{$category->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                                                    <i class="font-icon-close-2"></i>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">Delete Calendar Category</h4>
+                                            </div>
+                                            <form action={{route('calendarCategory.destroy',$category)}} method="POST" class="box" >
+                                                <div class="modal-body">
+                                                    @csrf
+                                                    <div class="col-md-12">
+                                                        <p>Are you sure you want to remove the category: {{$category->name}}?</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div><!--.modal-->
+
                             </li>
                         @endforeach
                     </ul>
@@ -292,7 +317,7 @@
                             start : '{{ $calendarItem->start_datetime }}',
                             end : '{{ $calendarItem->end_datetime }}',
                             url : '/calendarItem/'+{{$calendarItem->id}},
-                            color : '{{ $calendarItem->color }}'
+                            color : '{{ $calendarItem->calendarCatagory->color }}'
                         },
                         @endforeach
                     @endif

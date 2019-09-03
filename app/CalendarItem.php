@@ -25,4 +25,11 @@ class CalendarItem extends Model
     public function hasEvent(){
         return $this->event_id !== null;
     }
+    public function CalendarCatagory(){
+        return $this->belongsTo(CalendarCatagory::class);
+    }
+    public function setCatagory($calendarCatagory)
+    {
+        $this->CalendarCatagory()->associate($calendarCatagory)->save();
+    }
 }

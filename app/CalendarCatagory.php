@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Organization;
+use App\CalendarItem;
 class CalendarCatagory extends Model
 {
 
@@ -11,5 +12,8 @@ class CalendarCatagory extends Model
 
     public function organization(){
         return $this->belongsTo(Organization::class);
+    }
+    public function CalendarItem(){
+        return $this->hasMany(CalendarItem::class);
     }
 }
