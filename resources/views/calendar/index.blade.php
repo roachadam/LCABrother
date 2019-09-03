@@ -181,18 +181,37 @@
                     <ul class='legend-labels'>
                         @foreach (auth()->user()->organization->calendarCatagories as $category)
                             <li>
-                            <form action={{route('calendarCategory.destroy',$category)}} method="POST">
-                                    @csrf
-                                    <span style='background:{{$category->color}}'></span> {{$category->name}}
-                                    {{-- <div> --}}
-                                    @if (auth()->user()->canManageCalendar())
-                                        <button type="submit" class="close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    @endif
+                                <span style='background:{{$category->color}}'></span> {{$category->name}}
+                                <button type="submit" class="close" data-toggle="modal" data-target="#deleteCategory{{$category->id}}">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
 
-                                    {{-- </div> --}}
-                                </form>
+                                <div class="modal fade" id="deleteCategory{{$category->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                                                    <i class="font-icon-close-2"></i>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">Delete Calendar Category</h4>
+                                            </div>
+                                            <form action={{route('calendarCategory.destroy',$category)}} method="POST" class="box" >
+                                                <div class="modal-body">
+                                                    @csrf
+                                                    <div class="col-md-12">
+                                                        <p>Are you sure you want to remove the category: {{$category->name}}?</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div><!--.modal-->
+
                             </li>
                         @endforeach
                     </ul>
