@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header">{{ $event->name }} Details</div>
                 <div class="card-body">
-                    <p>Date of Event: {{ \Carbon\Carbon::parse($event->date_of_event)->format('m/d/Y h:i a') }}</p>
+                    <p>Date of Event: {{ \Carbon\Carbon::parse($event->date_of_event)->toDayDateTimeString() }}</p>
                     <p>Invites per member: {{ $event->num_invites }}</p>
                     <p>Total invites logged: {{ $event->getNumInvites() }}</p>
                 </div>
