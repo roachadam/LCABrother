@@ -91,7 +91,7 @@
                         <div class="row col-md-12">
                             <label for='start_datetime' class="col-form-label text-md-left">Start Date*</label>
                             <div class="form-control-wrapper form-control-icon-left input-group offset-1">
-                                <input id="start_datetime" type="date" class="form-control" name="start_datetime"  required autocomplete="start_datetime" autofocus>
+                                <input id="start_datetime" type="datetime-local" class="form-control" name="start_datetime" data-enable-time="true" required autofocus>
                                 <i class="fa fa-calendar"></i>
                             </div>
                         </div>
@@ -101,8 +101,8 @@
                         <div class="row col-md-12">
                             <label for='end_datetime' class="col-form-label text-md-left">End Date</label>
                             <div class="form-control-wrapper form-control-icon-left input-group offset-1">
-                                <input id="end_datetime" type="date" class="form-control" name="end_datetime"  autocomplete="end_datetime" autofocus>
-                                <i class="fa fa-calendar"></i>
+                                    <input id="end_datetime" type="datetime-local" class="form-control" name="end_datetime" data-enable-time="true" required autofocus>
+                                    <i class="fa fa-calendar"></i>
                             </div>
                         </div>
                     </div>
@@ -258,6 +258,24 @@
     </div>
 </div>
 
+<div id="calendarModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                    <h4 id="modalTitle" class="modal-title"></h4>
+                </div>
+                <div id="modalBody" class="modal-body">
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+        </div>
+
 
 @section('js')
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
@@ -266,7 +284,8 @@
     <script src="js/color_picker.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.flatpickr').flatpickr();
+            $('#start_datetime').flatpickr();
+            $('#end_datetime').flatpickr();
 
             calendar = $('#calendar').fullCalendar({
                 // put your options and callbacks here
@@ -317,7 +336,8 @@
                             start : '{{ $calendarItem->start_datetime }}',
                             end : '{{ $calendarItem->end_datetime }}',
                             url : '/calendarItem/'+{{$calendarItem->id}},
-                            color : '{{ $calendarItem->calendarCatagory->color }}'
+                            color : '{{ $calendarItem->calendarCatagory->color }}',
+                            id : {{$calendarItem->id}}
                         },
                         @endforeach
                     @endif
@@ -328,8 +348,8 @@
                     if ({{auth()->user()->canManageCalendar()}})
                     {
                         // $("#start_datetime").val(date.format('YYYY-MM-DD hh:mm'));
-                        console.log(date.format('MM/DD/YY'));
-                        $("#start_datetime").val(date.format('dd-mm-yy'));
+                        console.log(date.format());
+                        $("#start_datetime").val(date.format());
                         $('#myModal').modal('show');
                     }
                 },
@@ -341,11 +361,17 @@
                         $("#end_datetime").val(correctEndDate);
                         $('#myModal').modal('show');
                     }
-                }
+                },
+                // eventClick:  function(event, jsEvent, view) {
+                //     $('#modalTitle').html(event.title);
+                //     $('#modalTitle').html(event.title);
+                //     $('#modalBody').html(event.description);
+                //     $('#eventUrl').attr('href',event.url);
+                //     $('#calendarModal').modal();
+                // },
 
 
             })
-
         });
 
         if(calendar) {
