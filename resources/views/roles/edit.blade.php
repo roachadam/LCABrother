@@ -26,7 +26,7 @@
                                 <label for="name" class="col-md-3-col-form-label text-md-left">Role Name:</label>
 
                                 <div class='offset-1'>
-                                    <input id="name" type="text" class="form-control" name="name" value="{{ $role->name }}" required autofocus>
+                                    <input id="name" type="text" class="form-control" name="name" value="{{ $role->name }}" {{($role->name == 'Admin' || $role->name == 'Basic') ? 'disabled' : ''}} required autofocus>
                                 </div>
                             </div>
                             <div class="form-body row offset-3 padding-sm">

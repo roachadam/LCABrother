@@ -37,7 +37,8 @@
                             <td> {{$event->num_invites}} </td>
                             <td> {{auth()->user()->getInvitesRemaining($event)}} </td>
                             {{-- <td><a href={{route('invite.create', $event)}} class="btn btn-inline {{ auth()->user()->hasInvitesRemaining($event) ? '' : 'disabled' }} ">Invite</a></td> --}}
-                            <td><button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#addInvite{{$event->id}}">Invite Guest</button>
+                            <td>
+                                <button type="button" class="btn btn-inline" data-toggle="modal" data-target="#addInvite{{$event->id}}" {{ auth()->user()->hasInvitesRemaining($event) ? '' : 'disabled' }}>Invite Guest</button>
                             </td>
                             <td><a href={{route('invites.index', $event)}} class="btn btn-inline {{ auth()->user()->getInvitesRemaining($event) === $event->num_invites ? 'disabled' : '' }} ">View</a></td>
                             @if (auth()->user()->canManageEvents())

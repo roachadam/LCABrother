@@ -29,7 +29,10 @@
                         <tr>
                             <td>{{ $role->name }}</td>
                             <td><a href={{route('role.usersInRole', $role)}} class="btn btn-inline">View</a></td>
-                            <td><a href={{route('role.edit', $role)}} class="btn btn-inline">Edit</a></td>
+                            <td>
+                                <button></button>
+                                <a href={{route('role.edit', $role)}} class="btn btn-inline {{$role->name == 'Admin' ? 'disabled' : ''}}" > Edit</a>
+                            </td>
                         </tr>
                     @endforeach
                 @endif
