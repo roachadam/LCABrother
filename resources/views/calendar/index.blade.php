@@ -182,10 +182,17 @@
                     <ul class='legend-labels'>
                         @foreach (auth()->user()->organization->calendarCatagories as $category)
                             <li>
-                                <span style='background:{{$category->color}}'></span> {{$category->name}}
-                                <button type="submit" class="close" data-toggle="modal" data-target="#deleteCategory{{$category->id}}">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <div class="row col-12">
+                                    <div class="col-11">
+                                        <span style='background:{{$category->color}}'></span> {{$category->name}}
+                                    </div>
+
+                                    <div class="col-1 align-right">
+                                        <button type="submit" class="close" data-toggle="modal" data-target="#deleteCategory{{$category->id}}">
+                                        <i class="fas fa-times fa-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
 
                                 <div class="modal fade" id="deleteCategory{{$category->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -283,6 +290,7 @@
 @section('js')
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
+    <script src="https://use.fontawesome.com/releases/v5.10.2/js/all.js" data-auto-replace-svg="nest"></script>
     <script src="js/lib/flatpickr/flatpickr.min.js"></script>
     <script src="js/color_picker.min.js"></script>
     <script>
