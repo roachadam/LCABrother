@@ -54,7 +54,7 @@ class InviteController extends Controller
             NotificationFunctions::alert('success', $attributes['guest_name'] . ' has been invited!');
         }
 
-        return redirect(route('event.index'));
+        return redirect(back());
     }
 
     /**
