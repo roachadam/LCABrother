@@ -46,9 +46,16 @@
                         </p>
                         <button type='submit' class="button button__primary">Register</button>
 
-                        <p class="row">
-                            <h6 class="">Already have an account? <a href="{{ route('login') }}" class="link">Login</a></h6>
-                            <a href="{{ route('password.request') }}" class="link""><h6>Forgot your password?</h6></a>
+                        <p class="text-container">
+
+                            <div class="row">
+                                Already have an account? <a href="{{ route('login') }}" class="link">Login</a>
+                            </div>
+
+                            <div class="row">
+                                <a href="{{ route('password.request') }}" class="link">Forgot your password?</a>
+                            </div>
+                            
                         </p>
 					</form>
 				</div>
