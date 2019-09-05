@@ -15,7 +15,7 @@
 
 			<div class="auth__inner">
 				<div class="auth__media">
-                    <img src="/img/home/forgot.svg">
+                    <img src="/img/home/myPassword.svg">
 				</div>
 				<div class="auth__auth">
 					<h1 class="auth__title">Reset Your Password</h1>

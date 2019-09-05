@@ -34,10 +34,18 @@
                             <label for="remember">Remember Me</label>
                         </p>
                         <button type='submit' class="button button__primary">Log in</button>
-                        <p class="row">
-                            <h6 class="">Don't have an account? <a href="{{ route('register') }}" style="color:#428bca">Register here</a></h6>
-                            <a class="" href="{{ route('password.request') }}"><h6>Forgot your password?</h6></a>
-                        </p>
+
+                        <p class="text-container">
+
+                                <div class="row">
+                                    Don't have an account? <a href="{{ route('register') }}" class="link">Register here</a>
+                                </div>
+
+                                <div class="row">
+                                    <a href="{{ route('password.request') }}" class="link">Forgot your password?</a>
+                                </div>
+
+                            </p>
 					</form>
 				</div>
 			</div>

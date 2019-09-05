@@ -22,7 +22,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row m-t-md">
                                 <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone Number') }}</label>
 
                                 <div class="col-md-6">
@@ -33,12 +33,16 @@
                             {{-- need to center this according to the input boxes on the edit profile page @adam --}}
                             <div class="row">
                                 <div class="btn-group">
-                                    <button type="submit" class="btn btn-inline btn-primary">{{ __('Update Infromation') }}</button>
+                                    <button type="submit" class="btn btn-inline btn-primary-outline">{{ __('Update Infromation') }}</button>
                                     <a href="/users/profile" class="btn btn-inline btn-default" id="cancel" name="cancel">Cancel</a>
                                 </div>
                             </div>
                         </div>
                     </form>
+
+                    <div>
+                        <a href="{{route('password.reset')}}" class="btn btn-inline btn-primary-outline">Reset password</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -61,12 +65,13 @@
                             <input type="file" class="form-control-file" name="avatar" id="avatarFile" aria-describedby="fileHelp">
                             <small id="fileHelp" class="form-text text-muted">Please upload a valid image file. Size of image should not be more than 2MB.</small>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary-outline">Submit</button>
                     </form>
 
                     <form method="POST" action="/avatar/default">
                         @csrf
-                        <button type="submit" class="btn btn-primary">Reset to Default</button>
+                        <button type="submit" class="btn btn-default-outline m-t-md
+                        ">Reset to Default</button>
                     </form>
 
                 </div>
