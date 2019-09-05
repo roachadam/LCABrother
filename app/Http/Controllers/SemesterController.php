@@ -10,6 +10,10 @@ use App\Commons\NotificationFunctions;
 
 class SemesterController extends Controller
 {
+    public function create(Request $request)
+    {
+        return view('semester.create');
+    }
     public function store(Request $request)
     {
         $attributes = $request->validate([
