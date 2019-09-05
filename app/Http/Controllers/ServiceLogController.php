@@ -45,6 +45,7 @@ class ServiceLogController extends Controller
         $attributes = $request->all();
         $serviceLog->update($attributes);
 
+        NotificationFunctions::alert('success', 'Successfully Updated service log!');
         return redirect(route('serviceLogs.breakdown', $serviceLog->user));
     }
 
