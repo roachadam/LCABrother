@@ -65,8 +65,8 @@
                                 </select>
                             </div>
 
-                            <div class="card-footer float-right">
-                                <a href="/academics" class="btn btn-primary">Cancel</a>
+                            <div class="card-footer float-right" style="border-top:none">
+                                <a href="/academics" class="btn btn-secondary">Cancel</a>
                                 <button type="submit" class="btn btn-primary">Override</button>
                             </div>
                         </form>
