@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/goals/create', 'GoalsController@create');
     Route::post('/goals/store', 'GoalsController@store');
+    Route::get('semester/create', 'SemesterController@create')->name('semester.create');
     Route::post('semester/initial', 'SemesterController@initial');
 
     Route::post('/user/{user}/join', 'UserController@joinOrg')->name('user.joinOrg');

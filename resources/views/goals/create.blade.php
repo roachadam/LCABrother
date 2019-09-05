@@ -2,7 +2,7 @@
 @section('title', 'Set Goals')
 @section('content')
     <div class="auth__media">
-        <img src="/img/home/ordinary.svg">
+        <img src="/img/home/goalz.svg">
     </div>
     <div class="auth__auth">
         <h1 class="auth__title">Set Organization Goals</h1>

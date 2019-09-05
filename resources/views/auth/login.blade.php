@@ -16,7 +16,7 @@
 
 			<div class="auth__inner">
 				<div class="auth__media">
-					<img src="./img/home/undraw_selfie.svg">
+                    <img src="./img/login.png">
 				</div>
 				<div class="auth__auth">
 					<h1 class="auth__title">Access your dashboard</h1>
