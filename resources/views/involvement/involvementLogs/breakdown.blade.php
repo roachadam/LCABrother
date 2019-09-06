@@ -2,6 +2,13 @@
 @section('title', 'Involvement Points')
 @section('content')
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/involvement">Involvement Points</a></li>
+        <li class="breadcrumb-item active" aria-current="page">My Breakdown</li>
+    </ol>
+</nav>
+
 <section class="card">
         <div class="card-block">
             <header class="card-header" style="border-bottom: 0">

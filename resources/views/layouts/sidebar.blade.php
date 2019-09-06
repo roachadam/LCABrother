@@ -114,7 +114,7 @@
                     </a>
                 </li>
             @endif
-            @if (auth()->user()->canManageSurveys())
+            {{-- @if (auth()->user()->canManageSurveys())
                 <li class="green {{ request()->is('survey/create') ? 'opened' : '' }}">
                     <a href="/survey/create">
                     <span>
@@ -123,7 +123,7 @@
                     </span>
                     </a>
                 </li>
-            @endif
+            @endif --}}
             @if (auth()->user()->canManageAlumni())
                 <li class="pink {{ request()->is('alumni') ? 'opened' : '' }}">
                     <a href="/alumni">
