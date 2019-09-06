@@ -26,8 +26,9 @@ class InvolvementController extends Controller
         $involvements = $organization->involvement;
         $verifiedMembers = $organization->getVerifiedMembers();
         $users = $organization->getVerifiedMembers();
+        $events = auth()->user()->organization->involvement;
 
-        return view('involvement.index', compact('users', 'canManageInvolvement', 'involvements', 'verifiedMembers'));
+        return view('involvement.index', compact('users', 'canManageInvolvement', 'involvements', 'verifiedMembers','events'));
     }
 
     /**
@@ -52,7 +53,7 @@ class InvolvementController extends Controller
 
             NotificationFunctions::alert('success', 'Successfully created involvement event for ' . $attributes['name'] . 's');
 
-            return redirect(route('involvement.adminView'));
+            return back();
         }
     }
 

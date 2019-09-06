@@ -54,7 +54,14 @@ class InviteController extends Controller
             NotificationFunctions::alert('success', $attributes['guest_name'] . ' has been invited!');
         }
 
-        return redirect(back());
+        if(auth()->user()->hasInvitesRemaining($event))
+        {
+            return back();
+        }
+        else
+        {
+            return redirect('/dash');
+        }
     }
 
     /**
