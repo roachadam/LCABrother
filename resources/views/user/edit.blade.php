@@ -1,6 +1,13 @@
 @extends('layouts.main')
 @section('title', 'Edit Profile')
 @section('content')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/dash">Dash</a></li>
+        <li class="breadcrumb-item"><a href="/users/profile">Your Profile</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
+    </ol>
+</nav>
 <div class="container">
     @include('partials.errors')
     <div class="row ">
@@ -40,9 +47,8 @@
                         </div>
                     </form>
 
-                    <div>
-                        <a href="{{route('password.reset')}}" class="btn btn-inline btn-primary-outline">Reset password</a>
-                    </div>
+                    {{--
+                         --}}
                 </div>
             </div>
         </div>
