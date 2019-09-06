@@ -13,7 +13,7 @@
             <thead>
                 <tr>
                     <th>Survey Name</th>
-                    <th>Description</th>
+                    <th>Created By</th>
                     <th>Date Posted</th>
                     <th>Answer</th>
                     @if ($user->canManageSurveys())
@@ -27,8 +27,8 @@
                 @foreach ($surveys as $survey)
                     <tr>
                         <td>{{$survey->name}}</td>
-                        <td>{{$survey->desc}}</td>
-                        <td>{{$survey->created_at}}</td>
+                        <td>{{$survey->user->name}}</td>
+                        <td>{{\Carbon\Carbon::parse($survey->created_at)->toDayDateTimeString()}}</td>
 
                         {{-- Uncomment this to have the fillout form not be a modal and it just goes to a seperate page --}}
                         {{-- <td><a href={{route('survey.show', $survey)}} class="btn btn-inline {{$user->hasResponded($survey) ? 'disabled' : ''}}" >Submit Response</a></td> --}}
@@ -37,18 +37,24 @@
                         @if(!$user->hasResponded($survey))
                             <!--.modal for filling out survey-->
                             <div class="modal fade" id="submit{{$survey->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                                <div class="modal-dialog modal-dialog-scrollable" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
                                                 <i class="font-icon-close-2"></i>
                                             </button>
                                             <h4 class="modal-title" id="myModalLabel">{{$survey->name}}</h4>
+
+
                                         </div>
+
                                         <form action={{route('survey.submit', $survey)}} method="post" class="box" >
                                             <div class="modal-body">
                                                 @csrf
-                                                <div class="col-md-12">
+
+
+                                               <strong>Description</strong>  - {{$survey->desc}}
+                                                <div class="col-md-12 m-t-lg">
                                                     {!! $survey->generateForm()  !!}
                                                 </div>
                                             </div>

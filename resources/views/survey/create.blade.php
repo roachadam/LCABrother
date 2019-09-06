@@ -19,27 +19,30 @@
                 <label>Survey Name</label>
                 <input type="text" name="name" id="name" class="form-control" required>
 
-                <label>Survey Description</label>
+                <label class="m-t-md">Survey Description</label>
                 <textarea type="text" name="desc" id="desc" class="form-control" required></textarea>
 
 
+                    <div id="inputs">
+                        <div class="row m-t-md">
+                            <input type="text" name="field_name[]" id="field_name[]" placeholder="Survey Field Name" class="form-control col-md-4" required>
+
+                            <select name="field_type[]" id="select-0" class=" form-control col-md-4 offset-1" required>
+                                <option value="text">Text</option>
+                                <option value="date">Date</option>
+                                <option value="textarea">TextArea</option>
+                                <option value="checkbox">CheckBox</option>
+                                <option value="select">Dropdown</option>
+                            </select>
+                        </div>
+                    </div>
 
 
-                <div class="form-row m-t-md">
-                    <input type="text" name="field_name[]" id="field_name[]" placeholder="Survey Field Name" class="form-control m-t-md" required>
-                    <select name="field_type[]" id="select-0" class="form-control m-t-md" required>
-                        <option value="text">Text</option>
-                        <option value="date">Date</option>
-                        <option value="textarea">TextArea</option>
-                        {{--
-                            @TODO FINISH THIS
-                            <option value="checkbox">CheckBox</option>
-                        <option value="select">Dropdown</option> --}}
-                    </select>
+                    <div class="row m-t-md">
 
-                    <div id="frmAccess" ></div>
-                    <div id="frmAccess2" class="offset-1" ></div>
-                </div>
+                        <div id="frmAccess" ></div>
+                        <div id="frmAccess2" class="offset-1" ></div>
+                    </div>
 
                 <div class="row m-t-md">
                     <button id="btn" type="button" class="btn">Add Field</button>
@@ -51,13 +54,17 @@
     </div>
 </div>
 
-{{-- <script src="resources\js\survey.js"></script> --}}
+@endsection
+@section('js')
+
 <script>
-    (function() {
+   $(document).ready(function () {
         let counter = 0;
-        const btn = document.getElementById('btn');
+        const btn = $('#btn');
         const form = document.getElementById('frmAccess');
         const form2 = document.getElementById('frmAccess2');
+        const inputDiv = $('#inputs');
+
         const addInput = function() {
             counter++;
             let input = document.createElement("input");
@@ -80,18 +87,17 @@
             form2.appendChild(select);
         };
 
-        btn.addEventListener('click', function() {
+        btn.on('click', function() {
             addInput();
         }.bind(this));
-    })();
+    });
 </script>
 <script>
-    (function() {
+     $(document).ready(function () {
         const elements = document.querySelectorAll('select[id^="select-"]');
         const form = document.getElementById('frmAccess');
 
         const createOptions = function() {
-            console.log("Tried");
             let input = document.createElement("input");
             input.id = 'input-';
             input.className="form-control";
@@ -102,7 +108,6 @@
         };
 
         const checkValue = function(i) {
-            console.log(i);
             const indexChoice = elements[i].selectedIndex;
             if(indexChoice == 3 || indexChoice == 4){
                 createOptions();
@@ -111,9 +116,8 @@
 
         for(let i = 0; i < elements.length; i++) {
             elements[i].addEventListener("change", checkValue(i));
-            console.log(i);
         }
-    })();
+    });
 
 </script>
 @endsection
