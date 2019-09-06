@@ -74,16 +74,6 @@
                     </a>
                 </li>
             @endif
-            @if (auth()->user()->canManageInvolvement())
-                <li class="red {{ request()->is('involvement/edit') ? 'opened' : '' }}">
-                    <a href="/involvement/adminView">
-                    <span>
-                        <i class="glyphicon glyphicon-signal"></i>
-                        <span class="lbl">Involvement Events</span>
-                    </span>
-                    </a>
-                </li>
-            @endif
             @if (auth()->user()->canManageAllStudy())
                 <li class="green {{ request()->is('academics') ? 'opened' : '' }}">
                     <a href="/academics">
