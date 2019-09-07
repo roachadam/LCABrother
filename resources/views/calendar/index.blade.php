@@ -2,11 +2,7 @@
 @section('css')
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' />
     <link rel="stylesheet" href="css/lib/flatpickr/flatpickr.min.css">
-    <link rel="stylesheet" href="css/lib/flatpickr/flatpickr.min.css">
     <link rel="stylesheet" href="css/color_picker.min.css">
-
-
-
     <style type='text/css'>
         .my-legend .legend-title {
         text-align: left;
@@ -47,7 +43,9 @@
         }
     </style>
 
+
 @endsection
+
 @section('title', 'Calendar')
 
 @section('content')
@@ -71,7 +69,7 @@
 
                     <div class="col-md-12">
                         <div class="row col-md-12">
-                                <label for="name" class="col-form-label text-md-right">Event Name*</label>
+                            <label for="name" class="col-form-label text-md-right">Event Name*</label>
                             <div class="input-group">
                                 <input class="offset-1 form-control" type="text" name="name" id='name' placeholder="Chapter Meeting" required>
                             </div>
@@ -92,7 +90,7 @@
                             <label for='start_datetime' class="col-form-label text-md-left">Start Date*</label>
                             <div class="form-control-wrapper form-control-icon-left input-group offset-1">
                                 <input id="start_datetime" type="datetime-local" class="form-control" name="start_datetime" data-enable-time="true" required autofocus>
-                                <i class="fa fa-calendar"></i>
+                                {{-- <i class="fa fa-calendar"></i> --}}
                             </div>
                         </div>
                     </div>
@@ -102,14 +100,14 @@
                             <label for='end_datetime' class="col-form-label text-md-left">End Date</label>
                             <div class="form-control-wrapper form-control-icon-left input-group offset-1">
                                     <input id="end_datetime" type="datetime-local" class="form-control" name="end_datetime" data-enable-time="true" required autofocus>
-                                    <i class="fa fa-calendar"></i>
+                                    {{-- <i class="fa fa-calendar"></i> --}}
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <div class="row col-md-12">
-                                <label for="calendar_catagories_id" class="col-form-label text-md-right" required>Category*</label>
+                            <label for="calendar_catagories_id" class="col-form-label text-md-right" required>Category*</label>
                             <div class="input-group offset-1">
                                 <select name="calendar_catagories_id" id="color" class="form-control">
                                     <option value="0">Choose Category</option>
@@ -123,25 +121,21 @@
 
                     <div class="col-md-12 m-t-md">
                         <div class="row col-md-12">
-                                <div class="checkbox-toggle input-group">
+                            <div class="checkbox-toggle input-group">
                                 <input type="checkbox" id=guestList name=guestList>
                                 <label for=guestList class="col-form-label text-md-right">Generate GuestList</label>
-
                             </div>
                         </div>
                     </div>
 
-
-
                     <div class="col-md-12">
                         <div class="row col-md-12">
-                                <div class="checkbox-toggle form-group">
+                            <div class="checkbox-toggle form-group">
                                 <input type="checkbox" id="attendance" name="attendance" onclick="showInvolvement()" >
                                 <label for="attendance" class="col-form-label text-md-right">Allow Attendance</label>
                             </div>
                         </div>
                     </div>
-
 
                     <div class="col-md-12">
                         <div class="row col-md-12">
@@ -156,7 +150,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
@@ -186,12 +179,14 @@
                                     <div class="col-11">
                                         <span style='background:{{$category->color}}'></span> {{$category->name}}
                                     </div>
-
-                                    <div class="col-1 align-right">
-                                        <button type="submit" class="close" data-toggle="modal" data-target="#deleteCategory{{$category->id}}">
-                                        <i class="fas fa-times fa-xs"></i>
-                                        </button>
-                                    </div>
+                                    {{-- @if($category->name !== 'General') --}}
+                                        <div class="col-1 align-right">
+                                            <button type="submit" class="close" data-toggle="modal" data-target="#deleteCategory{{$category->id}}">
+                                            <i class="fas fa-times fa-xs"></i>
+                                            {{-- <i class="far fa-times-circle"></i> --}}
+                                            </button>
+                                        </div>
+                                    {{-- @endif --}}
                                 </div>
 
                                 <div class="modal fade" id="deleteCategory{{$category->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -241,16 +236,9 @@
             <form method="POST" action="/calendarItem/addCategory" class="box" >
                 @csrf
                 <div class="modal-body">
-
-                    {{-- <div  class="col-md-6"> --}}
-                        {{-- <div class="row m-t-md">
-                            <label class="form-label semibold" for="name">Category Name</label>
-                            <input type="text" class="form-control" id="name" name="name">
-                        </div> --}}
-
                     <div class="col-md-12">
                         <div class="row col-md-12">
-                                <label for="name" class="col-form-label text-md-right">Category Name*</label>
+                            <label for="name" class="col-form-label text-md-right">Category Name*</label>
                             <div class="input-group">
                                 <input class="offset-1 form-control" type="text" name="name" id='name' required>
                             </div>
@@ -259,23 +247,14 @@
 
                     <div class="col-md-12">
                         <div class="row col-md-12">
-                                <label for="name" class="col-form-label text-md-right">Choose Color*</label>
+                            <label for="name" class="col-form-label text-md-right">Choose Color*</label>
                             <div class="input-group">
                                 <input type="text" class="form-control inp offset-1" id="colorPicker" name="color">
                                 <div class="palette" id="colorPalette"></div>
                             </div>
                         </div>
                     </div>
-
-                        {{-- <div class="row m-t-md">
-                            <label class="form-label semibold" for="colorPicker">Choose Color</label>
-                            <input type="text" class="form-control inp" id="colorPicker" name="color">
-                            <div class="palette" id="colorPalette"></div>
-                        </div>
-                    </div> --}}
-
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
                     <button type='submit' class="btn btn-inline btn-primary">Create</button>
@@ -285,12 +264,13 @@
     </div>
 </div>
 
-
+@endsection
 
 @section('js')
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
-    <script src="https://use.fontawesome.com/releases/v5.10.2/js/all.js" data-auto-replace-svg="nest"></script>
+    {{-- <script src="https://use.fontawesome.com/releases/v5.10.2/js/all.js" data-auto-replace-svg="nest"></script> --}}
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="js/lib/flatpickr/flatpickr.min.js"></script>
     <script src="js/color_picker.min.js"></script>
     <script>
@@ -417,7 +397,6 @@
     </script>
 
 
-@endsection
 @endsection
 
 

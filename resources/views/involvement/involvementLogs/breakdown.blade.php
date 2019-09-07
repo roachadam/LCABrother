@@ -4,8 +4,8 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/involvement">Involvement Points</a></li>
-        <li class="breadcrumb-item active" aria-current="page">My Breakdown</li>
+        <li class="breadcrumb-item"><a href="/involvement">All Involvement Points</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{$user->name}}'s Breakdown</li>
     </ol>
 </nav>
 
@@ -13,7 +13,7 @@
         <div class="card-block">
             <header class="card-header" style="border-bottom: 0">
                 <div class="row">
-                    <h2 class="card-title">{{$user->name}}'s Involvement Logs</h2>
+                <h2 class="card-title">{{$user->name}}'s Involvement Logs: {{$user->getInvolvementPoints()}} Total</h2>
                 </div>
             </header>
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
@@ -34,7 +34,7 @@
                             <tr>
                                 <td>{{ $log->involvement->name }}</td>
                                 <td> {{ $log->involvement->points  }} </td>
-                                <td> {{ $log->date_of_event }} </td>
+                                <td>{{\Carbon\Carbon::parse($log->date_of_event )->toDayDateTimeString()}} </td>
                                 @if ($user->canManageInvolvement())
                                     <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$log->id}}">Delete</button></td>
                                 @endif

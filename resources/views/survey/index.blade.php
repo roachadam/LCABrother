@@ -4,7 +4,7 @@
 @section('content')
 <section class="card">
     <div class="card-block">
-  
+
 
         <header class="card-header" style="border-bottom: 0">
                 <div class="row">
@@ -33,7 +33,7 @@
                     <tr>
                         <td>{{$survey->name}}</td>
                         <td>{{$survey->desc}}</td>
-                        <td>{{$survey->created_at}}</td>
+                        <td>{{\Carbon\Carbon::parse($survey->created_at)->toDayDateTimeString()}}</td>
 
                         {{-- Uncomment this to have the fillout form not be a modal and it just goes to a seperate page --}}
                         {{-- <td><a href={{route('survey.show', $survey)}} class="btn btn-inline {{$user->hasResponded($survey) ? 'disabled' : ''}}" >Submit Response</a></td> --}}

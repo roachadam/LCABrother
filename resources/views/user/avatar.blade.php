@@ -25,7 +25,11 @@
                         <form action="/avatar/create" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group" style=" padding-top: 12px;">
-                                <input type="file" class="form-control-file" name="avatar" id="avatarFile" aria-describedby="fileHelp">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFile" name="avatar" aria-describedby="fileHelp">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                                {{-- <input type="file" class="form-control-file" name="avatar" id="avatarFile" aria-describedby="fileHelp"> --}}
                             </div>
 
                             {{-- <div class="input-group">
@@ -54,4 +58,13 @@
         </div>
     </div>
 
+@endsection
+@section('js')
+<script>
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+
+</script>
 @endsection

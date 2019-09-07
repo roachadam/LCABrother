@@ -67,7 +67,7 @@ class InvolvementController extends Controller
         $involvement->update($attributes);
 
         NotificationFunctions::alert('success', 'Successfully updated event!');
-        return redirect(route('involvement.adminView'));
+        return back();
     }
 
     public function import(Request $request)

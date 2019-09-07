@@ -2,7 +2,14 @@
 
 
 @section('content')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/totals">Goals Overview</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Notify Members</li>
+    </ol>
+</nav>
 @include('partials.errors')
+
 <div class="card">
     <div class="card-header">{{ __('Goals') }}</div>
     <div class="card-body">

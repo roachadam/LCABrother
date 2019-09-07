@@ -8,7 +8,7 @@
                     <h2 class="card-title">Events</h2>
                     <div class="ml-auto" id="headerButtons">
                         @if (auth()->user()->canManageEvents())
-                            <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#addEvent">Add Event</button>
+                            <button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#addEvent">Add Event</button>
                         @endif
                     </div>
                 </div>
@@ -18,7 +18,7 @@
                     <tr>
                         <th>Event Name</th>
                         <th>Date</th>
-                        <th>Invites per member</th>
+                        {{-- <th>Invites per member</th> --}}
                         <th>Your invites remaining</th>
                         <th>Submit Invitation</th>
                         <th>My Invites</th>
@@ -33,8 +33,8 @@
                         @foreach ($events as $event)
                         <tr>
                             <td>{{ $event->name }}</td>
-                            <td> {{$event->date_of_event}} </td>
-                            <td> {{$event->num_invites}} </td>
+                            <td>{{ \Carbon\Carbon::parse($event->date_of_event)->toDayDateTimeString() }}</td>
+                            {{-- <td> {{$event->num_invites}} </td> --}}
                             <td> {{auth()->user()->getInvitesRemaining($event)}} </td>
                             {{-- <td><a href={{route('invite.create', $event)}} class="btn btn-inline {{ auth()->user()->hasInvitesRemaining($event) ? '' : 'disabled' }} ">Invite</a></td> --}}
                             <td>
