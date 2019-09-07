@@ -1,7 +1,12 @@
 @extends('layouts.main')
 
 @section('content')
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{str_replace(url('/'), '', url()->previous())}}">Members</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Alumni</li>
+    </ol>
+</nav>
 
 <section class="card">
     <div class="card-block">
@@ -9,7 +14,7 @@
             <div class="row">
                 <h2 class="card-title">Alumni</h2>
                 <div class="ml-auto" id="headerButtons">
-                    <a href="/alumni/contact" class="btn btn-inline btn-primary">Contact Alumni</a>
+                    <a href="/alumni/contact" class="btn btn-inline btn-primary-outline">Contact Alumni</a>
                 </div>
             </div>
         </header>
@@ -31,7 +36,7 @@
                             <td>{{ $alum->name }}</td>
                             <td>{{ $alum->phone }}</td>
                             <td>{{ $alum->email  }}</td>
-                            <td>{{ $alum->updated_at  }}</td>
+                            <td>{{\Carbon\Carbon::parse($alum->updated_at)->toDayDateTimeString()}}</td>
                             @if (auth()->user()->canManageMembers())
                                 <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$alum->id}}">Delete</button></td>
 

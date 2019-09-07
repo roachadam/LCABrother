@@ -92,7 +92,7 @@
                             <label for='start_datetime' class="col-form-label text-md-left">Start Date*</label>
                             <div class="form-control-wrapper form-control-icon-left input-group offset-1">
                                 <input id="start_datetime" type="datetime-local" class="form-control" name="start_datetime" data-enable-time="true" required autofocus>
-                                <i class="fa fa-calendar"></i>
+                                {{-- <i class="fa fa-calendar"></i> --}}
                             </div>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
                             <label for='end_datetime' class="col-form-label text-md-left">End Date</label>
                             <div class="form-control-wrapper form-control-icon-left input-group offset-1">
                                     <input id="end_datetime" type="datetime-local" class="form-control" name="end_datetime" data-enable-time="true" required autofocus>
-                                    <i class="fa fa-calendar"></i>
+                                    {{-- <i class="fa fa-calendar"></i> --}}
                             </div>
                         </div>
                     </div>
