@@ -18,7 +18,7 @@
                     <tr>
                         <th>Event Name</th>
                         <th>Date</th>
-                        <th>Invites per member</th>
+                        {{-- <th>Invites per member</th> --}}
                         <th>Your invites remaining</th>
                         <th>Submit Invitation</th>
                         <th>My Invites</th>
@@ -33,8 +33,8 @@
                         @foreach ($events as $event)
                         <tr>
                             <td>{{ $event->name }}</td>
-                            <td> {{$event->date_of_event}} </td>
-                            <td> {{$event->num_invites}} </td>
+                            <td>{{ \Carbon\Carbon::parse($event->date_of_event)->toDayDateTimeString() }}</td>
+                            {{-- <td> {{$event->num_invites}} </td> --}}
                             <td> {{auth()->user()->getInvitesRemaining($event)}} </td>
                             {{-- <td><a href={{route('invite.create', $event)}} class="btn btn-inline {{ auth()->user()->hasInvitesRemaining($event) ? '' : 'disabled' }} ">Invite</a></td> --}}
                             <td>

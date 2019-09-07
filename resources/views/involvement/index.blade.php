@@ -10,7 +10,7 @@
                         <a href="/user/{{auth()->user()->id}}/involvementLogs" class="btn btn-inline {{ $canManageInvolvement ? 'btn-secondary-outline' : 'btn-primary'}}">My Involvement Breakdown</a>
                         @if ($canManageInvolvement)
                             <button type="button" class="btn btn-inline btn-secondary-outline" data-toggle="modal" data-target="#addInvolvementScores">Add Involvement Scores</button>
-                            <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#uploadInvolvementData">Upload Involvement Data</button>
+                            <button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#uploadInvolvementData">Upload Involvement Data</button>
                         @endif
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                 <div class="row">
                     <h2 class="card-title">Involvement Events</h2>
                     <div class="ml-auto" id="headerButtons">
-                        <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#createNewEvent">Create New</button>
+                        <button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#createNewEvent">Create New</button>
                     </div>
                 </div>
             </header>
