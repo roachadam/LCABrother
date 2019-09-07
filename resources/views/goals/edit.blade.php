@@ -1,6 +1,13 @@
 @extends('layouts.main')
 
 @section('content')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/totals">Goals Overview</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit</li>
+    </ol>
+</nav>
+
 <div class="container">
     @include('partials.errors')
 
