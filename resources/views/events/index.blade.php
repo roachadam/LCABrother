@@ -8,7 +8,7 @@
                     <h2 class="card-title">Events</h2>
                     <div class="ml-auto" id="headerButtons">
                         @if (auth()->user()->canManageEvents())
-                            <button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#addEvent">Add Event</button>
+                            <button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#addEvent">Add Event</button>
                         @endif
                     </div>
                 </div>
