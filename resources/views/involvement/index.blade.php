@@ -151,8 +151,10 @@
                         <tr>
                             <th>Event</th>
                             <th>Point Value</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            @if(!$canManageInvolvement)
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -160,9 +162,11 @@
                             <tr>
                                 <td>{{$event->name}}</td>
                                 <td>{{$event->points}}</td>
-                                <td><button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#editEvent{{$event->id}}">Edit</button></td>
-                                <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#deleteEvent{{$event->id}}">Delete</button></td>
-                            </tr>
+                                @if(!$canManageInvolvement)
+                                    <td><button type="button" class="btn btn-inline btn-primary" data-toggle="modal" data-target="#editEvent{{$event->id}}">Edit</button></td>
+                                    <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#deleteEvent{{$event->id}}">Delete</button></td>
+                                @endif
+                                </tr>
 
                             <!--.modal for Editing Event-->
                             <div class="modal fade" id="editEvent{{$event->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
