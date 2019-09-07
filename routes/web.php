@@ -76,7 +76,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/dash', 'DashController@index');
             Route::get('/users/{user}/adminView', 'UserController@adminView');
             Route::post('/user/{user}/organization/remove', 'OrganizationController@removeUser')->name('organization.removeUser');
-
+            Route::post('/organization/{organization}/user/{user}/owner-pass','OrganizationController@changeOwner')->name('organization.passOwner');
             Route::get('/users/contact', 'ContactController@userContacts')->name('contact.users');
 
             Route::get('/users/profile', 'ProfileController@index')->name('profile.index');

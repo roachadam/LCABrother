@@ -74,16 +74,6 @@
                     </a>
                 </li>
             @endif
-            @if (auth()->user()->canManageInvolvement())
-                <li class="red {{ request()->is('involvement/edit') ? 'opened' : '' }}">
-                    <a href="/involvement/adminView">
-                    <span>
-                        <i class="glyphicon glyphicon-signal"></i>
-                        <span class="lbl">Involvement Events</span>
-                    </span>
-                    </a>
-                </li>
-            @endif
             @if (auth()->user()->canManageAllStudy())
                 <li class="green {{ request()->is('academics') ? 'opened' : '' }}">
                     <a href="/academics">
@@ -114,7 +104,7 @@
                     </a>
                 </li>
             @endif
-            @if (auth()->user()->canManageSurveys())
+            {{-- @if (auth()->user()->canManageSurveys())
                 <li class="green {{ request()->is('survey/create') ? 'opened' : '' }}">
                     <a href="/survey/create">
                     <span>
@@ -123,7 +113,7 @@
                     </span>
                     </a>
                 </li>
-            @endif
+            @endif --}}
             @if (auth()->user()->canManageAlumni())
                 <li class="pink {{ request()->is('alumni') ? 'opened' : '' }}">
                     <a href="/alumni">

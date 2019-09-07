@@ -16,7 +16,7 @@ class CreateTaskAssignments extends Migration
         Schema::create('task_assignments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('organization_id')->nullable();
-            $table->unsignedBigInteger('task_id');
+            $table->unsignedBigInteger('tasks_id');
             $table->unsignedBigInteger('assigner_id');
             $table->unsignedBigInteger('assignee_id');
             $table->tinyInteger('completed')->default(0);
@@ -25,7 +25,7 @@ class CreateTaskAssignments extends Migration
 
         Schema::table('task_assignments', function ($table) {
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
-            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
+            $table->foreign('tasks_id')->references('id')->on('tasks')->onDelete('cascade');
             $table->foreign('assigner_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('assignee_id')->references('id')->on('users')->onDelete('cascade');
         });

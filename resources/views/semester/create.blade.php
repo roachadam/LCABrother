@@ -13,7 +13,7 @@
             @csrf
             <label>Semester Name</label>
             <input type="text" name="semester_name" class="form-control" placeholder="Fall 2019">
-            <button type="submit" class="button button__primary">Submit</button>
+            <button type="submit">Submit</button>
         </form>
 
     </div>

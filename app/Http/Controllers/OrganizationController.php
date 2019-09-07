@@ -53,4 +53,11 @@ class OrganizationController extends Controller
         NotificationFunctions::alert('success', 'Successfully Removed ' . $user->name . ' from Organization!');
         return redirect(route('user.index'));
     }
+    public function changeOwner(Request $request, Organization $organization, User $user){
+        $organization->owner_id = $user->id;
+        $organization->save();
+
+        NotificationFunctions::alert('success', 'Successfully Made ' . $user->name . ' the owner of ' . $organization->name . '.');
+        return back();
+    }
 }

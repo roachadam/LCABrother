@@ -4,11 +4,16 @@
 @section('content')
 <section class="card">
     <div class="card-block">
+  
+
         <header class="card-header" style="border-bottom: 0">
-            <div class="row">
-                <h2 class="card-title">Surveys</h2>
-            </div>
-        </header>
+                <div class="row">
+                    <h2 class="card-title">Surveys</h2>
+                    <div class="ml-auto" id="headerButtons">
+                        <a href="/survey/create" class="btn btn-primary-outline">Create Survey</a>
+                    </div>
+                </div>
+            </header>
         <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
