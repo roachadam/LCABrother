@@ -11,51 +11,49 @@
 <div class="container">
     @include('partials.errors')
     <div class="row ">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
                     {{ __('Edit Your Details') }}
 
                 </div>
-                <div class="card-body">
                 <form method="POST" action="/users/update">
+                    <div class="card-body">
                         @csrf
                         <div class="form-group">
                             <div class="row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}</label>
+                                <label for="email" class="col-md-4 col-form-label">{{ __('Email') }}</label>
 
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <input id="email" type="text" class="form-control" name="email" value="{{ $user->email }}" required autocomplete="email" autofocus>
                                 </div>
                             </div>
 
                             <div class="row m-t-md">
-                                <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone Number') }}</label>
+                                <label for="phone" class="col-md-4 col-form-label">{{ __('Phone Number') }}</label>
 
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <input id="phone" type="text" class="form-control" name="phone" value="{{ $user->phone }}" required autocomplete="phone" autofocus>
                                 </div>
                             </div>
 
                             {{-- need to center this according to the input boxes on the edit profile page @adam --}}
-                            <div class="row">
-                                <div class="btn-group">
-                                    <button type="submit" class="btn btn-inline btn-primary-outline">{{ __('Update Infromation') }}</button>
-                                    <a href="/users/profile" class="btn btn-inline btn-default" id="cancel" name="cancel">Cancel</a>
-                                </div>
+
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row m-t-md">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-inline btn-primary-outline">{{ __('Update Infromation') }}</button>
+
                             </div>
                         </div>
-                    </form>
-
-                    {{--
-                         --}}
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="card d-flex">
                 <div class="card-header">{{ __('Edit Your Avatar') }}</div>
                 <div class="card-body align-items-center justify-content-center">
@@ -65,25 +63,36 @@
                         </div>
                     </div>
 
-                    <form action="/avatar/create" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-group">
-                            <input type="file" class="form-control-file" name="avatar" id="avatarFile" aria-describedby="fileHelp">
-                            <small id="fileHelp" class="form-text text-muted">Please upload a valid image file. Size of image should not be more than 2MB.</small>
+                    <form id="form1" action="/avatar/create" method="post" enctype="multipart/form-data">@csrf</form>
+                    <form id="form2" method="POST" action="/avatar/default">@csrf</form>
+
+                    <div class="form-group">
+                        <div class="custom-file col-md-8 m-t-md">
+                            <input type="file" class="custom-file-input" id="customFile" name="avatar" aria-describedby="fileHelp" form="form1">
+                            <label class="custom-file-label" for="customFile">Choose avatar</label>
                         </div>
-                        <button type="submit" class="btn btn-primary-outline">Submit</button>
-                    </form>
+                        <small id="fileHelp" class="form-text text-muted">Please upload a valid image file. Size of image should not be more than 2MB.</small>
+                    </div>
 
-                    <form method="POST" action="/avatar/default">
-                        @csrf
-                        <button type="submit" class="btn btn-default-outline m-t-md
-                        ">Reset to Default</button>
-                    </form>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary-outline" form="form1">Submit</button>
 
+                    <button type="submit" class="btn btn-default-outline" form="form2">Reset to Default</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script>
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+
+</script>
 @endsection
 

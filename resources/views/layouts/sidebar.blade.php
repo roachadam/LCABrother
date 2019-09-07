@@ -114,7 +114,7 @@
                     </a>
                 </li>
             @endif --}}
-            @if (auth()->user()->canManageAlumni())
+            {{-- @if (auth()->user()->canManageAlumni())
                 <li class="pink {{ request()->is('alumni') ? 'opened' : '' }}">
                     <a href="/alumni">
                     <span>
@@ -123,7 +123,7 @@
                     </span>
                     </a>
                 </li>
-            @endif
+            @endif --}}
             {{-- @if (auth()->user()->canManageCalendar())
             <li class="blue {{ request()->is('calendarItem/create') ? 'opened' : '' }}">
                 <a href="/calendarItem/create">

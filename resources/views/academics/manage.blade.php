@@ -52,7 +52,15 @@
                 <form action="/academics" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
-                        <input type="file" class="offset-1 form-control-file" name="grades" id="gradeFile" aria-describedby="fileHelp">
+                        {{-- <div class="file-upload-wrapper">
+                            <input type="file" id="grades" class="file-upload" name="grades" />
+                        </div> --}}
+                        {{-- <input type="file" class="offset-1 form-control-file" name="grades" id="gradeFile" aria-describedby="fileHelp"> --}}
+
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFile" name="grades" aria-describedby="fileHelp">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
                         <small id="fileHelp" class="offset-1 form-text text-muted">**Please be sure to check the Format Rules**</small>
                     </div>
 
@@ -209,4 +217,16 @@
             </div>
         </div><!--.modal-->
     @endif
+@endsection
+@section('js')
+<script>
+    // $( document ).ready(function() {
+    //     // $('.file-upload').file_upload();
+    // });
+
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
 @endsection
