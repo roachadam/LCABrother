@@ -29,15 +29,20 @@ class ProfileController extends Controller
             'phone' => ['phone'],
         ]);
 
+        if(isset($attributes['phone'])){
+            $attributes['phone'] = $this->formatPhoneNumber($attributes['phone']);
+        }
+
         $user = auth()->user();
 
-        if ($user['email'] !== $attributes['email']) {
+        if ($user['email'] !== $attributes['email']){
             $user['email'] = $attributes['email'];
             $user['phone'] = $attributes['phone'];
             $user['email_verified_at'] = null;
             $user->save();
             auth()->user()->sendEmailVerificationNotification();
-        } else {
+        }
+        else{
             $user->update($attributes);
         }
 
@@ -78,5 +83,26 @@ class ProfileController extends Controller
         $user->avatar = 'user.jpg';
         $user->save();
         return back();
+    }
+
+    public function formatPhoneNumber($phoneNumber)
+    {
+        $phoneNumber = preg_replace('/[^0-9]/', '', $phoneNumber);
+
+        if (strlen($phoneNumber) > 10) {
+            $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
+            $areaCode = substr($phoneNumber, -10, 3);
+            $nextThree = substr($phoneNumber, -7, 3);
+            $lastFour = substr($phoneNumber, -4, 4);
+
+            $phoneNumber = '+' . $countryCode . ' (' . $areaCode . ') ' . $nextThree . '-' . $lastFour;
+        } else if (strlen($phoneNumber) == 10) {
+            $areaCode = substr($phoneNumber, 0, 3);
+            $nextThree = substr($phoneNumber, 3, 3);
+            $lastFour = substr($phoneNumber, 6, 4);
+
+            $phoneNumber = '(' . $areaCode . ') ' . $nextThree . '-' . $lastFour;
+        }
+        return $phoneNumber;
     }
 }

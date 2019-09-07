@@ -42,12 +42,8 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <div class="row m-t-md">
-                            <div class="btn-group">
-                                <button type="submit" class="btn btn-inline btn-primary-outline">{{ __('Update Infromation') }}</button>
+                        <button type="submit" class="btn btn-inline btn-primary-outline">{{ __('Update Infromation') }}</button>
 
-                            </div>
-                        </div>
                     </div>
                 </form>
             </div>
