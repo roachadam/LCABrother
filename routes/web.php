@@ -131,6 +131,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/alumni/contact', 'AlumniController@contact')->name('alumni.contact');
             Route::post('/alumni/contact/send', 'AlumniController@send')->name('alumni.send');
 
+            Route::post('/bugReport','BugReportController@sendReport')->name('reportBug.send');
+
             Route::middleware('ManageGoals')->group(function () {
                 Route::get('/goals', 'GoalsController@index')->name('goals.index');
                 Route::get('/goals/edit', 'GoalsController@edit')->name('goals.edit');
