@@ -29,20 +29,20 @@ class ProfileController extends Controller
             'phone' => ['phone'],
         ]);
 
-        if(isset($attributes['phone'])){
+        if (isset($attributes['phone'])) {
             $attributes['phone'] = $this->formatPhoneNumber($attributes['phone']);
         }
 
         $user = auth()->user();
 
-        if ($user['email'] !== $attributes['email']){
+        if ($user['email'] !== $attributes['email']) {
+            $user['name'] = $attributes['name'];
             $user['email'] = $attributes['email'];
             $user['phone'] = $attributes['phone'];
             $user['email_verified_at'] = null;
             $user->save();
             auth()->user()->sendEmailVerificationNotification();
-        }
-        else{
+        } else {
             $user->update($attributes);
         }
 

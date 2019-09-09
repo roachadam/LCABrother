@@ -13,15 +13,20 @@
     <div class="row ">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">
-                    {{ __('Edit Your Details') }}
-
-                </div>
+                <div class="card-header">{{ __('Edit Your Details') }}</div>
                 <form method="POST" action="/users/update">
                     <div class="card-body">
                         @csrf
                         <div class="form-group">
                             <div class="row">
+                                <label for="email" class="col-md-4 col-form-label">{{ __('Name') }}</label>
+
+                                <div class="col-md-8">
+                                    <input id="name" type="text" class="form-control" name="name" value="{{ $user->name }}" required autocomplete="email" autofocus>
+                                </div>
+                            </div>
+
+                            <div class="row m-t-md">
                                 <label for="email" class="col-md-4 col-form-label">{{ __('Email') }}</label>
 
                                 <div class="col-md-8">
