@@ -270,7 +270,7 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
     {{-- <script src="https://use.fontawesome.com/releases/v5.10.2/js/all.js" data-auto-replace-svg="nest"></script> --}}
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    {{-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> --}}
     <script src="js/lib/flatpickr/flatpickr.min.js"></script>
     <script src="js/color_picker.min.js"></script>
     <script>
