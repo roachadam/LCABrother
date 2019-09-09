@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\User;
 
 class BugReport extends Mailable
 {
@@ -13,7 +14,7 @@ class BugReport extends Mailable
 
     public $description;
     public $url;
-    public $user_id;
+    public $userName;
     public $org_id;
     public $action;
 
@@ -21,8 +22,7 @@ class BugReport extends Mailable
     {
         $this->description = $attributes['description'];
         $this->url = $attributes['url'];
-        $this->user_id = $attributes['user_id'];
-        $this->org_id = $attributes['org_id'];
+        $this->userName = User::find($attributes['org_id'])->name;
         $this->action = $attributes['action'];
 
     }
