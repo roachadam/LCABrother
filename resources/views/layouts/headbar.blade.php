@@ -85,7 +85,7 @@
 
                      <div class="col-md-12">
                         <div class="row col-md-12">
-                            <label for="description" class="col-form-label text-md-right">What were you trying to do when bug occured</label>
+                            <label for="description" class="col-form-label text-md-right">What were you trying to do when the bug occured?</label>
                             <div class="input-group">
                                 <textarea name="action" class="offset-1 form-control" id="description" cols="30" rows="5" placeholder="Attemping to submit service hours." required></textarea>
                             </div>
@@ -94,7 +94,7 @@
 
                     <div class="col-md-12">
                         <div class="row col-md-12">
-                            <label for="description" class="col-form-label text-md-right">Bug Description</label>
+                            <label for="description" class="col-form-label text-md-right">Describe the Bug</label>
                             <div class="input-group">
                                 <textarea name="description" class="offset-1 form-control" id="description" cols="30" rows="5" placeholder="I got a 404 error when I clicked the submit button." required></textarea>
                             </div>
