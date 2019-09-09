@@ -89,6 +89,10 @@
                     //     $(this).remove();
                     // });
                 }, 5000);
+
+                $('#bugReport').click(function(){
+                    $("#ReportBugModal").modal("toggle");
+                });
             });
 
             if (!("ontouchstart" in document.documentElement)) {

@@ -61,103 +61,57 @@
             </a>
         </li>
     </ul>
-    <section>
-        <ul class="side-menu-list">
-            @if (auth()->user()->canViewMembers())
-                <header class="side-menu-title">High Zeta</header>
-                <li class="blue {{ request()->is('user') ? 'opened' : '' }}">
-                    <a href="/user">
-                    <span>
-                        <i class="font-icon font-icon-users"></i>
-                        <span class="lbl">Members</span>
-                    </span>
-                    </a>
-                </li>
-            @endif
-            @if (auth()->user()->canManageAllStudy())
-                <li class="green {{ request()->is('academics') ? 'opened' : '' }}">
-                    <a href="/academics">
-                    <span>
-                        <i class="fa fa-book"></i>
-                        <span class="lbl">Academics</span>
-                    </span>
-                    </a>
-                </li>
-            @endif
-            @if (auth()->user()->canManageMembers())
-                <li class="pink {{ request()->is('role') ? 'opened' : '' }}">
-                    <a href="/role">
-                    <span>
-                        <i class="glyphicon glyphicon-th-list"></i>
-                        <span class="lbl">Roles</span>
-                    </span>
-                    </a>
-                </li>
-            @endif
-            @if (auth()->user()->canManageGoals())
-                <li class="red {{ request()->is('totals') ? 'opened' : '' }}">
-                    <a href="/totals">
-                    <span>
-                        <i class="glyphicon glyphicon-book"></i>
-                        <span class="lbl">Totals</span>
-                    </span>
-                    </a>
-                </li>
-            @endif
-            {{-- @if (auth()->user()->canManageSurveys())
-                <li class="green {{ request()->is('survey/create') ? 'opened' : '' }}">
-                    <a href="/survey/create">
-                    <span>
-                        <i class="glyphicon glyphicon-blackboard"></i>
-                        <span class="lbl">Create Survey</span>
-                    </span>
-                    </a>
-                </li>
-            @endif --}}
-            {{-- @if (auth()->user()->canManageAlumni())
-                <li class="pink {{ request()->is('alumni') ? 'opened' : '' }}">
-                    <a href="/alumni">
-                    <span>
-                        <i class=" glyphicon glyphicon-tent "></i>
-                        <span class="lbl">Alumni</span>
-                    </span>
-                    </a>
-                </li>
-            @endif --}}
-            {{-- @if (auth()->user()->canManageCalendar())
-            <li class="blue {{ request()->is('calendarItem/create') ? 'opened' : '' }}">
-                <a href="/calendarItem/create">
+    <ul class="side-menu-list">
+        @if (auth()->user()->canViewMembers())
+            <header class="side-menu-title">High Zeta</header>
+            <li class="blue {{ request()->is('user') ? 'opened' : '' }}">
+                <a href="/user">
                 <span>
-                    <i class="glyphicon glyphicon-calendar"></i>
-                    <span class="lbl">Create Calendar Event</span>
+                    <i class="font-icon font-icon-users"></i>
+                    <span class="lbl">Members</span>
                 </span>
                 </a>
             </li>
-            @endif
-            {{-- <li class="red">
-                <a href="/newsletter/send/show">
+        @endif
+        @if (auth()->user()->canManageAllStudy())
+            <li class="green {{ request()->is('academics') ? 'opened' : '' }}">
+                <a href="/academics">
                 <span>
-                    <i class="glyphicon glyphicon-calendar"></i>
-                    <span class="lbl">Send newsletter</span>
+                    <i class="fa fa-book"></i>
+                    <span class="lbl">Academics</span>
                 </span>
                 </a>
             </li>
-            <li class="red">
-                <a href="/newsletter/create">
+        @endif
+        @if (auth()->user()->canManageMembers())
+            <li class="pink {{ request()->is('role') ? 'opened' : '' }}">
+                <a href="/role">
                 <span>
-                    <i class="glyphicon glyphicon-calendar"></i>
-                    <span class="lbl">Create newsletter</span>
+                    <i class="glyphicon glyphicon-th-list"></i>
+                    <span class="lbl">Roles</span>
                 </span>
                 </a>
             </li>
-            <li class="red">
-                <a href="/newsletter">
+        @endif
+        @if (auth()->user()->canManageGoals())
+            <li class="red {{ request()->is('totals') ? 'opened' : '' }}">
+                <a href="/totals">
                 <span>
-                    <i class="glyphicon glyphicon-calendar"></i>
-                    <span class="lbl">View Newsletters</span>
+                    <i class="glyphicon glyphicon-book"></i>
+                    <span class="lbl">Totals</span>
                 </span>
                 </a>
-            </li> --}}
-        </ul>
-    </section>
+            </li>
+        @endif
+    </ul>
+    <ul class="side-menu-list">
+        <li class="green">
+            <a href="#" id="bugReport" style="position:fixed; bottom: 0; height:40px;">
+                <span>
+                    <i class="font-icon fas fa-bug"></i>
+                    <span class="lbl">Report A Bug</span>
+                </span>
+            </a>
+        </li>
+    </ul>
 </nav><!--.side-menu-->
