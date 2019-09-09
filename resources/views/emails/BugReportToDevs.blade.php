@@ -1,6 +1,6 @@
 @component('mail::message')
 # Bug Report
-You have a new bug report! Have fun.
+{{$userName}} has reported a bug. Have fun.
 <p>
     <h5>Action Attempted</h5>
     {{$action}}
