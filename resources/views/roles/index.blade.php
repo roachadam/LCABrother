@@ -14,7 +14,7 @@
             </div>
         </header>
         @include('partials.errors')
-        <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
+        <table id="table" class="display table table-bordered table-xs" width="100%">
             <thead>
             <tr>
                 <th>Name</th>
