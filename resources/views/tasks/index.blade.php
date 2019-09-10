@@ -115,7 +115,7 @@
 </section>
 
 <!--.modal for Creating Task<-->
-<div class="modal fade" id="createTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="createTask" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -127,44 +127,47 @@
             <form method="POST" action={{route('tasks.store')}} enctype="multipart/form-data" class="box" >
                 @csrf
                 <div class="modal-body">
-                    <div class="col-md-12">
-                        <div class="row col-md-6">
-                            <label for="name" class="col-form-label text-md-right">Task Name</label>
 
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                            <label for="name" class="col-form-label text-md-right">Task Name</label>
                             <div class="input-group">
-                                <input id="name" type="text" class="form-control" name="name">
+                                <input id="name" type="text" class="offset-1 form-control" name="name" placeholder="Give report to secretary">
                             </div>
                         </div>
+                    </div>
 
-                        <div class="row col-md-6">
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
                             <label for="description" class="col-form-label text-md-right">Description</label>
 
                             <div class="input-group">
-                                <input id="description" type="text" class="form-control" name="description">
+                                <textarea name="description" class="offset-1 form-control" id="description" cols="30" rows="5" placeholder="Type out meeting minutes and turn them in via dropbox to our secretary." required></textarea>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="row m-t-md col-md-6">
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
                             <label for='deadline'>Deadline</label>
-
                             <div class='input-group date'>
-                                <div class="form-control-wrapper form-control-icon-left">
+                                <div class="form-control-wrapper form-control-icon-left offset-1">
                                     <input id="deadline" type="text" class="form-control" name="deadline">
                                     <i class="fa fa-calendar "></i>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="row m-t-md col-md-6">
-                            <label for="assignedUsers" class="col-form-label text-md-right">Assign Members</label>
-                            <div class="input-group">
-                                @foreach (auth()->user()->organization->users as $user)
-                                <div class="checkbox-toggle form-group">
-                                    <input type="checkbox" value="{{$user->id}}" name="users[]" id="{{$user->id}}">
-                                    <label for="{{$user->id}}">{{$user->name}}</label>
-                                </div>
-                                @endforeach
+                    <div class="row m-t-md col-md-12">
+                        <label for="assignedUsers" class="col-form-label text-md-right">Assign Members</label>
+                        <div class="input-group offset-1">
+                            @foreach (auth()->user()->organization->users as $user)
+                            <div class="checkbox-toggle form-group">
+                                <input type="checkbox" value="{{$user->id}}" name="users[]" id="{{$user->id}}">
+                                <label for="{{$user->id}}">{{$user->name}}</label>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -177,6 +180,71 @@
         </div>
     </div>
 </div><!--.modal-->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="createTask2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Task</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action={{route('tasks.store')}} enctype="multipart/form-data" class="box" >
+                <div class="modal-body">
+                    @csrf
+
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                            <label for="name" class="col-form-label text-md-right">Task Name</label>
+                            <div class="input-group">
+                                <input id="name" type="text" class="offset-1 form-control" name="name" placeholder="Give report to secretary">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                            <label for="description" class="col-form-label text-md-right">Description</label>
+                            <div class="input-group">
+                                <textarea name="description" class="offset-1 form-control" id="description" cols="30" rows="5" placeholder="Type out meeting minutes and turn them in via dropbox to our secretary." required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                            <label for='deadline' class="col-form-label text-md-left">Deadline</label>
+                            <div class='input-group date'>
+                                <div class="form-control-wrapper form-control-icon-left offset-1">
+                                    <input id="deadline" type="date" class="form-control" name="deadline">
+                                    <i class="fa fa-calendar "></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="row m-t-md col-md-6">
+                        <label for="assignedUsers" class="col-form-label text-md-right">Assign Members</label>
+                        <div class="input-group">
+                            @foreach (auth()->user()->organization->users as $user)
+                            <div class="checkbox-toggle form-group">
+                                <input type="checkbox" value="{{$user->id}}" name="users[]" id="{{$user->id}}">
+                                <label for="{{$user->id}}">{{$user->name}}</label>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                    <button type='submit' class="btn btn-inline btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 @endsection

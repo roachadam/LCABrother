@@ -333,14 +333,17 @@
                         @endforeach
                     @endif
                     @if(auth()->user()->getIncompleteTasks())
-                        @foreach(auth()->user()->getIncompleteTasks() as $task)
+                        @foreach(auth()->user()->getIncompleteTasks() as $taskAssignments)
                         {
-                            title : '{{ $task->name }}',
-                            start : '{{ $task->deadline }}'
+                            title : '{{ $taskAssignments->tasks->name }}',
+                            start : '{{$taskAssignments->tasks->deadline}}',
+                            url : '/tasks',
+                            color : '#3fb06e'
                         }
                         @endforeach
 
                     @endif
+
                 ],
                 // color : '#FFFFFF',
 

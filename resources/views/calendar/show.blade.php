@@ -7,8 +7,18 @@
         <li class="breadcrumb-item active" aria-current="page">{{$calendarItem->name}}</li>
     </ol>
 </nav>
+
 <div class="card">
-    <div class="card-header">{{$calendarItem->name}}</div>
+    <header class="card-header">
+        <div class="row">
+            <h2 class="card-title">{{$calendarItem->name}}</h2>
+            <div class="ml-auto" id="headerButtons">
+                @if (auth()->user()->canManageEvents())
+                    <button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$calendarItem->id}}">Delete</button>
+                @endif
+            </div>
+        </div>
+    </header>
     <div class="card-body">
         <div class="offset-1">
             <p>Category: <span style='background:{{$calendarItem->calendarCatagory->color}}'>&nbsp;{{ $calendarItem->calendarCatagory->name }}&nbsp;</span></p>
@@ -20,17 +30,6 @@
                 <p>Date : {{\Carbon\Carbon::parse($calendarItem->start_datetime)->toDayDateTimeString()}}</p>
             @endif
 
-            @if (auth()->user()->canManageEvents())
-                <div class="row m-t-md">
-                    <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$calendarItem->id}}">Delete</button></td>
-                </div>
-            @endif
-
-            @if ($attendanceEvent !== null)
-                <div class="row m-t-md">
-                    <a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-primary">Take Attendance</a>
-                </div>
-            @endif
         </div>
 
         @if ($calendarItem->hasEvent() && auth()->user()->canManageEvents())
@@ -103,105 +102,107 @@
 
         @if ($attendanceEvent !== null)
             <header class="section-header">
-                    <div class="tbl">
-                        <div class="tbl-row">
-                            <div class="tbl-cell">
-                                <h2>{{$attendanceEvent->calendarItem->name}} Attendance</h2>
-                            </div>
-                        </div>
+                <div class="row">
+                    <h4>Attendance</h4>
+                    <div class="ml-auto" id="headerButtons">
+                        @if ($attendanceEvent !== null)
+                            <a href="/attendanceEvent/{{$attendanceEvent->id}}/attendance" class="btn btn-primary-outline">Take Attendance</a>
+                        @endif
                     </div>
-                </header>
-                <section class="card">
-                <div class="card-block">
-                    <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
-                        <thead>
-                        <tr>
-                            <th>Event Name</th>
-                            <th>Manage</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            @if ($attendanceEvent->attendance->count())
-                                @foreach ($attendanceEvent->attendance as $att)
-                                    <tr>
-                                        <td>{{ $att->user->name }}</td>
-                                        <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$att->id}}">Delete</button></td>
-                                    </tr>
-
-                                    <!--.modal for confirming deletion-->
-                                    <div class="modal fade" id="{{$att->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
-                                                        <i class="font-icon-close-2"></i>
-                                                    </button>
-                                                    <h4 class="modal-title" id="myModalLabel">Delete</h4>
-                                                </div>
-                                                <form action="/attendance/{{$att->id}}" method="POST" class="box" >
-                                                    <div class="modal-body">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <div class="col-md-12">
-                                                            <p>Are you sure you want to delete this user's attendance?</p>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-inline btn-danger">Delete</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div><!--.modal-->
-                                @endforeach
-                            @endif
-                        </tbody>
-                    </table>
                 </div>
-            </section>
+            </header>
+            <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Manage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if ($attendanceEvent->attendance->count())
+                        @foreach ($attendanceEvent->attendance as $att)
+                            <tr>
+                                <td>{{ $att->user->name }}</td>
+                                <td><button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#{{$att->id}}">Delete</button></td>
+                            </tr>
+
+                            <!--.modal for confirming deletion-->
+                            <div class="modal fade" id="{{$att->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                                                <i class="font-icon-close-2"></i>
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel">Delete</h4>
+                                        </div>
+                                        <form action="/attendance/{{$att->id}}" method="POST" class="box" >
+                                            <div class="modal-body">
+                                                @csrf
+                                                @method('DELETE')
+                                                <div class="col-md-12">
+                                                    <p>Are you sure you want to delete this user's attendance?</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div><!--.modal-->
+                        @endforeach
+                    @endif
+                </tbody>
+            </table>
         @endif
     </div>
 </div>
 
     <!--.modal for confirming deletion-->
-    <div class="modal fade" id="{{$calendarItem->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
-                        <i class="font-icon-close-2"></i>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">Delete Calendar Entry</h4>
-                </div>
-                <form action="/calendarItem/{{ $calendarItem->id }}" method="POST" class="box" >
-                    <div class="modal-body">
-                        @csrf
-                        @method('DELETE')
-                        <div class="col-md-12">
-                            <p>Are you sure you want to delete this calendar entry?</p>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-inline btn-danger">Delete</button>
-                    </div>
-                </form>
+<div class="modal fade" id="{{$calendarItem->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                    <i class="font-icon-close-2"></i>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Delete Calendar Entry</h4>
             </div>
+            <form action="/calendarItem/{{ $calendarItem->id }}" method="POST" class="box" >
+                <div class="modal-body">
+                    @csrf
+                    @method('DELETE')
+                    <div class="col-md-12">
+                        <p>Are you sure you want to delete this calendar entry?</p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                </div>
+            </form>
         </div>
-    </div><!--.modal-->
+    </div>
+</div><!--.modal-->
 
-    @section('js')
-    <script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
-    <script>
+@section('js')
+<script type="text/javascript" src="{{ asset('js/lib/datatables-net/datatables.min.js') }}"></script>
+<script>
 
-            $(function() {
-                $('#table').DataTable({
-                    responsive: true
-                });
+        $(function() {
+            $('#table').DataTable({
+                responsive: true,
+                bPaginate: false,
+                bFilter: false,
+                bInfo: false,
+                ordering: false
             });
-        </script>
-    @endsection
+        });
+    </script>
 @endsection
+@endsection
+
