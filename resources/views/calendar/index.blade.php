@@ -110,7 +110,7 @@
                             <label for="calendar_catagories_id" class="col-form-label text-md-right" required>Category*</label>
                             <div class="input-group offset-1">
                                 <select name="calendar_catagories_id" id="color" class="form-control">
-                                    <option value="0">Choose Category</option>
+
                                     @foreach (auth()->user()->organization->calendarCatagories as $category)
                                         <option value="{{$category->id}}">{{$category->name}}</option>
                                     @endforeach
