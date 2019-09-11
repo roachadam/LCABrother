@@ -30,9 +30,9 @@ class CalendarController extends Controller
             if($calendarItem->calendarCatagory == null)
             {
                 $color = $calendarItem->color;
-                $category = CalendarCatagory::where('color',$color);
+                $category = CalendarCatagory::where('color',$color)->first();
                 if($category == null){
-                    $category = CalendarCatagory::where('name','General');
+                    $category = CalendarCatagory::where('name','General')->first();
                 }
                 $calendarItem->setCatagory($category);
             }
