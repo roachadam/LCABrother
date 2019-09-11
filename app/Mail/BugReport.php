@@ -24,7 +24,6 @@ class BugReport extends Mailable
         $this->url = $attributes['url'];
         $this->userName = User::find($attributes['org_id'])->name;
         $this->action = $attributes['action'];
-
     }
 
     /**
@@ -34,6 +33,8 @@ class BugReport extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.BugReportToDevs');
+        return $this
+            ->subject('Bug Report')
+            ->markdown('emails.BugReportToDevs');
     }
 }
