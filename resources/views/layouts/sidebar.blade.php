@@ -104,7 +104,7 @@
             </li>
         @endif
     </ul>
-    <ul class="side-menu-list">
+    {{-- <ul class="side-menu-list">
         <li class="green">
             <a href="#" id="bugReport" style="position:fixed; bottom: 0; height:40px;">
                 <span>
@@ -113,5 +113,5 @@
                 </span>
             </a>
         </li>
-    </ul>
+    </ul> --}}
 </nav><!--.side-menu-->
