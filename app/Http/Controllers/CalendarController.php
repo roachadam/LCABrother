@@ -23,6 +23,21 @@ class CalendarController extends Controller
     public function index()
     {
         $calendarItems = auth()->user()->organization->calendarItem;
+        $categories = auth()->user()->organization->calendarCatagories;
+
+        foreach($calendarItems as $calendarItem)
+        {
+            if($calendarItem->calendarCatagory->color == null)
+            {
+                $color = $calendarItem->color;
+                $category = CalendarCatagory::where('color',$color);
+                if($category == null){
+                    $category = CalendarCatagory::where('name','General');
+                }
+                $calendarItem->setCatagory($category);
+            }
+
+        }
         return view('calendar.index', compact('calendarItems'));
     }
 
@@ -52,7 +67,7 @@ class CalendarController extends Controller
             "guestList" => ['nullable'],
             "attendance" => ['nullable'],
             "involvement" => ['numeric'],
-            "calendar_catagories_id" => ['required']
+            "calendar_catagories_id" => ['required', 'not_in:0' ]
         ]);
 
 
