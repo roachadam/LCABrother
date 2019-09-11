@@ -27,7 +27,7 @@ class CalendarController extends Controller
 
         foreach($calendarItems as $calendarItem)
         {
-            if($calendarItem->calendarCatagory->color == null)
+            if($calendarItem->calendarCatagory == null)
             {
                 $color = $calendarItem->color;
                 $category = CalendarCatagory::where('color',$color);
