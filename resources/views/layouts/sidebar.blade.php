@@ -36,12 +36,12 @@
                 <span class="lbl">Events</span>
             </a>
         </li>
-        <li class="pink {{ request()->is('survey') ? 'opened' : '' }}">
+        {{-- <li class="pink {{ request()->is('survey') ? 'opened' : '' }}">
             <a href="/survey">
                 <i class=" glyphicon glyphicon-blackboard "></i>
                 <span class="lbl">Surveys</span>
             </a>
-        </li>
+        </li> --}}
         <li class="purple {{ request()->is('tasks') ? 'opened' : '' }}">
             <a href="/tasks">
                 <i class="glyphicon glyphicon-list-alt"></i>
