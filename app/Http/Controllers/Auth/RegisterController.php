@@ -49,8 +49,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'zeta_number' => ['max:255'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'major' => ['required', 'string', 'max:255'],
             'password' => [
                 'required', 'string', 'min:8', 'confirmed',
                 'regex:/[0-9]/',      // must contain at least one digit
@@ -71,8 +73,10 @@ class RegisterController extends Controller
     {
         $data['phone'] = $this->formatPhoneNumber($data['phone']);
         return User::create([
+            'zeta_number' => $data['zeta_number'],
             'name' => $data['name'],
             'email' => $data['email'],
+            'major' => $data['major'],
             'password' => Hash::make($data['password']),
             'phone' => $data['phone'],
         ]);
