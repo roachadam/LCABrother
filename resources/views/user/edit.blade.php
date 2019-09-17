@@ -19,7 +19,15 @@
                         @csrf
                         <div class="form-group">
                             <div class="row">
-                                <label for="email" class="col-md-4 col-form-label">{{ __('Name') }}</label>
+                                <label for="zeta_number" class="col-md-4 col-form-label">{{ __('Zeta Number') }}</label>
+
+                                <div class="col-md-8">
+                                    <input id="zeta_number" type="text" class="form-control" name="zeta_number" value="{{ $user->zeta_number }}" autofocus>
+                                </div>
+                            </div>
+
+                            <div class="row m-t-md">
+                                <label for="Name" class="col-md-4 col-form-label">{{ __('Name') }}</label>
 
                                 <div class="col-md-8">
                                     <input id="name" type="text" class="form-control" name="name" value="{{ $user->name }}" required autocomplete="email" autofocus>
@@ -41,6 +49,14 @@
                                     <input id="phone" type="text" class="form-control" name="phone" value="{{ $user->phone }}" required autocomplete="phone" autofocus>
                                 </div>
                             </div>
+
+                            <div class="row m-t-md">
+                                    <label for="major" class="col-md-4 col-form-label">{{ __('Major') }}</label>
+
+                                    <div class="col-md-8">
+                                        <input id="major" type="text" class="form-control" name="major" value="{{ $user->major }}" required autofocus>
+                                    </div>
+                                </div>
 
                             {{-- need to center this according to the input boxes on the edit profile page @adam --}}
 
