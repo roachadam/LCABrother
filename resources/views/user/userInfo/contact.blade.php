@@ -18,6 +18,8 @@
                 <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Zeta Number</th>
+                    <th>Major</th>
                     <th>Email</th>
                     <th>Phone Number</th>
                 </tr>
@@ -29,6 +31,12 @@
                         @foreach ($members as $member)
                             <tr>
                                 <td>{{ $member->name }}</td>
+                                <td>
+                                    @if(isset($member->zeta_number))
+                                        ΙΩ {{ $member->zeta_number }}
+                                    @endif
+                                </td>
+                                <td>{{$member->major}}</td>
                                 <td>{{ $member->email  }}</td>
                                 <td>{{ $member->phone  }}</td>
                             </tr>

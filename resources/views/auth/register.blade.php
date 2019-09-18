@@ -22,6 +22,8 @@
 
 					<form method='POST' action="{{ route('register') }}" autocompelete="new-password" role="presentation" class="form">
                         @csrf
+                        <label>Zeta Number</label>
+                        <input type="text" name="zeta_number" id='zeta_number' placeholder="944" value="{{old('zeta_number')}}">
                         {{-- <input name="name" class="fakefield"> --}}
 						<label>Name</label>
                         <input type="text" name="name" id='name' placeholder="Johnny Smith" required autocomplete="name" value="{{old('name')}}">
@@ -33,6 +35,9 @@
                         {{-- <input name="phone" class="fakefield"> --}}
 						<label>Phone Number</label>
                         <input type="tel" name="phone" id='frmPhoneNumA' placeholder="(337) 999-0909" required autocomplete="tel" value="{{old('phone')}}">
+
+                        <label>Major</label>
+                        <input type="text" name="major" id='major' placeholder="Computer Science" value="{{old('major')}}">
 
 						<label>Password (must include letters, numbers, symbols and be 10 characters min)</label>
                         <input type="password" name="password" id='password' placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
@@ -55,7 +60,7 @@
                             <div class="row">
                                 <a href="{{ route('password.request') }}" class="link">Forgot your password?</a>
                             </div>
-                            
+
                         </p>
 					</form>
 				</div>

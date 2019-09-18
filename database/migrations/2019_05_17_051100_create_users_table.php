@@ -18,9 +18,11 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->tinyInteger('organization_verified')->nullable();
             $table->unsignedInteger('role_id')->nullable();
+            $table->string('zeta_number')->nullable();
             $table->string('name');
             $table->string('phone')->nullable();
             $table->string('email')->unique();
+            $table->string('major')->nullable();
             $table->string('avatar')->default('user.jpg');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

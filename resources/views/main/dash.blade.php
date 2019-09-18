@@ -138,7 +138,7 @@
     </div><!--.box-typical-body-->
 </section><!--.box-typical-->
 
-<section class="box-typical">
+{{-- <section class="box-typical">
     <header class="box-typical-header">
         <div class="tbl-row">
             <div class="tbl-cell tbl-cell-title">
@@ -197,7 +197,7 @@
             </table>
         </div>
     </div><!--.box-typical-body-->
-</section><!--.box-typical-->
+</section><!--.box-typical--> --}}
 
 
 <section class="box-typical">

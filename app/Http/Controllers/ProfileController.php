@@ -23,8 +23,10 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $attributes = request()->validate([
+            'zeta_number' => ['max:255'],
             'name' => ['string', 'max:255'],
             'email' => ['string', 'email', 'max:255',],
+            'major' => ['required', 'string', 'max:255'],
             'password' => ['string', 'min:8', 'confirmed'],
             'phone' => ['phone'],
         ]);
@@ -36,9 +38,11 @@ class ProfileController extends Controller
         $user = auth()->user();
 
         if ($user['email'] !== $attributes['email']) {
+            $user['zeta_number'] = $attributes['zeta_number'];
             $user['name'] = $attributes['name'];
             $user['email'] = $attributes['email'];
             $user['phone'] = $attributes['phone'];
+            $user['major'] = $attributes['major'];
             $user['email_verified_at'] = null;
             $user->save();
             auth()->user()->sendEmailVerificationNotification();

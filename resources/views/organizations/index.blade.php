@@ -18,7 +18,7 @@
                 @endforeach
             </select>
             <button type="submit" class="button button__primary">Join Organization</button>
-            <a href="/organization/create" class="button">Create a new Organizatoin</a>
+            {{-- @TODO UNCOMMENT THIS <a href="/organization/create" class="button">Create a new Organizatoin</a> --}}
         </form>
     </div>
 @endsection

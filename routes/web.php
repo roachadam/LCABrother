@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/massInvite', 'MassInvite@index');
     Route::post('/massInvite/send', 'MassInvite@inviteAll');
 
-    Route::resource('organization', 'OrganizationController')->only(['index', 'create', 'store']);
+    Route::resource('organization', 'OrganizationController')->only(['index']); //@TODO UNCOMMENT THIS ->only(['index', 'create', 'store']);
 
     Route::get('/goals/create', 'GoalsController@create');
     Route::post('/goals/store', 'GoalsController@store');
@@ -76,7 +76,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/dash', 'DashController@index');
             Route::get('/users/{user}/adminView', 'UserController@adminView');
             Route::post('/user/{user}/organization/remove', 'OrganizationController@removeUser')->name('organization.removeUser');
-            Route::post('/organization/{organization}/user/{user}/owner-pass','OrganizationController@changeOwner')->name('organization.passOwner');
+            Route::post('/organization/{organization}/user/{user}/owner-pass', 'OrganizationController@changeOwner')->name('organization.passOwner');
             Route::get('/users/contact', 'ContactController@userContacts')->name('contact.users');
 
             Route::get('/users/profile', 'ProfileController@index')->name('profile.index');
@@ -101,9 +101,9 @@ Route::middleware('auth')->group(function () {
 
             Route::post('/calendarItem/{calendarItem}/event/create', 'CalendarController@addEvent');
             Route::post('/calendarItem/addCategory', 'CalendarController@addCategory');
-            Route::get('/calendarItem/{calendarItem}/guestList','CalendarController@guestList')->name('calendar.guestList');
+            Route::get('/calendarItem/{calendarItem}/guestList', 'CalendarController@guestList')->name('calendar.guestList');
             ///calendarItem/Category/{{$category->id}}/delete
-            Route::post('/calendarItem/CalendarCatagory/{CalendarCatagory}','CalendarController@categoryDelete')->name('calendarCategory.destroy');
+            Route::post('/calendarItem/CalendarCatagory/{CalendarCatagory}', 'CalendarController@categoryDelete')->name('calendarCategory.destroy');
 
             Route::resource('survey', 'SurveyController')->except('update');
             Route::resource('surveyAnswers', 'SurveyAnswersController')->only('store');
@@ -131,7 +131,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/alumni/contact', 'AlumniController@contact')->name('alumni.contact');
             Route::post('/alumni/contact/send', 'AlumniController@send')->name('alumni.send');
 
-            Route::post('/bugReport','BugReportController@sendReport')->name('reportBug.send');
+            Route::post('/bugReport', 'BugReportController@sendReport')->name('reportBug.send');
 
             Route::middleware('ManageGoals')->group(function () {
                 Route::get('/goals', 'GoalsController@index')->name('goals.index');

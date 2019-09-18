@@ -21,7 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'organization_verified', 'organization_id'
+        'zeta_number', 'name', 'email', 'major', 'password', 'phone', 'organization_verified', 'organization_id'
     ];
 
     protected $hidden = [
@@ -304,7 +304,8 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     //     return $this->hasMany(Tasks::class);
     // }
 
-    public function getIncompleteTasks(){
+    public function getIncompleteTasks()
+    {
         $match = [
             'assignee_id' => $this->id,
             'completed' => 0,
@@ -313,7 +314,8 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $tasks;
     }
 
-    public function getCompleteTasks(){
+    public function getCompleteTasks()
+    {
         $match = [
             'assignee_id' => $this->id,
             'completed' => 1,
@@ -321,7 +323,8 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return TaskAssignments::where($match)->get();
     }
 
-    public function getTasksAssigned(){
+    public function getTasksAssigned()
+    {
         return Tasks::where('user_id', '=', $this->id)->get();
     }
     public function assignedTasks()

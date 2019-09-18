@@ -17,9 +17,13 @@
                     <img class="rounded-circle" src="/storage/avatars/{{ $user->avatar }}" height="150" width="150" margin="10px" />
                 </div>
                 <div class="m-t-md">
+                    @if(isset($user->zeta_number))
+                        <p><strong>Zeta Number: </strong> ΙΩ {{ $user->zeta_number }}</p>
+                    @endif
                     <p><strong>Name: </strong> {{ $user->name }}</p>
                     <p><strong>Email: </strong> {{ $user->email }}</p>
                     <p><strong>Phone: </strong> {{ $user->phone }}</p>
+                    <p><strong>Major: </strong> {{ $user->major }}</p>
                 </div>
 
                 <a href="/users/edit" class="btn btn-inline">Edit Account</a>
