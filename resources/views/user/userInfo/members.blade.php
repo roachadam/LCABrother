@@ -78,7 +78,9 @@
         <script>
             $(function() {
                 $('#table').DataTable({
-                    responsive: true
+                    iDisplayLength : 50,
+                    responsive: true,
+
                 });
             });
         </script>
