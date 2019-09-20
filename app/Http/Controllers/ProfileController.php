@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Commons\NotificationFunctions;
 use Illuminate\Http\Request;
 use App\User;
-
+use Illuminate\Support\Facades\Storage;
+use Auth;
 class ProfileController extends Controller
 {
     public function index()
@@ -63,29 +64,52 @@ class ProfileController extends Controller
     public function update_avatar(Request $request)
     {
         $attributes = $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'test' => 'boolean'
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
         ]);
+        $user = Auth::user();
+        if($request->hasFile('avatar')) {
 
-        $user = auth()->user();
+            //get filename with extension
+            $ogFileName = $request->file('avatar')->getClientOriginalName();
 
-        $avatarName = $user->id . '_avatar' . time() . '.' . request()->avatar->getClientOriginalExtension();
+            //get filename without extension
+            $ogFileName = pathinfo($ogFileName, PATHINFO_FILENAME);
 
-        if (isset($attributes['test']) ? !$attributes['test'] : true) {
-            $request->avatar->storeAs('avatars', $avatarName);
+            //get file extension
+            $extension = $request->file('avatar')->getClientOriginalExtension();
+
+            //filename to store
+            $fileName = $ogFileName .'_'.time().'.'.$extension;
+
+            //Upload File to s3
+            Storage::disk('s3')->put('avatars/' . $fileName, fopen($request->file('avatar'), 'r+'), 'public');
+
+            // Delete old avatar to save space
+            if($user->avatar != 'user.jpg')
+                Storage::disk('s3')->delete('avatars/' . $user->avatar);
+
+            $user->avatar = $fileName;
+            $user->save();
+            return back();
+
         }
 
-        $user->avatar = $avatarName;
-        $user->save();
 
         return back();
+
     }
 
     public function default_avatar(Request $request)
     {
+
         $user = auth()->user();
+
+        if($user->avatar != 'user.jpg')
+            Storage::disk('s3')->delete('avatars/' . $user->avatar);
+
         $user->avatar = 'user.jpg';
         $user->save();
+
         return back();
     }
 
