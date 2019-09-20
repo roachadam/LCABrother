@@ -42,6 +42,9 @@
                     margin-right:auto;
                 }
             }
+            .breadcrumb {
+                background-color: #ECEFF4 !important;
+            }
         </style>
 
         <link href="{{ asset('css/main.css') }}" rel="stylesheet">
