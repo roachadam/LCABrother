@@ -76,7 +76,7 @@
                 <div class="card-body align-items-center justify-content-center">
                     <div class="profile-header-container">
                         <div class="profile-header-img">
-                            <img class="rounded-circle" src="/storage/avatars/{{ $user->avatar }}" height="150" width="150" />
+                            <img class="rounded-circle" src="{{ 'https://' . env('AWS_BUCKET') . '.s3.amazonaws.com/avatars/' .  $user->avatar }}" height="150" width="150" />
                         </div>
                     </div>
 

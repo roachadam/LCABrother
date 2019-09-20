@@ -12,7 +12,7 @@
 
                         <div class="profile-header-container">
                             <div class="profile-header-img">
-                                <img class="rounded-circle" src="/storage/avatars/{{ $user->avatar }}" height="150" width="150" />
+                                <img class="rounded-circle" src="{{ 'https://' . env('AWS_BUCKET') . '.s3.amazonaws.com/avatars/' .  $user->avatar }}" height="150" width="150" />
                                 <!-- badge -->
                                 <div class="rank-label-container">
                                     <span class="label label-default rank-label">{{$user->name}}</span>
@@ -46,7 +46,7 @@
 
                             <div style=" padding-top: 25px;">
                                 <button type="submit" class="button button__primary ">Submit</button>
-                                <a href="/organization" class="button">Skip</a>
+                                <a href="/organization" class="button">Next</a>
                             </div>
 
                         </form>

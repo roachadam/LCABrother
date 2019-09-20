@@ -8,7 +8,7 @@
         <div class="site-header-content">
             <div class="site-header-content-in">
                 <div class="site-header-shown">
-                    @if(!Auth::guest() && Auth::user()->organization)
+                    @if(Auth()->user()->emailVerified() && Auth()->user()->isVerified())
                         <div class="dropdown dropdown-notification notif">
                             <a href="#"
                             class="header{{ Auth::user()->organization->users()->where('organization_verified',null)->get()->count() > 0 ? '-alarm' : '' }} dropdown-toggle active"
@@ -19,6 +19,7 @@
                                 <i class="font-icon-alarm"></i>
                             </a>
                             {{-- Notifications --}}
+
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-notif" aria-labelledby="dd-notification">
                                 <div class="dropdown-menu-notif-header">
                                     Notifications
@@ -36,12 +37,13 @@
                                     @endif
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
+                        @endif
                         {{-- Account --}}
                         <div class="dropdown user-menu">
                             <button class="dropdown-toggle text-left" id="dd-user-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                                <img src="/storage/avatars/{{auth()->user()->avatar}}" alt="">
+                                <img src="{{ 'https://' . env('AWS_BUCKET') . '.s3.amazonaws.com/avatars/' .  Auth::user()->avatar }}" alt="">
 
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
@@ -62,7 +64,7 @@
                                 </form>
                             </div>
                         </div>
-                    @endif
+
                 </div><!--.site-header-shown-->
 
             </div><!--site-header-content-in-->

@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="profile-header-img">
-                    <img class="rounded-circle" src="/storage/avatars/{{ $user->avatar }}" height="150" width="150" margin="10px" />
+                    <img class="rounded-circle" src="{{ 'https://' . env('AWS_BUCKET') . '.s3.amazonaws.com/avatars/' .  $user->avatar }}" height="150" width="150" margin="10px" />
                 </div>
                 <div class="m-t-md">
                     @if(isset($user->zeta_number))
