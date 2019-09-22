@@ -16,12 +16,13 @@
         </title>
 
         <!-- Global Styles -->
+        {{-- <link href="{{ asset('css/lib/font-awesome/font-awesome.min.css') }}" rel="stylesheet"> --}}
         <link href="{{ asset('css/lib/datatables-net/datatables.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/separate/vendor/datatables-net.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/lib/jqueryui/jquery-ui.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/lib/font-awesome/font-awesome.min.css') }}" rel="stylesheet">
         {{-- <link href="{{ asset('css/lib/bootstrap/bootstrap.min.css') }}" rel="stylesheet"> --}}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 
         <link type="text/css" href="{{ asset("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/css/bootstrap-notify.css") }}" rel="stylesheet">
 
