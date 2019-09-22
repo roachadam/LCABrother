@@ -115,66 +115,64 @@
         @endif
     </ul>
     <ul class="side-menu-list">
-        <li class="green" style="position:fixed; bottom: 0; height:40px; ">
-            <span>
-                <button type="button" class="btn" data-toggle="modal" data-target="#ReportBugModal" style="background-color:transparent; border-color: transparent; box-shadow: none;">
+        <li class="green" style="position:fixed; bottom: 0; height:40px;">
+            <button type="button" class="btn btn-block" data-toggle="modal" data-target="#ReportBugModal" style="background-color:transparent; border-color: transparent; box-shadow: none;">
                 <i class="fa fa-bug"></i>
-                Report a Bug
-                </button>
-            </span>
+                <span class="lbl" style="padding-left: 35px;">Report a Bug</span>
+            </button>
         </li>
     </ul>
 </nav><!--.side-menu-->
 
 
 <div class="modal fade" tabindex="-1" role="dialog" id="ReportBugModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Submit Bug Report</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form method='POST' action="{{route('reportBug.send')}}" role="presentation" class="form">
-                    <div class="modal-body">
-                        @csrf
-
-                         <div class="col-md-12">
-                            <div class="row col-md-12">
-                                <label for="description" class="col-form-label text-md-right">What were you trying to do when the bug occured?</label>
-                                <div class="input-group">
-                                    <textarea name="action" class="offset-1 form-control" id="description" cols="30" rows="5" placeholder="Attemping to submit service hours." required></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="row col-md-12">
-                                <label for="description" class="col-form-label text-md-right">Describe the Bug</label>
-                                <div class="input-group">
-                                    <textarea name="description" class="offset-1 form-control" id="description" cols="30" rows="5" placeholder="I got a 404 error when I clicked the submit button." required></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="row col-md-12">
-                                <label for="name" class="col-form-label text-md-right">URL Where Bug Occured</label>
-                                <div class="input-group">
-                                    <input class="offset-1 form-control" type="text" name="url" id='name' value="{{url()->current()}}" required>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="text" hidden value="{{auth()->user()->id}}" name="user_id">
-                        <input type="text" hidden value="{{auth()->user()->organization->id}}" name="org_id">
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                        <button type='submit' class="btn btn-inline btn-primary">Send Report</button>
-                    </div>
-                </form>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Submit Bug Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <form method='POST' action="{{route('reportBug.send')}}" role="presentation" class="form">
+                <div class="modal-body">
+                    @csrf
+
+                        <div class="col-md-12">
+                        <div class="row col-md-12">
+                            <label for="description" class="col-form-label text-md-right">What were you trying to do when the bug occured?</label>
+                            <div class="input-group">
+                                <textarea name="action" class="offset-1 form-control" id="description" cols="30" rows="5" placeholder="Attemping to submit service hours." required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                            <label for="description" class="col-form-label text-md-right">Describe the Bug</label>
+                            <div class="input-group">
+                                <textarea name="description" class="offset-1 form-control" id="description" cols="30" rows="5" placeholder="I got a 404 error when I clicked the submit button." required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row col-md-12">
+                            <label for="name" class="col-form-label text-md-right">URL Where Bug Occured</label>
+                            <div class="input-group">
+                                <input class="offset-1 form-control" type="text" name="url" id='name' value="{{url()->current()}}" required>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" hidden value="{{auth()->user()->id}}" name="user_id">
+                    <input type="text" hidden value="{{auth()->user()->organization->id}}" name="org_id">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                    <button type='submit' class="btn btn-inline btn-primary">Send Report</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
