@@ -123,7 +123,8 @@
         <script>
             $(document).ready(function () {
                 $('#table').DataTable({
-                    responsive: true
+                    responsive: true,
+                    pageLength: 25
                 });
 
                 $('#EventName').combobox({

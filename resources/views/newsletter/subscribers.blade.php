@@ -70,7 +70,8 @@
 <script>
 		$(function() {
 			$('#table').DataTable({
-				responsive: true
+				responsive: true,
+                pageLength: 25
 			});
 		});
     </script>

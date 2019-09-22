@@ -69,7 +69,8 @@
                     'searchable': false
                 },
                 ],
-                responsive: true
+                responsive: true,
+                pageLength: 25
             })
         });
     </script>

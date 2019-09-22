@@ -152,7 +152,8 @@
             $(function() {
                 $('#table').DataTable({
                     responsive: true,
-                    mobile: true
+                    mobile: true,
+                    pageLength: 25
                 });
             });
         </script>

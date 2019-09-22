@@ -78,9 +78,8 @@
         <script>
             $(function() {
                 $('#table').DataTable({
-                    iDisplayLength : 50,
                     responsive: true,
-
+                    pageLength: 25
                 });
             });
         </script>

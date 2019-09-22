@@ -114,7 +114,8 @@
                             "className": "text-center",
                         }
                     ],
-                    responsive: true
+                    responsive: true,
+                    pageLength: 25
                 })
             });
         </script>
