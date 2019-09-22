@@ -100,7 +100,7 @@ class RoleController extends Controller
                 }
             }
         }
-        if(isset($attributes['name'])){
+        if (isset($attributes['name'])) {
             $role->name = $attributes['name'];
             $role->save();
         }
@@ -136,7 +136,7 @@ class RoleController extends Controller
 
     public function usersInRole(Role $role)
     {
-        $users = User::findAll(auth()->user()->organization->id);
+        $users = auth()->user()->organization->getVerifiedMembers();
 
         $usersWithRole = $users->where('role_id', $role->id);
         $usersWithoutRole = $users->where('role_id', '!=', $role->id);
