@@ -28,7 +28,7 @@ class InvolvementController extends Controller
         $users = $organization->getVerifiedMembers();
         $events = auth()->user()->organization->involvement;
 
-        return view('involvement.index', compact('users', 'canManageInvolvement', 'involvements', 'verifiedMembers','events'));
+        return view('involvement.index', compact('users', 'canManageInvolvement', 'involvements', 'verifiedMembers', 'events'));
     }
 
     /**
@@ -135,10 +135,10 @@ class InvolvementController extends Controller
         return redirect('/involvement');
     }
 
-    public function adminView()
+    public function events()
     {
         $events = auth()->user()->organization->involvement;
-        return view('/involvement/adminView', compact('events'));
+        return view('/involvement/events', compact('events'));
     }
 
     public function destroy(Involvement $involvement)

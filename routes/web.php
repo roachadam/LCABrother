@@ -149,7 +149,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/user/{user}/involvementLogs', 'InvolvementLogController@breakdown')->name('involvement.breakdown');
 
             Route::middleware('ManageInvolvement')->group(function () {
-                Route::get('/involvement/adminView', 'InvolvementController@adminView')->name('involvement.adminView');
+                Route::get('/involvement/events', 'InvolvementController@events')->name('involvement.events');
                 Route::post('/involvement/import', 'InvolvementController@import')->name('involvement.import');
                 Route::patch('/involvement/{involvement}/update', 'InvolvementController@update')->name('involvement.update');
                 Route::post('/involvement/setPoints', 'InvolvementController@setPoints')->name('involvement.setPoints');
