@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Commons\NotificationFunctions;
 use Illuminate\Http\Request;
 use App\Mail\MemberJoined;
 use App\Organization;
 use App\User;
-use Auth;
 use Mail;
 
 class UserController extends Controller
@@ -31,7 +31,10 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        abort_unless(auth()->user()->id === 1 || auth()->user()->id === 4, 403);
+
         $user->delete();
+        NotificationFunctions::alert('success', 'Successfully deleted user!');
         return redirect('/');
     }
 
