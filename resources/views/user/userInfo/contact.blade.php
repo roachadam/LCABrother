@@ -22,7 +22,7 @@
                     <th>Major</th>
                     <th>Email</th>
                     <th>Phone Number</th>
-                    @if(auth()->user()->name === "Jacob Drury" || auth()->user()->name === "Adam Roach")
+                    @if(auth()->user()->id === 1 || auth()->user()->id === 4)
                         <th>Edit</th>
                     @endif
                 </tr>
@@ -42,7 +42,7 @@
                                 <td>{{$member->major}}</td>
                                 <td>{{ $member->email  }}</td>
                                 <td>{{ $member->phone  }}</td>
-                                @if(auth()->user()->name === "Jacob Drury" || auth()->user()->name === "Adam Roach")
+                                @if(auth()->user()->id === 1 || auth()->user()->id === 4)
                                     <td><button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#editUser-{{$member->id}}">Edit</button></td>
 
                                     <!--.modal for Editing Event-->

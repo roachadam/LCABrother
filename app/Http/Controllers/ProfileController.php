@@ -38,11 +38,7 @@ class ProfileController extends Controller
             $attributes['phone'] = $this->formatPhoneNumber($attributes['phone']);
         }
 
-        if (auth()->user()->name === "Adam Roach") {
-            dd(auth()->user());
-        }
-
-        if (isset($attributes['user']) && (auth()->user()->id === 1 || auth()->user()->id) === 2) {
+        if (isset($attributes['user']) && (auth()->user()->id === 1 || auth()->user()->id) === 4) {
             $user = auth()->user()->organization->getVerifiedMembers()->where('id', $attributes['user'])->first();
         } else {
             $user = auth()->user();
