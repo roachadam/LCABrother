@@ -114,18 +114,18 @@
             </li>
         @endif
     </ul>
-    <ul class="side-menu-list">
+    {{-- <ul class="side-menu-list">
         <li class="green" style="position:fixed; bottom: 0; height:40px;">
             <button type="button" class="btn btn-block" data-toggle="modal" data-target="#ReportBugModal" style="background-color:transparent; border-color: transparent; box-shadow: none;">
                 <i class="fa fa-bug"></i>
                 <span class="lbl" style="padding-left: 35px;">Report a Bug</span>
             </button>
         </li>
-    </ul>
+    </ul> --}}
 </nav><!--.side-menu-->
 
 
-<div class="modal fade" tabindex="-1" role="dialog" id="ReportBugModal">
+{{-- <div class="modal fade" tabindex="-1" role="dialog" id="ReportBugModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -175,4 +175,4 @@
             </form>
         </div>
     </div>
-</div>
+</div> --}}
