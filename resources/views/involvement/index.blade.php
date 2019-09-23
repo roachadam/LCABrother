@@ -102,8 +102,7 @@
                                     <label for='date_of_event'>Date of Event</label>
 
                                     <div class="col-md-4">
-                                            <input class="offset-1 form-control" type="date" name="date_of_event" id="date_of_event">
-
+                                        <input class="offset-1 form-control" type="date" name="date_of_event" id="date_of_event">
                                     </div>
                                 </div>
                                 @if(isset($verifiedMembers))
@@ -142,9 +141,6 @@
                 responsive: true,
                 pageLength: 25
             });
-            // $('#table2').DataTable({
-            //     responsive: true
-            // });
         });
     </script>
 @endsection
