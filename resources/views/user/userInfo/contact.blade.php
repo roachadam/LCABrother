@@ -97,6 +97,7 @@
                                                                     <input id="phone" type="text" class="form-control " name="phone" value="{{ $member->phone }}" required autofocus>
                                                                 </div>
                                                             </div>
+                                                            <input type="hidden" id="user" name="user" value={{$member->id}}>
                                                     </div>
 
                                                     <div class="modal-footer">

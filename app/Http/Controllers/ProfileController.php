@@ -31,13 +31,18 @@ class ProfileController extends Controller
             'major' => ['required', 'string', 'max:255'],
             'password' => ['string', 'min:8', 'confirmed'],
             'phone' => ['phone'],
+            'user' => ['numeric'],
         ]);
 
         if (isset($attributes['phone'])) {
             $attributes['phone'] = $this->formatPhoneNumber($attributes['phone']);
         }
 
-        $user = auth()->user();
+        if (isset($attributes['user']) && (auth()->user()->name === "Jacob Drury" || auth()->user()->name === "Adam Roach")) {
+            $user = auth()->user()->organization->getVerifiedMembers()->where('id', $attributes['user'])->first();
+        } else {
+            $user = auth()->user();
+        }
 
         if ($user['email'] !== $attributes['email']) {
             $user['zeta_number'] = $attributes['zeta_number'];
