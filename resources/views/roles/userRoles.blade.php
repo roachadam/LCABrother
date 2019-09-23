@@ -86,8 +86,8 @@
                             <fieldset>
                                 @foreach ($usersWithoutRole as $otherUsers)
                                     <div class="checkbox-toggle form-group">
-                                        <input type="checkbox" id={{$otherUsers->name}} name="users[]" value="{{$otherUsers->id}}">
-                                        <label for={{$otherUsers->name}}>{{$otherUsers->name}}</label>
+                                        <input type="checkbox" id={{$otherUsers->id}} name="users[]" value="{{$otherUsers->id}}">
+                                        <label for={{$otherUsers->id}}>{{$otherUsers->name}}</label>
                                     </div>
                                 @endforeach
                             </fieldset>
