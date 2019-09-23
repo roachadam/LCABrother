@@ -70,7 +70,7 @@
                                                                 <label for="zeta_number" class="col-md-3 col-form-label text-md-right">{{ __('Zeta Number:') }}</label>
 
                                                                 <div class="col-md-9">
-                                                                    <input id="zeta_number" type="text" class="form-control " name="zeta_number" value="{{ $member->zeta_number }}" required autofocus>
+                                                                    <input id="zeta_number" type="text" class="form-control " name="zeta_number" value="{{ $member->zeta_number }}" autofocus>
                                                                 </div>
                                                             </div>
 
