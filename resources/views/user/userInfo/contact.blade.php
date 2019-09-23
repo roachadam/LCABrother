@@ -22,6 +22,9 @@
                     <th>Major</th>
                     <th>Email</th>
                     <th>Phone Number</th>
+                    @if(auth()->user()->name === "Jacob Drury" || auth()->user()->name === "Adam Roach")
+                        <th>Edit</th>
+                    @endif
                 </tr>
                 </thead>
                 <tbody>
@@ -39,6 +42,72 @@
                                 <td>{{$member->major}}</td>
                                 <td>{{ $member->email  }}</td>
                                 <td>{{ $member->phone  }}</td>
+                                @if(auth()->user()->name === "Jacob Drury" || auth()->user()->name === "Adam Roach")
+                                    <td><button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#editUser-{{$member->id}}">Edit</button></td>
+
+                                    <!--.modal for Editing Event-->
+                                    <div class="modal fade" id="editUser-{{$member->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                                                        <i class="font-icon-close-2"></i>
+                                                    </button>
+                                                    <h4 class="modal-title" id="myModalLabel">Edit User</h4>
+                                                </div>
+                                                <form method="POST" action={{route('profile.update', $member)}} enctype="multipart/form-data" class="box" >
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                            <div class="form-group row">
+                                                                <label for="name" class="col-md-3 col-form-label text-md-right">{{ __('Name:') }}</label>
+
+                                                                <div class="col-md-9">
+                                                                    <input id="name" type="text" class="form-control " name="name" value="{{ $member->name }}" required autofocus>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row">
+                                                                <label for="zeta_number" class="col-md-3 col-form-label text-md-right">{{ __('Zeta Number:') }}</label>
+
+                                                                <div class="col-md-9">
+                                                                    <input id="zeta_number" type="text" class="form-control " name="zeta_number" value="{{ $member->zeta_number }}" required autofocus>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row">
+                                                                <label for="major" class="col-md-3 col-form-label text-md-right">{{ __('Major:') }}</label>
+
+                                                                <div class="col-md-9">
+                                                                    <input id="major" type="text" class="form-control " name="major" value="{{ $member->major }}" required autofocus>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row">
+                                                                <label for="email" class="col-md-3 col-form-label text-md-right">{{ __('Email:') }}</label>
+
+                                                                <div class="col-md-9">
+                                                                    <input id="email" type="text" class="form-control " name="email" value="{{ $member->email }}" required autofocus>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row">
+                                                                <label for="phone" class="col-md-3 col-form-label text-md-right">{{ __('Phone Number:') }}</label>
+
+                                                                <div class="col-md-9">
+                                                                    <input id="phone" type="text" class="form-control " name="phone" value="{{ $member->phone }}" required autofocus>
+                                                                </div>
+                                                            </div>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-inline btn-primary">Update</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div><!--.modal-->
+                                @endif
                             </tr>
                         @endforeach
 

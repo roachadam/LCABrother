@@ -51,12 +51,12 @@
                             </div>
 
                             <div class="row m-t-md">
-                                    <label for="major" class="col-md-4 col-form-label">{{ __('Major') }}</label>
+                                <label for="major" class="col-md-4 col-form-label">{{ __('Major') }}</label>
 
-                                    <div class="col-md-8">
-                                        <input id="major" type="text" class="form-control" name="major" value="{{ $user->major }}" required autofocus>
-                                    </div>
+                                <div class="col-md-8">
+                                    <input id="major" type="text" class="form-control" name="major" value="{{ $user->major }}" required autofocus>
                                 </div>
+                            </div>
 
                             {{-- need to center this according to the input boxes on the edit profile page @adam --}}
 
