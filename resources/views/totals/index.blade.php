@@ -32,11 +32,11 @@
         <div class="card col-md-5 offset-1 ml-5 mr-5">
             <div class="card-header">Averages</div>
             <div class="card-body">
-                Service Hours: {{$averages['service']}}
+                Service Hours: {{$averages['service']}} hrs
                 <br>
-                Money Donated: {{$averages['money']}}
+                Money Donated: ${{$averages['money']}}
                 <br>
-                Involvement Points: {{$averages['points']}}
+                Involvement Points: {{$averages['points']}} pts
             </div>
         </div>
 
