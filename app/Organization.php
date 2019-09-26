@@ -114,6 +114,13 @@ class Organization extends Model
         return $members;
     }
 
+    public function getActiveMembers()
+    {
+        return $this->users()->get()->filter(function ($user) {
+            return $user->zeta_number !== '';
+        });
+    }
+
     public function users()
     {
         return $this->hasMany(User::class);

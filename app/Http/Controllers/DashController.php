@@ -12,6 +12,8 @@ class DashController extends Controller
         $organization = $user->organization;
         $latestAcademics = $user->latestAcademics();
 
+        dd($organization->getActiveMembers());
+
         $moneyDonated = $user->getMoneyDonated();
         $hoursServed = $user->getServiceHours();
         $gpa = isset($latestAcademics) ? round($latestAcademics->Current_Term_GPA, 2) : 'N/A';
@@ -27,6 +29,6 @@ class DashController extends Controller
 
         $inCompleteTasks = $user->getIncompleteTasks();
 
-        return view('main.dash', compact('user', 'moneyDonated', 'hoursServed', 'gpa', 'points', 'unAnsweredSurveys', 'eventsWithInvites','inCompleteTasks'));
+        return view('main.dash', compact('user', 'moneyDonated', 'hoursServed', 'gpa', 'points', 'unAnsweredSurveys', 'eventsWithInvites', 'inCompleteTasks'));
     }
 }
