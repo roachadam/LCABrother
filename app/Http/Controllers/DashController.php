@@ -12,7 +12,7 @@ class DashController extends Controller
         $organization = $user->organization;
         $latestAcademics = $user->latestAcademics();
 
-        dd($organization->getActiveMembers());
+        dd($organization->getAssociateMembers());
 
         $moneyDonated = $user->getMoneyDonated();
         $hoursServed = $user->getServiceHours();

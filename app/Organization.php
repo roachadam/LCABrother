@@ -116,9 +116,12 @@ class Organization extends Model
 
     public function getActiveMembers()
     {
-        return $this->users()->get()->filter(function ($user) {
-            return $user->zeta_number !== '';
-        });
+        return $this->users()->where('active', 1)->get();
+    }
+
+    public function getAssociateMembers()
+    {
+        return $this->users()->where('active', 0)->get();
     }
 
     public function users()
