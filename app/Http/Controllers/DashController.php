@@ -9,10 +9,10 @@ class DashController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $organization = $user->organization;
+        $organization = $user->organization; //->with(['involvement_logs'])->get();
         $latestAcademics = $user->latestAcademics();
 
-        dd($organization->getAssociateMembers());
+        $organization->getActiveMembers();
 
         $moneyDonated = $user->getMoneyDonated();
         $hoursServed = $user->getServiceHours();
