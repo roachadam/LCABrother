@@ -12,6 +12,11 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class InviteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('ManageEvents')->only(['export']);
+    }
+
     public function index(Event $event)
     {
         $this->authorize('view', $event);
