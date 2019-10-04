@@ -7,9 +7,16 @@ use App\Events\DuplicateGuestInvited;
 use Illuminate\Http\Request;
 use App\Invite;
 use App\Event;
+use App\Exports\InvitesExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InviteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('ManageEvents')->only(['export']);
+    }
+
     public function index(Event $event)
     {
         $this->authorize('view', $event);
@@ -54,13 +61,10 @@ class InviteController extends Controller
             NotificationFunctions::alert('success', $attributes['guest_name'] . ' has been invited!');
         }
 
-        if(auth()->user()->hasInvitesRemaining($event))
-        {
+        if (auth()->user()->hasInvitesRemaining($event)) {
             return back();
-        }
-        else
-        {
-            return redirect('/dash');
+        } else {
+            return redirect(route('event.index'));
         }
     }
 
@@ -75,5 +79,10 @@ class InviteController extends Controller
         $invite->delete();
         NotificationFunctions::alert('success', 'Successfully deleted guest!');
         return back();
+    }
+
+    public function export(Event $event)
+    {
+        return Excel::download(new InvitesExport($event), $event->name . ' Guest List.xlsx');
     }
 }
