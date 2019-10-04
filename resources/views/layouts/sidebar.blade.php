@@ -63,7 +63,7 @@
     </ul>
     <ul class="side-menu-list">
         @if (auth()->user()->canViewMembers())
-            <header class="side-menu-title">High Zeta</header>
+            <header class="side-menu-title">High  Zeta</header>
             <li class="blue {{ request()->is('user') ? 'opened' : '' }}">
                 <a href="/user">
                 <span>

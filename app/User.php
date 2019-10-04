@@ -353,11 +353,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $this->role->permission->manage_all_service;
     }
 
-    public function canViewMemberDetails()
-    {
-        return $this->role->permission->view_member_details;
-    }
-
     public function canViewAllService()
     {
         return $this->role->permission->view_all_service || $this->canManageService();
