@@ -125,6 +125,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/user/{event}/invite', 'InviteController@create')->name('invite.create');
             Route::post('/user/{event}/invite', 'InviteController@store')->name('invite.store');
             Route::delete('/invite/{invite}', 'InviteController@destroy')->name('invite.destroy');
+            Route::get('/event/{event}/export/', 'InviteController@export')->name('event.export');
 
             Route::get('/alumni', 'AlumniController@index')->name('alumni.index');
             Route::post('/user/{user}/alumni', 'AlumniController@setAlum')->name('alumni.setAlum');

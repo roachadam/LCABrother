@@ -31,7 +31,7 @@
                     <h4 class="card-title">Guest List</h4>
                     <div class="ml-auto" id="headerButtons">
                         <button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#editEventModal">Edit</button>
-
+                        <a href={{route('event.export', $event)}} class="btn btn-inline btn-primary-outline">Export</a>
                         <button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#deleteEventModal">Delete Event</button>
                     </div>
                 </div>
