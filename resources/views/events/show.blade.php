@@ -14,7 +14,15 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ $event->name }} Details</div>
+                <header class="card-header" style="border-bottom: 0">
+                    <div class="row">
+                        <h4 class="card-title">{{ $event->name }} Details</h4>
+                        <div class="ml-auto" id="headerButtons">
+                            <button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#editEventModal">Edit</button>
+                            <button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#deleteEventModal">Delete Event</button>
+                        </div>
+                    </div>
+                </header>
                 <div class="card-body">
                     <p>Date of Event: {{ \Carbon\Carbon::parse($event->date_of_event)->toDayDateTimeString() }}</p>
                     <p>Invites per member: {{ $event->num_invites }}</p>
@@ -30,11 +38,10 @@
                 <div class="row">
                     <h4 class="card-title">Guest List</h4>
                     <div class="ml-auto" id="headerButtons">
-                        <button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#editEventModal">Edit</button>
-
-                        <button type="button" class="btn btn-inline btn-danger-outline" data-toggle="modal" data-target="#deleteEventModal">Delete Event</button>
+                        <a href={{route('event.export', $event)}} class="btn btn-inline btn-primary-outline">Export</a>
                     </div>
                 </div>
+            </header>
             <table id="table" class="display table table-bordered" cellspacing="0" width="100%">
                 <thead>
                     <tr>
