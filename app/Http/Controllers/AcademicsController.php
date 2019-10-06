@@ -114,7 +114,7 @@ class AcademicsController extends Controller
 
             if ($attributes['Previous_Academic_Standing'] === $academics->Previous_Academic_Standing && $attributes['Current_Academic_Standing'] === $academics->Current_Academic_Standing) {
                 $academics->update($attributes);
-                $academics->updateStanding();
+                $academics->updateStandingDLL();
             } else {
                 $academics->update($attributes);
             }

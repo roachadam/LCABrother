@@ -4,14 +4,36 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use SplDoublyLinkedList;
 
 class Academics extends Model
 {
     protected $guarded = [];
 
+    private $standingsList;
+
+    public function __construct()
+    {
+        $this->standingsList = new SplDoublyLinkedList();
+        $standings = auth()->user()->organization->getStandingsAsc();
+        foreach ($standings as $standing) {
+            $this->standingsList->push($standing);
+        }
+    }
+
     public function user()
     {
         return $this->belongsTo(User::Class);
+    }
+
+    public function updateStandingDLL()
+    {
+        $this->standingsList->setIteratorMode(SplDoublyLinkedList::IT_MODE_FIFO);
+        for ($this->standingsList->rewind(); $this->standingsList->valid(); $this->standingsList->next()) {
+            if ($this->check($this->standingsList->current())) {
+                $this->setTo($this->standingsList->current()->name);
+            }
+        }
     }
 
     public function updateStanding()

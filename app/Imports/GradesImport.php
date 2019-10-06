@@ -21,6 +21,7 @@ class GradesImport implements ToModel, WithHeadingRow
     {
         if ($row['student_name'] !== null) {
             $organization = auth()->user()->organization;
+            $row['student_name'] = $this->splitName($row['student_name']);
             $alumni = $organization->alumni;                                                 //Gets all alumni in database
             //$row['student_name'] = $this->splitName($row['student_name']);                                  //Converts the Last, First to First Last
 
