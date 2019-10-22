@@ -42,7 +42,7 @@
                                     <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
                                         <i class="font-icon-close-2"></i>
                                     </button>
-                                    <h4 class="modal-title" id="myModalLabel">Mark all Associates as Active</h4>
+                                    <h4 class="modal-title" id="myModalLabel">Mark Associate as Active</h4>
                                 </div>
                                 <form action={{route('markAssociateAsActive', $associate)}} method="POST" class="box" >
                                     <div class="modal-body">
