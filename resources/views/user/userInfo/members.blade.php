@@ -8,6 +8,7 @@
                 <h2 class="card-title">Members</h2>
                 <div class="ml-auto" id="headerButtons">
                     <button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#newMemModal">Invite New Members</button>
+                    <a href={{route('manageAssociates')}} class="btn btn-inline btn-primary-outline">Manage Associates</a>
                     <a href="/alumni" class="btn btn-inline btn-primary-outline">View Alumni</a>
                 </div>
             </div>

@@ -16,7 +16,7 @@ class ServiceLogController extends Controller
 
     public function index()
     {
-        $users = auth()->user()->organization->getVerifiedMembers();
+        $users = auth()->user()->organization->getActiveMembers();
         return view('service.serviceLogs.index', compact('users'));
     }
 

@@ -69,7 +69,7 @@
                                                 <div class="modal-body">
                                                     @csrf
                                                     <div class="col-md-12">
-                                                    <p>Are you sure you want to remove {{ $user->name }} from {{ $user->organization->name }}?</p>
+                                                        <p>Are you sure you want to remove {{ $user->name }} from {{ $user->organization->name }}?</p>
                                                     </div>
                                                 </div>
 

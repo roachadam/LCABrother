@@ -29,6 +29,39 @@ class UserController extends Controller
         return view('user.userInfo.members', compact('members'));
     }
 
+    public function manageAssociates()
+    {
+        $associates = auth()->user()->organization->getAssociateMembers();
+        return view('user.userInfo.manageAssociates', compact('associates'));
+    }
+
+    public function markAllAssociatesAsActives()
+    {
+        foreach (auth()->user()->organization->getAssociateMembers() as $associate) {
+            $this->markActive($associate);
+        }
+        NotificationFunctions::alert('success', 'Successfully initiated all associates!');
+        return back();
+    }
+
+    public function markAssociateAsActive(User $user)
+    {
+        $this->markActive($user);
+        NotificationFunctions::alert('success', 'Successfully initiated member!');
+        return back();
+    }
+
+    /**
+     * Helper function that marks the passed user as an active member by setting their
+     * organization_verified to 1
+     */
+    private function markActive(User $user)
+    {
+        $user->update([
+            'organization_verified' => 1,
+        ]);
+    }
+
     public function destroy(User $user)
     {
         abort_unless(auth()->user()->id === 1 || auth()->user()->id === 4, 403);

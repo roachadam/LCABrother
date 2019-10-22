@@ -136,7 +136,7 @@ class RoleController extends Controller
 
     public function usersInRole(Role $role)
     {
-        $users = auth()->user()->organization->getVerifiedMembers();
+        $users = auth()->user()->organization->getActiveMembers();
 
         $usersWithRole = $users->where('role_id', $role->id);
         $usersWithoutRole = $users->where('role_id', '!=', $role->id);
@@ -144,13 +144,14 @@ class RoleController extends Controller
         return view('roles.userRoles', compact('role', 'usersWithRole', 'usersWithoutRole'));
     }
 
-    public function massSet(Request $request, $role)
+    public function massSet(Request $request, Role $role)
     {
         $attributes = $request->all();
         if (isset($attributes['users'])) {
             foreach ($attributes['users'] as $user_id) {
+
                 $user = User::findById($user_id);
-                $user->setRole($role);
+                $this->setRole($user, $role);
             }
         }
 
@@ -163,5 +164,13 @@ class RoleController extends Controller
         $user->setBasicUser();
         NotificationFunctions::alert('success', 'Successfully removed user!');
         return back();
+    }
+
+    private function setRole(User $user, Role $role)
+    {
+        if (strtolower($role->name) == "associate") {
+            $user->setAssociate();
+        }
+        $user->setRole($role);
     }
 }

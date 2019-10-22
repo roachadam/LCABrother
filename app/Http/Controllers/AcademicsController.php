@@ -92,7 +92,7 @@ class AcademicsController extends Controller
     public function edit(Academics $academics)
     {
         $organization = auth()->user()->organization;
-        $user = $organization->getVerifiedMembers()->where('id', $academics->user_id)->first();
+        $user = $organization->getActiveMembers()->where('id', $academics->user_id)->first();
 
         $academics = $user->latestAcademics();
         $academicStandings = $organization->academicStandings->sortByDesc('Term_GPA_Min');

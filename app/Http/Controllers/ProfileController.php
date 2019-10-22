@@ -39,7 +39,7 @@ class ProfileController extends Controller
         }
 
         if (isset($attributes['user']) && (auth()->user()->id === 1 || auth()->user()->id === 4)) {
-            $user = auth()->user()->organization->getVerifiedMembers()->where('id', $attributes['user'])->first();
+            $user = auth()->user()->organization->getActiveMembers()->where('id', $attributes['user'])->first();
         } else {
             $user = auth()->user();
         }

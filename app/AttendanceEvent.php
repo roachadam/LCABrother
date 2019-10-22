@@ -33,7 +33,7 @@ class AttendanceEvent extends Model
 
     public function getUsersNotInAttendance()
     {
-        $users = (env('APP_ENV') === 'testing') ? User::where('organization_id', auth()->user()->organization_id)->get() : auth()->user()->organization->getVerifiedMembers();
+        $users = (env('APP_ENV') === 'testing') ? User::where('organization_id', auth()->user()->organization_id)->get() : auth()->user()->organization->getActiveMembers();
         $attending = $this->getUsersInAttendance();
         return $users->diff($attending);
     }

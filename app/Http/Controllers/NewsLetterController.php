@@ -19,7 +19,7 @@ class NewsLetterController extends Controller
 
     public function create()
     {
-        $users = auth()->user()->organization->getVerifiedMembers();
+        $users = auth()->user()->organization->getActiveMembers();
         return view('newsletter.create', compact('users'));
     }
 
@@ -39,7 +39,7 @@ class NewsLetterController extends Controller
                 ]);
             }
         } elseif (isset($attributes['allUsers'])) {
-            $users = auth()->user()->organization->getVerifiedMembers();
+            $users = auth()->user()->organization->getActiveMembers();
             foreach ($users as $user) {
                 $newsLetter->subscribers()->create([
                     'user_id' => $user->id
@@ -97,7 +97,6 @@ class NewsLetterController extends Controller
             Mail::to($subscriber->user->email)->queue(
                 new NewsLetterGeneric($newsletter, $attributes['body'])
             );
-
         }
         return redirect('/newsletter');
     }

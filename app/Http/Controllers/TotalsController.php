@@ -15,7 +15,7 @@ class TotalsController extends Controller
     public function index()
     {
         $organization = auth()->user()->organization;
-        $users = $organization->getVerifiedMembers();
+        $users = $organization->getActiveMembers();
         $serviceHoursArray = $organization->getArrayOfServiceHours();
 
         $totals = $organization->getTotals();
@@ -27,7 +27,7 @@ class TotalsController extends Controller
         $averages['points'] = $this->number_clean(number_format($averages['points'], $precision, '.', ','));
 
         $goals = $organization->goals;
-        $numMembers = $organization->getVerifiedMembers()->count();
+        $numMembers = $organization->getActiveMembers()->count();
 
         $sumTotals['service'] = $goals->service_hours_goal * $numMembers;
         $sumTotals['money'] = $goals->service_money_goal * $numMembers;

@@ -15,6 +15,7 @@ class InvolvementController extends Controller
     public function __construct()
     {
         $this->middleware('ManageInvolvement')->except('index');
+        $this->middleware('RestrictAssociates')->only('index');
     }
 
     public function index()
@@ -24,11 +25,10 @@ class InvolvementController extends Controller
 
         $canManageInvolvement = $user->canManageInvolvement();
         $involvements = $organization->involvement;
-        $verifiedMembers = $organization->getVerifiedMembers();
-        $users = $organization->getVerifiedMembers();
+        $users = $organization->getActiveMembers();
         $events = auth()->user()->organization->involvement;
 
-        return view('involvement.index', compact('users', 'canManageInvolvement', 'involvements', 'verifiedMembers', 'events'));
+        return view('involvement.index', compact('users', 'canManageInvolvement', 'involvements', 'events'));
     }
 
     /**
