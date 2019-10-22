@@ -103,6 +103,13 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $this->organization_verified === 3;
     }
 
+    public function setAssociate()
+    {
+        return $this->update([
+            'organization_verified' => 3,
+        ]);
+    }
+
     public function isActive()
     {
         return $this->organization_verified === 1;
