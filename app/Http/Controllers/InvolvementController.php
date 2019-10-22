@@ -25,11 +25,10 @@ class InvolvementController extends Controller
 
         $canManageInvolvement = $user->canManageInvolvement();
         $involvements = $organization->involvement;
-        $verifiedMembers = $organization->getVerifiedMembers();
-        $users = $organization->getVerifiedMembers();
+        $users = $organization->getActiveMembers();
         $events = auth()->user()->organization->involvement;
 
-        return view('involvement.index', compact('users', 'canManageInvolvement', 'involvements', 'verifiedMembers', 'events'));
+        return view('involvement.index', compact('users', 'canManageInvolvement', 'involvements', 'events'));
     }
 
     /**

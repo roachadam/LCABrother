@@ -7,7 +7,7 @@ class ContactController extends Controller
     public function userContacts()
     {
         $org = auth()->user()->organization;
-        $members = $org->getVerifiedMembers();
+        $members = $org->getActiveMembers();
         return view('user.userInfo.contact', compact('members'));
     }
 }

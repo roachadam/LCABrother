@@ -18,22 +18,48 @@
                 <th>Role</th>
                 <th>Service Hours</th>
                 <th>Money Donated</th>
-                <th>Points</th>
+                <th>Make Active</th>
                 <th>Manage</th>
             </tr>
             </thead>
             <tbody>
 
-                @if ($getAssociateMembers->count())
-                    @foreach ($getAssociateMembers as $associate)
+                @if ($associates->isNotEmpty())
+                    @foreach ($associates as $associate)
                     <tr>
                         <td>{{ $associate->name }}</td>
                         <td>Associate</td>
                         <td> {{ $associate->getserviceHours() }} </td>
                         <td>$ {{ $associate->getMoneyDonated() }} </td>
-                        <td> {{ $associate->getInvolvementPoints() }} </td>
+                        <td><button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#active">Mark as Active</button></td>
                         <td><a href="/users/{{$associate->id}}/adminView" class="btn btn-inline">Manage</a></td>
                     </tr>
+
+                    <div class="modal fade" id="active" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
+                                        <i class="font-icon-close-2"></i>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">Mark all Associates as Active</h4>
+                                </div>
+                                <form action={{route('markAssociateAsActive', $associate)}} method="POST" class="box" >
+                                    <div class="modal-body">
+                                        @csrf
+                                        <div class="col-md-12">
+                                            <p>Are you sure you want to mark {{$associate->name}} as an active?</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-inline btn-danger">Yes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div><!--.modal-->
                     @endforeach
                 @endif
 
@@ -52,7 +78,7 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Mark all Associates as Active</h4>
             </div>
-            <form action="/user/{{$user->id}}/organization/remove" method="POST" class="box" >
+            <form action={{route('markAllAssociatesAsActives')}} method="POST" class="box" >
                 <div class="modal-body">
                     @csrf
                     <div class="col-md-12">
@@ -62,7 +88,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-inline btn-danger">Yes</button>
                 </div>
             </form>
         </div>
@@ -80,44 +106,5 @@
                 });
             });
         </script>
-
-        <script>
-        function copyText() {
-            var range, selection, worked;
-            var element = document.getElementById("link");
-            if (document.body.createTextRange) {
-                range = document.body.createTextRange();
-                range.moveToElementText(element);
-                range.select();
-            } else if (window.getSelection) {
-                selection = window.getSelection();
-                range = document.createRange();
-                range.selectNodeContents(element);
-                selection.removeAllRanges();
-                selection.addRange(range);
-            }
-
-            try {
-                var successful = document.execCommand('copy');
-                // alert('text copied');
-                if(successful){
-                    showalert('Copied to Clipboard!','-success')
-                }
-                else{
-                    showalert('Failed to Copy','-error')
-                }
-            }
-            catch (err) {
-            }
-        }
-        function showalert(message,alerttype) {
-            $('#alert_placeholder').append('<div id="alertdiv" class="alert alert' +  alerttype + '"><a class="close" data-dismiss="alert">×</a><span>'+message+'</span></div>')
-            setTimeout(function() { // this will automatically close the alert and remove this if the users doesnt close it in 5 secs
-                $("#alertdiv").remove();
-
-                }, 5000);
-            }
-        </script>
-
     @endsection
 @endsection

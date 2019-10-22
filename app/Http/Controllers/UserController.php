@@ -40,12 +40,14 @@ class UserController extends Controller
         foreach (auth()->user()->organization->getAssociateMembers() as $associate) {
             $this->markActive($associate);
         }
+        NotificationFunctions::alert('success', 'Successfully initiated all associates!');
         return back();
     }
 
     public function markAssociateAsActive(User $user)
     {
         $this->markActive($user);
+        NotificationFunctions::alert('success', 'Successfully initiated member!');
         return back();
     }
 

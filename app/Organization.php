@@ -108,16 +108,9 @@ class Organization extends Model
         $role->setBasicPermissions();
     }
 
-    public function getVerifiedMembers()
-    {
-        $members = $this->users()->where('organization_verified', 1)->get();
-        return $members;
-    }
-
     public function getActiveMembers()
     {
-        return $this->users()->where('organization_verified', '!=', 3)->get();
-        // return $this->users()->where('active', 1)->get();
+        return $this->users()->where('organization_verified', 1)->get();
     }
 
     public function getAssociateMembers()
@@ -213,7 +206,7 @@ class Organization extends Model
 
     public function getAverages()
     {
-        $users = $this->getVerifiedMembers();
+        $users = $this->getActiveMembers();
         $attributes = [];
         $count = 0;
         $tempService = 0;

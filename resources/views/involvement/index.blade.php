@@ -105,12 +105,12 @@
                                         <input class="offset-1 form-control" type="date" name="date_of_event" id="date_of_event">
                                     </div>
                                 </div>
-                                @if(isset($verifiedMembers))
+                                @if(isset($users))
                                     <div class="form-group row">
                                         <label for="usersInvolved[]" class="col-form-label text-md-right">{{ __('Members Involved') }}</label>
                                     </div>
 
-                                    @foreach ($verifiedMembers as $user)
+                                    @foreach ($users as $user)
                                         <div class="row offset-1">
                                             <div class="checkbox-toggle form-group">
                                                 <input type="checkbox" id="usersInvolved{{$user->id}}" name="usersInvolved[]" value="{{$user->id}}">

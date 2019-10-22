@@ -136,7 +136,7 @@ class RoleController extends Controller
 
     public function usersInRole(Role $role)
     {
-        $users = auth()->user()->organization->getVerifiedMembers();
+        $users = auth()->user()->organization->getActiveMembers();
 
         $usersWithRole = $users->where('role_id', $role->id);
         $usersWithoutRole = $users->where('role_id', '!=', $role->id);
