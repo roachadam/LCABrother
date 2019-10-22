@@ -5,11 +5,9 @@
     <div class="card-block">
         <header class="card-header" style="border-bottom: 0">
             <div class="row">
-                <h2 class="card-title">Members</h2>
+                <h2 class="card-title">Manage Associates</h2>
                 <div class="ml-auto" id="headerButtons">
-                    <button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#newMemModal">Invite New Members</button>
-                    <a href={{route('manageAssociates')}} class="btn btn-inline btn-primary-outline">Manage Associates</a>
-                    <a href="/alumni" class="btn btn-inline btn-primary-outline">View Alumni</a>
+                    <button type="button" class="btn btn-inline btn-primary-outline" data-toggle="modal" data-target="#allActive">Mark all as Active</button>
                 </div>
             </div>
         </header>
@@ -26,15 +24,15 @@
             </thead>
             <tbody>
 
-                @if ($members->count())
-                    @foreach ($members as $member)
+                @if ($getAssociateMembers->count())
+                    @foreach ($getAssociateMembers as $associate)
                     <tr>
-                        <td>{{ $member->name }}</td>
-                        <td>{{ $member->role->name  }}</td>
-                        <td> {{ $member->getserviceHours() }} </td>
-                        <td>$ {{ $member->getMoneyDonated() }} </td>
-                        <td> {{ $member->getInvolvementPoints() }} </td>
-                    <td><a href="/users/{{$member->id}}/adminView" class="btn btn-inline">Manage</a></td>
+                        <td>{{ $associate->name }}</td>
+                        <td>Associate</td>
+                        <td> {{ $associate->getserviceHours() }} </td>
+                        <td>$ {{ $associate->getMoneyDonated() }} </td>
+                        <td> {{ $associate->getInvolvementPoints() }} </td>
+                        <td><a href="/users/{{$associate->id}}/adminView" class="btn btn-inline">Manage</a></td>
                     </tr>
                     @endforeach
                 @endif
@@ -45,30 +43,28 @@
 </section>
 
 
-<div class="modal fade" id="newMemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="allActive" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
                     <i class="font-icon-close-2"></i>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Invite New Members</h4>
+                <h4 class="modal-title" id="myModalLabel">Mark all Associates as Active</h4>
             </div>
-            <div class="card-block">
-                <div id="alert_placeholder"></div>
-                <p>
-                    Share this link with members of your organization:
+            <form action="/user/{{$user->id}}/organization/remove" method="POST" class="box" >
+                <div class="modal-body">
+                    @csrf
+                    <div class="col-md-12">
+                        <p>Are you sure you want to mark all Associates as Actives?</p>
+                    </div>
+                </div>
 
-                    {{-- <input type="text" class="form-control" name="link2" id="link2" readonly value="{{env('APP_URL')}}/organizations/{{auth()->user()->organization->id}}/join"> --}}
-
-                    <p id="link" aria-readonly="true"  class="form-control">
-                        {{env('APP_URL')}}/organizations/{{auth()->user()->organization->id}}/join
-                    </p>
-                </p>
-                <button type="submit" class="btn btn-primary" onclick="copyText()">Copy Link</button>
-
-            </div>
-
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-inline btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-inline btn-danger">Delete</button>
+                </div>
+            </form>
         </div>
     </div>
 </div><!--.modal-->

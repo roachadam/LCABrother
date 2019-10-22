@@ -15,6 +15,7 @@ class InvolvementController extends Controller
     public function __construct()
     {
         $this->middleware('ManageInvolvement')->except('index');
+        $this->middleware('RestrictAssociates')->only('index');
     }
 
     public function index()

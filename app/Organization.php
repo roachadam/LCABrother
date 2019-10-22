@@ -116,17 +116,13 @@ class Organization extends Model
 
     public function getActiveMembers()
     {
-        return $this->users()->with('role:id,name')->get()->filter(function ($user) {
-            return $user->role->name !== 'Associate';
-        });
+        return $this->users()->where('organization_verified', '!=', 3)->get();
         // return $this->users()->where('active', 1)->get();
     }
 
     public function getAssociateMembers()
     {
-        return $this->users()->with('role:id,name')->get()->filter(function ($user) {
-            return $user->role->name === 'Associate';
-        });
+        return $this->users()->where('organization_verified', 3)->get();
     }
 
     public function users()

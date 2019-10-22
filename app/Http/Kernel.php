@@ -89,6 +89,10 @@ class Kernel extends HttpKernel
         [
             \App\Http\Middleware\TakeAttendance::class,
         ],
+        'RestrictAssociates' =>
+        [
+            \App\Http\Middleware\RestrictAssociates::class,
+        ],
     ];
 
     /**

@@ -95,6 +95,16 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function isVerified()
     {
+        return $this->organization_verified === 1 || $this->organization_verified === 3;
+    }
+
+    public function isAssociate()
+    {
+        return $this->organization_verified === 3;
+    }
+
+    public function isActive()
+    {
         return $this->organization_verified === 1;
     }
 

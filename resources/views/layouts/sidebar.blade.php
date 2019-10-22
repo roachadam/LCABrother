@@ -18,12 +18,14 @@
                 <span class="lbl">Service Logs</span>
             </a>
         </li>
-        <li class="pink {{ request()->is('involvement') ? 'opened' : '' }}">
-            <a href="/involvement">
-                <i class="glyphicon glyphicon-equalizer"></i>
-                <span class="lbl">Involvement</span>
-            </a>
-        </li>
+        @if(auth()->user()->isActive())
+            <li class="pink {{ request()->is('involvement') ? 'opened' : '' }}">
+                <a href="/involvement">
+                    <i class="glyphicon glyphicon-equalizer"></i>
+                    <span class="lbl">Involvement</span>
+                </a>
+            </li>
+        @endif
         <li class="blue {{ request()->is('users/contact') ? 'opened' : '' }}">
             <a href="/users/contact">
                 <i class="glyphicon glyphicon-earphone"></i>

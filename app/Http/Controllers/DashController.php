@@ -12,8 +12,6 @@ class DashController extends Controller
         $organization = $user->organization; //->with(['involvement_logs'])->get();
         $latestAcademics = $user->latestAcademics();
 
-        $organization->getActiveMembers();
-
         $moneyDonated = $user->getMoneyDonated();
         $hoursServed = $user->getServiceHours();
         $gpa = isset($latestAcademics) ? round($latestAcademics->Current_Term_GPA, 2) : 'N/A';

@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/users/profile', 'ProfileController@index')->name('profile.index');
             Route::get('/users/edit', 'ProfileController@edit')->name('profile.edit');
             Route::post('/users/update', 'ProfileController@update')->name('profile.update');
+            Route::get('/manageAssociates', 'UserController@manageAssociates')->name('manageAssociates');
 
             Route::post('/avatar/default', 'ProfileController@default_avatar')->name('profile.defaultAvatar');
 
