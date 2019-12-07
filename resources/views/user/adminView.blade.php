@@ -4,7 +4,9 @@
 
 @section('content')
 
-
+@if($user->id == 26)
+    @dd($user->emailVerified())
+@endif
 <div class="container">
     <div class="row justify-content-left">
         <div class="col-md-10">
