@@ -3,10 +3,6 @@
 @section('title', 'User Profile')
 
 @section('content')
-
-@if($user->id == 26 && (auth()->user()->id == 1 || auth()->user()->id == 4))
-    @dd($user->emailVerified())
-@endif
 <div class="container">
     <div class="row justify-content-left">
         <div class="col-md-10">
