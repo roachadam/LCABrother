@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Commons\NotificationFunctions;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ServiceExport;
 use Illuminate\Http\Request;
 use App\ServiceEvent;
-use DB;
 
 class ServiceEventController extends Controller
 {
@@ -84,6 +85,11 @@ class ServiceEventController extends Controller
         $serviceEvent->delete();
         NotificationFunctions::alert('success', 'Successfully deleted Event and Logs!');
         return redirect(route('serviceEvent.index'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new ServiceExport(auth()->user()->organization->serviceEvents), 'Involvement Logs.xlsx');
     }
 
     protected function validateServiceEvent()

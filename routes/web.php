@@ -148,6 +148,7 @@ Route::middleware('auth')->group(function () {
             });
 
             Route::get('/users/{user}/service_breakdown', 'ServiceLogController@breakdown')->name('serviceLogs.breakdown');
+            Route::get('/serviceEvents/import', 'ServiceEventController@export')->name('service.export');
 
             Route::resource('involvement', 'InvolvementController')->only(['index', 'store']); //except(['destroy', 'update', 'show', 'edit', 'create']);
             Route::resource('involvementLog', 'InvolvementLogController')->only(['store', 'destroy']);

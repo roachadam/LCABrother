@@ -8,6 +8,9 @@
             <div class="row">
                 <h2 class="card-title">{{ auth()->user()->organization->getActiveSemester()->semester_name }}: Service Logs</h2>
                 <div class="ml-auto" id="headerButtons">
+                    @if(auth()->user()->canManageService())
+                        <a href={{route('service.export')}} class="btn btn-inline btn-primary-outline">Export Service Logs</a>
+                    @endif
                     <a href={{route('serviceLogs.breakdown', auth()->user())}} class="btn btn-inline btn-primary">My Service Breakdown</a>
                 </div>
             </div>
